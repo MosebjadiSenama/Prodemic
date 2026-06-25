@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prodemic</title>
 <link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
+<script type="module" src="script.js"></script>
 
 <!--GOOGLE FONTS-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,26 +20,43 @@
 
 <body>
 <div class="app-container">
-    <div class="onboarding-page">
-     <div class="onboarding-image-container">
-    <img src="assets/images/1.png" class="onboarding-img" alt="prodemic image"
-    id="onboarding-img">
-    </div>
-<!--onboarding message-->
-   <div class="onboarding-content">
-        <span class="welcome-to" id="welcome-to">Welcome to</span>
-        <h1 class="bold" id="title">Prodemic</h1>
 
-        <p class="onboarding-description" id="description"> Your all-in-one space to study smarter, stay organised, and get more done with AI</p>
-  </div>
 
-    <div class="onboarding-buttons">
-        <a class="skip-btn">Skip</a>
-        <a class="next-btn">Next &#x276F;</a>
-    </div>
-    </div>
+<div class="forgot-passoword-page">
+<section class="form">
+    <h1>SIGN IN</h1>
+    <p>Log in by entering your email address and password</p>
+
+<div class="fill-in">
+    <div class="form-1">
+    <label>EMAIL</label>
+    <input placeholder="Enter your email address" type="Email" id="email" >
     </div>
 
+
+    <div class="form-1">
+    <label>PASSWORD</label>
+    <input placeholder="Enter your Password" type="password" id="enter-password">
+   <a class="forgot-password" href="06 forgotpassword.html">Forgot Password?</a>
+    </div>
+
+    <div class="form-1">
+    <button class="signin-btn">Sign In</button>
+    </div>
+
+     <div class="line-div">
+        <div class="line"></div>
+        <p>or</p>
+        <div class="line"></div>
+    </div>
+
+ <a href="05 Signup.html" class="create-account-btn2"> Create Account</a>
+<P>Already have an account? <a class="sign-in-link">Sign in</a></P>
+
+</p>
+</div>
+</div>
+</section>
 </div>
 </body>
 </html>

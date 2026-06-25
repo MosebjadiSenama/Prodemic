@@ -1,8 +1,14 @@
+import { auth } from "./firebase.js";
+
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 // Splash screen loading bar
 
-if(window.location.pathname.includes("index.html")){
+if(window.location.pathname.includes("01 index.html")){
 setTimeout(() =>{
-    window.location.href = "onboarding.html";
+    window.location.href = "02 onboarding.html";
 }, 3000);
 }
 //=========================================================================ONBOARDING SCREENS=======================================================================
@@ -42,6 +48,7 @@ function updateScreen(){
 
     document.getElementById("onboarding-img").src =
      screens[currentScreen].image;
+     
 
      document.getElementById("welcome-to"). textContent = 
       screens[currentScreen].welcome;
@@ -95,23 +102,201 @@ function updateScreen(){
 
 //===================================================================NEXT BUTTON==================================
 
-document.querySelector(".next-btn")
-.addEventListener("click", () => {
-    currentScreen++;
+const nextBtn = 
+document.querySelector(".next-btn");
 
-    if(currentScreen < screens.length){
-    updateScreen();
-}else{
-    
-//go to authentication page after onboarding process
-    window.location.href = "authentication.html"
+if(nextBtn){
+
+    if(document.getElementById("onboarding-img")){
+        updateScreen();
+    }
+
+    nextBtn.addEventListener("click", () => {
+
+        currentScreen++;
+
+        if(currentScreen < screens.length){
+            updateScreen();
+        }
+
+        else{
+            window.location.href = "03 Authentication.html";
+        }
+
+    });
+
 }
 
+ 
+
+
+
+//===============================================FORM VALIDATION==============================================
+
+const createAccountBtn = 
+document.querySelector(".create-account-btn2");
+
+if(createAccountBtn){
+
+    createAccountBtn.addEventListener("click", () => {
+
+        const name =
+        document.getElementById("name").value.trim();
+
+        const email =
+        document.getElementById("email").value.trim();
+
+        const password =
+        document.getElementById("enter-password").value.trim();
+
+        const confirmPassword =
+        document.getElementById("confirm-password").value.trim();
+
+        const errorMessage =
+        document.getElementById("error-message");
+
+        
+
+
+//Name validation====================================================================
+
+        if (name === ""){
+            errorMessage.textContent = 
+             "Please enter your name";
+             return;
+}
+
+//email validation=========================================================================
+
+ 
+if(email === ""){
+    errorMessage.textContent = "Please enter your email";
+    return;
+}
+
+// email@===============================================================
+
+
+  if (!email.includes("@") || !email.includes(".")){
+            errorMessage.textContent = 
+        "Please enter a valid email address";
+             return;
+    }
+
+    if(password.length < 8){
+        errorMessage.textContent = 
+        "Password must be at least 8 characters";
+         return;
+
+    }
+
+//passsword length =================================================================
+  if (password !== confirmPassword){
+    errorMessage.textContent =
+    "Passwords do not match";
+    return;
+
+  }
+
+  errorMessage.textContent = "";
+
+ createUserWithEmailAndPassword(auth, email, password)
+.then((userCredential) => {
+
+    alert("Account created successfully!");
+
+    window.location.href = "03 Authentication.html";
+
+})
+.catch((error) => {
+
+    errorMessage.textContent = error.message;
 
 });
 
-updateScreen();
 
 
 
-//===============================================FORM VALIDATION==================================================
+
+    });
+}
+
+//reset password=============================
+
+const resetBtn =
+document.querySelector(".send-reset");
+
+if(resetBtn){
+    resetBtn.addEventListener("click", () => {
+
+        const email =
+        document.getElementById("email").value.trim();
+
+        const error =
+        document.getElementById("reset-error");
+
+       if(email === ""){
+    error.textContent = "Please enter your email";
+    return;
+}
+
+        if(!email.includes("@") || !email.includes(".")){
+            error.textContent =
+            "Please enter a valid email address.";
+            return;
+        }
+
+        error.textContent = "";
+
+        alert("Password reset link sent!");
+    });
+}
+
+//sign ip
+
+const signInBtn =
+document.querySelector(".signin-btn");
+
+if(signInBtn){
+
+    signInBtn.addEventListener("click", () => {
+
+        const email =
+        document.getElementById("email").value.trim();
+
+        const password =
+        document.getElementById("enter-password").value.trim();
+
+        if(email === ""){
+            alert("Please enter your email");
+            return;
+        }
+
+        if(!email.includes("@") || !email.includes(".")){
+            alert("Please enter a valid email address");
+            return;
+        }
+
+        if(password === ""){
+            alert("Please enter your password");
+            return;
+        }
+
+        signInWithEmailAndPassword(auth, email, password)
+
+.then((userCredential) => {
+
+    alert("Login successful!");
+
+    window.location.href = "home.html";
+
+})
+
+.catch((error) => {
+
+    alert(error.message);
+
+});
+    });
+
+}
