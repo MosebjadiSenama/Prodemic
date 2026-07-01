@@ -23,13 +23,55 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </head>
 <body>
 
-    <div class="app-container">
+   
+ <div class="app-container">
+        <div class="schedule-header">
 
-<h1>schedule</h1>
+            <div class="schedule-title">
+                <h1 class="tasks">Schedule</h1>
+            <p class="task-description">Plan your time, ace your day</p>
+            </div>
+
+            
+            <div class="calendar-controls">
+                <button id="prevBtn">
+                     <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <select id="calendarView">
+
+                    <option value="day"> Day</option>
+                    <option value="week" selected> Week</option>
+                    <option value="month"> Month</option>
+
+                </select>
+
+                <button id="nextBtn" >
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="calendar"></div>
+        <div id="scheduleContainer"></div>
+
+
+<img src="assets/images/calender (1).png"  class="no-tasks-img">
+
+
+<div class="no-task">
+    <h2 class="no-task-today">
+        No schedule yet
+    </h2>
+    <p class="add">Create your schedule and plan your study time and stay consistant </p>
+</div>
+<a class="add-schedule">
+        + add Schedule
+    </a>
 <!--navigation bar-->
 
 
-<div class="nav-bar">
+
 
 <div class="nav-bar">
 <!--home button-->
