@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="css/module.css">
+<link rel="stylesheet" href="css/home.css">
+<script type="module" src="js/timetable.js"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+<body>
+   
+
+    <!---=======================================================================================  UPLOAD TIMETABLE     ====================================================================================-->
+<div class="app-container">
+    <section id="uploadScreen">
+    <button
+        type="button"
+        class="back-btn"
+        id="backBtn">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+    </button>
+
+    <h2>
+
+        Upload Timetable
+
+    </h2>
+
+
+
+
+<!--==================================================
+                    PAGE TITLE
+===================================================-->
+
+<section class="page-heading">
+
+    <h1>
+
+        Upload your lecture timetable
+
+    </h1>
+
+    <p>
+
+        We'll use your timetable to identify your free time
+        and automatically build a personalised study schedule.
+
+    </p>
+
+</section>
+
+
+
+<!--==================================================
+                UPLOAD OPTIONS
+===================================================-->
+
+<section class="upload-options">
+
+    <!--================ PDF ================-->
+
+    <div
+        class="upload-card"
+        id="uploadPDF">
+
+        <div class="upload-icon">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+        </div>
+
+        <div class="upload-text">
+
+            <h3>
+
+                Upload PDF
+
+            </h3>
+
+           <p id="pdfName">
+
+              Upload your official lecture timetable.
+
+           </p>
+
+        </div>
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+    </div>
+    <input
+    type="file"
+    id="pdfInput"
+    accept=".pdf"
+    hidden>
+
+
+
+    <!--================ CAMERA ================-->
+
+    <div
+        class="upload-card"
+        id="takePhoto">
+
+        <div class="upload-icon">
+
+            <i class="fa-solid fa-camera"></i>
+
+        </div>
+
+        <div class="upload-text">
+
+           <h3>
+
+            Take Photo
+
+          </h3>
+
+         <p id="cameraName">
+
+    Capture a picture of your timetable.
+
+</p>
+
+        </div>
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+    </div>
+
+    <input
+    type="file"
+    id="cameraInput"
+    accept="image/*"
+    capture="environment"
+    hidden>
+
+
+
+    <!--================ MANUAL ================-->
+
+    <div
+        class="upload-card"
+        id="manualEntry">
+
+        <div class="upload-icon">
+
+            <i class="fa-solid fa-keyboard"></i>
+
+        </div>
+
+        <div class="upload-text">
+
+           <h3>
+
+    Enter Manually
+
+     </h3>
+
+            <p>
+
+                Add your lectures yourself.
+
+            </p>
+
+        </div>
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+    </div>
+
+</section>
+
+<!--==================================================
+                CONTINUE BUTTON
+===================================================-->
+
+<div class="button-container">
+
+    <button
+        type="button"
+        class="continue-btn"
+        id="continueBtn">
+
+        Continue
+
+    </button>
+
+</div>
+
+<!--==================================================
+                    INFORMATION
+===================================================-->
+
+<section class="info-card">
+
+    <div class="info-icon">
+
+        <i class="fa-solid fa-lightbulb"></i>
+
+    </div>
+
+    <div>
+
+        <h3>
+
+            Why do we need this?
+
+        </h3>
+
+        <p>
+
+            Prodemic uses your lecture timetable to avoid
+            scheduling study sessions during classes and to
+            recommend the best times for studying.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+</section>
+
+
+<!--==============================================================================================================================================================-->
+
+<!--================ PAGE TITLE ================-->
+
+<section
+id="processingScreen"
+style="display:none;">
+
+    <div class="processing-header">
+            <div class="ai-icon">
+
+            <i class="fa-solid fa-robot"></i>
+
+        </div>
+
+        <h1>
+
+            Analysing your module outline...
+
+        </h1>
+
+        <p>
+
+            Please wait while Prodemic AI extracts your
+            module information, assessments and deadlines.
+
+        </p>
+    </div>
+
+
+
+    <!--================ PROGRESS ================-->
+
+    <section class="processing-progress">
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progressFill">
+
+            </div>
+
+        </div>
+
+        <p id="progressPercent">
+
+            0%
+
+        </p>
+
+    </section>
+
+
+
+    <!--================ AI CHECKLIST ================-->
+
+    <div class="process-item" id="step1">
+    <i class="fa-regular fa-circle"></i>
+    <span>Reading module information</span>
+</div>
+
+<div class="process-item" id="step2">
+    <i class="fa-regular fa-circle"></i>
+    <span>Identifying lecturer details</span>
+</div>
+
+<div class="process-item" id="step3">
+    <i class="fa-regular fa-circle"></i>
+    <span>Detecting assignments</span>
+</div>
+
+<div class="process-item" id="step4">
+    <i class="fa-regular fa-circle"></i>
+    <span>Finding class tests</span>
+</div>
+
+<div class="process-item" id="step5">
+    <i class="fa-regular fa-circle"></i>
+    <span>Detecting exam dates</span>
+</div>
+
+<div class="process-item" id="step6">
+    <i class="fa-regular fa-circle"></i>
+    <span>Extracting deadlines</span>
+</div>
+
+<div class="process-item" id="step7">
+    <i class="fa-regular fa-circle"></i>
+    <span>Creating module summary</span>
+</div>
+
+
+    <!--================ INFO CARD ================-->
+
+    <section class="processing-info">
+
+        <div class="info-icon">
+
+            <i class="fa-solid fa-lightbulb"></i>
+
+        </div>
+
+        <div>
+
+            <h3>
+
+                Did you know?
+
+            </h3>
+
+            <p>
+
+                Prodemic automatically creates your study
+                schedule around your lecture timetable,
+                assessments and deadlines.
+
+            </p>
+
+        </div>
+    </section>
+
+    </section>
+<!--===============================================================================================   REVIEW ==========================================================================-->
+
+
+<section
+id="reviewScreen"
+style="display:none;">
+<div class="module-details">
+
+   <div class="detail-row">
+    <span>Module Name</span>
+    <strong id="moduleName">Loading...</strong>
+</div>
+
+<div class="detail-row">
+    <span>Module Code</span>
+    <strong id="moduleCode">Loading...</strong>
+</div>
+
+    <div class="detail-row">
+
+        <span>Semester</span>
+
+        <strong id="semester">
+
+            Loading...
+
+        </strong>
+
+    </div>
+
+    <div class="detail-row">
+
+        <span>Assessments</span>
+
+        <strong id="assessmentCount">
+
+            Loading...
+
+        </strong>
+
+    </div>
+
+</div>
+    <!-- MODULE COLOUR -->
+
+    <label for="moduleColour">
+
+        Module Colour
+
+    </label>
+
+    <div class="colour-container">
+
+        <div
+            class="colour-preview"
+            id="colourPreview">
+
+        </div>
+
+        <span>
+
+            Choose a colour
+
+        </span>
+
+        <i class="fa-solid fa-eye-dropper colour-icon"></i>
+
+        <input
+            type="color"
+            id="moduleColour"
+            value="#2E4AAC">
+
+    </div>
+
+    <button
+        class="continue-btn"
+        id="reviewNext">
+
+        Looks Good
+
+    </button>
+
+</section>
+
+
+
+
+</div>
+
+</body>
+</html>

@@ -1,9 +1,11 @@
-import { auth } from "./firebase.js";
+import { auth } from "../firebase.js";
 
 import {
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    signInWithEmailAndPassword,
+    updateProfile
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 
 
@@ -14,131 +16,58 @@ if (document.querySelector(".splash-screen")) {
 
     setTimeout(() => {
 
-        window.location.href = "02 onboarding.html";
+        window.location.href = "03 Authentication.html";
 
     }, 3000);
 
 }
-//=========================================================================ONBOARDING SCREENS=======================================================================
 
-const screens = [
+//================ Splash Screen =================
 
-    {
-        image: "assets/images/1.png",
-        welcome: "Welcome to",
-        title: "Prodemic",
-        description: "Your all-in-one space to study smarter, stay organised, and get more done with AI",
-    },
+if(document.querySelector(".splash-screen")){
 
-    {
+    setTimeout(()=>{
 
-      image: "assets/images/2.png",
-        welcome: "",
-        title: "Stay on top of deadlines",
-        description: "Track assignments, tests and submissions",
-      
-    },
+        window.location.href="03 Authentication.html";
 
-    {
+    },3000);
 
-      image: "assets/images/3.png",
-        welcome: "",
-        title: "All-in one student ecosystem",
-        description: "Plan your study time, build better habits, and manage everything — all in one place.",
-      
-    },
-];
-
-let currentScreen = 0;
-
-
-function updateScreen(){
-
-    document.getElementById("onboarding-img").src =
-     screens[currentScreen].image;
-     
-
-     document.getElementById("welcome-to"). textContent = 
-      screens[currentScreen].welcome;
-
-     document.getElementById("title"). textContent = 
-      screens[currentScreen].title;
-
-
-     document.getElementById("description"). textContent = 
-      screens[currentScreen].description;
-
-    const nextBtn = 
-    document.querySelector(".next-btn");
-
-     const skipBtn = 
-    document.querySelector(".skip-btn");
-
-    
-
-
-    if(currentScreen === screens.length -1){
-        nextBtn.textContent = " Get Started";
-
-        nextBtn.classList.add("get-started-btn");
-
-
-        skipBtn.style.display = "none";
-    }
-
-    else{
-        nextBtn.innerHTML = "Next &#x276F";
-        nextBtn.classList.remove("get-started-btn");
-
-        skipBtn.style.display= "block";
-    }
-
-
-    const buttonContainer =
-    document.querySelector(".onboarding-buttons");
-
-    if(currentScreen === screens.length -1){
-        buttonContainer.style.justifyContent = "center";
-    }
-
-    else{
-        buttonContainer.style.justifyContent = "space-between"
-    }
-   
 }
 
 
-//===================================================================NEXT BUTTON==================================
+//=====================================================
+// GET STARTED BUTTON
+//=====================================================
 
-const nextBtn = 
-document.querySelector(".next-btn");
+const getStartedBtn =
+document.getElementById("getStartedBtn");
 
-if(nextBtn){
+const welcomeSection =
+document.getElementById("welcomeSection");
 
-    if(document.getElementById("onboarding-img")){
-        updateScreen();
-    }
+const signinSection =
+document.getElementById("signinSection");
 
-    nextBtn.addEventListener("click", () => {
+if(signinSection){
 
-        currentScreen++;
+    signinSection.style.display = "none";
 
-        if(currentScreen < screens.length){
-            updateScreen();
-        }
+}
 
-        else{
-            window.location.href = "03 Authentication.html";
-        }
+if(getStartedBtn){
+
+    getStartedBtn.addEventListener("click",()=>{
+
+        welcomeSection.style.display = "none";
+
+        signinSection.style.display = "block";
 
     });
 
 }
 
- 
 
-
-
+//===============================================FORM VALIDATION==============================================
 //===============================================FORM VALIDATION==============================================
 
 const createAccountBtn = 
@@ -162,6 +91,11 @@ if(createAccountBtn){
 
         const errorMessage =
         document.getElementById("error-message");
+
+
+
+
+
 
         
 
@@ -207,26 +141,33 @@ if(email === ""){
   }
 
   errorMessage.textContent = "";
+//=====
+createUserWithEmailAndPassword(auth, email, password)
 
- createUserWithEmailAndPassword(auth, email, password)
-.then((userCredential) => {
+.then(async (userCredential) => {
+
+    await updateProfile(userCredential.user, {
+        displayName: name
+    });
 
     alert("Account created successfully!");
 
-    window.location.href = "03 Authentication.html";
+   //=====================================================
+// NEW USER
+//=====================================================
+
+window.location.href = "04 Personalisation.html";
 
 })
+
 .catch((error) => {
 
     errorMessage.textContent = error.message;
 
 });
 
-
-
-
-
     });
+
 }
 
 //reset password=============================
@@ -308,6 +249,11 @@ if(signInBtn){
     });
 
 }
+
+
+
+
+
 
 //============================================================================= calender=============================================================================
 
@@ -632,30 +578,61 @@ if(calendar && view){
 
 
 
+//===================================================================================================================================================
+// NAV BAR ADD BUTTON OVERLAY
+//===================================================================================================================================================
 
-//================================================ MODULE FILTER BUTTONS ================================================
+const navAdd = document.querySelector(".nav-add");
+const createOverlay = document.getElementById("createOverlay");
+const closeSheet = document.getElementById("closeSheet");
 
-const filterButtons = document.querySelectorAll(".filter-btn");
+if(navAdd && createOverlay){
 
-filterButtons.forEach(button => {
+    navAdd.addEventListener("click",(e)=>{
 
-    button.addEventListener("click", () => {
+        e.preventDefault();
 
-        // Remove active from all buttons
-        filterButtons.forEach(btn => {
-            btn.classList.remove("active");
-        });
-
-        // Add active to clicked button
-        button.classList.add("active");
-
-        // Which filter was selected?
-        const filter = button.dataset.filter;
-
-        console.log(filter);
-
-        // We'll filter the module cards here later
+        createOverlay.style.display="flex";
 
     });
 
-});
+}
+
+if(closeSheet){
+
+    closeSheet.addEventListener("click",()=>{
+
+        createOverlay.style.display="none";
+
+    });
+
+}
+
+if(createOverlay){
+
+    createOverlay.addEventListener("click",(e)=>{
+
+        if(e.target===createOverlay){
+
+            createOverlay.style.display="none";
+
+        }
+
+    });
+
+}
+
+
+//=========================================IF ON CERTAIN PAGE============================
+
+const newModule = document.getElementById("newModule");
+
+if(newModule){
+
+    newModule.addEventListener("click",()=>{
+
+        window.location.href = "08%20modules.html";
+
+    });
+
+}

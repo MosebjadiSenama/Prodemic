@@ -1,0 +1,12 @@
+# Backend secrets
+Backend/.env
+
+# Node packages
+Backend/node_modules/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# VS Code
+.vscode/

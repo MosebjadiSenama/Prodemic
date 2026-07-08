@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prodemic</title>
 <link rel="stylesheet" href="style.css">
-<script type="module" src="script.js"></script>
+<link rel="stylesheet" href="css/onboarding.css">
+<script type="module" src="js/script.js"></script>
 
 <!--GOOGLE FONTS-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,44 +23,187 @@
 </head>
 
 <body>
+
 <div class="app-container">
 
+    <!--==================================================
+                    WELCOME SECTION
+    ==================================================-->
 
-<div class="forgot-passoword-page">
-<section class="form">
-    <h1>SIGN IN</h1>
-    <p>Log in by entering your email address and password</p>
+   <div class="auth-header" id="welcomeSection">
 
-<div class="fill-in">
-    <div class="form-1">
-    <label>EMAIL</label>
-    <input placeholder="Enter your email address" type="Email" id="email" >
+        <!--================ IMAGE ================-->
+
+        <div class="auth-image-container">
+
+            <img
+                src="assets/images/1.png"
+                alt="Prodemic"
+                class="auth-image"
+                id="onboarding-img">
+
+        </div>
+
+        <!--================ WELCOME TEXT ================-->
+
+        <div class="auth-content">
+
+            <span
+                class="welcome-to"
+                id="welcome-to">
+
+                Welcome to
+
+            </span>
+
+            <h1
+                class="bold"
+                id="title">
+
+                Prodemic
+
+            </h1>
+
+            <p
+                class="onboarding-description"
+                id="description">
+
+                Your all-in-one space to study smarter,
+                stay organised and achieve your academic goals
+                with personalised AI assistance.
+
+            </p>
+
+        </div>
+
+        <!--================ GET STARTED ================-->
+
+        <div class="onboarding-buttons">
+
+           <button
+            class="next-btn"
+            id="getStartedBtn">
+
+                Get Started
+
+            </button>
+
+        </div>
+
     </div>
 
 
-    <div class="form-1">
-    <label>PASSWORD</label>
-    <input placeholder="Enter your Password" type="password" id="enter-password">
-   <a class="forgot-password" href="06 forgotpassword.html">Forgot Password?</a>
+
+    <!--==================================================
+                    SIGN IN FORM
+    ==================================================-->
+
+    <div class="forgot-passoword-page" id="signinSection">
+
+        <section class="form">
+
+            <h1>SIGN IN</h1>
+
+            <p>
+                Log in by entering your email address and password.
+            </p>
+
+            <div class="fill-in">
+
+                <!--================ EMAIL ================-->
+
+                <div class="form-1">
+
+                    <label for="email">
+
+                        EMAIL
+
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email address">
+
+                </div>
+
+
+
+                <!--================ PASSWORD ================-->
+
+                <div class="form-1">
+
+                    <label for="enter-password">
+
+                        PASSWORD
+
+                    </label>
+
+                    <input
+                        type="password"
+                        id="enter-password"
+                        placeholder="Enter your password">
+
+                    <a
+                        href="06 forgotpassword.html"
+                        class="forgot-password">
+
+                        Forgot Password?
+
+                    </a>
+
+                </div>
+
+
+
+                <!--================ SIGN IN BUTTON ================-->
+
+                <div class="form-1">
+
+                    <button
+                        class="signin-btn">
+
+                        Sign In
+
+                    </button>
+
+                </div>
+
+
+
+                <!--================ DIVIDER ================-->
+
+                <div class="line-div">
+
+                    <div class="line"></div>
+
+                    <p>or</p>
+
+                    <div class="line"></div>
+
+                </div>
+
+
+
+                <!--================ CREATE ACCOUNT ================-->
+
+                <a
+                    href="05 Signup.html"
+                    class="create-account-btn2">
+
+                    Create Account
+
+                </a>
+
+            </div>
+
+        </section>
+
     </div>
 
-    <div class="form-1">
-    <button class="signin-btn">Sign In</button>
-    </div>
-
-     <div class="line-div">
-        <div class="line"></div>
-        <p>or</p>
-        <div class="line"></div>
-    </div>
-
- <a href="05 Signup.html" class="create-account-btn2"> Create Account</a>
-<P>Already have an account? <a class="sign-in-link">Sign in</a></P>
-
-</p>
 </div>
-</div>
-</section>
+
+</body>
 </div>
 </body>
 </html>

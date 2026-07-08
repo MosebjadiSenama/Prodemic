@@ -1,0 +1,248 @@
+/*==================================================
+            OPTIONS
+===================================================*/
+
+.options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+    margin-top:35px;
+
+}
+
+.options label{
+
+    padding:18px;
+
+    border:2px solid #E5E7EB;
+
+    border-radius:18px;
+
+    font-size:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+/*==================================================
+            HOURS
+===================================================*/
+
+.hours-container{
+
+    margin-top:40px;
+
+    text-align:center;
+
+}
+
+.hours-container input{
+
+    width:100%;
+
+}
+
+#hourValue{
+
+    margin-top:20px;
+
+    color:#2E4AAC;
+
+}
+
+/*=========================================
+            AUTH HEADER
+=========================================*/
+
+.auth-header{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    text-align:center;
+
+    margin-top:40px;
+
+    margin-bottom:30px;
+
+}
+
+/*=========================================*/
+
+.auth-image{
+
+    width:180px;
+
+    margin-bottom:20px;
+
+}
+
+/*=========================================*/
+
+.auth-content{
+
+    width:90%;
+
+}
+
+/*=========================================*/
+
+.welcome-to{
+
+    font-size:18px;
+
+    color:#6B7280;
+
+}
+
+/*=========================================*/
+
+.bold{
+
+    font-family:'Alfa Slab One', serif;
+
+    font-size:38px;
+
+    color:#2E4AAC;
+
+    margin:8px 0 15px;
+
+}
+
+/*=========================================*/
+
+.onboarding-description{
+
+    font-size:16px;
+
+    color:#6B7280;
+
+    line-height:1.6;
+
+}
+
+
+/*==================================================
+            BUTTON CONTAINER
+===================================================*/
+
+.onboarding-buttons{
+
+    width:100%;
+
+    margin-top:40px;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+
+/*==================================================
+            GET STARTED BUTTON
+===================================================*/
+
+.get-started-btn{
+
+    width:90%;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#2E4AAC;
+
+    color:#FFFFFF;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.get-started-btn:hover{
+
+    background:#1E3A81;
+
+}
+
+/*==================================================
+            HIDE SIGN IN
+===================================================*/
+
+#signinSection{
+
+    display:none;
+
+}
+
+#getStartedBtn:hover{
+     background-color: #1E3A81;
+     color: white;
+     text-decoration: none;
+     box-shadow: 0 4px 12px rgba(39, 39, 41, 0.2);
+
+     
+     text-align: center;
+
+     height: 45px;
+
+     display: flex;
+     justify-content: center;
+     align-items: center;
+
+     font-weight: 600;
+     border: none;
+      
+}
+
+
+#getStartedBtn{
+    background-color: #5483B3;
+    color: white;
+
+    padding: 14px 28px;
+
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    box-shadow: 0 4px 12px rgba(46, 74, 172, 0.2);
+    width: 320px;
+    text-align: center;
+
+    height: 45px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: 600;
+    border: none;
+    font-size: 18px;
+    border-radius: 14px;
+
+    margin-top: 15px;
+
+}
+
+

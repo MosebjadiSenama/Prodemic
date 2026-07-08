@@ -1,0 +1,186 @@
+/*==================================================
+                PAGE
+===================================================*/
+
+.app-container{
+
+    max-width:420px;
+    margin:auto;
+    padding:24px 20px 100px;
+
+}
+
+
+/*==================================================
+                HEADER
+===================================================*/
+
+.back-btn{
+
+    background:none;
+    border:none;
+    font-size:22px;
+    cursor:pointer;
+    margin-bottom:20px;
+
+}
+
+h2{
+
+    font-size:26px;
+    font-weight:700;
+    margin-bottom:25px;
+
+}
+
+
+/*==================================================
+                PAGE HEADING
+===================================================*/
+
+.page-heading h1{
+
+    font-size:24px;
+    margin-bottom:10px;
+
+}
+
+.page-heading p{
+
+    color:#777;
+    line-height:1.6;
+    margin-bottom:30px;
+
+}
+
+
+/*==================================================
+                FORM
+===================================================*/
+
+input,
+select{
+
+    width:100%;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:14px;
+    margin-bottom:18px;
+    font-size:16px;
+    outline:none;
+    background:#fff;
+
+}
+
+input:focus,
+select:focus{
+
+    border:2px solid #2E4AAC;
+
+}
+
+
+/*==================================================
+                BUTTONS
+===================================================*/
+
+.continue-btn{
+
+    width:100%;
+    background:#2E4AAC;
+    color:#fff;
+    border:none;
+    padding:16px;
+    border-radius:14px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:10px;
+
+}
+
+.continue-btn:hover{
+
+    background:#223a8f;
+
+}
+
+
+/*==================================================
+                LECTURE LIST
+===================================================*/
+
+#lectureList{
+
+    margin:25px 0;
+
+}
+
+
+/*==================================================
+                LECTURE CARD
+===================================================*/
+
+.lecture-card{
+
+    background:#fff;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+}
+
+.lecture-card h3{
+
+    color:#2E4AAC;
+    margin-bottom:8px;
+    font-size:18px;
+
+}
+
+.lecture-card p{
+
+    color:#666;
+    margin:5px 0;
+    font-size:14px;
+
+}
+
+
+/*==================================================
+                SAVE BUTTON
+===================================================*/
+
+#saveTimetable{
+
+    margin-top:30px;
+
+}
+
+
+/*==================================================
+                MOBILE
+===================================================*/
+
+@media(max-width:480px){
+
+    .app-container{
+
+        padding:20px 16px 90px;
+
+    }
+
+    h2{
+
+        font-size:22px;
+
+    }
+
+    .page-heading h1{
+
+        font-size:22px;
+
+    }
+
+}

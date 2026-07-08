@@ -532,7 +532,11 @@ h1{
     background-color: #1E3A81;
 }
 
-
+.sign-up-link{
+    text-decoration: none;
+    color: #2b48b0;
+    font-weight: 600;
+}
 /*===================================================signin================================================*/
 
 .sign-in-link,
@@ -621,104 +625,7 @@ h1{
  margin-top: 10px;
 }
 
-/*=====================================home page=================================================*/
-.prodemic-home{
-    font-size: 30px;
-    margin: 0;
-    font-family: 'Alfa Slab One', serif; 
-    color: #1E3A81;
-    margin-top: 20px;
 
-margin-left: 20px;
-}
-.welcome-to-prodemmic{
-    font-size:20px ;
-    
-    
-}
-
-.welcome-text{
-    font-size: 14px;
-   
-  
-}
-
-.welcome-card{
-    background:#D7E4F1;
-    height: 80px;
-    margin-top: 10px;
-    width: 90%;
-    padding: 18px;
-    border-radius: 16px;
-
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    
-    margin: 15px auto;
-    
-}
-
-.welcome-img{
-    width: 70%;
-    max-width: 300px;
-    height: auto;
-
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-}
-
-.no-task h2 {
-    font-size: 20px;
-    text-align: center;
-}
-
-.add{
-    font-size: 16px;
-    width: 80%;
-    text-align: center;
-    margin: 0  auto;
-}
-
-
-.generate-buttons{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.generate-ai{
-   
-    height: 40px;
-    color: white;
-    font-weight: bold;
-    background-color: #a7b9e9;
-    text-align: center;
-    width: 250px;
-
-    
-    margin:0 auto;
-    border-radius: 10px;
-
-    display: flex;
-     justify-content: center;
-     align-items: center;
-}
-
-.generate-ai:hover,
-.add-schedule:hover,
-.add-module-btn:hover{
-    background-color: #1E3A81;
-}
-
-.add-tasks-manually{
-     color: #2E4AAC;
-     text-align: center;
-     font-weight: bold;
-}
 
 
 /*===========================================NAV BAR====================================*/
@@ -891,13 +798,6 @@ i{
      justify-content: center;
      align-items: center;
 }
-
-
-
-
-
-
-
 
 
 
@@ -1108,207 +1008,155 @@ i{
 }
 
 
-/*======================================================== MODULES  ==========================================================================*/
+/*====================================================nav bar add button overlay===============================================*/
 
 
+.create-overlay{
 
+    position:fixed;
+    inset:0;
 
-.modules-title{
+    background:rgba(0,0,0,.45);
 
-    font-size: 32px;
-    font-weight: 700;
+    display:none;
+
+    justify-content:flex-end;
+    flex-direction:column;
+
+    z-index:999;
 }
 
-.modules-subtitle{
-    font-size: 15px;
-    color: #666;
+.create-sheet{
 
-    margin-top: 4px;
+    background:white;
+
+    border-radius:28px 28px 0 0;
+
+    padding:24px;
+
+    animation:slideUp .3s ease;
 }
 
+.sheet-handle{
 
-/*=========================================================== ADD ICON ======================================================*/
+    width:60px;
+    height:6px;
 
-.add-module-icon{
-    width: 52px;
-    height: 52px;
+    background:#ddd;
 
-    border: none;
-    border-radius: 50%;
+    border-radius:50px;
 
-    background: white;
-
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    margin:0 auto 20px;
 }
 
-.add-module-icon i{
-    color: #2E4AAC;
+.create-sheet h2{
+
+    margin-bottom:24px;
+
+    font-size:28px;
 }
 
+.create-option{
 
-/*========================================================== FILTERS=======================================================*/
+    display:flex;
+    align-items:center;
 
-.module-filters{
-    display: flex;
-    gap: 12px;
+    gap:18px;
 
-    padding: 0 20px;
+    padding:18px 0;
+
+    border-bottom:1px solid #eee;
+
+    cursor:pointer;
 }
 
-.filter-btn{
-    flex: 1;
+.option-icon{
 
-    width: 100px;
-    height: 48px;
-    border: none;
+    width:54px;
+    height:54px;
 
-    border-radius: 14px;
+    border-radius:16px;
 
-    background: #F2F2F2;
-    font-size: 15px;
-    font-weight: 600;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:white;
+
+    font-size:22px;
 }
 
-.filter-btn.active{
-    background:  #bdc6e7;
-    color: white;
-    border-radius: 10px;
-    border: 1px solid  #2E4AAC;
+.blue{
+
+    background:#2E4AAC;
 }
 
-.filter-btn{
+.green{
 
-   flex: 1;
-   height: 48px;
-    border: none;
-
-    border-radius: 12px;
-    color: grey;
-    font-weight: 600;
-    background: white;
-    margin: 0 5px;
+    background:#3CB371;
 }
 
-.filter-card{
-    background: white;
+.purple{
 
-   
-    height: 60px;
-    border-radius: 10px;
-
-   margin-top: 20px;
-
-   width: 100%;
-
-   display: flex;
-   justify-content: space-evenly;
-   align-items:center ;
-
-   padding: 10px;
-   border-radius: 16px;
-   margin-top: 20px;
-  
+    background:#7E57C2;
 }
 
+.orange{
 
-.filter-btn:hover{
-    color: #2E4AAC;
-    
+    background:#FF9800;
 }
 
+.option-text{
 
-
-/*==================================================== EMPTY STATE ===================================================*/
-
-.module-empty{
-    margin-top: 60px;
-    text-align: center;
-
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-top: 60px;
+    flex:1;
 }
 
-.modules-actions{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
+.option-text h3{
+
+    margin-bottom:4px;
+
+    font-size:18px;
 }
 
-.module-empty-img{
-    width: 230px;
-    margin-bottom: 25px;
+.option-text p{
+
+    color:#777;
+
+    font-size:14px;
 }
 
-.module-empty h2{
-    font-size: 30px;
-    margin-bottom: 12px;
+.cancel-btn{
+
+    width:100%;
+
+    height:52px;
+
+    margin-top:20px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#F2F2F2;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
 }
 
-.module-empty p{
-    width: 80%;
-    margin: auto;
-    font-size: 16px;
-    line-height: 1.6;
-    color: #666;
+@keyframes slideUp{
 
+    from{
+
+        transform:translateY(100%);
+    }
+
+    to{
+
+        transform:translateY(0);
+    }
 }
-
-
-/*=============================================================== BUTTON ======================================================*/
-
-.add-module-btn{
-    height: 40px;
-    color: white;
-    font-weight: bold;
-    background-color: #a7b9e9;
-    text-align: center;
-    width: 250px;
-
-    margin:0 auto;
-    border-radius: 10px;
-
-    Margin:0 auto;
-   
-     display: flex;
-     justify-content: center;
-     align-items: center;
-
-    
-
-     margin-top: 30px;
-}
-
-.how-it-works{
-
-    width: 300px;
-    height: 54px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    gap: 10px;
-    color: #2E4AAC;
-
-    font-weight: 600;
-
-    text-decoration: none;
-
-}
-
-.modules-header{
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.modules-text{
-    text-align: center;
-}
-
 
 

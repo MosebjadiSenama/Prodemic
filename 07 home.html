@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="style.css">
-<script type="module" src="script.js"></script>
+<!--====================================================================================  CSS AND JS LINK=========================================================================-->
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/home.css">
+<script type="module" src="js/home.js"></script>
 
 <!---ICONS-->
 <link rel="stylesheet"
@@ -23,39 +26,314 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </head>
 <body>
 
-    <div class="app-container">
-        <h1 class="prodemic-home">Prodemic</h1>
-<!--welcome card-->
-<div class="welcome-card" id="welcome-card">
-    <h1 class="welcome-to-prodemmic">Welcome to Prodemic</h1>
-    <p class="welcome-text">Let's set up your study system and achieve your academic goals</p>
+   
+<!--==================================================================================== HEADER================================================================================-->
+
+ <div class="app-container">
+<header class="home-header">
+    <div class="home-logo">
+         <h1 class="prodemic-home">Prodemic</h1>
+    </div>
+
+    <div class="home-icons">
+        <button  type="button"      class="notification-btn">
+            <i class="fa-regular fa-bell"></i>
+        </button>
+
+        <button
+        type="button"
+         class="profile-btn" 
+        id="profileBtn">
+            <i class="fa-solid fa-circle-user"></i>
+        </button>
+
+    </div>
+</header>
+
+
+<!--============================================================================================  PROFILE MENU      ==========================================================================-->
+<div class="profile-menu" id="profileMenu">
+
+    <button class="profile-option">
+        <i class="fa-solid fa-user"></i>
+        Profile
+    </button>
+
+    <button class="profile-option">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+    </button>
+
+    <button
+        class="profile-option logout-btn"
+        id="logoutBtn">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+
+    </button>
+
+</div>
+
+       
+<!--========================================================================================================welcome card=========================================================-->
+
+<div class="welcome-content">
+
+    <p class="greeting">
+    <p class="greeting" id="greetingText"></p>
+        <span id="userName"></span> 
+    </p>
+
+    <p class="welcome-text">
+        Let's make today productive.
+    </p>
+
+</div>
+
+<!--==================================================
+                SETUP CARD
+===================================================-->
+
+<div class="setup-card">
+
+    <div class="setup-header">
+
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+        <div>
+
+            <h2>Let's build your workspace</h2>
+
+            <p>
+                Complete these steps and I'll automatically
+                create your study plan.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!--================ PROGRESS ================-->
+
+    <div class="setup-progress">
+
+        <div class="progress-bar">
+
+            <div class="progress-fill"></div>
+
+        </div>
+
+        <span>20% Complete</span>
+
+    </div>
 
 </div>
 
 
-<!---center section-->
-<div>
-    <img  src="assets/images/1.png"  class="welcome-img">
+
+<!--==================================================
+                SETUP CHECKLIST
+===================================================-->
+
+<div class="setup-list">
+
+    <!-- PROFILE -->
+
+    <div class="setup-item completed">
+
+        <div class="setup-icon completed">
+
+            <i class="fa-solid fa-check"></i>
+
+        </div>
+
+        <div class="setup-info">
+
+            <h3>Profile Completed</h3>
+
+            <p>Your preferences have been saved.</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- TIMETABLE -->
+
+    <div class="setup-item" id="lectureBtn">
+
+        <div class="setup-icon">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+        </div>
+
+        <div class="setup-info">
+
+            <h3>Upload Lecture Timetable</h3>
+
+            <p>Add your weekly classes.</p>
+
+        </div>
+
+        <i class="fa-solid fa-chevron-right arrow"></i>
+
+    </div>
+
+
+    <!-- MODULE OUTLINE -->
+
+    <div class="setup-item" id="moduleBtn">
+
+        <div class="setup-icon">
+
+            <i class="fa-solid fa-book"></i>
+
+        </div>
+
+        <div class="setup-info">
+
+            <h3>Upload Module Outline</h3>
+
+            <p>Let AI extract assessments and deadlines.</p>
+
+        </div>
+
+        <i class="fa-solid fa-chevron-right arrow"></i>
+
+    </div>
+
+
+    <!-- AI PLAN -->
+
+    <div class="setup-item disabled" id="studyPlanBtn">
+
+        <div class="setup-icon">
+
+            <i class="fa-solid fa-brain"></i>
+
+        </div>
+
+        <div class="setup-info">
+
+            <h3>Generate AI Study Plan</h3>
+
+            <p>Available after uploading your files.</p>
+
+        </div>
+
+        <i class="fa-solid fa-lock"></i>
+
+    </div>
+
 </div>
 
-<div class="no-task">
-    <h2 class="no-task-today">
-        No task today
-    </h2>
-    <p class="add">Add your modules or task to get started, and stay on track </p>
+
+<!--==================================================
+                BUTTONS
+===================================================-->
+
+<div class="setup-buttons">
+
+    <button
+        class="primary-btn"
+        id="uploadNow">
+
+        Upload Module Outline
+
+    </button>
+
+
+    <button
+        class="secondary-btn">
+
+        Skip & Add Tasks Manually
+
+    </button>
+
+</div>
+<!--====================== CREATE MENU ======================-->
+
+<div class="create-overlay" id="createOverlay">
+
+    <div class="create-sheet">
+
+        <div class="sheet-handle"></div>
+
+        <h2>Create New</h2>
+
+        <div class="create-option" id="newModule">
+
+            <div class="option-icon blue">
+                <i class="fa-solid fa-book"></i>
+            </div>
+
+            <div class="option-text">
+                <h3>New Module</h3>
+                <p>Add a new subject</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <div class="create-option">
+
+            <div class="option-icon green">
+                <i class="fa-solid fa-list-check"></i>
+            </div>
+
+            <div class="option-text">
+                <h3>New Task</h3>
+                <p>Add a task</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <div class="create-option">
+
+            <div class="option-icon purple">
+                <i class="fa-solid fa-calendar"></i>
+            </div>
+
+            <div class="option-text">
+                <h3>New Schedule</h3>
+                <p>Create a schedule</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <div class="create-option">
+
+            <div class="option-icon orange">
+                <i class="fa-solid fa-file-pen"></i>
+            </div>
+
+            <div class="option-text">
+                <h3>New Assessment</h3>
+                <p>Add an assessment</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <button id="closeSheet" class="cancel-btn">
+            Cancel
+        </button>
+
+    </div>
+
 </div>
 
-<div class="generate-buttons">
-    <a class="generate-ai">
-        Generate AI study plan
-    </a>
 
-    <a class="add-tasks-manually">
-        + Add tasks manually
-    </a>
 
-</div>
-</div>
+
 
 <!--navigation bar-->
 

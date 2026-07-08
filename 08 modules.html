@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="style.css">
-<script type="module" src="script.js"></script>
+    <link rel="stylesheet" href="css/module.css">
+     <link rel="stylesheet" href="style.css">
 
+<script type="module" src="js/modules.js"></script>
 <!---ICONS-->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -24,14 +25,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <body>
 
     <div class="app-container">
-<div class="modules-header">
-    <h1>Modules</h1>
-    <p>Manage your subjects and track your progress</p>
+<div class="modules-header" id="modulesHeader">
+    <div class="modules-header-top">
 
+        <div>
+            <h1>Modules</h1>
+            <p>Manage your subjects and track your progress</p>
+        </div>
+
+     
+
+    </div>
 </div>
 
 <!--======================================================================================     modules card           ============================================================================================================================================-->
-<div class="filter-card">
+<div class="filter-card" id="filterCard">
     <button class="filter-btn active"  data-filter="All">
         All
 
@@ -42,12 +50,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </div>
 
-
-
+<!--===========================================================================================      MODULE CARD  LIST APPEARS ======================================================================================-->
+ 
+<div class="module-list" id="modulesList"></div>
 <!-- =========================================================================== empty state=========================================================----->
-<div class="module-empty">
+<div class="module-empty" id="moduleEmpty" style="display:none;">
 
-    <img src="assets/images/3.png" class="module-empty-img">
+    <img src="assets/images/No-modules.png" class="module-empty-img">
     <h2>
     No modules yet
 </h2>
@@ -62,19 +71,347 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 <!-- ==================================================================================== button======================================================-->
-<a class="add-module-btn">
+<div class="module-buttons">
+    <a class="add-module-btn" id="addModuleBtn">
     + Add your first module
 </a>
 
 
-<a class="how-it-works">
-    How it works >
-
+<a class="how-it-works" id="howItWorks">
+    How it works &#x3E;
     
 </a>
-<!--navigation bar-->
+
+</div>
+
+<!---============================================================================= ADD MODULE ===================================================================-->
+
+<div class="module-form"  id="moduleForm">
+
+    <div class="module-heading">
+        <button class="back-btn" id="backBtn">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+       
+        <h2 id="moduleFormTitle">
+        Add New Module
+        </h2>
+    </div>
+    
+    <label>
+        Module Name
+    </label>
+
+    <input 
+    type="text"
+    id="moduleName"
+    placeholder="e.g. Interactive Media">
 
 
+    <label>
+       Module Code
+    </label>
+
+    <input 
+    type="text"
+    id="moduleCode"
+    placeholder="e.g. DIGA4014A">
+
+
+
+    <label>
+       Semester
+    </label>
+
+
+   <select id="semester">
+    <option>Semester 1</option>
+    <option > Semester 2</option>
+    <option > Year long</option>
+
+   </select>
+<!--============================================================================================MODULE COLOUR ==============================================-->
+<label for="moduleColour">Module Colour</label>
+
+<div class="colour-container">
+
+    <div class="colour-preview" id="colourPreview"></div>
+
+    <span>Choose a colour</span>
+    <i class="fa-solid fa-eye-dropper colour-icon"></i>
+
+    <input
+        type="color"
+        id="moduleColour"
+        value="#2E4AAC">
+
+</div>
+
+
+   <button id="saveModule">
+    Save Module
+   </button>
+
+</div>
+
+
+<!--=========================================================
+                    MODULE PROGRESS PAGE
+==========================================================-->
+
+
+<!---module overview-->
+<div class="module-overview-page" id="moduleOverviewPage">
+
+
+    <div class="overview-header">
+
+    <button id="overviewBackBtn" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+</div>
+
+<div class="overview-module-info">
+
+    <div
+        class="module-avatar"
+        id="moduleAvatar">
+    </div>
+
+    <div class="overview-module-details">
+
+        <h2 id="overviewModuleName"></h2>
+
+        <p id="overviewModuleCode"></p>
+
+        <span
+            class="semester-badge"
+            id="overviewModuleSemester">
+        </span>
+
+    </div>
+
+</div>
+
+<!---Progress bar-->
+
+<div class="progress-section">
+
+    <div class="progress-top">
+
+        <h2>Overall Progress</h2>
+
+        <span id="progressPercent"></span>
+
+    </div>
+
+    <div class="progress-bar">
+
+        <div
+            class="progress-fill"
+            id="progressFill">
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!--upload outline-->
+<div
+class="upload-card"
+id="uploadOutline">
+
+    <div class="upload-icon">
+
+        <i class="fa-solid fa-file-arrow-up"></i>
+
+    </div>
+
+    <div>
+
+        <h3>Upload Module Outline</h3>
+
+        <p>
+            Upload your outline and we'll extract deadlines and important dates.
+        </p>
+
+    </div>
+
+    <i class="fa-solid fa-chevron-right"></i>
+
+</div>
+
+<button class="add-new-task2">
+    <i class="fa-solid fa-plus"></i>
+    <span>Add New Task</span>
+</button>
+
+<!--upcoming submissions-->
+
+<div class="card">
+
+    <div class="card-heading">
+
+        <h2>Upcoming Submissions</h2>
+
+        <a id="viewAllSubmissions">
+            View all
+        </a>
+
+    </div>
+
+    <div
+        class="submission-list"
+        id="submissionList">
+
+       
+
+    </div>
+
+</div>
+</div>
+    </div>
+
+
+
+
+
+
+<!--====================== CREATE MENU ======================-->
+
+<!-- Overlay background -->
+<div class="create-overlay" id="createOverlay">
+
+    <!-- Bottom sheet -->
+    <div class="create-sheet">
+
+        <!-- Drag handle -->
+        <div class="sheet-handle"></div>
+
+        <!-- Sheet heading -->
+        <h2>Create New</h2>
+
+        <!--================ NEW MODULE =================-->
+        <div class="create-option" id="newModule">
+
+            <div class="option-icon blue">
+                <i class="fa-solid fa-book"></i>
+            </div>
+
+            <div class="option-text">
+                <h3>New Module</h3>
+                <p>Add a new subject</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!--================ NEW TASK =================-->
+        <div class="create-option">
+
+            <div class="option-icon green">
+                <i class="fa-solid fa-list-check"></i>
+            </div>
+
+            <div class="option-text">
+                <h3>New Task</h3>
+                <p>Add a task</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!--================ NEW SCHEDULE =================-->
+        <div class="create-option">
+
+            <div class="option-icon purple">
+                <i class="fa-solid fa-calendar"></i>
+            </div>
+
+            <div class="option-text">
+                <h3>New Schedule</h3>
+                <p>Create a schedule</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!--================ NEW ASSESSMENT =================-->
+        <div class="create-option">
+
+            <div class="option-icon orange">
+                <i class="fa-solid fa-file-pen"></i>
+            </div>
+
+            <div class="option-text">
+                <h3>New Assessment</h3>
+                <p>Add an assessment</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!--================ CANCEL BUTTON =================-->
+        <button id="closeSheet" class="cancel-btn">
+            Cancel
+        </button>
+
+    </div> <!-- End create-sheet -->
+
+</div> <!-- End create-overlay -->
+
+
+
+<!---delete module-->
+
+<div class="delete-overlay" id="deleteOverlay">
+
+    <div class="delete-modal">
+
+        <i class="fa-solid fa-trash delete-icon"></i>
+
+        <h2>Delete Module?</h2>
+
+        <p>
+
+            This will permanently delete this module and cannot be undone.
+
+        </p>
+
+        <div class="delete-buttons">
+
+            <button id="cancelDelete">
+
+                Cancel
+
+            </button>
+
+            <button id="confirmDelete">
+
+                Delete
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<!--===========================================================================================navigation bar=====================================================-->
 
 <div class="nav-bar">
 <!--home button-->
@@ -116,6 +453,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </div>
 </div>
 
-    
+ <!-------------alert module saved-->   
+ <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMessage"></span>
+ </div>
 </body>
 </html>

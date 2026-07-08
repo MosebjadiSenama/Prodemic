@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+<!--------======================================================================  CSS AND JS LINK   ==========================================================-->
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/personalization.css">
+<script type="module" src="js/personalization.js"></script>
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+<body>
+ <!--=========================================================================================================================================================================
+                    STEP 1
+=============================================================================================================================================================================-->
+
+<div class="app-container">
+
+
+<section class="step active" id="step1">
+
+    <div class="progress-container">
+
+        <div class="progress-bar">
+
+            <div class="progress-fill step1-fill"></div>
+
+        </div>
+
+        <p>Step 1 of 4</p>
+
+    </div>
+
+
+    <h1>What are you hoping to achieve?</h1>
+
+    <p class="subtitle">
+
+        Choose one option.
+
+    </p>
+
+
+    <div class="goal-options">
+
+        <label class="goal-card">
+
+            <input
+                type="radio"
+                name="goal"
+                value="Improve grades">
+
+            <div class="goal-content">
+
+                <i class="fa-solid fa-graduation-cap"></i>
+
+                <div>
+
+                    <h3>Improve my grades</h3>
+
+                    <p>Reach better academic results.</p>
+
+                </div>
+
+            </div>
+
+        </label>
+
+
+        <label class="goal-card">
+
+            <input
+                type="radio"
+                name="goal"
+                value="Stay organised">
+
+            <div class="goal-content">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                <div>
+
+                    <h3>Stay organised</h3>
+
+                    <p>Never miss deadlines.</p>
+
+                </div>
+
+            </div>
+
+        </label>
+
+
+        <label class="goal-card">
+
+            <input
+                type="radio"
+                name="goal"
+                value="Reduce procrastination">
+
+            <div class="goal-content">
+
+                <i class="fa-solid fa-clock"></i>
+
+                <div>
+
+                    <h3>Reduce procrastination</h3>
+
+                    <p>Create better habits.</p>
+
+                </div>
+
+            </div>
+
+        </label>
+
+
+        <label class="goal-card">
+
+            <input
+                type="radio"
+                name="goal"
+                value="Balance study">
+
+            <div class="goal-content">
+
+                <i class="fa-solid fa-scale-balanced"></i>
+
+                <div>
+
+                    <h3>Balance studying and life</h3>
+
+                    <p>Manage your time better.</p>
+
+                </div>
+
+            </div>
+
+        </label>
+
+    </div>
+
+
+    <button
+        type="button"
+        class="continue-btn"
+        id="step1Next">
+
+        Continue
+
+    </button>
+
+</section>
+
+
+
+<!--=============================================================================================================================================================================
+                                                                                             STEP 2
+==================================================================================================================================================================================-->
+
+<section class="step" id="step2">
+
+    <div class="progress-container">
+
+        <div class="progress-bar">
+
+            <div class="progress-fill step2-fill"></div>
+
+        </div>
+
+        <p>Step 2 of 4</p>
+
+    </div>
+
+
+    <h1>When do you usually study?</h1>
+
+    <p class="subtitle">
+
+        We'll use this to build your schedule.
+
+    </p>
+
+
+    <div class="goal-options">
+
+        <label class="goal-card">
+
+            <input
+                type="radio"
+                name="studyTime"
+                value="Morning">
+
+            <div class="goal-content">
+
+                <i class="fa-solid fa-sun"></i>
+
+                <div>
+
+                    <h3>Morning</h3>
+
+                </div>
+
+            </div>
+
+        </label>
+
+
+        <label class="goal-card">
+
+            <input
+                type="radio"
+                name="studyTime"
+                value="Afternoon">
+
+            <div class="goal-content">
+
+                <i class="fa-solid fa-cloud-sun"></i>
+
+                <div>
+
+                    <h3>Afternoon</h3>
+
+                </div>
+
+            </div>
+
+        </label>
+
+
+        <label class="goal-card">
+
+            <input
+                type="radio"
+                name="studyTime"
+                value="Evening">
+
+            <div class="goal-content">
+
+                <i class="fa-solid fa-cloud-moon"></i>
+
+                <div>
+
+                    <h3>Evening</h3>
+
+                </div>
+
+            </div>
+
+        </label>
+
+
+        <label class="goal-card">
+
+            <input
+                type="radio"
+                name="studyTime"
+                value="Late Night">
+
+            <div class="goal-content">
+
+                <i class="fa-solid fa-moon"></i>
+
+                <div>
+
+                    <h3>Late Night</h3>
+
+                </div>
+
+            </div>
+
+        </label>
+
+    </div>
+
+
+    <div class="navigation-buttons">
+
+        <button
+            type="button"
+            class="back-btn"
+            id="step2Back">
+
+            Back
+
+        </button>
+
+
+        <button
+            type="button"
+            class="continue-btn2"
+            id="step2Next">
+
+            Continue
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!--==============================================================================================================================================================================
+                                                                                            STEP 3
+=================================================================================================================================================================================-->
+
+<section class="step" id="step3">
+
+    <!--================ PROGRESS ================-->
+
+    <div class="progress-container">
+
+        <div class="progress-bar">
+
+            <div class="progress-fill step3-fill"></div>
+
+        </div>
+
+        <p class="progress-text">
+            Step 3 of 4
+        </p>
+
+    </div>
+
+
+    <!--================ TITLE ================-->
+
+    <div class="step-heading">
+
+        <h1>
+
+            How many hours can you study each day?
+
+        </h1>
+
+        <p>
+
+            Don't worry, you can change this later.
+
+        </p>
+
+    </div>
+
+
+    <!--================ SLIDER ================-->
+
+    <div class="hours-container">
+
+        <h2 id="hourValue">
+
+            3 Hours
+
+        </h2>
+
+        <input
+            type="range"
+            min="1"
+            max="8"
+            value="3"
+            id="studyHours">
+
+    </div>
+
+
+    <!--================ BUTTONS ================-->
+
+    <div class="navigation-buttons">
+
+        <button
+            type="button"
+            class="back-btn"
+            id="step3Back">
+
+            Back
+
+        </button>
+
+        <button
+            type="button"
+            class="continue-btn3"
+            id="step3Next">
+
+            Continue
+
+        </button>
+
+    </div>
+
+</section>
+
+<!--
+/*===============================================================================================================================================================================
+                                                                                    STEP 4
+==================================================================================================================================================================================-->
+
+<section class="step" id="step4">
+
+    <!--================ PROGRESS ================-->
+
+    <div class="progress-container">
+
+        <div class="progress-bar">
+
+            <div class="progress-fill step4-fill"></div>
+
+        </div>
+
+        <p class="progress-text">
+
+            Step 4 of 4
+
+        </p>
+
+    </div>
+
+
+    <!--================ IMAGE ================-->
+
+    <div class="finish-image">
+
+        <i class="fa-solid fa-circle-check"></i>
+
+    </div>
+
+
+    <!--================ TITLE ================-->
+
+    <div class="step-heading">
+
+        <h1>
+
+            You're all set!
+
+        </h1>
+
+        <p>
+
+            We've personalised your experience.
+
+            Next we'll help you create your academic workspace.
+
+        </p>
+
+    </div>
+
+
+    <!--================ BUTTON ================-->
+
+    <button
+        type="button"
+        class="continue-btn"
+        id="finishBtn">
+
+        Go to Home
+
+    </button>
+
+</section>
+</div>
+
+</body>
+</html>

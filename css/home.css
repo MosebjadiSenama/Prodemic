@@ -1,0 +1,1454 @@
+
+
+.home-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 22px;
+    
+
+}
+
+.home-logo{
+    flex:1;
+}
+
+
+.home-icons{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    margin-right:8px;
+}
+
+.notification-btn,
+.profile-btn{
+
+    background:none;
+    border:none;
+    cursor:pointer;
+
+}
+
+.notification-btn i,
+.profile-btn i{
+
+    font-size:30px;
+    color:#091B4D;
+
+}
+
+.profile-menu{
+
+    position:absolute;
+
+    top:85px;
+
+    right:22px;
+
+    width:220px;
+
+    background:#fff;
+
+    border-radius:18px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+    padding:10px;
+
+    display:none;
+
+    z-index:1000;
+
+}
+
+.profile-menu.show{
+
+    display:block;
+
+}
+
+.profile-option{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    border:none;
+
+    background:none;
+
+    padding:15px;
+
+    font-size:16px;
+
+    font-weight:500;
+
+    cursor:pointer;
+
+    border-radius:12px;
+
+    transition:.2s;
+
+}
+
+.profile-option:hover{
+
+    background:#F3F6FF;
+
+}
+
+.logout-btn{
+
+    color:#E53935;
+
+}
+
+
+/*================================================================================   GREETINGS===============================================================================================*/
+/*==================================================
+                WELCOME CARD
+===================================================*/
+
+.welcome-card{
+
+    display:flex;
+    align-items:center;
+    gap:20px;
+
+    margin:18px 22px 35px;
+
+    padding:18px;
+
+    background:#EDF4FF;
+
+    border-radius:24px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.06);
+
+}
+
+
+/*====================================*/
+
+.welcome-content{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    flex:1;
+    background-color: #c8d1e7;
+    border-radius: 12px;
+    padding-left: 10px;
+
+}
+
+/*====================================*/
+
+.greeting{
+    font-size:20px;
+    font-weight:600;
+    color:#6B7280;
+    margin-bottom:8px;
+    line-height:1.4;
+    color: black;
+}
+
+#userName{
+    color:#091B4D;
+    font-weight:700;
+}
+
+.welcome-text{
+
+    font-size:16px;
+
+    color:#6B7280;
+
+}
+
+
+/*==================================================
+                SETUP CARD
+===================================================*/
+
+.setup-card{
+
+    background:#EEF4FF;
+
+    border-radius:22px;
+
+    padding:22px;
+
+    margin-top:30px;
+
+}
+
+.setup-header{
+
+    display:flex;
+
+    gap:18px;
+
+    align-items:flex-start;
+
+}
+
+.setup-header i{
+
+    font-size:32px;
+
+    color:#2E4AAC;
+
+}
+
+.setup-header h2{
+
+    font-size:22px;
+
+    margin-bottom:8px;
+
+}
+
+.setup-header p{
+
+    color:#6B7280;
+
+    line-height:1.6;
+
+}
+
+
+/*==================================================
+                PROGRESS
+===================================================*/
+
+.setup-progress{
+
+    margin-top:22px;
+
+}
+
+.setup-progress span{
+
+    display:block;
+
+    margin-top:10px;
+
+    font-size:14px;
+
+    color:#6B7280;
+
+}
+
+.progress-bar{
+
+    height:8px;
+
+    background:#DCE6FF;
+
+    border-radius:30px;
+
+}
+
+.progress-fill{
+
+    width:20%;
+
+    height:100%;
+
+    background:#2E4AAC;
+
+    border-radius:30px;
+
+}
+
+
+/*==================================================
+                CHECKLIST
+===================================================*/
+
+.setup-list{
+
+    margin-top:30px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.setup-item{
+
+    display:flex;
+
+    align-items:center;
+
+    padding:18px;
+
+    border:2px solid #ECECEC;
+
+    border-radius:18px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.setup-item:hover{
+
+    border-color:#2E4AAC;
+
+}
+
+.setup-icon{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    background:#EEF4FF;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#2E4AAC;
+
+    margin-right:16px;
+
+}
+
+.setup-icon.completed{
+
+    background:#2E4AAC;
+
+    color:white;
+
+}
+
+.setup-info{
+
+    flex:1;
+
+}
+
+.setup-info h3{
+
+    font-size:17px;
+
+    margin-bottom:5px;
+
+}
+
+.setup-info p{
+
+    color:#6B7280;
+
+    font-size:14px;
+
+}
+
+.arrow{
+
+    color:#A1A1AA;
+
+}
+
+.disabled{
+
+    opacity:.55;
+
+}
+
+
+/*==================================================
+                BUTTONS
+===================================================*/
+
+.setup-buttons{
+
+    margin-top:35px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.primary-btn{
+
+    height:58px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#2E4AAC;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
+}
+
+.secondary-btn{
+
+    height:58px;
+
+    border:2px solid #2E4AAC;
+
+    background:white;
+
+    color:#2E4AAC;
+
+    border-radius:18px;
+
+    font-size:17px;
+
+    font-weight:600;
+
+}
+
+
+/*===================================================================================  upload timetable      ========================================================================================/*
+
+/*==================================================
+                    PAGE
+===================================================*/
+
+body{
+
+    margin:0;
+
+    padding:0;
+
+    background:#F7F9FC;
+
+    font-family:'Poppins',sans-serif;
+
+}
+
+.app-container{
+
+    width:90%;
+
+    max-width:430px;
+
+    margin:0 auto;
+
+    min-height:100vh;
+
+    padding:25px 0 100px;
+
+}
+
+
+/*==================================================
+                    HEADER
+===================================================*/
+
+.page-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:35px;
+
+}
+
+.page-header h2{
+
+    font-size:22px;
+
+    color:#1E293B;
+
+    margin:0;
+
+}
+
+.back-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#EEF3FF;
+
+    color:#2E4AAC;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+}
+
+
+/*==================================================
+                PAGE TITLE
+===================================================*/
+
+.page-heading{
+
+    margin-bottom:35px;
+
+}
+
+.page-heading h1{
+
+    font-size:30px;
+
+    color:#111827;
+
+    margin-bottom:12px;
+
+    line-height:1.3;
+
+}
+
+.page-heading p{
+
+    color:#6B7280;
+
+    line-height:1.7;
+
+    font-size:15px;
+
+}
+
+
+/*==================================================
+                UPLOAD OPTIONS
+===================================================*/
+
+.upload-options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+
+/*==================================================
+                UPLOAD CARD
+===================================================*/
+
+.upload-card{
+
+    display:flex;
+
+    align-items:center;
+
+    padding:18px;
+
+    background:#FFFFFF;
+
+    border:2px solid #E5E7EB;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.upload-card:hover{
+
+    border-color:#2E4AAC;
+
+    transform:translateY(-2px);
+
+}
+
+.upload-card.active{
+
+    border-color:#2E4AAC;
+
+    background:#EEF3FF;
+
+}
+
+
+/*==================================================
+                ICON
+===================================================*/
+
+.upload-icon{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:16px;
+
+    background:#EEF3FF;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin-right:18px;
+
+}
+
+.upload-icon i{
+
+    font-size:24px;
+
+    color:#2E4AAC;
+
+}
+
+
+/*==================================================
+                TEXT
+===================================================*/
+
+.upload-text{
+
+    flex:1;
+
+}
+
+.upload-text h3{
+
+    margin:0 0 5px;
+
+    font-size:17px;
+
+    color:#111827;
+
+}
+
+.upload-text p{
+
+    margin:0;
+
+    color:#6B7280;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+}
+
+
+/*==================================================
+                ARROW
+===================================================*/
+
+.upload-card .fa-chevron-right{
+
+    color:#9CA3AF;
+
+    font-size:15px;
+
+}
+
+
+/*==================================================
+                INFO CARD
+===================================================*/
+
+.info-card{
+
+    display:flex;
+
+    gap:18px;
+
+    margin-top:35px;
+
+    padding:20px;
+
+    background:#EEF3FF;
+
+    border-radius:20px;
+
+}
+
+.info-icon{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:50%;
+
+    background:#2E4AAC;
+
+    color:#FFFFFF;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-shrink:0;
+
+}
+
+.info-icon i{
+
+    font-size:20px;
+
+}
+
+.info-card h3{
+
+    margin:0 0 8px;
+
+    color:#1E293B;
+
+}
+
+.info-card p{
+
+    margin:0;
+
+    font-size:14px;
+
+    color:#475569;
+
+    line-height:1.7;
+
+}
+
+
+/*==================================================
+                BUTTON
+===================================================*/
+
+.button-container{
+
+    margin-top:45px;
+
+}
+
+.continue-btn{
+
+    width:100%;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#2E4AAC;
+
+    color:#FFFFFF;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.continue-btn:hover{
+
+    background:#1E3A81;
+
+}
+
+.continue-btn:active{
+
+    transform:scale(.98);
+
+}
+
+
+/*==================================================
+                MOBILE
+===================================================*/
+
+@media(max-width:480px){
+
+    .page-heading h1{
+
+        font-size:26px;
+
+    }
+
+}
+
+
+/*==================================================
+                TABLET
+===================================================*/
+
+@media(min-width:768px){
+
+    .app-container{
+
+        max-width:500px;
+
+    }
+
+}
+
+
+/*==================================================
+                DESKTOP
+===================================================*/
+
+@media(min-width:1024px){
+
+    body{
+
+        display:flex;
+
+        justify-content:center;
+
+        background:#EEF2F7;
+
+    }
+
+    .app-container{
+
+        background:#FFFFFF;
+
+        min-height:100vh;
+
+        padding:35px;
+
+        box-shadow:0 12px 40px rgba(0,0,0,.08);
+
+    }
+
+}
+/*==========================================================================================================================================================================*/
+/*==================================================
+                AI PROCESSING PAGE
+===================================================*/
+
+.processing-header{
+
+    text-align:center;
+
+    margin-top:50px;
+
+    margin-bottom:40px;
+
+}
+
+.processing-header h1{
+
+    font-size:32px;
+
+    color:#111827;
+
+    margin-top:20px;
+
+    margin-bottom:15px;
+
+}
+
+.processing-header p{
+
+    color:#6B7280;
+
+    font-size:17px;
+
+    line-height:1.7;
+
+}
+
+
+/*==================================================
+                    AI ICON
+===================================================*/
+
+.ai-icon{
+
+    width:90px;
+
+    height:90px;
+
+    margin:0 auto;
+
+    border-radius:50%;
+
+    background:#EEF3FF;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.ai-icon i{
+
+    font-size:42px;
+
+    color:#2E4AAC;
+
+}
+
+
+/*==================================================
+                PROGRESS BAR
+===================================================*/
+
+.processing-progress{
+
+    margin-top:35px;
+
+    margin-bottom:40px;
+
+}
+
+.progress-bar{
+
+    width:100%;
+
+    height:12px;
+
+    background:#E5E7EB;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.progress-fill{
+
+    width:0%;
+
+    height:100%;
+
+    background:#2E4AAC;
+
+    border-radius:20px;
+
+    transition:width .3s linear;
+
+}
+
+#progressPercent{
+
+    margin-top:15px;
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    color:#2E4AAC;
+
+}
+
+
+/*==================================================
+                CHECKLIST
+===================================================*/
+
+.processing-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    margin-top:45px;
+
+}
+
+.process-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:18px;
+
+    background:#FFFFFF;
+
+    border-radius:18px;
+
+    border:2px solid #EEF2F7;
+
+    transition:.3s;
+
+}
+
+.process-item i{
+
+    font-size:22px;
+
+    color:#C7CDD8;
+
+}
+
+.process-item span{
+
+    font-size:16px;
+
+    color:#374151;
+
+}
+
+
+/*==================================================
+            COMPLETED ITEM
+===================================================*/
+
+.process-item.completed{
+
+    border-color:#2E4AAC;
+
+    background:#EEF3FF;
+
+}
+
+.process-item.completed i{
+
+    color:#2E4AAC;
+
+}
+
+
+/*==================================================
+                INFO CARD
+===================================================*/
+
+.processing-info{
+
+    display:flex;
+
+    gap:18px;
+
+    margin-top:45px;
+
+    padding:22px;
+
+    background:#EEF3FF;
+
+    border-radius:20px;
+
+}
+
+.processing-info .info-icon{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+    background:#2E4AAC;
+
+    color:#FFFFFF;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-shrink:0;
+
+}
+
+.processing-info .info-icon i{
+
+    font-size:22px;
+
+}
+
+.processing-info h3{
+
+    font-size:20px;
+
+    color:#111827;
+
+    margin-bottom:8px;
+
+}
+
+.processing-info p{
+
+    color:#6B7280;
+
+    line-height:1.7;
+
+}
+
+
+/*==================================================
+                REVIEW SCREEN
+===================================================*/
+
+#reviewScreen{
+
+    padding:30px 20px 120px;
+
+}
+
+
+/*==================================================
+                SUCCESS
+===================================================*/
+
+.review-success{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+}
+
+.review-success i{
+
+    font-size:70px;
+
+    color:#2E4AAC;
+
+    margin-bottom:15px;
+
+}
+
+.review-success h1{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#111827;
+
+    margin-bottom:10px;
+
+}
+
+.review-success p{
+
+    font-size:16px;
+
+    color:#6B7280;
+
+    line-height:1.6;
+
+}
+
+
+/*==================================================
+                MODULE CARD
+===================================================*/
+
+.review-card{
+
+    background:#FFFFFF;
+
+    border:1px solid #E5E7EB;
+
+    border-radius:22px;
+
+    padding:22px;
+
+    margin-top:25px;
+
+    margin-bottom:30px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+
+}
+
+.review-card h2{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#111827;
+
+    margin-bottom:6px;
+
+}
+
+.review-card p{
+
+    color:#6B7280;
+
+    margin-bottom:25px;
+
+}
+
+
+/*==================================================
+                DETAILS
+===================================================*/
+
+.module-details{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.detail-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding-bottom:12px;
+
+    border-bottom:1px solid #F3F4F6;
+
+}
+
+.detail-row span{
+
+    color:#6B7280;
+
+    font-size:15px;
+
+}
+
+.detail-row strong{
+
+    color:#111827;
+
+    font-size:16px;
+
+}
+
+
+/*==================================================
+            ASSESSMENTS
+===================================================*/
+
+.assessment-list{
+
+    margin-top:25px;
+
+}
+
+.assessment-list h3{
+
+    margin-bottom:15px;
+
+    font-size:18px;
+
+}
+
+.assessment-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:#F8FAFC;
+
+    padding:14px 18px;
+
+    border-radius:14px;
+
+    margin-bottom:12px;
+
+}
+
+.assessment-item span{
+
+    color:#111827;
+
+    font-weight:500;
+
+}
+
+.assessment-item small{
+
+    color:#6B7280;
+
+}
+
+
+/*==================================================
+            COLOUR PICKER
+===================================================*/
+
+.review-card label{
+
+    display:block;
+
+    margin-top:30px;
+
+    margin-bottom:12px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:#111827;
+
+}
+
+
+/*==================================================
+                BUTTONS
+===================================================*/
+
+.review-buttons{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+    margin-top:35px;
+
+}
+
+.looks-good-btn{
+
+    width:100%;
+
+    height:58px;
+
+    background:#2E4AAC;
+
+    color:#FFFFFF;
+
+    border:none;
+
+    border-radius:18px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+.edit-btn{
+
+    width:100%;
+
+    height:58px;
+
+    background:#FFFFFF;
+
+    border:2px solid #2E4AAC;
+
+    color:#2E4AAC;
+
+    border-radius:18px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+.looks-good-btn:hover{
+
+    background:#243D96;
+
+}
+
+.edit-btn:hover{
+
+    background:#EEF3FF;
+
+}
+
+/*===========processing====================*/
+.process-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    color:#A0A7B5;
+
+    margin:18px 0;
+
+}
+
+.process-item i{
+
+    font-size:20px;
+
+}
+
+.process-item.completed{
+
+    color:#2E4AAC;
+
+    font-weight:600;
+
+}
+
+.upload-tt,
+.enter-timetable-manually{
+    text-decoration: none;
+    color: black;
+}
+
+.setup-item{
+
+    cursor:pointer;
+
+}
+
+.setup-item.disabled{
+
+    cursor:not-allowed;
+
+}
