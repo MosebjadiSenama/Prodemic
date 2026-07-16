@@ -1,0 +1,511 @@
+/*==================================================
+                IMPORT SEMESTER
+===================================================*/
+
+.app-container{
+
+    max-width:480px;
+
+    margin:auto;
+
+    min-height:100vh;
+
+    background:#fff;
+
+    padding:20px;
+
+}
+
+/*==================================================
+                BACK BUTTON
+===================================================*/
+
+.back-btn{
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#f3f5fa;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    margin-bottom:20px;
+
+}
+
+/*==================================================
+                PAGE HEADING
+===================================================*/
+
+.page-heading{
+
+    margin-bottom:30px;
+
+}
+
+.page-heading h1{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#021024;
+
+    margin-bottom:10px;
+
+}
+
+.page-heading p{
+
+    color:#6b7280;
+
+    line-height:1.6;
+
+    font-size:15px;
+
+}
+
+/*==================================================
+                UPLOAD OPTIONS
+===================================================*/
+
+.upload-options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    margin-bottom:35px;
+
+}
+
+/*==================================================
+                UPLOAD CARD
+===================================================*/
+
+.upload-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:18px;
+
+    background:#ffffff;
+
+    border:2px solid #edf2f7;
+
+    border-radius:18px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.upload-card:hover{
+
+    border-color:#5483B3;
+
+    transform:translateY(-2px);
+
+}
+
+.upload-card.active{
+
+    border-color:#052659;
+
+    background:#eef5ff;
+
+}
+
+/*==================================================
+                ICON
+===================================================*/
+
+.upload-icon{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#e8f0fc;
+
+    color:#052659;
+
+    font-size:24px;
+
+    flex-shrink:0;
+
+}
+
+/*==================================================
+                TEXT
+===================================================*/
+
+.upload-text{
+
+    flex:1;
+
+}
+
+.upload-text h3{
+
+    font-size:17px;
+
+    color:#021024;
+
+    margin-bottom:5px;
+
+    font-weight:600;
+
+}
+
+.upload-text p{
+
+    color:#7d7d7d;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+}
+
+/*==================================================
+                CHEVRON
+===================================================*/
+
+.upload-card .fa-chevron-right{
+
+    color:#9ca3af;
+
+    font-size:15px;
+
+}
+
+/*==================================================
+                BUTTON
+===================================================*/
+
+.button-container{
+
+    margin:35px 0;
+
+}
+
+.continue-btn{
+
+    width:100%;
+
+    border:none;
+
+    background:#052659;
+
+    color:white;
+
+    padding:17px;
+
+    border-radius:16px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.continue-btn:hover{
+
+    background:#021024;
+
+}
+
+/*=======================================================================================================================================================================*/
+
+/*==================================================
+                AI FEATURES
+===================================================*/
+
+.ai-features{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:15px;
+
+    margin-bottom:35px;
+
+}
+
+.feature{
+
+    background:#ffffff;
+
+    border:2px solid #edf2f7;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    text-align:center;
+
+    transition:.25s;
+
+}
+
+.feature:hover{
+
+    border-color:#5483B3;
+
+    transform:translateY(-2px);
+
+}
+
+.feature i{
+
+    font-size:24px;
+
+    color:#052659;
+
+    margin-bottom:12px;
+
+}
+
+.feature span{
+
+    display:block;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#021024;
+
+    line-height:1.4;
+
+}
+
+/*==================================================
+                INFO CARD
+===================================================*/
+
+.info-card{
+
+    display:flex;
+
+    gap:18px;
+
+    padding:20px;
+
+    background:#eef5ff;
+
+    border-radius:18px;
+
+    margin-top:15px;
+
+}
+
+.info-icon{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:14px;
+
+    background:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+
+}
+
+.info-icon i{
+
+    font-size:22px;
+
+    color:#052659;
+
+}
+
+.info-card h3{
+
+    color:#021024;
+
+    margin-bottom:8px;
+
+    font-size:16px;
+
+}
+
+.info-card p{
+
+    color:#6b7280;
+
+    line-height:1.6;
+
+    font-size:14px;
+
+}
+
+/*==================================================
+                SUCCESS STATE
+===================================================*/
+
+.upload-card.success{
+
+    border-color:#22c55e;
+
+    background:#f0fdf4;
+
+}
+
+.upload-card.success .upload-icon{
+
+    background:#dcfce7;
+
+    color:#16a34a;
+
+}
+
+/*==================================================
+                LOADING STATE
+===================================================*/
+
+.upload-card.loading{
+
+    pointer-events:none;
+
+    opacity:.75;
+
+}
+
+.upload-card.loading .upload-icon{
+
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/*==================================================
+                FILE NAME
+===================================================*/
+
+#pdfName,
+#cameraName{
+
+    word-break:break-word;
+
+}
+
+/*==================================================
+                RESPONSIVE
+===================================================*/
+
+@media(max-width:420px){
+
+    .page-heading h1{
+
+        font-size:26px;
+
+    }
+
+    .upload-card{
+
+        padding:16px;
+
+    }
+
+    .upload-icon{
+
+        width:50px;
+
+        height:50px;
+
+        font-size:20px;
+
+    }
+
+    .feature{
+
+        padding:16px;
+
+    }
+
+}
+
+/*==================================================
+                FADE IN
+===================================================*/
+
+.upload-card,
+.feature,
+.info-card,
+.continue-btn{
+
+    animation:fadeIn .5s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(12px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}

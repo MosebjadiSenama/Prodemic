@@ -34,9 +34,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
     </h2>
 
-
-
-
 <!--==================================================
                     PAGE TITLE
 ===================================================-->
@@ -363,91 +360,112 @@ style="display:none;">
 <!--===============================================================================================   REVIEW ==========================================================================-->
 
 
-<section
-id="reviewScreen"
-style="display:none;">
-<div class="module-details">
+<!--===============================================================================================
+                                        REVIEW
+================================================================================================-->
 
-   <div class="detail-row">
-    <span>Module Name</span>
-    <strong id="moduleName">Loading...</strong>
-</div>
+<!--==================================================
+                REVIEW SCREEN
+===================================================-->
 
-<div class="detail-row">
-    <span>Module Code</span>
-    <strong id="moduleCode">Loading...</strong>
-</div>
+<section id="reviewScreen" style="display:none;">
 
-    <div class="detail-row">
+    <div class="review-header">
 
-        <span>Semester</span>
+        <h1>Review Lectures</h1>
 
-        <strong id="semester">
-
-            Loading...
-
-        </strong>
+        <p>
+            We found <strong id="lectureCount">0</strong>
+            lectures in your timetable.
+            Please review them before saving.
+        </p>
 
     </div>
 
-    <div class="detail-row">
 
-        <span>Assessments</span>
+    <!-- AI SUMMARY -->
 
-        <strong id="assessmentCount">
+    <div class="ai-summary">
 
-            Loading...
+        <div class="summary-item">
 
-        </strong>
+            <i class="fa-solid fa-book"></i>
 
-    </div>
+            <div>
 
-</div>
-    <!-- MODULE COLOUR -->
+                <strong id="moduleCount">0</strong>
 
-    <label for="moduleColour">
+                <span>Modules</span>
 
-        Module Colour
-
-    </label>
-
-    <div class="colour-container">
-
-        <div
-            class="colour-preview"
-            id="colourPreview">
+            </div>
 
         </div>
 
-        <span>
+        <div class="summary-item">
 
-            Choose a colour
+            <i class="fa-solid fa-calendar-days"></i>
 
-        </span>
+            <div>
 
-        <i class="fa-solid fa-eye-dropper colour-icon"></i>
+                <strong id="dayCount">0</strong>
 
-        <input
-            type="color"
-            id="moduleColour"
-            value="#2E4AAC">
+                <span>Days</span>
+
+            </div>
+
+        </div>
+
+        <div class="summary-item">
+
+            <i class="fa-solid fa-clock"></i>
+
+            <div>
+
+                <strong id="sessionCount">0</strong>
+
+                <span>Lectures</span>
+
+            </div>
+
+        </div>
 
     </div>
+
+
+
+    <!-- LECTURE CARDS -->
+
+    <div id="lectureList">
+
+    </div>
+
+
+
+    <!-- ADD BUTTON -->
+
+    <button
+        class="secondary-btn"
+        id="addLecture">
+
+        <i class="fa-solid fa-plus"></i>
+
+        Add Lecture
+
+    </button>
+
+
+
+    <!-- SAVE BUTTON -->
 
     <button
         class="continue-btn"
         id="reviewNext">
 
-        Looks Good
+        Save Lectures
 
     </button>
 
 </section>
-
-
-
-
 </div>
-
 </body>
 </html>

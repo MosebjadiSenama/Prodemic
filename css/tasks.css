@@ -1,0 +1,490 @@
+/*==================================================
+TASKS PAGE
+==================================================*/
+
+.page{
+
+    padding:30px 20px 140px;
+
+    background:#F7F8FC;
+
+    min-height:100vh;
+
+}
+
+/*==================================================
+HEADER
+==================================================*/
+
+.page-header h1{
+
+    font-size:46px;
+
+    font-weight:700;
+
+    color:#021024;
+
+    margin-bottom:8px;
+
+}
+
+.page-header p{
+
+    color:#7B8496;
+
+    font-size:16px;
+
+    margin-bottom:30px;
+
+}
+
+/*==================================================
+FILTERS
+==================================================*/
+
+.task-filters{
+
+    display:flex;
+
+    gap:12px;
+
+    overflow-x:auto;
+
+    margin-bottom:28px;
+
+    scrollbar-width:none;
+
+}
+
+.task-filters::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+.filter-btn{
+
+    border:none;
+
+    background:#EEF4FB;
+
+    color:#052659;
+
+    padding:13px 24px;
+
+    border-radius:40px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+    transition:.25s;
+
+}
+
+.filter-btn.active{
+
+    background:#052659;
+
+    color:#FFFFFF;
+
+}
+
+/*==================================================
+TASK LIST
+==================================================*/
+
+.task-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+}
+/*==================================================
+TASKS PAGE
+==================================================*/
+
+.page{
+
+    padding:30px 20px 140px;
+    background:#F7F8FC;
+    min-height:100vh;
+
+}
+
+/*==================================================
+HEADER
+==================================================*/
+
+.page-header h1{
+
+    font-size:32px;
+    font-weight:700;
+    color:#021024;
+    margin-bottom:6px;
+
+}
+
+.page-header p{
+
+    font-size:15px;
+    color:#7A7A7A;
+    margin-bottom:28px;
+
+}
+
+/*==================================================
+FILTERS
+==================================================*/
+
+.task-filters{
+
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    margin-bottom:28px;
+    scrollbar-width:none;
+
+}
+
+.task-filters::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+.filter-btn{
+
+    border:none;
+    background:#E8E8E8;
+    color:#021024;
+    border-radius:10px;
+    padding:11px 18px;
+    font-size:14px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:.25s;
+
+}
+
+.filter-btn.active{
+
+    background:#3048C8;
+    color:#FFFFFF;
+
+}
+
+/*==================================================
+SECTION TITLES
+==================================================*/
+
+.task-section{
+
+    margin-bottom:26px;
+
+}
+
+.task-section h2{
+
+    font-size:22px;
+    font-weight:700;
+    color:#021024;
+    margin-bottom:18px;
+
+}
+
+/*==================================================
+TASK LIST
+==================================================*/
+
+.task-list{
+
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+
+}
+
+/*==================================================
+TASK CARD
+==================================================*/
+
+.task-card{
+
+    position:relative;
+    background:#FFFFFF;
+    border-radius:18px;
+    padding:18px 18px 18px 22px;
+    box-shadow:0 8px 24px rgba(0,0,0,.06);
+    overflow:hidden;
+    transition:.25s;
+    cursor:pointer;
+
+}
+
+.task-card:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/*==================================================
+MODULE STRIP
+==================================================*/
+
+.task-card::before{
+
+    content:"";
+    position:absolute;
+    left:0;
+    top:14px;
+    bottom:14px;
+    width:4px;
+    border-radius:30px;
+    background:var(--module-colour,#3048C8);
+
+}
+
+/*==================================================
+CARD CONTENT
+==================================================*/
+
+.task-card-content{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:18px;
+
+}
+
+/*==================================================
+LEFT SIDE
+==================================================*/
+
+.task-main{
+
+    flex:1;
+
+}
+
+.task-details{
+
+    margin-left:8px;
+
+}
+
+/*==================================================
+ASSESSMENT TITLE
+==================================================*/
+
+.task-details h3{
+
+    font-size:20px;
+    font-weight:700;
+    color:#021024;
+    margin-bottom:8px;
+
+}
+
+/*==================================================
+MODULE NAME
+==================================================*/
+
+.task-module{
+
+    font-size:14px;
+    font-weight:600;
+    color:var(--module-colour,#3048C8);
+    margin-bottom:8px;
+
+}
+
+/*==================================================
+DUE TEXT
+==================================================*/
+
+.task-due{
+
+    font-size:13px;
+    font-weight:600;
+    color:var(--module-colour,#3048C8);
+
+}
+
+/*==================================================
+RIGHT SIDE
+==================================================*/
+
+.task-right{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+
+}
+
+/*==================================================
+CHECKBOX
+==================================================*/
+
+.task-check{
+
+    appearance:none;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    border:2px solid #D4D4D4;
+    cursor:pointer;
+    transition:.2s;
+
+}
+
+.task-check:checked{
+
+    background:var(--module-colour,#3048C8);
+    border-color:var(--module-colour,#3048C8);
+
+}
+
+.task-check:checked::after{
+
+    content:"✓";
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#FFFFFF;
+    font-size:14px;
+    font-weight:bold;
+
+}
+
+/*==================================================
+COMPLETED
+==================================================*/
+
+.task-card.completed{
+
+    opacity:.65;
+
+}
+
+.task-card.completed h3{
+
+    text-decoration:line-through;
+
+}
+
+.task-card.completed .task-due{
+
+    color:#2E8B57;
+
+}
+
+/*==================================================
+EMPTY STATE
+==================================================*/
+
+.empty-state{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:60px 20px;
+
+}
+
+.empty-image{
+
+    width:180px;
+    margin-bottom:18px;
+
+}
+
+.empty-state h2{
+
+    color:#021024;
+    margin-bottom:10px;
+
+}
+
+.empty-state p{
+
+    color:#7A7A7A;
+
+}
+
+/*==================================================
+BUTTONS
+==================================================*/
+
+.task-actions{
+
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-top:32px;
+
+}
+
+.primary-btn{
+
+    background:#5F8FC2;
+    color:#FFFFFF;
+    text-decoration:none;
+    text-align:center;
+    padding:18px;
+    border-radius:18px;
+    font-size:18px;
+    font-weight:600;
+
+}
+
+.primary-btn:hover{
+
+    background:#4D7FB4;
+
+}
+
+.secondary-btn{
+
+    display:none;
+
+}
+
+/*==================================================
+RESPONSIVE
+==================================================*/
+
+@media(max-width:480px){
+
+    .page{
+
+        padding:24px 16px 140px;
+
+    }
+
+    .task-details h3{
+
+        font-size:18px;
+
+    }
+
+    .task-module{
+
+        font-size:13px;
+
+    }
+
+}

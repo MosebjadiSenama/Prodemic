@@ -3,7 +3,8 @@ import { auth } from "../firebase.js";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    updateProfile
+    updateProfile,
+    sendEmailVerification
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
@@ -141,22 +142,51 @@ if(email === ""){
   }
 
   errorMessage.textContent = "";
-//=====
+//===== AUTHENTICATION 
+
 createUserWithEmailAndPassword(auth, email, password)
 
 .then(async (userCredential) => {
 
     await updateProfile(userCredential.user, {
+
         displayName: name
+
     });
 
-    alert("Account created successfully!");
+  await sendEmailVerification(userCredential.user);
 
-   //=====================================================
-// NEW USER
-//=====================================================
+    await fetch(
 
-window.location.href = "04 Personalisation.html";
+        "http://localhost:3000/send-welcome-email",
+
+        {
+
+            method: "POST",
+
+            headers: {
+
+                "Content-Type": "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                name: name,
+
+                email: email,
+
+    
+
+            })
+
+        }
+
+    );
+
+    alert("Account created successfully! Please verify your email.");
+
+    window.location.href = "04 Personalisation.html";
 
 })
 
@@ -250,331 +280,6 @@ if(signInBtn){
 
 }
 
-
-
-
-
-
-//============================================================================= calender=============================================================================
-
-
-//======today's date========================
-
-let currentDate = new Date();
-
-const calendar =
-document.getElementById("calendar");
-
-const view =
-document.getElementById("calendarView");
-
-const calendarPrevBtn =
-document.getElementById("prevBtn");
-
-const calendarNextBtn =
-document.getElementById("nextBtn");
-
-//===================weekly=======================
-
-
-function renderWeek(){
-
-    calendar.innerHTML = "";
-
-    const weekContainer = document.createElement("div");
-   weekContainer.classList.add("week-container");
-
-    let firstDay = new Date(currentDate);
-
-    firstDay.setDate(
-        currentDate.getDate() - currentDate.getDay()
-    );
-
-    for(let i = 0; i < 7; i++){
-
-        let day = new Date(firstDay);
-
-        day.setDate(firstDay.getDate() + i);
-
-        const button = document.createElement("button");
-
-        button.classList.add("day");
-
-        if(day.toDateString() === currentDate.toDateString()){
-            button.classList.add("active");
-        }
-
-        button.innerHTML = `
-            <span>
-                ${day.toLocaleDateString("en",{
-                    weekday:"short"
-                }).toUpperCase()}
-            </span>
-
-            <strong>${day.getDate()}</strong>
-        `;
-
-        button.onclick = () => {
-
-            currentDate = new Date(day);
-
-            view.value = "day";
-
-            updateCalendar();
-
-        };
-
-       weekContainer.appendChild(button);
-
-    }
-
-    calendar.appendChild(weekContainer);
-
-}
-
-//===========================Day======================================
-
-function renderDay(){
-
-    calendar.innerHTML = "";
-
-    const dayView = document.createElement("div");
-
-    dayView.classList.add("day-view");
-
-    dayView.innerHTML = `
-
-        <h2 class="day-title">
-            ${currentDate.toLocaleDateString("en-GB",{
-                weekday:"long",
-                day:"2-digit",
-                month:"short",
-                year:"numeric"
-            })}
-        </h2>
-
-        <div class="timeline">
-
-            ${Array.from({length:24},(_,hour)=>`
-
-                <div class="time-slot">
-
-                    <span class="time">
-                        ${String(hour).padStart(2,"0")}:00
-                    </span>
-
-                    <div class="line"></div>
-
-                </div>
-
-            `).join("")}
-
-        </div>
-
-    `;
-
-    calendar.appendChild(dayView);
-
-}
-//===========================Month======================================
-
-function renderMonth(){
-
-    calendar.innerHTML = "";
-
-    // Month title
-    const title = document.createElement("h2");
-    title.textContent = currentDate.toLocaleString("default",{
-        month:"long",
-        year:"numeric"
-    });
-
-    title.classList.add("month-title");
-
-    calendar.appendChild(title);
-
-    // Weekday names
-    const weekDays = document.createElement("div");
-    weekDays.classList.add("week-days");
-
-    const names = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
-
-    names.forEach(name=>{
-
-        const day=document.createElement("div");
-        day.textContent=name;
-        day.classList.add("week-name");
-
-        weekDays.appendChild(day);
-
-    });
-
-    calendar.appendChild(weekDays);
-
-    // Calendar Grid
-    const grid=document.createElement("div");
-    grid.classList.add("month-grid");
-
-    const firstDay=new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth(),
-        1
-    );
-
-    const startDay=firstDay.getDay();
-
-    const totalDays=new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth()+1,
-        0
-    ).getDate();
-
-    // Empty spaces before day 1
-
-    for(let i=0;i<startDay;i++){
-
-        const empty=document.createElement("div");
-
-        empty.classList.add("empty");
-
-        grid.appendChild(empty);
-
-    }
-
-    // Days
-
-    for(let i=1;i<=totalDays;i++){
-
-        const day=document.createElement("button");
-
-        day.classList.add("month-day");
-
-        day.textContent=i;
-
-        // Today's date
-
-        if(
-            i===currentDate.getDate()
-        ){
-
-            day.classList.add("active-day");
-
-        }
-
-        // Click a day
-
-        day.onclick=()=>{
-
-            currentDate=new Date(
-
-                currentDate.getFullYear(),
-                currentDate.getMonth(),
-                i
-
-            );
-
-            view.value="day";
-
-            updateCalendar();
-
-        };
-
-        grid.appendChild(day);
-
-    }
-
-      calendar.appendChild(grid);
-
-}
-
-
-//========switch views=================================
-
-//==================== Calendar View ====================
-
-if (view) {
-
-    view.addEventListener("change", () => {
-
-        if (view.value === "day") {
-            renderDay();
-        }
-
-        if (view.value === "week") {
-            renderWeek();
-        }
-
-        if (view.value === "month") {
-            renderMonth();
-        }
-
-    });
-
-}
-
-//=====================previous button===================================
-
-
-if (calendarPrevBtn && view) {
-
-    calendarPrevBtn.onclick = () => {
-
-        if(view.value==="day")
-            currentDate.setDate(currentDate.getDate()-1);
-
-        if(view.value==="week")
-            currentDate.setDate(currentDate.getDate()-7);
-
-        if(view.value==="month")
-            currentDate.setMonth(currentDate.getMonth()-1);
-
-        updateCalendar();
-
-    };
-
-}
-
-//=====================next button=========================
-
-
-if (calendarNextBtn && view) {
-
-    calendarNextBtn.onclick = () => {
-
-        if(view.value==="day")
-            currentDate.setDate(currentDate.getDate()+1);
-
-        if(view.value==="week")
-            currentDate.setDate(currentDate.getDate()+7);
-
-        if(view.value==="month")
-            currentDate.setMonth(currentDate.getMonth()+1);
-
-        updateCalendar();
-
-    };
-
-}
-//======================update calender==========================
-
-function updateCalendar(){
-
-    if(view.value==="day")
-        renderDay();
-
-    if(view.value==="week")
-        renderWeek();
-
-    if(view.value==="month")
-        renderMonth();
-
-}
-
-if(calendar && view){
-
-    updateCalendar();
-
-}
 
 
 

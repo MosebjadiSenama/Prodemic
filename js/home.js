@@ -1,21 +1,48 @@
-//================================================================================   FIREBASE ===============================================================================================
- import { auth } from "../firebase.js";
+//==================================================
+// FIREBASE
+//==================================================
 
+import { auth, db } from "../firebase.js";
 
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+import {
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
+//==================================================
+// ELEMENTS
+//==================================================
 
-
-
-//================================================================================   GREETINGS ===============================================================================================
 const greetingText = document.getElementById("greetingText");
-const userName = document.getElementById("userName");
 
-//display name
+const profileBtn = document.getElementById("profileBtn");
+const profileMenu = document.getElementById("profileMenu");
+const logoutBtn = document.getElementById("logoutBtn");
 
-auth.onAuthStateChanged((user)=>{
+const setupSection = document.getElementById("setupSection");
+const lectureSection = document.getElementById("lectureSection");
 
-    if(!user) return;
+//==================================================
+// USER
+//==================================================
+
+auth.onAuthStateChanged(async (user) => {
+
+    if (!user) {
+
+        window.location.href = "03 Authentication.html";
+
+        return;
+
+    }
+
+    //------------------------------------------
+    // Greeting
+    //------------------------------------------
 
     const hour = new Date().getHours();
 
@@ -40,118 +67,132 @@ auth.onAuthStateChanged((user)=>{
     }
 
     greetingText.textContent =
-        `${greeting}, ${user.displayName} 👋`;
+    `${greeting}, ${user.displayName} 👋`;
+
+    //------------------------------------------
+    // Home State
+    //------------------------------------------
+
+    await loadHome(user.uid);
 
 });
-//==========
 
+//==================================================
+// PROFILE MENU
+//==================================================
 
-function updateGreeting(){
+if(profileBtn){
 
-    const hour = new Date().getHours();
+    profileBtn.addEventListener("click",(e)=>{
 
-    let greeting = "";
+        e.stopPropagation();
 
-    if(hour < 12){
+        profileMenu.classList.toggle("show");
 
-        greeting = "Good Morning,";
-
-    }
-    else if(hour < 18){
-
-        greeting = "Good Afternoon,";
-
-    }
-    else{
-
-        greeting = "Good Evening,";
-
-    }
-
-    greetingText.textContent = greeting;
+    });
 
 }
 
-//=======
-updateGreeting();
-
-//================================================================================   OPEN MENU===============================================================================================
-
-const profileBtn = document.getElementById("profileBtn");
-const profileMenu = document.getElementById("profileMenu");
-
-profileBtn.addEventListener("click", function(e){
-
-    e.stopPropagation();
-
-    profileMenu.classList.toggle("show");
-
-});
-
-
-//================================================================================   CLOSE MENU===============================================================================================
-
-document.addEventListener("click", function(){
+document.addEventListener("click",()=>{
 
     profileMenu.classList.remove("show");
 
 });
 
+if(profileMenu){
 
-//================================================================================   PREVENT MENU FROM CLOSING WHEN CLICKING MENU===============================================================================================
+    profileMenu.addEventListener("click",(e)=>{
 
-profileMenu.addEventListener("click", function(e){
+        e.stopPropagation();
 
-    e.stopPropagation();
-
-});
-
-
-//================================================================================   LOGOUT===============================================================================================
-const logoutBtn = document.getElementById("logoutBtn");
-
-logoutBtn.addEventListener("click", function(){
-
-    localStorage.removeItem("currentUser");
-
-    window.location.href=" 03 Authentication.html";
-
-});
-
-
-//================================================================================  GREETING===============================================================================================
-
-const greeting = document.getElementById("greetingText");
-
-const hour = new Date().getHours();
-
-if(hour < 12){
-
-    greeting.textContent = "Good Morning";
+    });
 
 }
 
-else if(hour < 18){
+//==================================================
+// LOGOUT
+//==================================================
 
-    greeting.textContent = "Good Afternoon";
+if(logoutBtn){
+
+    logoutBtn.addEventListener("click",async()=>{
+
+        await signOut(auth);
+
+        window.location.href =
+        "03 Authentication.html";
+
+    });
 
 }
 
-else{
+//==================================================
+// HOME ONBOARDING
+//==================================================
 
-    greeting.textContent = "Good Evening";
+async function loadHome(uid){
+
+    if(!setupSection || !lectureSection){
+
+        return;
+
+    }
+
+    const snapshot = await getDocs(
+
+        collection(
+
+            db,
+
+            "users",
+
+            uid,
+
+            "modules"
+
+        )
+
+    );
+
+    //------------------------------------------
+    // No Modules
+    //------------------------------------------
+
+    if(snapshot.empty){
+
+        setupSection.style.display = "block";
+
+        lectureSection.style.display = "none";
+
+    }
+
+    //------------------------------------------
+    // Modules Exist
+    //------------------------------------------
+
+    else{
+
+        setupSection.style.display = "none";
+
+        lectureSection.style.display = "block";
+
+    }
 
 }
 
-//==========================================================================home cards==========================
+//==================================================
+// OPTIONAL LECTURE BUTTON
+//==================================================
+
 const lectureBtn = document.getElementById("lectureBtn");
 
-lectureBtn.addEventListener("click", () => {
+if(lectureBtn){
 
-    window.location.href = "08 timetable.html";
+    lectureBtn.addEventListener("click",()=>{
 
-});
+        window.location.href =
+        "11 schedule.html";
 
+    });
 
-
-
+}

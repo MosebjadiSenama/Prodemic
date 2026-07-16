@@ -8,9 +8,11 @@ import {
     getDocs,
     orderBy,
     query,
+    where,
     updateDoc,
     deleteDoc,
     doc
+
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 
@@ -388,20 +390,22 @@ if(
 
     if(editingModuleId){
 
-        await updateDoc(
+       await updateDoc(
 
-            doc(db,"users",auth.currentUser.uid,"modules",editingModuleId),
+    doc(
+        db,
+        "modules",
+        editingModuleId
+    ),
 
-            {
+    {
+        name: moduleName.value,
+        code: moduleCode.value,
+       semester: semester.value,
+        colour: moduleColour.value
+    }
 
-                name: moduleName.value,
-                code: moduleCode.value,
-                semester: semester.value,
-                colour: moduleColour.value
-
-            }
-
-        );
+);
 
         showToast("Module updated successfully!");
 
@@ -411,27 +415,58 @@ if(
 
     else{
 
-        await addDoc(
+      await addDoc(
 
-            collection(db,"users",auth.currentUser.uid,"modules"),
+    collection(db, "modules"),
 
-            {
+    {
 
-                name: moduleName.value,
-                code: moduleCode.value,
-                semester: semester.value,
-                colour: moduleColour.value,
-                createdAt: Date.now()
+        user_id: auth.currentUser.uid,
 
-            }
+        name: moduleName.value,
 
-        );
+        code: moduleCode.value,
+
+        semester: semester.value,
+
+        colour: moduleColour.value,
+
+        createdAt: Date.now()
+
+    }
+
+);  
 
         showToast("Module saved successfully!");
 
     }
 
     await loadModules();
+    //==================================================
+// FIRST MODULE ONBOARDING
+//==================================================
+
+const moduleSnapshot = await getDocs(
+
+    query(
+
+        collection(db, "modules"),
+
+        where("user_id", "==", auth.currentUser.uid)
+
+    )
+
+);
+//====
+if(moduleSnapshot.size === 1){
+
+    setTimeout(() => {
+
+        window.location.href = "07 home.html";
+
+    }, 2000);
+
+}
 
     document.getElementById("moduleFormTitle").textContent = "Add New Module";
 
@@ -448,11 +483,13 @@ colourPreview.style.backgroundColor = "#2E4AAC";
 
 
 
+catch (error) {
 
-    } catch (error) {
+    console.error(error);
 
-        console.log(error);
-    }
+    alert(error.message);
+
+}
 
 });
 //==================================================display modules=============================
@@ -555,13 +592,15 @@ async function loadModules(){
     moduleEmpty.style.display = "none";
     modulesList.style.display = "none";
 
-    const q = query(
+  const q = query(
 
-        collection(db,"users",auth.currentUser.uid,"modules"),
+    collection(db, "modules"),
 
-        orderBy("createdAt")
+    where("user_id", "==", auth.currentUser.uid),
 
-    );
+    orderBy("createdAt")
+
+);
 
     const snapshot = await getDocs(q);
 
@@ -616,14 +655,22 @@ overviewBackBtn.addEventListener("click", () => {
 });
 //===
 
-auth.onAuthStateChanged((user)=>{
+auth.onAuthStateChanged(async (user)=>{
 
     if(user){
 
         moduleEmpty.style.display = "none";
         modulesList.style.display = "none";
 
-        loadModules();
+        await loadModules();
+
+        const params = new URLSearchParams(window.location.search);
+
+if(params.get("newModule") === "true"){
+
+    showModuleForm();
+
+}
 
     }
 
@@ -645,12 +692,11 @@ confirmDelete.addEventListener("click", async () => {
 
     await deleteDoc(
         doc(
-            db,
-            "users",
-            auth.currentUser.uid,
-            "modules",
-            moduleToDelete
-        )
+    db,
+    "modules",
+    moduleToDelete
+)
+       
     );
 
     deleteOverlay.style.display = "none";
@@ -662,9 +708,16 @@ confirmDelete.addEventListener("click", async () => {
     loadModules();
 
 });
-//==================================================================================================================================================================================
-                                                                                      //VIEW MODULE PROGRESS
-//==================================================================================================================================================================================
 
 
+//==================================================
+// OPEN FORM FROM SCHEDULE PAGE
+//==================================================
 
+const params = new URLSearchParams(window.location.search);
+
+if(params.get("newModule") === "true"){
+
+    showModuleForm();
+
+}

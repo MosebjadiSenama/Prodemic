@@ -1,0 +1,773 @@
+/*==================================================
+EMPTY STATE
+==================================================*/
+
+.schedule-empty{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+
+    margin-top:40px;
+    padding:0 25px;
+
+}
+
+.schedule-image{
+
+    width:180px;
+    margin-bottom:25px;
+
+}
+
+.schedule-empty h2{
+
+    font-size:32px;
+    font-weight:700;
+    color:#021024;
+    margin-bottom:15px;
+
+}
+
+.schedule-empty p{
+
+    font-size:17px;
+    line-height:1.7;
+    color:#6b7280;
+
+}
+
+
+/*==================================================
+ACTION BUTTONS
+==================================================*/
+
+.schedule-actions{
+
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+
+    margin:35px 22px;
+
+}
+
+.primary-btn{
+
+    width:100%;
+    height:56px;
+
+    border:none;
+    border-radius:18px;
+
+    background:#3048C8;
+    color:white;
+
+    font-size:17px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+
+}
+
+.primary-btn:hover{
+
+    background:#253DB6;
+
+}
+
+.secondary-btn{
+
+    width:100%;
+    height:56px;
+
+    border-radius:18px;
+
+    background:white;
+    border:2px solid #D9E3F7;
+
+    color:#3048C8;
+
+    font-size:17px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+
+}
+
+
+/*==================================================
+LECTURE LIST
+==================================================*/
+
+.lecture-list{
+
+    margin:30px 22px;
+
+}
+
+.lecture-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.lecture-header h2{
+
+    font-size:24px;
+    color:#021024;
+
+}
+
+#lectureCount{
+
+    font-size:15px;
+    color:#6b7280;
+
+}
+
+
+/*==================================================
+CARD LAYOUT
+==================================================*/
+
+.lecture-card-header{
+
+    display:grid;
+
+    grid-template-columns:1fr 48px;
+
+    gap:20px;
+
+    align-items:start;
+
+}
+/*=========================
+LECTURE TITLE
+=========================*/
+
+.lecture-title{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#021024;
+
+    margin:10px 0;
+
+}
+
+.lecture-time{
+
+    color:#3048C8;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+}
+
+.lecture-room{
+
+    margin-top:12px;
+
+    color:#6B7280;
+
+}
+
+/*==================================================
+LECTURE CONTENT
+==================================================*/
+
+.lecture-content{
+
+    flex:1;
+
+    min-width:0;
+
+}
+
+/*=========================
+COLOUR DOT
+=========================*/
+
+.lecture-dot{
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    display:inline-block;
+
+    flex-shrink:0;
+
+}
+
+
+.week-dots{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:5px;
+
+    margin-top:8px;
+
+    flex-wrap:wrap;
+
+}
+
+.month-dots{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:4px;
+
+    margin-top:5px;
+
+    flex-wrap:wrap;
+
+}
+
+.lecture-time{
+
+    color:#3048C8;
+
+    font-size:14px;
+    font-weight:700;
+
+    margin-bottom:8px;
+
+}
+
+.lecture-title{
+
+    font-size:20px;
+    font-weight:700;
+    color:#021024;
+
+}
+
+.lecture-room{
+
+    margin-top:8px;
+
+    color:#7B7B7B;
+    font-size:15px;
+
+}
+
+
+/*==================================================
+TIP CARD
+==================================================*/
+
+.tip-card{
+
+    display:flex;
+    align-items:flex-start;
+    gap:15px;
+
+    margin:20px 22px 120px;
+    padding:18px;
+
+    background:#EEF4FF;
+
+    border-radius:20px;
+
+}
+
+.tip-card i{
+
+    font-size:24px;
+    color:#3048C8;
+
+    margin-top:4px;
+
+}
+
+.tip-card h3{
+
+    font-size:18px;
+    color:#021024;
+
+    margin-bottom:8px;
+
+}
+
+.tip-card p{
+
+    color:#6b7280;
+    line-height:1.6;
+    font-size:15px;
+
+}
+
+/*==================================================
+ADD LECTURE PAGE
+==================================================*/
+
+#addLecturePage{
+
+    display:none;
+
+    padding:25px 20px 120px;
+
+}
+
+/*==================================================
+HEADER
+==================================================*/
+
+.top-bar{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+    margin-bottom:35px;
+
+}
+
+.back-btn{
+
+    width:42px;
+    height:42px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#EEF3FF;
+
+    color:#3048C8;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+}
+
+.top-bar h2{
+
+    font-size:28px;
+    font-weight:700;
+
+    color:#021024;
+
+}
+
+/*==================================================
+FORM CARD
+==================================================*/
+
+.form-card{
+
+    background:#fff;
+
+    border-radius:25px;
+
+    padding:25px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+
+}
+
+/*==================================================
+LABELS
+==================================================*/
+
+.form-card label{
+
+    display:block;
+
+    margin-top:22px;
+    margin-bottom:8px;
+
+    font-size:14px;
+    font-weight:600;
+
+    color:#4B5563;
+
+}
+
+.form-card label:first-child{
+
+    margin-top:0;
+
+}
+
+/*==================================================
+INPUTS
+==================================================*/
+
+.form-card input,
+.form-card select{
+
+    width:100%;
+
+    height:55px;
+
+    padding:0 16px;
+
+    border:1px solid #D7DCE7;
+
+    border-radius:16px;
+
+    background:#fff;
+
+    font-size:15px;
+
+    color:#021024;
+
+    outline:none;
+
+    transition:.2s;
+
+}
+
+.form-card input:focus,
+.form-card select:focus{
+
+    border-color:#3048C8;
+
+    box-shadow:0 0 0 3px rgba(48,72,200,.12);
+
+}
+
+/*==================================================
+TIME ROW
+==================================================*/
+
+.time-row{
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+.time-box{
+
+    flex:1;
+
+}
+
+/*==================================================
+SAVE BUTTON
+==================================================*/
+
+#saveLecture{
+
+    width:100%;
+
+    height:58px;
+
+    margin-top:35px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#3048C8;
+
+    color:#fff;
+
+    font-size:17px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+#saveLecture:hover{
+
+    background:#243AB0;
+
+}
+
+/*==================================================
+PLACEHOLDERS
+==================================================*/
+
+.form-card input::placeholder{
+
+    color:#9CA3AF;
+
+}
+
+
+/*==================================================
+DAY VIEW
+==================================================*/
+
+.day-view{
+
+    display:flex;
+    flex-direction:column;
+    gap:0;
+
+    margin-top:25px;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.time-slot{
+
+    display:flex;
+
+    min-height:80px;
+
+    border-bottom:1px solid #ececec;
+
+}
+
+.time-label{
+
+    width:70px;
+
+    padding:20px 15px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#6d6d6d;
+
+}
+
+.events{
+
+    flex:1;
+
+    padding:10px;
+
+    position:relative;
+
+
+}
+
+/*===================================================================day schedule===========================================*/
+.lecture-event{
+
+    background:#3048C8;
+
+    color:white;
+
+    border-radius:14px;
+
+    padding:12px;
+
+    margin-bottom:8px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+    box-shadow:0 6px 16px rgba(48,72,200,.25);
+
+}
+
+.lecture-event strong{
+
+    font-size:15px;
+
+}
+
+.lecture-event small{
+
+    opacity:.9;
+
+    font-size:13px;
+
+}
+
+.lecture-event span{
+
+    font-size:12px;
+
+}
+
+
+
+/*==================================================
+LECTURE CARD
+==================================================*/
+
+.lecture-card{
+
+    position:relative;
+
+    background:#fff;
+
+    border:3px solid transparent;
+
+    border-radius:24px;
+
+    padding:24px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+.edit-btn{
+
+    background:#EEF4FF;
+
+}
+
+.edit-btn i{
+
+    color:#153E90;
+
+    font-size:17px;
+
+}
+
+/*======delete button=====*/
+
+.delete-btn{
+
+    background:#FFECEC;
+
+}
+
+.delete-btn i{
+
+    color:#B91C1C;
+
+    font-size:17px;
+
+}
+
+/*========hover====*/
+
+.edit-btn:hover{
+
+    transform:scale(1.1);
+
+    background:#DCE8FF;
+
+}
+
+.delete-btn:hover{
+
+    transform:scale(1.1);
+
+    background:#FFDCDC;
+
+}
+
+
+.edit-btn,
+.delete-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.edit-btn{
+
+    background:#EEF4FF;
+
+}
+
+.edit-btn i{
+
+    color:#1E40AF;
+
+    font-size:17px;
+
+}
+
+.delete-btn{
+
+    background:#FFECEC;
+
+}
+
+.delete-btn i{
+
+    color:#B91C1C;
+
+    font-size:17px;
+
+}
+
+.edit-btn:hover{
+
+    background:#DCE8FF;
+
+}
+
+.delete-btn:hover{
+
+    background:#FFDCDC;
+
+/*==================================================
+BUTTON COLUMN
+==================================================*/
+
+.lecture-actions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-start;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+}

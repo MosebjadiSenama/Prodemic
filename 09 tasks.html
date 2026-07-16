@@ -1,194 +1,213 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
 
-    <link rel="stylesheet" href="style.css">
-    
-<script type="module" src="js/script.js"></script>
-<!---ICONS-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tasks</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/tasks.css">
+
+<script type="module" src="js/tasks.js"></script>
+
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<!--GOOGLE FONTS-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Anton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
 
-    <div class="app-container">
-        <div class="task-container">
-            <h1 class="tasks">Tasks</h1>
-            <p class="task-description">All your tasks in one place</p>
-        </div>
+<div class="app-container">
 
+<div class="page">
 
-<div class="tasks-cards">
-    <button >
-        All
-    </button>
+<!--==================================================
+HEADER
+===================================================-->
 
-<button> Upcoming</button>
+<header class="page-header">
 
-<button> Completed</button>
+<h1>Tasks</h1>
 
-<button> Study plan</button>
+<p>
 
-</div>
-<!--navigation bar-->
+Stay on top of everything you need to do.
 
-<img src="assets/images/no-tasks.png" class="no-tasks-img">
+</p>
 
-<div class="no-task">
-    <h2 class="no-task-today">
-        No task today
-    </h2>
-    <p class="add">Add your modules or task to get started, and stay on track </p>
-</div>
+</header>
 
+<!--==================================================
+FILTERS
+===================================================-->
 
-<div class="generate-buttons">
-    <a class="generate-ai">
-        + add task
-    </a>
+<div class="task-filters">
 
-    <a class="add-tasks-manually">
-       Generate AI Tasks
-    </a>
+<button class="filter-btn active">
 
+All
 
+</button>
 
+<button class="filter-btn">
 
+Today
 
+</button>
 
-<!--====================== CREATE MENU ======================-->
+<button class="filter-btn">
 
-<div class="create-overlay" id="createOverlay">
+Upcoming
 
-    <div class="create-sheet">
+</button>
 
-        <div class="sheet-handle"></div>
+<button class="filter-btn">
 
-        <h2>Create New</h2>
+Completed
 
-        <div class="create-option" id="newModule">
-
-            <div class="option-icon blue">
-                <i class="fa-solid fa-book"></i>
-            </div>
-
-            <div class="option-text">
-                <h3>New Module</h3>
-                <p>Add a new subject</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-        <div class="create-option">
-
-            <div class="option-icon green">
-                <i class="fa-solid fa-list-check"></i>
-            </div>
-
-            <div class="option-text">
-                <h3>New Task</h3>
-                <p>Add a task</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-        <div class="create-option">
-
-            <div class="option-icon purple">
-                <i class="fa-solid fa-calendar"></i>
-            </div>
-
-            <div class="option-text">
-                <h3>New Schedule</h3>
-                <p>Create a schedule</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-        <div class="create-option">
-
-            <div class="option-icon orange">
-                <i class="fa-solid fa-file-pen"></i>
-            </div>
-
-            <div class="option-text">
-                <h3>New Assessment</h3>
-                <p>Add an assessment</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-        <button id="closeSheet" class="cancel-btn">
-            Cancel
-        </button>
-
-    </div>
+</button>
 
 </div>
 
+<!--==================================================
+TASK LIST
+===================================================-->
 
-<!------------==========================================NAV BAR==============-->
+<section id="taskList" class="task-list">
 
-<div class="nav-bar">
-<!--home button-->
-<a href="07 home.html" class="nav-item"> 
-        <i class="fa-solid fa-house"></i>
-        <span class="home">Home</span>
+<!-- Tasks will appear here -->
+
+</section>
+
+<!--==================================================
+EMPTY STATE
+===================================================-->
+
+<section id="emptyState" class="empty-state">
+
+<img
+
+src="assets/images/no-tasks.png"
+
+alt="No Tasks"
+
+class="empty-image"
+
+>
+
+<h2>
+
+No Tasks Yet
+
+</h2>
+
+<p>
+
+Create your first task to stay organised throughout the semester.
+
+</p>
+
+</section>
+
+<!--==================================================
+BOTTOM BUTTONS
+===================================================-->
+
+<div class="task-actions">
+
+<a
+
+href="21 addTask.html"
+
+class="primary-btn"
+
+>
+
+<i class="fa-solid fa-plus"></i>
+
+Add Task
+
 </a>
-   
 
-<!--tasks-->
-    <a href="09 tasks.html" class="nav-item active">
-       <i class="fa-solid fa-list-check"></i>
-        <span class="home">Tasks</span>
-       
-    </a>
+<a
 
-<!--add button-->
-    <a  href="10 add.html" class="nav-add">
-       <i class="fa-solid fa-plus"></i>
-    </a>
+href="#"
 
+class="secondary-btn"
 
+>
 
-<!--schedule-->
+<i class="fa-solid fa-wand-magic-sparkles"></i>
 
-<a  href="11 schedule.html"  class="nav-item">
-       <i class="fa-solid fa-calendar"></i>
-        <span class="home">Schedule</span>
+Generate AI Tasks
+
 </a>
-   
-
-
-<!--modules-->
-   <a  href="08 modules.html"  class="nav-item">
-        <i class="fa-solid fa-book"></i>
-        <span class="home">Modules</span>
-   </a>
 
 </div>
+
 </div>
 
-    
+
+
+<!--==================================================
+BOTTOM NAVIGATION
+===================================================-->
+
+<nav class="nav-bar">
+
+<a href="07 home.html" class="nav-item">
+
+<i class="fa-solid fa-house"></i>
+
+<span>Home</span>
+
+</a>
+
+<a href="09 tasks.html" class="nav-item active">
+
+<i class="fa-solid fa-list-check"></i>
+
+<span>Tasks</span>
+
+</a>
+
+<a href="#" class="nav-add">
+
+<i class="fa-solid fa-plus"></i>
+
+</a>
+
+<a href="11 schedule.html" class="nav-item">
+
+<i class="fa-solid fa-calendar"></i>
+
+<span>Schedule</span>
+
+</a>
+
+<a href="08 modules.html" class="nav-item">
+
+<i class="fa-solid fa-book"></i>
+
+<span>Modules</span>
+
+</a>
+
+</nav>
+
+</div>
+
+
+
+
+
 </body>
+
 </html>

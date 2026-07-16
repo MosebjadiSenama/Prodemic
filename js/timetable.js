@@ -1,5 +1,6 @@
 //==========import storage
 
+import { auth } from "../firebase.js";
 import { supabase } from "./supabase.js";
 //==================================================
                 //ELEMENTS
@@ -11,16 +12,15 @@ const uploadPDF = document.getElementById("uploadPDF");
 const takePhoto = document.getElementById("takePhoto");
 const manualEntry = document.getElementById("manualEntry");
 
-const moduleName = document.getElementById("moduleName");
-const moduleCode = document.getElementById("moduleCode");
-const lecturerName = document.getElementById("lecturerName");
-const semester = document.getElementById("semester");
-const assessmentCount = document.getElementById("assessmentCount");
-
+const reviewNext = document.getElementById("reviewNext");
 //==========choose one option=======
+
 let selectedMethod = "";
 let uploadComplete = false;
 let uploading = false;
+
+//==========AI Lectures=======
+let lectures = [];
 
 function clearSelection(){
 
@@ -72,8 +72,9 @@ const pdfInput = document.getElementById("pdfInput");
 pdfInput.addEventListener("change", async () => {
 
     const file = pdfInput.files[0];
-    console.log("1. File selected");
-   
+
+    console.log("1. File selected:", file);
+
     if (!file) return;
 
     selectedMethod = "PDF";
@@ -83,65 +84,51 @@ pdfInput.addEventListener("change", async () => {
     const fileName = Date.now() + "_" + file.name;
 
     const { error } = await supabase.storage
-
         .from("timetable")
-
         .upload(fileName, file);
 
+    console.log("Upload error:", error);
+
     if (error) {
-
-    console.error(error);
-
-    alert(error.message);
-
-    return;
-
-}
+        console.error(error);
+        alert(error.message);
+        return;
+    }
 
     const { data } = supabase.storage
-
         .from("timetable")
-
         .getPublicUrl(fileName);
 
     const fileURL = data.publicUrl;
 
-    localStorage.setItem(
+    console.log("Public URL:", fileURL);
 
-        "timetableURL",
+    localStorage.setItem("timetableURL", fileURL);
+    localStorage.setItem("timetableFile", file.name);
 
-        fileURL
+    const user = auth.currentUser;
 
-    );
-
-//=======
 const { error: dbError } = await supabase
 .from("timetables")
 .insert([
     {
+        user_id: user.uid,
         file_url: fileURL,
         file_name: file.name
     }
 ]);
 
-if (dbError) {
-    console.error(dbError);
-    alert(dbError.message);
-    return;
-}
-//=====
-
-    localStorage.setItem(
-
-        "timetableFile",
-
-        file.name
-
-    );
+    if (dbError) {
+        console.error(dbError);
+        alert(dbError.message);
+        return;
+    }
 
     uploadComplete = true;
+    console.log("Upload finished");
+console.log(localStorage.getItem("timetableURL"));
 
-    console.log(fileURL);
+    console.log("uploadComplete =", uploadComplete);
 
 });
 /*==================================================
@@ -190,10 +177,13 @@ cameraInput.addEventListener("change", async () => {
 
     //=====
 
+const user = auth.currentUser;
+
 const { error: dbError } = await supabase
 .from("timetables")
 .insert([
     {
+        user_id: user.uid,
         file_url: fileURL,
         file_name: file.name
     }
@@ -220,6 +210,7 @@ if (dbError) {
 
         "timetableFile",
 
+    
         file.name
 
     );
@@ -235,21 +226,21 @@ if (dbError) {
 
 continueBtn.addEventListener("click",()=>{
 
-  if(selectedMethod === ""){
+    if(selectedMethod === ""){
 
-    alert("Please choose an upload method.");
+        alert("Please choose an upload method.");
 
-    return;
+        return;
 
-}
+    }
 
-if(!uploadComplete){
+    if(!uploadComplete){
 
-    alert("Please upload your timetable first.");
+        alert("Please upload your timetable first.");
 
-    return;
+        return;
 
-}
+    }
 
     document.getElementById("uploadScreen").style.display = "none";
 
@@ -261,7 +252,6 @@ if(!uploadComplete){
 /*==================================================
             AI PROCESSING
 ===================================================*/
-
 function startProcessing(){
 
     const progressFill = document.getElementById("progressFill");
@@ -303,22 +293,50 @@ function startProcessing(){
 
             clearInterval(timer);
 
-            setTimeout(()=>{
+            setTimeout(async()=>{
 
-                document.getElementById("processingScreen").style.display = "none";
+                const timetableURL = localStorage.getItem("timetableURL");
 
-                document.getElementById("reviewScreen").style.display = "block";
+              const response = await fetch("http://localhost:3000/import-timetable",{
 
-                // Temporary demo data===========================================================================================================
-                 console.log(document.getElementById("moduleName"));
-                 console.log(document.getElementById("moduleCode"));
-                 console.log(document.getElementById("lecturerName"));
-                 console.log(document.getElementById("semester"));
+                    method:"POST",
 
-                 document.getElementById("moduleName").textContent = "Loading...";
-                 document.getElementById("moduleCode").textContent = "Loading...";
-                 document.getElementById("semester").textContent = "Loading...";
-                 document.getElementById("assessmentCount").textContent = "Loading...";
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        fileURL:timetableURL
+
+                    })
+
+                });
+
+                const aiData = await response.json();
+
+                console.log(aiData);
+
+                if(!response.ok){
+
+                    alert(aiData.error);
+
+                    return;
+
+                }
+//==================================================
+// STORE AI LECTURES
+//==================================================
+
+lectures = aiData.lectures || [];
+
+// Show review screen
+
+document.getElementById("processingScreen").style.display = "none";
+
+document.getElementById("reviewScreen").style.display = "block";
+
+renderLectures();    
 
             },500);
 
@@ -330,11 +348,176 @@ function startProcessing(){
 
 
 /*==================================================
-                BACK
+            RENDER AI LECTURES
 ===================================================*/
+
+function renderLectures(){
+
+    const lectureList =
+    document.getElementById("lectureList");
+
+    lectureList.innerHTML = "";
+
+    lectures.forEach((lecture,index)=>{
+
+        lectureList.innerHTML += `
+
+        <div class="lecture-card">
+
+            <div
+                class="lecture-colour"
+                style="background:#4A90E2;">
+            </div>
+
+            <div class="lecture-info">
+
+                <h3>${lecture.moduleName}</h3>
+
+                <p>${lecture.moduleCode}</p>
+
+                <div class="lecture-meta">
+
+                    <span>
+
+                        <i class="fa-solid fa-calendar"></i>
+
+                       ${lecture.day}
+
+                    </span>
+
+                    <span>
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        ${lecture.startTime} - ${lecture.endTime}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="lecture-actions">
+
+                <button
+                    class="editBtn"
+                    data-index="${index}">
+
+                    <i class="fa-solid fa-pen"></i>
+
+                </button>
+
+                <button
+                    class="deleteBtn"
+                    data-index="${index}">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    document.getElementById("lectureCount").textContent =
+    lectures.length;
+
+    document.getElementById("sessionCount").textContent =
+    lectures.length;
+
+    document.getElementById("moduleCount").textContent =
+    new Set(lectures.map(l=>l.moduleCode)).size;
+
+    document.getElementById("dayCount").textContent =
+   new Set(lectures.map(l=>l.day)).size;
+
+    document
+    .querySelectorAll(".deleteBtn")
+    .forEach(button=>{
+
+        button.addEventListener("click",()=>{
+
+            lectures.splice(button.dataset.index,1);
+
+            renderLectures();
+
+        });
+
+    });
+
+    document
+    .querySelectorAll(".editBtn")
+    .forEach(button=>{
+
+        button.addEventListener("click",()=>{
+
+            alert("Edit lecture coming next.");
+
+        });
+
+    });
+
+}
+  //==================================================
+               // BACK
+//===================================================
 
 backBtn.addEventListener("click", () => {
 
     window.location.href = "07 home.html";
 
 });
+
+//===
+reviewNext.addEventListener("click", async()=>{
+
+    const user = auth.currentUser;
+
+    const rows = lectures.map(lecture=>({
+
+        user_id: user.uid,
+
+        module_name: lecture.moduleName,
+
+        module_code: lecture.moduleCode,
+
+        lecture_day: lecture.day,
+
+        start_time: lecture.startTime,
+
+        end_time: lecture.endTime,
+
+        colour:"#4A90E2"
+
+    }));
+
+    const { error } = await supabase
+
+    .from("lectures")
+
+    .insert(rows);
+
+    if(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    alert(`${rows.length} lectures saved successfully!`);
+
+    // Optional: redirect after saving
+    // window.location.href = "09 timetable.html";
+
+});
+
+
+
+

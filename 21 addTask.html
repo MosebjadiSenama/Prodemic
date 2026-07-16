@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Add Task</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/tasks.css">
+
+<script type="module" src="js/tasks.js"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+</head>
+<body>
+
+<div class="app-container">
+
+<div class="page">
+
+<!--==================================================
+HEADER
+===================================================-->
+
+<header class="top-bar">
+
+<button
+type="button"
+id="backBtn"
+class="back-btn">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+</button>
+
+<h2>
+
+Add Task
+
+</h2>
+
+</header>
+
+<!--==================================================
+FORM
+===================================================-->
+
+<form id="taskForm">
+
+
+<!--==================================================
+MODULE
+===================================================-->
+
+<div class="input-group">
+
+<label>
+
+Module
+
+</label>
+
+<select id="taskModule">
+
+<option value="">
+
+Select Module
+
+</option>
+
+<option value="General">
+
+General Task
+
+</option>
+
+</select>
+
+</div>
+
+
+<!--==================================================
+ASSESSMENT NAME
+===================================================-->
+
+<div class="input-group">
+
+<label>
+
+Assessment Name
+
+</label>
+
+<input
+
+type="text"
+
+id="taskTitle"
+
+placeholder="e.g. Assignment 2, Presentation, Essay"
+
+required
+
+>
+
+</div>
+
+
+<!--==================================================
+DATE & TIME
+===================================================-->
+
+<div class="row">
+
+<div class="input-group half">
+
+<label>
+
+Due Date
+
+</label>
+
+<input
+type="date"
+id="taskDate">
+
+</div>
+
+<div class="input-group half">
+
+<label>
+
+Time
+
+</label>
+
+<input
+type="time"
+id="taskTime">
+
+</div>
+
+</div>
+
+<!--==================================================
+COUNTDOWN
+===================================================-->
+
+<div class="input-group">
+
+<label>
+
+Countdown
+
+</label>
+
+<div id="countdownPreview" class="countdown-preview">
+
+No due date selected
+
+</div>
+
+</div>
+
+<!--==================================================
+REMINDER
+===================================================-->
+
+<div class="input-group">
+
+<label>
+
+Reminder
+
+</label>
+
+<select id="taskReminder">
+
+<option value="None">
+
+None
+
+</option>
+
+<option value="10 Minutes Before">
+
+10 Minutes Before
+
+</option>
+
+<option value="30 Minutes Before">
+
+30 Minutes Before
+
+</option>
+
+<option value="1 Hour Before">
+
+1 Hour Before
+
+</option>
+
+<option value="1 Day Before">
+
+1 Day Before
+
+</option>
+
+</select>
+
+</div>
+
+<!--==================================================
+REPEAT
+===================================================-->
+
+<div class="input-group">
+
+<label>
+
+Repeat
+
+</label>
+
+<select id="taskRepeat">
+
+<option value="Never">
+
+Never
+
+</option>
+
+<option value="Daily">
+
+Daily
+
+</option>
+
+<option value="Weekly">
+
+Weekly
+
+</option>
+
+<option value="Monthly">
+
+Monthly
+
+</option>
+
+</select>
+
+</div>
+
+<!--==================================================
+SAVE BUTTON
+===================================================-->
+
+<button
+type="submit"
+class="save-btn">
+
+
+Save Task
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</body>
+
+</html>

@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Prodemic</title>
 
 <!--====================================================================================  CSS AND JS LINK=========================================================================-->
 
+<link rel="stylesheet" href="css/home1.css">
 <link rel="stylesheet" href="style.css">
+
 <link rel="stylesheet" href="css/home.css">
 <script type="module" src="js/home.js"></script>
 
@@ -18,50 +20,73 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <!--GOOGLE FONTS-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Anton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Anton&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
 
-   
+<div class="app-container">
+
 <!--==================================================================================== HEADER================================================================================-->
 
- <div class="app-container">
 <header class="home-header">
+
     <div class="home-logo">
-         <h1 class="prodemic-home">Prodemic</h1>
+
+        <h1 class="prodemic-home">
+
+            Prodemic
+
+        </h1>
+
     </div>
 
     <div class="home-icons">
-        <button  type="button"      class="notification-btn">
+
+        <button type="button" class="notification-btn">
+
             <i class="fa-regular fa-bell"></i>
+
         </button>
 
         <button
-        type="button"
-         class="profile-btn" 
-        id="profileBtn">
+            type="button"
+            class="profile-btn"
+            id="profileBtn">
+
             <i class="fa-solid fa-circle-user"></i>
+
         </button>
 
     </div>
+
 </header>
 
+<!--============================================================================================PROFILE MENU==========================================================================-->
 
-<!--============================================================================================  PROFILE MENU      ==========================================================================-->
 <div class="profile-menu" id="profileMenu">
 
     <button class="profile-option">
+
         <i class="fa-solid fa-user"></i>
+
         Profile
+
     </button>
 
     <button class="profile-option">
+
         <i class="fa-solid fa-gear"></i>
+
         Settings
+
     </button>
 
     <button
@@ -69,14 +94,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         id="logoutBtn">
 
         <i class="fa-solid fa-right-from-bracket"></i>
+
         Logout
 
     </button>
 
 </div>
 
-       
-<!--========================================================================================================welcome card=========================================================-->
+<!--========================================================================================================WELCOME=========================================================-->
 
 <div class="welcome-content">
 
@@ -92,99 +117,44 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </div>
 
 <!--==================================================
-                SETUP CARD
+SEMESTER SETUP
 ===================================================-->
+<div id="setupSection">
 
-<div class="setup-card">
+<section class="setup-card">
 
-    <div class="setup-header">
+    <img
+        src="assets/images/1.png"
+        alt="Semester Setup"
+        class="setup-image">
 
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
+    <h2>
 
-        <div>
+        Let's Set Up Your Semester
 
-            <h2>Let's build your workspace</h2>
+    </h2>
 
-            <p>
-                Complete these steps and I'll automatically
-                create your study plan.
-            </p>
+    <p>
 
-        </div>
+        Start by adding your modules or import your
+        module outlines and Prodemic will organise
+        your semester for you.
 
-    </div>
+    </p>
 
-    <!--================ PROGRESS ================-->
-
-    <div class="setup-progress">
-
-        <div class="progress-bar">
-
-            <div class="progress-fill"></div>
-
-        </div>
-
-        <span>20% Complete</span>
-
-    </div>
-
-</div>
-
-
+</section>
 
 <!--==================================================
-                SETUP CHECKLIST
+SETUP OPTIONS
 ===================================================-->
 
-<div class="setup-list">
+<section class="setup-options">
 
-    <!-- PROFILE -->
+    <!-- ADD MODULE -->
 
-    <div class="setup-item completed">
-
-        <div class="setup-icon completed">
-
-            <i class="fa-solid fa-check"></i>
-
-        </div>
-
-        <div class="setup-info">
-
-            <h3>Profile Completed</h3>
-
-            <p>Your preferences have been saved.</p>
-
-        </div>
-
-    </div>
-
-
-    <!-- TIMETABLE -->
-
-    <div class="setup-item" id="lectureBtn">
-
-        <div class="setup-icon">
-
-            <i class="fa-solid fa-calendar-days"></i>
-
-        </div>
-
-        <div class="setup-info">
-
-            <h3>Upload Lecture Timetable</h3>
-
-            <p>Add your weekly classes.</p>
-
-        </div>
-
-        <i class="fa-solid fa-chevron-right arrow"></i>
-
-    </div>
-
-
-    <!-- MODULE OUTLINE -->
-
-    <div class="setup-item" id="moduleBtn">
+    <a
+        href="08 modules.html?new=true"
+        class="setup-option">
 
         <div class="setup-icon">
 
@@ -194,153 +164,231 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
         <div class="setup-info">
 
-            <h3>Upload Module Outline</h3>
+            <h3>
 
-            <p>Let AI extract assessments and deadlines.</p>
+                Add Your Modules
+
+            </h3>
+
+            <p>
+
+                Create your modules manually.
+
+            </p>
 
         </div>
 
-        <i class="fa-solid fa-chevron-right arrow"></i>
+        <i class="fa-solid fa-chevron-right"></i>
 
-    </div>
+    </a>
 
+    <!-- IMPORT -->
 
-    <!-- AI PLAN -->
+    <a
+        href="13 moduleoutline.html"
+        class="setup-option">
 
-    <div class="setup-item disabled" id="studyPlanBtn">
+        <div class="setup-icon ai">
 
-        <div class="setup-icon">
-
-            <i class="fa-solid fa-brain"></i>
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
 
         </div>
 
         <div class="setup-info">
 
-            <h3>Generate AI Study Plan</h3>
+            <h3>
 
-            <p>Available after uploading your files.</p>
+                Import Module Outlines
+
+            </h3>
+
+            <p>
+
+                Let AI build your semester.
+
+            </p>
 
         </div>
 
-        <i class="fa-solid fa-lock"></i>
+        <i class="fa-solid fa-chevron-right"></i>
 
-    </div>
+    </a>
 
+</section>
 </div>
 
+
+
+
+
+<!--============================================================================= STEP 2===============================================================================================-->
 
 <!--==================================================
-                BUTTONS
+NEXT STEP
 ===================================================-->
 
-<div class="setup-buttons">
+<div
+id="nextStepSection"
 
-    <button
-        class="primary-btn"
-        id="uploadNow">
+style="display:none;">
 
-        Upload Module Outline
+<section class="next-step-card">
 
-    </button>
+<div class="next-step-icon">
 
-
-    <button
-        class="secondary-btn">
-
-        Skip & Add Tasks Manually
-
-    </button>
+<i class="fa-solid fa-calendar-days"></i>
 
 </div>
-<!--====================== CREATE MENU ======================-->
 
-<div class="create-overlay" id="createOverlay">
+<h2>
 
-    <div class="create-sheet">
+Great Start! 🎉
 
-        <div class="sheet-handle"></div>
+</h2>
 
-        <h2>Create New</h2>
+<p>
 
-        <div class="create-option" id="newModule">
+You've added your first module.
 
-            <div class="option-icon blue">
-                <i class="fa-solid fa-book"></i>
-            </div>
+The next step is to add your lecture schedule.
 
-            <div class="option-text">
-                <h3>New Module</h3>
-                <p>Add a new subject</p>
-            </div>
+</p>
 
-            <i class="fa-solid fa-chevron-right"></i>
+<a
 
-        </div>
+href="11 schedule.html"
 
-        <div class="create-option">
+class="primary-btn">
 
-            <div class="option-icon green">
-                <i class="fa-solid fa-list-check"></i>
-            </div>
+Add Lecture Schedule
 
-            <div class="option-text">
-                <h3>New Task</h3>
-                <p>Add a task</p>
-            </div>
+</a>
 
-            <i class="fa-solid fa-chevron-right"></i>
+<a
 
-        </div>
+href="08 modules.html"
 
-        <div class="create-option">
+class="secondary-btn">
 
-            <div class="option-icon purple">
-                <i class="fa-solid fa-calendar"></i>
-            </div>
+View Modules
 
-            <div class="option-text">
-                <h3>New Schedule</h3>
-                <p>Create a schedule</p>
-            </div>
+</a>
 
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-        <div class="create-option">
-
-            <div class="option-icon orange">
-                <i class="fa-solid fa-file-pen"></i>
-            </div>
-
-            <div class="option-text">
-                <h3>New Assessment</h3>
-                <p>Add an assessment</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-        <button id="closeSheet" class="cancel-btn">
-            Cancel
-        </button>
-
-    </div>
+</section>
 
 </div>
 
 
+<!--===========================================================================================   STEP 2   =====================================================-->
+
+<!--==================================================
+STEP 2 - LECTURE SETUP
+===================================================-->
+
+<div id="lectureSection" style="display:none;">
+
+    <section class="setup-card">
+
+        <img
+            src="assets/images/schedule.png"
+            alt="Lecture Schedule"
+            class="setup-image">
+
+        <h2>
+
+            Great Start! 🎉
+
+        </h2>
+
+        <p>
+
+            You've added your first module.
+
+            The next step is to add your lecture schedule
+            so Prodemic can organise your week.
+
+        </p>
+
+    </section>
+
+    <section class="setup-options">
+
+        <!-- ADD LECTURES -->
+
+        <a
+            href="11 schedule.html"
+            class="setup-option">
+
+            <div class="setup-icon">
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+            </div>
+
+            <div class="setup-info">
+
+                <h3>
+
+                    Add Lecture Schedule
+
+                </h3>
+
+                <p>
+
+                    Add your weekly classes.
+
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </a>
+
+        <!-- IMPORT TIMETABLE -->
+
+        <a
+            href="15 timetableImport.html"
+            class="setup-option">
+
+            <div class="setup-icon ai">
+
+                <i class="fa-solid fa-file-import"></i>
+
+            </div>
+
+            <div class="setup-info">
+
+                <h3>
+
+                    Import Timetable
+
+                </h3>
+
+                <p>
+
+                    Let AI fill in your lecture times.
+
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </a>
+
+    </section>
+
+</div>
 
 
 
-<!--navigation bar-->
 
+<!--===========================================================================================navigation bar=====================================================-->
 
 <div class="nav-bar">
 <!--home button-->
-<a href="07 modules.html" class="nav-item active"> 
+<a href="07 home.html" class="nav-item" active> 
         <i class="fa-solid fa-house"></i>
         <span class="home">Home</span>
 </a>
@@ -370,13 +418,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 <!--modules-->
-   <a  href="08 modules.html"  class="nav-item">
+   <a  href="08 modules.html"  class="nav-item ">
         <i class="fa-solid fa-book"></i>
         <span class="home">Modules</span>
    </a>
 
 </div>
+</div>
 
-    
+ <!-------------alert module saved-->   
+ <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMessage"></span>
+ </div>
 </body>
 </html>

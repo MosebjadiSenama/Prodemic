@@ -1118,110 +1118,77 @@ body{
 }
 
 
-/*==================================================
-                REVIEW SCREEN
-===================================================*/
+/*=====review======*/
+.review-header{
 
-#reviewScreen{
-
-    padding:30px 20px 120px;
+    margin:25px 20px;
 
 }
 
+.review-header h1{
 
-/*==================================================
-                SUCCESS
-===================================================*/
+    font-size:28px;
+    margin-bottom:8px;
 
-.review-success{
+}
+
+.review-header p{
+
+    color:#8E8E93;
+    line-height:1.5;
+
+}
+
+.ai-summary{
+
+    display:flex;
+    gap:12px;
+
+    margin:20px;
+
+}
+
+.summary-item{
+
+    flex:1;
+
+    background:#171717;
+
+    border-radius:18px;
+
+    padding:18px;
 
     text-align:center;
 
-    margin-bottom:35px;
-
 }
 
-.review-success i{
+.summary-item i{
 
-    font-size:70px;
+    font-size:22px;
 
-    color:#2E4AAC;
-
-    margin-bottom:15px;
-
-}
-
-.review-success h1{
-
-    font-size:30px;
-
-    font-weight:700;
-
-    color:#111827;
+    color:#4A90E2;
 
     margin-bottom:10px;
 
 }
 
-.review-success p{
+.summary-item strong{
 
-    font-size:16px;
+    display:block;
 
-    color:#6B7280;
-
-    line-height:1.6;
+    font-size:22px;
 
 }
 
+.summary-item span{
 
-/*==================================================
-                MODULE CARD
-===================================================*/
+    color:#8E8E93;
 
-.review-card{
-
-    background:#FFFFFF;
-
-    border:1px solid #E5E7EB;
-
-    border-radius:22px;
-
-    padding:22px;
-
-    margin-top:25px;
-
-    margin-bottom:30px;
-
-    box-shadow:0 4px 12px rgba(0,0,0,.05);
+    font-size:14px;
 
 }
 
-.review-card h2{
-
-    font-size:24px;
-
-    font-weight:700;
-
-    color:#111827;
-
-    margin-bottom:6px;
-
-}
-
-.review-card p{
-
-    color:#6B7280;
-
-    margin-bottom:25px;
-
-}
-
-
-/*==================================================
-                DETAILS
-===================================================*/
-
-.module-details{
+#lectureList{
 
     display:flex;
 
@@ -1229,226 +1196,98 @@ body{
 
     gap:18px;
 
+    margin:20px;
+
 }
 
-.detail-row{
+.lecture-card{
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
 
-    padding-bottom:12px;
+    background:#171717;
 
-    border-bottom:1px solid #F3F4F6;
+    border-radius:20px;
 
-}
-
-.detail-row span{
-
-    color:#6B7280;
-
-    font-size:15px;
+    padding:18px;
 
 }
 
-.detail-row strong{
+.lecture-colour{
 
-    color:#111827;
+    width:18px;
 
-    font-size:16px;
+    height:18px;
 
-}
+    border-radius:50%;
 
+    background:#4A90E2;
 
-/*==================================================
-            ASSESSMENTS
-===================================================*/
-
-.assessment-list{
-
-    margin-top:25px;
+    margin-right:15px;
 
 }
 
-.assessment-list h3{
+.lecture-info{
 
-    margin-bottom:15px;
-
-    font-size:18px;
+    flex:1;
 
 }
 
-.assessment-item{
+.lecture-info h3{
 
-    display:flex;
+    margin-bottom:5px;
 
-    justify-content:space-between;
+}
 
-    align-items:center;
+.lecture-info p{
 
-    background:#F8FAFC;
-
-    padding:14px 18px;
-
-    border-radius:14px;
+    color:#8E8E93;
 
     margin-bottom:12px;
 
 }
 
-.assessment-item span{
+.lecture-meta{
 
-    color:#111827;
+    display:flex;
 
-    font-weight:500;
+    gap:20px;
 
-}
-
-.assessment-item small{
-
-    color:#6B7280;
+    font-size:14px;
 
 }
 
-
-/*==================================================
-            COLOUR PICKER
-===================================================*/
-
-.review-card label{
-
-    display:block;
-
-    margin-top:30px;
-
-    margin-bottom:12px;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    color:#111827;
-
-}
-
-
-/*==================================================
-                BUTTONS
-===================================================*/
-
-.review-buttons{
+.lecture-actions{
 
     display:flex;
 
     flex-direction:column;
 
-    gap:15px;
-
-    margin-top:35px;
+    gap:12px;
 
 }
 
-.looks-good-btn{
-
-    width:100%;
-
-    height:58px;
-
-    background:#2E4AAC;
-
-    color:#FFFFFF;
+.lecture-actions button{
 
     border:none;
 
-    border-radius:18px;
+    background:none;
+
+    color:white;
 
     font-size:18px;
 
-    font-weight:600;
-
     cursor:pointer;
 
 }
 
-.edit-btn{
+.secondary-btn{
 
-    width:100%;
+    width:90%;
 
-    height:58px;
+    margin:15px auto;
 
-    background:#FFFFFF;
-
-    border:2px solid #2E4AAC;
-
-    color:#2E4AAC;
-
-    border-radius:18px;
-
-    font-size:18px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-}
-
-.looks-good-btn:hover{
-
-    background:#243D96;
-
-}
-
-.edit-btn:hover{
-
-    background:#EEF3FF;
-
-}
-
-/*===========processing====================*/
-.process-item{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    color:#A0A7B5;
-
-    margin:18px 0;
-
-}
-
-.process-item i{
-
-    font-size:20px;
-
-}
-
-.process-item.completed{
-
-    color:#2E4AAC;
-
-    font-weight:600;
-
-}
-
-.upload-tt,
-.enter-timetable-manually{
-    text-decoration: none;
-    color: black;
-}
-
-.setup-item{
-
-    cursor:pointer;
-
-}
-
-.setup-item.disabled{
-
-    cursor:not-allowed;
+    display:block;
 
 }
