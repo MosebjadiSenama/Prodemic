@@ -1,238 +1,1306 @@
 /*==================================================
-EMPTY STATE
+                SCHEDULE PAGE
 ==================================================*/
 
-.schedule-empty{
+/*==============================
+PAGE
+==============================*/
 
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    text-align:center;
-
-    margin-top:40px;
-    padding:0 25px;
-
-}
-
-.schedule-image{
-
-    width:180px;
-    margin-bottom:25px;
-
-}
-
-.schedule-empty h2{
-
-    font-size:32px;
-    font-weight:700;
-    color:#021024;
-    margin-bottom:15px;
-
-}
-
-.schedule-empty p{
-
-    font-size:17px;
-    line-height:1.7;
-    color:#6b7280;
-
-}
-
-
-/*==================================================
-ACTION BUTTONS
-==================================================*/
-
-.schedule-actions{
-
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-
-    margin:35px 22px;
-
-}
-
-.primary-btn{
+#schedulePage{
 
     width:100%;
-    height:56px;
 
-    border:none;
-    border-radius:18px;
+    max-width:1200px;
 
-    background:#3048C8;
-    color:white;
+    margin:0 auto;
 
-    font-size:17px;
-    font-weight:600;
+    padding:35px 20px 140px;
 
-    cursor:pointer;
+}
+
+
+
+
+/*==============================
+HEADER
+==============================*/
+
+.schedule-header{
 
     display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
 
-}
-
-.primary-btn:hover{
-
-    background:#253DB6;
-
-}
-
-.secondary-btn{
-
-    width:100%;
-    height:56px;
-
-    border-radius:18px;
-
-    background:white;
-    border:2px solid #D9E3F7;
-
-    color:#3048C8;
-
-    font-size:17px;
-    font-weight:600;
-
-    cursor:pointer;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
-
-}
-
-
-/*==================================================
-LECTURE LIST
-==================================================*/
-
-.lecture-list{
-
-    margin:30px 22px;
-
-}
-
-.lecture-header{
-
-    display:flex;
     justify-content:space-between;
-    align-items:center;
 
-    margin-bottom:20px;
+    align-items:flex-end;
 
-}
+    gap:24px;
 
-.lecture-header h2{
-
-    font-size:24px;
-    color:#021024;
+    margin-bottom:32px;
 
 }
 
-#lectureCount{
+.schedule-header h1{
 
-    font-size:15px;
-    color:#6b7280;
-
-}
-
-
-/*==================================================
-CARD LAYOUT
-==================================================*/
-
-.lecture-card-header{
-
-    display:grid;
-
-    grid-template-columns:1fr 48px;
-
-    gap:20px;
-
-    align-items:start;
-
-}
-/*=========================
-LECTURE TITLE
-=========================*/
-
-.lecture-title{
-
-    font-size:28px;
+    font-size:2.5rem;
 
     font-weight:700;
 
-    color:#021024;
-
-    margin:10px 0;
-
-}
-
-.lecture-time{
-
-    color:#3048C8;
-
-    font-weight:700;
+    color:#222;
 
     margin-bottom:8px;
 
 }
 
-.lecture-room{
+.schedule-header p{
 
-    margin-top:12px;
+    color:#6B7280;
+
+    font-size:1rem;
+
+    line-height:1.6;
+
+}
+
+/*==============================
+CALENDAR CONTROLS
+==============================*/
+
+.calendar-controls{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.calendar-controls button{
+
+    width:48px;
+
+    height:48px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#FFFFFF;
+
+    color:#3048C8;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+
+}
+
+.calendar-controls button:hover{
+
+    background:#EEF4FF;
+
+    transform:translateY(-2px);
+
+}
+
+.calendar-controls button:active{
+
+    transform:scale(.97);
+
+}
+
+.calendar-controls select{
+
+    height:48px;
+
+    padding:0 18px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#FFFFFF;
+
+    font-family:inherit;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:#222;
+
+    cursor:pointer;
+
+    outline:none;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+
+}
+
+/*==============================
+CALENDAR HEADER
+==============================*/
+
+.calendar-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:24px;
+
+    margin-bottom:28px;
+
+    background:#FFFFFF;
+
+    border-radius:24px;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.05);
+
+}
+
+.calendar-header h2{
+
+    font-size:1.8rem;
+
+    font-weight:700;
+
+    color:#222;
+
+    margin-bottom:6px;
+
+}
+
+.calendar-header p{
+
+    color:#6B7280;
+
+    line-height:1.6;
+
+}
+
+.add-lecture-btn{
+
+    width:58px;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#3048C8;
+
+    color:#FFFFFF;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:0 12px 28px rgba(48,72,200,.25);
+
+}
+
+.add-lecture-btn:hover{
+
+    background:#243AB0;
+
+    transform:translateY(-2px);
+
+}
+
+/*==============================
+CALENDAR
+==============================*/
+
+#calendar{
+
+    margin-bottom:28px;
+
+}
+
+/*==============================
+SCHEDULE LIST
+==============================*/
+#scheduleList{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+
+.week-day-card{
+    margin-bottom:24px;
+}
+
+
+/*==============================
+ACTION BUTTONS
+==============================*/
+
+.schedule-actions{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:18px;
+
+    margin-top:35px;
+
+}
+
+.primary-btn,
+.secondary-btn{
+
+    height:58px;
+
+    border-radius:18px;
+
+    border:none;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.primary-btn{
+
+    background:#3048C8;
+
+    color:#FFFFFF;
+
+    box-shadow:0 12px 28px rgba(48,72,200,.22);
+
+}
+
+.primary-btn:hover{
+
+    background:#243AB0;
+
+    transform:translateY(-2px);
+
+}
+
+.secondary-btn{
+
+    background:#FFFFFF;
+
+    color:#3048C8;
+
+    border:1px solid #D9E3F7;
+
+}
+
+.secondary-btn:hover{
+
+    background:#F7F9FF;
+
+}
+
+/*==================================================
+TABLET
+==================================================*/
+
+@media (max-width:991px){
+
+.schedule-header{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+}
+
+.calendar-controls{
+
+    width:100%;
+
+    justify-content:flex-start;
+
+    flex-wrap:wrap;
+
+}
+
+.calendar-header{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+}
+
+.add-lecture-btn{
+
+    align-self:flex-end;
+
+}
+
+.schedule-actions{
+
+    grid-template-columns:1fr;
+
+}
+
+}
+
+/*==================================================
+MOBILE
+==================================================*/
+
+@media (max-width:768px){
+
+#schedulePage{
+
+    padding:25px 18px 120px;
+
+}
+
+.schedule-header h1{
+
+    font-size:2rem;
+
+}
+
+.calendar-header{
+
+    padding:20px;
+
+}
+
+.calendar-header h2{
+
+    font-size:1.5rem;
+
+}
+
+.calendar-controls{
+
+    justify-content:space-between;
+
+    width:100%;
+
+}
+
+.calendar-controls select{
+
+    flex:1;
+
+}
+
+.calendar-controls button{
+
+    width:46px;
+
+    height:46px;
+
+}
+
+.add-lecture-btn{
+
+    width:54px;
+
+    height:54px;
+
+}
+
+}
+
+/*==================================================
+                WEEK VIEW
+==================================================*/
+
+/*==============================
+WEEK STRIP
+==============================*/
+
+.week-strip{
+
+    display:flex;
+
+    gap:14px;
+
+    overflow-x:auto;
+
+    padding-bottom:24px;
+
+    scrollbar-width:none;
+
+}
+
+.week-strip::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+.week-strip-day{
+
+    min-width:78px;
+
+    border:none;
+
+    border-radius:20px;
+
+    background:#FFFFFF;
+
+    padding:16px 14px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:0 8px 22px rgba(0,0,0,.05);
+
+}
+
+.week-strip-day:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.week-strip-day.active{
+
+    background:#3048C8;
+
+    color:#FFFFFF;
+
+    box-shadow:0 14px 28px rgba(48,72,200,.28);
+
+}
+
+.strip-day{
+
+    display:block;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.6px;
+
+}
+
+.strip-date{
+
+    display:block;
+
+    margin-top:8px;
+
+    font-size:1.55rem;
+
+    font-weight:700;
+
+}
+
+/*==================================================
+SCHEDULE LIST
+==================================================*/
+
+#scheduleList{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+/*==================================================
+DAY CARD
+==================================================*/
+
+.week-day-card{
+
+    background:#FFFFFF;
+
+    border-radius:26px;
+
+    overflow:hidden;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.05);
+
+    transition:.25s;
+
+}
+
+.week-day-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.08);
+
+}
+
+/*==================================================
+CARD HEADER
+==================================================*/
+
+.week-card-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:24px;
+
+    border-bottom:1px solid #EEF2F7;
+
+}
+
+.week-card-header h2{
+
+    font-size:1.5rem;
+
+    font-weight:700;
+
+    color:#222;
+
+    margin-bottom:6px;
+
+}
+
+.week-card-header span{
+
+    color:#6B7280;
+
+    font-size:14px;
+
+}
+
+.lecture-count{
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    background:#EEF4FF;
+
+    color:#3048C8;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    white-space:nowrap;
+
+}
+
+/*==================================================
+CARD BODY
+==================================================*/
+
+.week-card-body{
+
+    padding:22px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+/*==================================================
+EMPTY STATE
+==================================================*/
+
+.empty-week-day{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    padding:45px 20px;
+
+    border:2px dashed #D9E3F7;
+
+    border-radius:20px;
+
+    color:#94A3B8;
+
+}
+
+.empty-week-day i{
+
+    font-size:36px;
+
+    color:#3048C8;
+
+    margin-bottom:16px;
+
+}
+
+.empty-week-day p{
+
+    font-size:15px;
+
+}
+
+/*==================================================
+LECTURE CARD
+==================================================*/
+
+.week-lecture{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:18px;
+
+    padding:18px;
+
+    background:#F8FAFF;
+
+    border-radius:20px;
+
+    transition:.25s;
+
+}
+
+.week-lecture:hover{
+
+    transform:translateY(-2px);
+
+    background:#F3F7FF;
+
+}
+
+/*==================================================
+LEFT BAR
+==================================================*/
+
+.lecture-bar{
+
+    width:6px;
+
+    align-self:stretch;
+
+    border-radius:999px;
+
+    flex-shrink:0;
+
+}
+
+/*==================================================
+MAIN CONTENT
+==================================================*/
+
+.lecture-main{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:20px;
+
+    flex:1;
+
+}
+
+/*==================================================
+TIME
+==================================================*/
+
+.lecture-time{
+
+    min-width:82px;
+
+    padding:12px;
+
+    text-align:center;
+
+    background:#EEF4FF;
+
+    border-radius:16px;
+
+}
+
+.lecture-time strong{
+
+    display:block;
+
+    color:#3048C8;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+.lecture-time span{
+
+    display:block;
+
+    margin-top:5px;
+
+    font-size:13px;
 
     color:#6B7280;
 
 }
 
 /*==================================================
-LECTURE CONTENT
+DETAILS
 ==================================================*/
 
-.lecture-content{
+.lecture-details{
 
     flex:1;
 
-    min-width:0;
+}
+
+.lecture-details h3{
+
+    font-size:19px;
+
+    font-weight:700;
+
+    color:#222;
+
+    margin-bottom:10px;
 
 }
 
-/*=========================
-COLOUR DOT
-=========================*/
-
-.lecture-dot{
-
-    width:12px;
-
-    height:12px;
-
-    border-radius:50%;
-
-    display:inline-block;
-
-    flex-shrink:0;
-
-}
-
-
-.week-dots{
+.lecture-details p{
 
     display:flex;
 
-    justify-content:center;
+    align-items:center;
 
-    gap:5px;
+    gap:8px;
 
-    margin-top:8px;
+    margin-bottom:8px;
 
-    flex-wrap:wrap;
+    font-size:14px;
+
+    color:#6B7280;
+
+}
+
+/*==================================================
+BUTTONS
+==================================================*/
+
+.lecture-options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.lecture-options button{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.lecture-options .edit-btn{
+
+    background:#EEF4FF;
+
+    color:#3048C8;
+
+}
+
+.lecture-options .delete-btn{
+
+    background:#FFF0F0;
+
+    color:#D32F2F;
+
+}
+
+.lecture-options button:hover{
+
+    transform:scale(1.08);
+
+}
+
+/*==================================================
+TABLET
+==================================================*/
+
+@media (max-width:991px){
+
+    .lecture-main{
+
+        flex-direction:column;
+
+    }
+
+    .lecture-time{
+
+        width:100%;
+
+    }
+
+}
+
+/*==================================================
+MOBILE
+==================================================*/
+
+@media (max-width:768px){
+
+    .week-card-header{
+
+        padding:20px;
+
+    }
+
+    .week-card-header h2{
+
+        font-size:1.3rem;
+
+    }
+
+    .week-card-body{
+
+        padding:18px;
+
+    }
+
+    .week-lecture{
+
+        flex-direction:column;
+
+    }
+
+    .lecture-options{
+
+        width:100%;
+
+        flex-direction:row;
+
+        justify-content:flex-end;
+
+    }
+
+}
+
+/*==================================================
+DESKTOP
+==================================================*/
+
+@media (min-width:1100px){
+
+    #scheduleList{
+
+        display:grid;
+
+        grid-template-columns:repeat(2,1fr);
+
+        gap:28px;
+
+    }
+
+}
+
+/*==================================================
+                DAY VIEW
+==================================================*/
+
+/*==============================
+DAY VIEW
+==============================*/
+
+.day-view{
+
+    background:#FFFFFF;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.05);
+
+}
+
+.day-title{
+
+    padding:28px 30px 10px;
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    color:#222;
+
+}
+
+.day-summary{
+
+    padding:0 30px 25px;
+
+    color:#6B7280;
+
+    font-size:15px;
+
+}
+
+/*==============================
+TIMELINE
+==============================*/
+
+.timeline{
+
+    border-top:1px solid #EEF2F7;
+
+}
+
+.time-slot{
+
+    display:flex;
+
+    position:relative;
+
+    min-height:85px;
+
+    border-bottom:1px solid #EEF2F7;
+
+}
+
+.time-slot:last-child{
+
+    border-bottom:none;
+
+}
+
+/*==============================
+TIME LABEL
+==============================*/
+
+.time-label{
+
+    width:90px;
+
+    flex-shrink:0;
+
+    padding:18px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#94A3B8;
+
+    border-right:1px solid #EEF2F7;
+
+}
+
+.events{
+
+    position:relative;
+
+    flex:1;
+
+}
+
+
+/*==================================================
+MONTH CONTAINER
+==================================================*/
+
+.month-title{
+
+    max-width:900px;
+
+    margin:0 auto 12px;
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    color:#222;
+
+}
+
+.week-days{
+
+    max-width:900px;
+
+    margin:0 auto 8px;
+
+    display:grid;
+
+    grid-template-columns:repeat(7,1fr);
+
+}
+
+/*==================================================
+MONTH CALENDAR
+==================================================*/
+
+.month-grid{
+
+    width:100%;
+
+    max-width:900px;
+
+    margin:0 auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(7,1fr);
+
+    gap:8px;
+
+}
+
+/*==================================================
+DAY CARD
+==================================================*/
+
+.month-day{
+
+    height:92px;
+
+    padding:8px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#FFFFFF;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-start;
+
+    align-items:flex-start;
+
+    transition:.25s;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.05);
+
+}
+
+.month-day:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+/*==================================================
+LECTURE EVENT
+==================================================*/
+
+.lecture-event{
+
+    position:absolute;
+
+    left:10px;
+
+    right:10px;
+
+    border-radius:16px;
+
+    background:#EEF4FF;
+
+    padding:12px 14px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+    overflow:hidden;
+
+}
+
+.lecture-event strong{
+
+    display:block;
+
+    font-size:15px;
+
+    color:#222;
+
+    margin-bottom:4px;
+
+}
+
+.lecture-event small{
+
+    display:block;
+
+    color:#3048C8;
+
+    font-weight:600;
+
+    margin-bottom:6px;
+
+}
+
+.lecture-event span{
+
+    color:#6B7280;
+
+    font-size:13px;
+
+}
+
+/*==================================================
+TASK EVENT
+==================================================*/
+
+.task-event{
+
+    position:absolute;
+
+    left:10px;
+
+    right:10px;
+
+    border-radius:16px;
+
+    background:#ECFDF5;
+
+    padding:12px 14px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+    overflow:hidden;
+
+}
+
+.task-event strong{
+
+    display:block;
+
+    color:#15803D;
+
+    margin-bottom:5px;
+
+}
+
+.task-event small{
+
+    color:#166534;
+
+}
+
+/*==================================================
+MONTH VIEW
+==================================================*/
+
+
+
+
+.week-name{
+
+    text-align:center;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    color:#94A3B8;
+
+    text-transform:uppercase;
+
+}
+
+
+
+.month-day{
+
+    height:110px;
+
+    border:none;
+
+    background:#FFFFFF;
+
+    border-radius:18px;
+
+    padding:12px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    justify-content:flex-start;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:0 8px 22px rgba(0,0,0,.05);
+
+}
+
+.month-day:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.active-day{
+
+    background:#3048C8;
+
+    color:#FFFFFF;
+
+}
+
+.date-number{
+
+    font-size:18px;
+
+    font-weight:700;
 
 }
 
@@ -240,248 +1308,385 @@ COLOUR DOT
 
     display:flex;
 
-    justify-content:center;
-
-    gap:4px;
-
-    margin-top:5px;
+    gap:6px;
 
     flex-wrap:wrap;
 
-}
-
-.lecture-time{
-
-    color:#3048C8;
-
-    font-size:14px;
-    font-weight:700;
-
-    margin-bottom:8px;
+    margin-top:10px;
 
 }
 
-.lecture-title{
+.month-dots,
+ .lecture-dot{
 
-    font-size:20px;
-    font-weight:700;
-    color:#021024;
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+}
+
+/*=========================================
+TASK DOT
+=========================================*/
+
+.task-dot{
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:2px;
+
+    display:inline-block;
 
 }
 
-.lecture-room{
+/*=========================================
+TOPIC DOT
+=========================================*/
 
-    margin-top:8px;
+.topic-dot{
 
-    color:#7B7B7B;
-    font-size:15px;
+    width:8px;
+
+    height:8px;
+
+    display:inline-block;
+
+    transform:rotate(45deg);
 
 }
+
+/*=========================================
+ASSESSMENT DOT
+=========================================*/
+
+.assessment-dot{
+
+    width:0;
+
+    height:0;
+
+    border-left:5px solid transparent;
+
+    border-right:5px solid transparent;
+
+    border-bottom:8px solid #F59E0B;
+
+    display:inline-block;
+
+}
+
+.empty{
+
+    visibility:hidden;
+
+}
+
+/*==================================================
+TABLET
+==================================================*/
+
+
+
+@media (max-width:991px){
+
+    .month-grid,
+    .week-days{
+
+        max-width:100%;
+
+    }
+
+     .month-day{
+
+        height:72px;
+
+    }
+
+}
+
 
 
 /*==================================================
-TIP CARD
+MOBILE
 ==================================================*/
 
-.tip-card{
+@media (max-width:768px){
+
+    .day-title{
+
+        font-size:1.6rem;
+
+        padding:22px 20px 8px;
+
+    }
+
+    .day-summary{
+
+        padding:0 20px 18px;
+
+    }
+
+    .time-label{
+
+        width:65px;
+
+        padding:14px 10px;
+
+        font-size:12px;
+
+    }
+
+
+    .month-grid{
+
+        gap:8px;
+
+    }
+
+    .month-day{
+
+        height:58px;
+
+        padding:6px;
+
+        border-radius:10px;
+
+    }
+
+
+
+    .lecture-event,
+
+    .task-event{
+
+        padding:10px;
+
+    }
+
+    .lecture-event strong,
+
+    .task-event strong{
+
+        font-size:13px;
+
+    }
+
+   
+
+
+    .date-number{
+
+        font-size:15px;
+
+    }
+
+}
+
+/*==================================================
+DESKTOP
+==================================================*/
+
+@media (min-width:1100px){
+
+    .month-day{
+
+        min-height:140px;
+
+    }
+
+}
+
+/*==================================================
+                EMPTY STATES
+==================================================*/
+
+/*==============================
+NO LECTURES
+==============================*/
+
+.schedule-empty{
 
     display:flex;
-    align-items:flex-start;
-    gap:15px;
 
-    margin:20px 22px 120px;
-    padding:18px;
+    flex-direction:column;
 
-    background:#EEF4FF;
-
-    border-radius:20px;
-
-}
-
-.tip-card i{
-
-    font-size:24px;
-    color:#3048C8;
-
-    margin-top:4px;
-
-}
-
-.tip-card h3{
-
-    font-size:18px;
-    color:#021024;
-
-    margin-bottom:8px;
-
-}
-
-.tip-card p{
-
-    color:#6b7280;
-    line-height:1.6;
-    font-size:15px;
-
-}
-
-/*==================================================
-ADD LECTURE PAGE
-==================================================*/
-
-#addLecturePage{
-
-    display:none;
-
-    padding:25px 20px 120px;
-
-}
-
-/*==================================================
-HEADER
-==================================================*/
-
-.top-bar{
-
-    display:flex;
     align-items:center;
-    gap:18px;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:70px 20px;
+
+}
+
+.schedule-image{
+
+    width:220px;
+
+    max-width:100%;
+
+    margin-bottom:28px;
+
+}
+
+.schedule-empty h2{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    color:#222;
+
+    margin-bottom:14px;
+
+}
+
+.schedule-empty p{
+
+    max-width:430px;
+
+    color:#6B7280;
+
+    line-height:1.7;
 
     margin-bottom:35px;
 
 }
 
-.back-btn{
-
-    width:42px;
-    height:42px;
-
-    border:none;
-    border-radius:50%;
-
-    background:#EEF3FF;
-
-    color:#3048C8;
-
-    font-size:18px;
-
-    cursor:pointer;
-
-}
-
-.top-bar h2{
-
-    font-size:28px;
-    font-weight:700;
-
-    color:#021024;
-
-}
-
 /*==================================================
-FORM CARD
+ADD LECTURE FORM
 ==================================================*/
 
 .form-card{
 
-    background:#fff;
+    width:100%;
 
-    border-radius:25px;
+    max-width:780px;
 
-    padding:25px;
+    margin:0 auto;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.06);
+    background:#FFFFFF;
+
+    border-radius:28px;
+
+    padding:35px;
+
+    box-shadow:0 18px 40px rgba(0,0,0,.06);
 
 }
 
-/*==================================================
+.form-card h2{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    color:#222;
+
+    margin-bottom:30px;
+
+}
+
+/*==============================
 LABELS
-==================================================*/
+==============================*/
 
 .form-card label{
 
     display:block;
 
-    margin-top:22px;
     margin-bottom:8px;
 
-    font-size:14px;
+    margin-top:20px;
+
+    font-size:15px;
+
     font-weight:600;
 
-    color:#4B5563;
+    color:#374151;
 
 }
 
-.form-card label:first-child{
+.form-card label:first-of-type{
 
     margin-top:0;
 
 }
 
-/*==================================================
+/*==============================
 INPUTS
-==================================================*/
+==============================*/
 
 .form-card input,
+
 .form-card select{
 
     width:100%;
 
-    height:55px;
+    height:58px;
 
-    padding:0 16px;
-
-    border:1px solid #D7DCE7;
+    border:1px solid #E2E8F0;
 
     border-radius:16px;
 
-    background:#fff;
+    padding:0 18px;
+
+    background:#FFFFFF;
+
+    font-family:inherit;
 
     font-size:15px;
 
-    color:#021024;
-
-    outline:none;
-
-    transition:.2s;
+    transition:.25s;
 
 }
 
 .form-card input:focus,
+
 .form-card select:focus{
+
+    outline:none;
 
     border-color:#3048C8;
 
-    box-shadow:0 0 0 3px rgba(48,72,200,.12);
+    box-shadow:0 0 0 4px rgba(48,72,200,.12);
 
 }
 
-/*==================================================
+.form-card input::placeholder{
+
+    color:#9CA3AF;
+
+}
+
+/*==============================
 TIME ROW
-==================================================*/
+==============================*/
 
 .time-row{
 
-    display:flex;
+    display:grid;
 
-    gap:15px;
+    grid-template-columns:1fr 1fr;
 
-}
-
-.time-box{
-
-    flex:1;
+    gap:18px;
 
 }
 
-/*==================================================
+/*==============================
 SAVE BUTTON
-==================================================*/
+==============================*/
 
 #saveLecture{
 
     width:100%;
 
-    height:58px;
+    height:60px;
 
     margin-top:35px;
 
@@ -491,14 +1696,17 @@ SAVE BUTTON
 
     background:#3048C8;
 
-    color:#fff;
+    color:#FFFFFF;
 
-    font-size:17px;
+    font-size:16px;
+
     font-weight:600;
 
     cursor:pointer;
 
     transition:.25s;
+
+    box-shadow:0 12px 28px rgba(48,72,200,.22);
 
 }
 
@@ -506,268 +1714,192 @@ SAVE BUTTON
 
     background:#243AB0;
 
+    transform:translateY(-2px);
+
+}
+
+#saveLecture:active{
+
+    transform:scale(.98);
+
 }
 
 /*==================================================
-PLACEHOLDERS
+SCROLLBAR
 ==================================================*/
 
-.form-card input::placeholder{
+::-webkit-scrollbar{
 
-    color:#9CA3AF;
+    width:10px;
+
+    height:10px;
 
 }
 
+::-webkit-scrollbar-thumb{
+
+    background:#D5DBE8;
+
+    border-radius:999px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:transparent;
+
+}
 
 /*==================================================
-DAY VIEW
+ANIMATIONS
 ==================================================*/
 
-.day-view{
+@keyframes fadeUp{
 
-    display:flex;
-    flex-direction:column;
-    gap:0;
+    from{
 
-    margin-top:25px;
+        opacity:0;
 
-    background:#fff;
+        transform:translateY(18px);
 
-    border-radius:20px;
+    }
 
-    overflow:hidden;
+    to{
 
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
+        opacity:1;
 
-}
+        transform:translateY(0);
 
-.time-slot{
-
-    display:flex;
-
-    min-height:80px;
-
-    border-bottom:1px solid #ececec;
+    }
 
 }
 
-.time-label{
+.week-day-card,
 
-    width:70px;
+.day-view,
 
-    padding:20px 15px;
+.month-grid,
 
-    font-size:14px;
+.calendar-header{
 
-    font-weight:600;
-
-    color:#6d6d6d;
+    animation:fadeUp .35s ease;
 
 }
-
-.events{
-
-    flex:1;
-
-    padding:10px;
-
-    position:relative;
-
-
-}
-
-/*===================================================================day schedule===========================================*/
-.lecture-event{
-
-    background:#3048C8;
-
-    color:white;
-
-    border-radius:14px;
-
-    padding:12px;
-
-    margin-bottom:8px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:4px;
-
-    box-shadow:0 6px 16px rgba(48,72,200,.25);
-
-}
-
-.lecture-event strong{
-
-    font-size:15px;
-
-}
-
-.lecture-event small{
-
-    opacity:.9;
-
-    font-size:13px;
-
-}
-
-.lecture-event span{
-
-    font-size:12px;
-
-}
-
-
 
 /*==================================================
-LECTURE CARD
+FOCUS STATES
 ==================================================*/
 
-.lecture-card{
+button:focus-visible,
 
-    position:relative;
+select:focus-visible,
 
-    background:#fff;
+input:focus-visible{
 
-    border:3px solid transparent;
+    outline:3px solid rgba(48,72,200,.25);
 
-    border-radius:24px;
-
-    padding:24px;
-
-    margin-bottom:20px;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    outline-offset:3px;
 
 }
-.edit-btn{
-
-    background:#EEF4FF;
-
-}
-
-.edit-btn i{
-
-    color:#153E90;
-
-    font-size:17px;
-
-}
-
-/*======delete button=====*/
-
-.delete-btn{
-
-    background:#FFECEC;
-
-}
-
-.delete-btn i{
-
-    color:#B91C1C;
-
-    font-size:17px;
-
-}
-
-/*========hover====*/
-
-.edit-btn:hover{
-
-    transform:scale(1.1);
-
-    background:#DCE8FF;
-
-}
-
-.delete-btn:hover{
-
-    transform:scale(1.1);
-
-    background:#FFDCDC;
-
-}
-
-
-.edit-btn,
-.delete-btn{
-
-    width:42px;
-
-    height:42px;
-
-    border:none;
-
-    border-radius:50%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-}
-
-.edit-btn{
-
-    background:#EEF4FF;
-
-}
-
-.edit-btn i{
-
-    color:#1E40AF;
-
-    font-size:17px;
-
-}
-
-.delete-btn{
-
-    background:#FFECEC;
-
-}
-
-.delete-btn i{
-
-    color:#B91C1C;
-
-    font-size:17px;
-
-}
-
-.edit-btn:hover{
-
-    background:#DCE8FF;
-
-}
-
-.delete-btn:hover{
-
-    background:#FFDCDC;
 
 /*==================================================
-BUTTON COLUMN
+TABLET
 ==================================================*/
 
-.lecture-actions{
+@media (max-width:991px){
 
-    display:flex;
+    .form-card{
 
-    flex-direction:column;
+        padding:28px;
 
-    justify-content:flex-start;
-
-    align-items:center;
-
-    gap:12px;
+    }
 
 }
+
+/*==================================================
+MOBILE
+==================================================*/
+
+@media (max-width:768px){
+
+    .schedule-empty{
+
+        padding:55px 20px;
+
+    }
+
+    .schedule-image{
+
+        width:180px;
+
+    }
+
+    .schedule-empty h2{
+
+        font-size:1.7rem;
+
+    }
+
+    .form-card{
+
+        padding:22px;
+
+        border-radius:22px;
+
+    }
+
+    .form-card h2{
+
+        font-size:1.6rem;
+
+    }
+
+    .time-row{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-card input,
+
+    .form-card select{
+
+        height:54px;
+
+    }
+
+    #saveLecture{
+
+        height:56px;
+
+    }
+
+}
+
+/*==================================================
+DESKTOP
+==================================================*/
+
+@media (min-width:1100px){
+
+    .form-card{
+
+        max-width:860px;
+
+        padding:50px;
+
+    }
+
+    .schedule-header{
+
+        margin-bottom:40px;
+
+    }
+
+    .calendar-header{
+
+        margin-bottom:35px;
+
+    }
 
 }

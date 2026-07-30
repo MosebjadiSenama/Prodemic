@@ -1,1178 +1,1184 @@
-import { auth, db } from "../firebase.js";
-
-import {
-    collection,
-    getDocs
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { auth } from "../firebase.js";
+import { supabase } from "./supabase.js";
 
 //==================================================
 // ELEMENTS
 //==================================================
+const createOverlay = document.getElementById("createOverlay");
 
-const schedulePage =
-document.getElementById("schedulePage");
+const navAdd = document.querySelector(".nav-add");
 
-const addLecturePage =
-document.getElementById("addLecturePage");
+const closeSheet = document.getElementById("closeSheet");
 
-const addLectureBtn =
-document.getElementById("addLectureBtn");
+const newModule = document.getElementById("newModule");
 
-const backToSchedule =
-document.getElementById("backToSchedule");
+const newTask = document.getElementById("newTask");
 
-const saveLecture =
-document.getElementById("saveLecture");
+const newLecture = document.getElementById("newLecture");
 
-const lectureList =
-document.getElementById("lectureList");
+const newAssessment = document.getElementById("newAssessment");
+const addLectureBtn = document.getElementById("addLectureBtn");
 
-const scheduleEmpty =
-document.getElementById("scheduleEmpty");
+const scheduleList = document.getElementById("scheduleList");
+const scheduleEmpty = document.getElementById("scheduleEmpty");
 
-const lectureModule =
-document.getElementById("lectureModule");
+const lectureCount = document.getElementById("lectureCount");
 
-const lectureDay =
-document.getElementById("lectureDay");
+const calendar = document.getElementById("calendar");
+const view = document.getElementById("calendarView");
 
-const startTime =
-document.getElementById("startTime");
-
-const endTime =
-document.getElementById("endTime");
-
-const venue =
-document.getElementById("venue");
-
-const lecturer =
-document.getElementById("lecturer");
+const calendarPrevBtn = document.getElementById("prevBtn");
+const calendarNextBtn = document.getElementById("nextBtn");
 
 //==================================================
-// STORE USER MODULES
+// DATA
 //==================================================
+let scheduleItems = [];
+
+let lectures = [];
+let weeklyTopics = [];
+let tasks = [];
+
+
+let assignments = [];
+let tests = [];
+let exams = [];
+let events = [];
 
 let userModules = [];
-//==================================================
-// LOAD USER MODULES
-//==================================================
 
-async function loadModules(){
-    userModules = [];
+let currentDate = new Date();
+
 
 //==================================================
-// DEFAULT OPTIONS
+// AUTH
 //==================================================
 
-lectureModule.innerHTML = `
+auth.onAuthStateChanged(async (user) => {
 
-    <option value="">
-        Select Module
-    </option>
-
-    <option value="__new__">
-        + Create New Module
-    </option>
-
-`;  
-
-//==================================================
-// CREATE NEW MODULE OPTION
-//==================================================
-
-lectureModule.addEventListener("change", () => {
-
-    if (lectureModule.value === "__new__") {
-
-        // Go to your Add Module page
-       window.location.href = "08 modules.html?newModule=true";
-
-    }
-
-});
-
-    const snapshot = await getDocs(
-
-        collection(
-
-            db,
-
-            "users",
-
-            auth.currentUser.uid,
-
-            "modules"
-
-        )
-
-    );
-
-    snapshot.forEach(doc=>{
-
-   const module = doc.data();
-
-// Save module so we can use its colour later
-userModules.push(module);
-
-        const option =
-        document.createElement("option");
-
-       //==================================================
-// YOUR MODULES ARE SAVED AS:
-// name
-// code
-// semester
-// colour
-//==================================================
-
-option.value =
-module.name;
-
-// Show both module code and module name
-option.textContent =
-`${module.code} - ${module.name}`;
-
-// Add the option to the dropdown
-lectureModule.appendChild(option);
-
-    });
-
-}
-
-//==================================================
-// LOAD MODULES AFTER LOGIN
-//==================================================
-
-auth.onAuthStateChanged(async(user)=>{
-
-    if(!user){
-
-        return;
-
-    }
-
-    lectures = JSON.parse(
-
-        localStorage.getItem(
-
-            `lectures_${user.uid}`
-
-        )
-
-    ) || [];
+    if (!user) return;
 
     await loadModules();
 
-    renderLectures();
+    await loadLectures();
 
-    updateScheduleLayout();
+    await loadWeeklyTopics();
+
+    await loadTasks();
+
+    await buildSchedule();
 
     updateCalendar();
 
 });
+
+//==================================================
+// LOAD MODULES
+//==================================================
+
+async function loadModules() {
+
+    const { data, error } = await supabase
+        .from("modules")
+        .select("*")
+        .eq("user_id", auth.currentUser.uid);
+
+    if (error) {
+
+        console.error(error);
+        return;
+
+    }
+
+    userModules = data || [];
+
+}
 
 //==================================================
 // LOAD LECTURES
 //==================================================
 
-let lectures = [];
+async function loadLectures() {
 
-let editingLectureId = null;
+    const { data, error } = await supabase
+        .from("lectures")
+        .select("*")
+        .eq("user_id", auth.currentUser.uid);
 
+    if (error) {
 
-//============================================================================= calender=============================================================================
-
-
-//======today's date========================
-
-let currentDate = new Date();
-
-const calendar =
-document.getElementById("calendar");
-
-const view =
-document.getElementById("calendarView");
-
-const calendarPrevBtn =
-document.getElementById("prevBtn");
-
-const calendarNextBtn =
-document.getElementById("nextBtn");
-
-//===================weekly=======================
-
-
-function renderWeek(){
-
-    calendar.innerHTML = "";
-
-    const weekContainer = document.createElement("div");
-   weekContainer.classList.add("week-container");
-
-    let firstDay = new Date(currentDate);
-
-    firstDay.setDate(
-        currentDate.getDate() - currentDate.getDay()
-    );
-
-    for(let i = 0; i < 7; i++){
-
-        let day = new Date(firstDay);
-
-        day.setDate(firstDay.getDate() + i);
-
-        const button = document.createElement("button");
-
-        button.classList.add("day");
-
-        if(day.toDateString() === currentDate.toDateString()){
-            button.classList.add("active");
-        }
-
-        //==================================================
-// FIND LECTURES FOR THIS DAY
-//==================================================
-
-const dayName = day.toLocaleDateString("en-GB",{
-    weekday:"long"
-});
-
-const dayLectures = lectures.filter(
-    lecture => lecture.day === dayName
-);
-
-//==================================================
-// CREATE WEEK BUTTON
-//==================================================
-
-button.innerHTML = `
-
-    <span>
-
-        ${day.toLocaleDateString("en",{
-            weekday:"short"
-        }).toUpperCase()}
-
-    </span>
-
-    <strong>
-
-        ${day.getDate()}
-
-    </strong>
-
-    <div class="week-dots">
-
-        ${dayLectures.map(lecture=>`
-
-            <span
-                class="lecture-dot"
-                style="background:${getModuleColour(lecture.module)}">
-            </span>
-
-        `).join("")}
-
-    </div>
-
-`;
-
-        button.onclick = () => {
-
-            currentDate = new Date(day);
-
-            view.value = "day";
-
-            updateCalendar();
-
-        };
-
-       weekContainer.appendChild(button);
+        console.error(error);
+        return;
 
     }
 
-    calendar.appendChild(weekContainer);
+    lectures = data || [];
 
 }
 
-//===========================Day======================================
+async function loadTasks(){
 
-function renderDay(){
+    const {data,error}=await supabase
 
-    calendar.innerHTML = "";
+        .from("tasks")
 
-//======show card closer to current time
-const dayView = document.createElement("div");
-dayView.className = "day-view";
-dayView.id = "dayView";
+        .select("*")
 
+        .eq("user_id",auth.currentUser.uid);
 
-    dayView.innerHTML = `
+    if(error){
 
-        <h2 class="day-title">
-            ${currentDate.toLocaleDateString("en-GB",{
-                weekday:"long",
-                day:"2-digit",
-                month:"short",
-                year:"numeric"
-            })}
-        </h2>
+        console.error(error);
 
-       <div class="timeline">
+        tasks=[];
 
-${Array.from({length:24},(_,hour)=>`
-
-   <div
-    class="time-slot"
-    id="hour-${hour}">
-
-        <div class="time-label">
-
-            ${String(hour).padStart(2,"0")}:00
-
-        </div>
-
-        <div
-            class="events"
-            data-hour="${hour}">
-
-        </div>
-
-    </div>
-
-`).join("")}
-
-</div>
-
-    `;
-
-    //==================================================
-// ADD DAY VIEW TO CALENDAR
-//==================================================
-
-calendar.appendChild(dayView);
-//==================================================
-// SCROLL TO CURRENT TIME
-//==================================================
-
-setTimeout(() => {
-
-    scrollToRelevantHour();
-
-}, 100);
-//==================================================
-// GET TODAY'S NAME
-//==================================================
-
-const today = currentDate.toLocaleDateString(
-
-    "en-GB",
-
-    {
-
-        weekday:"long"
+        return;
 
     }
 
-);
-
-//==================================================
-// FIND TODAY'S LECTURES
-//==================================================
-
-const todaysLectures = lectures.filter(
-
-    lecture => lecture.day === today
-
-);
-
-
-//==================================================
-// UPDATE PAGE LAYOUT
-//==================================================
-
-updateScheduleLayout();
-//==================================================
-// DISPLAY LECTURES ON THE TIMELINE
-//==================================================
-
-todaysLectures.forEach(lecture=>{
-
-    const hour = parseInt(
-
-        lecture.start.split(":")[0]
-
-    );
-
-    const container =
-
-    dayView.querySelector(
-
-        `.events[data-hour="${hour}"]`
-
-    );
-
-    if(!container) return;
-
-    const event =
-
-    document.createElement("div");
-
-    event.className =
-
-    "lecture-event";
-
-    event.innerHTML = `
-
-        <strong>
-
-            ${lecture.module}
-
-        </strong>
-
-        <small>
-
-            ${lecture.start} - ${lecture.end}
-
-        </small>
-
-        <span>
-
-            📍 ${lecture.venue || ""}
-
-        </span>
-
-    `;
-
-    container.appendChild(event);
-
-});
+    tasks=data || [];
 
 }
-//===========================Month======================================
 
-function renderMonth(){
+async function loadAssignments(){
 
-    calendar.innerHTML = "";
+    const {data,error}=await supabase
 
-    // Month title
-    const title = document.createElement("h2");
-    title.textContent = currentDate.toLocaleString("default",{
-        month:"long",
-        year:"numeric"
-    });
+        .from("assignments")
 
-    title.classList.add("month-title");
+        .select("*")
 
-    calendar.appendChild(title);
+        .eq("user_id",auth.currentUser.uid);
 
-    // Weekday names
-    const weekDays = document.createElement("div");
-    weekDays.classList.add("week-days");
+    if(error){
 
-    const names = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+        console.error(error);
 
-    names.forEach(name=>{
+        assignments=[];
 
-        const day=document.createElement("div");
-        day.textContent=name;
-        day.classList.add("week-name");
+        return;
 
-        weekDays.appendChild(day);
+    }
+
+    assignments=data || [];
+
+}
+
+async function loadTests(){
+
+    const {data,error}=await supabase
+
+        .from("tests")
+
+        .select("*")
+
+        .eq("user_id",auth.currentUser.uid);
+
+    if(error){
+
+        console.error(error);
+
+        tests=[];
+
+        return;
+
+    }
+
+    tests=data || [];
+
+}
+
+async function loadWeeklyTopics(){
+
+    const { data, error } = await supabase
+        .from("weekly_topics")
+        .select("*")
+        .eq("user_id", auth.currentUser.uid);
+
+    if(error){
+
+        console.error(error);
+
+        weeklyTopics = [];
+
+        return;
+
+    }
+
+    weeklyTopics = data || [];
+
+}
+ async function buildSchedule(){
+
+    scheduleItems = [];
+
+    //--------------------------------
+    // Lectures
+    //--------------------------------
+
+    lectures.forEach(lecture=>{
+
+        scheduleItems.push({
+
+            type:"lecture",
+
+            title:lecture.module_id,
+
+            day:lecture.day,
+
+            start:lecture.start_time,
+
+            end:lecture.end_time,
+
+            data:lecture
+
+        });
 
     });
 
-    calendar.appendChild(weekDays);
+    //--------------------------------
+// Weekly Topics
+//--------------------------------
 
-    // Calendar Grid
-    const grid=document.createElement("div");
-    grid.classList.add("month-grid");
+weeklyTopics.forEach(topic => {
 
-    const firstDay=new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth(),
-        1
-    );
+    scheduleItems.push({
 
-    const startDay=firstDay.getDay();
+        type: "topic",
 
-    const totalDays=new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth()+1,
-        0
-    ).getDate();
+        title: topic.topic,
 
-    // Empty spaces before day 1
+        week: topic.week,
 
-    for(let i=0;i<startDay;i++){
+        data: topic
 
-        const empty=document.createElement("div");
-
-        empty.classList.add("empty");
-
-        grid.appendChild(empty);
-
-    }
-
-    // Days
-
-    for(let i=1;i<=totalDays;i++){
-
-        const day=document.createElement("button");
-
-        day.classList.add("month-day");
-
-      const dayName = new Date(
-
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    i
-
-).toLocaleDateString("en-GB",{
-
-    weekday:"long"
+    });
 
 });
 
-const dayLectures = lectures.filter(
+    //--------------------------------
+// Tasks
+//--------------------------------
 
-    lecture => lecture.day === dayName
+tasks.forEach(task => {
 
-);
+    if (!task.due_date) return;
 
-day.innerHTML = `
+    const dueDate = new Date(task.due_date);
 
-    <span class="date-number">
+    scheduleItems.push({
 
-        ${i}
+        type: "task",
 
-    </span>
+        title: task.title,
 
-    <div class="month-dots">
+        date: dueDate,
 
-        ${dayLectures.map(lecture=>`
+        day: dueDate.toLocaleDateString("en-US", {
 
-            <span
-                class="lecture-dot"
-                style="background:${getModuleColour(lecture.module)}">
-            </span>
+            weekday: "long"
 
-        `).join("")}
+        }),
 
-    </div>
+        start: task.due_time || "23:59",
 
-`;
+        end: task.due_time || "23:59",
 
-        // Today's date
+        data: task
 
-        if(
-            i===currentDate.getDate()
-        ){
+    });
 
-            day.classList.add("active-day");
+    });
 
-        }
+   scheduleItems.sort((a, b) => {
 
-        // Click a day
+    const startA = a.start || "";
 
-        day.onclick=()=>{
+    const startB = b.start || "";
 
-            currentDate=new Date(
-
-                currentDate.getFullYear(),
-                currentDate.getMonth(),
-                i
-
-            );
-
-            view.value="day";
-
-            updateCalendar();
-
-        };
-
-        grid.appendChild(day);
-
-    }
-
-      calendar.appendChild(grid);
-
-}
-
-
-//========switch views=================================
-
-//==================== Calendar View ====================
-
-view.addEventListener("change", () => {
-
-    updateCalendar();
-
-    updateScheduleLayout();
+    return startA.localeCompare(startB);
 
 });
 
-//=====================previous button===================================
-
-calendarPrevBtn.onclick = () => {
-
-    if(view.value==="day")
-        currentDate.setDate(currentDate.getDate()-1);
-
-    if(view.value==="week")
-        currentDate.setDate(currentDate.getDate()-7);
-
-    if(view.value==="month")
-        currentDate.setMonth(currentDate.getMonth()-1);
-
-    updateCalendar();
-
-    updateScheduleLayout();
-
-};
-
-//=====================next button=========================
-
-
-if (calendarNextBtn && view) {
-
-   calendarNextBtn.onclick = () => {
-
-    if(view.value==="day")
-        currentDate.setDate(currentDate.getDate()+1);
-
-    if(view.value==="week")
-        currentDate.setDate(currentDate.getDate()+7);
-
-    if(view.value==="month")
-        currentDate.setMonth(currentDate.getMonth()+1);
-
-    updateCalendar();
-
-    updateScheduleLayout();
-
-};
-
-}
-//======================update calender==========================
-
-function updateCalendar(){
-
-    if(view.value==="day")
-        renderDay();
-
-    if(view.value==="week")
-        renderWeek();
-
-    if(view.value==="month")
-        renderMonth();
-
-}
-
-if(calendar && view){
-
-    updateCalendar();
-
-    updateScheduleLayout();
-
 }
 //==================================================
-// GET MODULE COLOUR
+// ADD LECTURE
 //==================================================
 
-function getModuleColour(moduleName){
+if (addLectureBtn) {
+
+    addLectureBtn.addEventListener("click", () => {
+
+        window.location.href = "21 addlecture.html";
+
+    });
+
+}
+
+//==================================================
+// MODULE COLOUR
+//==================================================
+
+function getModuleColour(moduleName) {
 
     const module = userModules.find(
 
-        m => m.name === moduleName
+        m => m.module_name === moduleName
 
     );
 
     return module ? module.colour : "#3048C8";
 
 }
-
 //==================================================
-// LOAD LECTURE CARDS
-//==================================================
-
-
-renderLectures();
-
-//==================================================
-// OPEN ADD LECTURE
+// WEEK VIEW
 //==================================================
 
-addLectureBtn.addEventListener("click",()=>{
+function renderWeek() {
+calendar.innerHTML = "";
+scheduleList.innerHTML = "";
 
-    schedulePage.style.display = "none";
+const weekStrip = document.createElement("div");
+weekStrip.className = "week-strip";
 
-    addLecturePage.style.display = "block";
+const stripStart = new Date(currentDate);
 
-});
+const stripDay = stripStart.getDay();
 
-//==================================================
-// BACK
-//==================================================
+stripStart.setDate(
+    stripStart.getDate() - (stripDay === 0 ? 6 : stripDay - 1)
+);
 
-backToSchedule.addEventListener("click",()=>{
+const shortDays = [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun"
+];
 
-    addLecturePage.style.display = "none";
+for(let i = 0; i < 7; i++){
 
-    schedulePage.style.display = "block";
+    const d = new Date(stripStart);
 
-});
-//==================================================
-// UPDATE SCHEDULE LAYOUT
-//==================================================
+    d.setDate(stripStart.getDate() + i);
 
-function updateScheduleLayout(){
+    const button = document.createElement("button");
 
-    //==========================================
-    // GET PAGE ELEMENTS
-    //==========================================
-
-    const tipCard =
-    document.querySelector(".tip-card");
-
-    const emptyImage =
-    document.querySelector(".no-tasks-img");
-
-    //==========================================
-    // DAY VIEW
-    //==========================================
-
-    if(view.value === "day"){
-
-        // Hide lecture cards
-
-        lectureList.style.display = "none";
-
-        // Hide empty state
-
-        scheduleEmpty.style.display = "none";
-
-        // Hide empty image
-
-        if(emptyImage){
-
-            emptyImage.style.display = "none";
-
-        }
-
-        // Hide tip card
-
-        if(tipCard){
-
-            tipCard.style.display = "none";
-
-        }
-
-    }
-
-    //==========================================
-    // WEEK + MONTH
-    //==========================================
-
-    else{
-
-        // User has lectures
-
-        if(lectures.length > 0){
-
-            lectureList.style.display = "block";
-
-            scheduleEmpty.style.display = "none";
-
-            if(emptyImage){
-
-                emptyImage.style.display = "none";
-
-            }
-
-            if(tipCard){
-
-                tipCard.style.display = "none";
-
-            }
-
-        }
-
-        // User has NO lectures
-
-        else{
-
-            lectureList.style.display = "none";
-
-            scheduleEmpty.style.display = "block";
-
-            if(emptyImage){
-
-                emptyImage.style.display = "block";
-
-            }
-
-            if(tipCard){
-
-                tipCard.style.display = "flex";
-
-            }
-
-        }
-
-    }
-
-}
-
-//==================================================
-// SAVE LECTURE
-//==================================================
-
-saveLecture.addEventListener("click",()=>{
-
+    button.className = "week-strip-day";
 
     if(
-
-        lectureModule.value === "" ||
-
-        startTime.value === "" ||
-
-        endTime.value === ""
-
+        d.toDateString() === currentDate.toDateString()
     ){
-
-        alert("Please complete all required fields.");
-
-        return;
-
+        button.classList.add("active");
     }
 
-    if(endTime.value <= startTime.value){
+    button.innerHTML = `
 
-        alert("End time must be after the start time.");
+        <span class="strip-day">
 
-        return;
+            ${shortDays[i]}
 
-    }
+        </span>
 
-    const lecture = {
+        <span class="strip-date">
 
-        id: editingLectureId || Date.now(),
+            ${d.getDate()}
 
-        module: lectureModule.value,
+        </span>
 
-        day: lectureDay.value,
+    `;
 
-        start: startTime.value,
+   button.onclick = () => {
 
-        end: endTime.value,
+    currentDate = new Date(d);
 
-        venue: venue.value,
+    view.value = "day";
 
-        lecturer: lecturer.value
+    updateCalendar();
 
-    };
+};
 
-    if(editingLectureId){
-
-        const index = lectures.findIndex(
-
-            l => l.id === editingLectureId
-
-        );
-
-        lectures[index] = lecture;
-
-        editingLectureId = null;
-
-    }
-
-    else{
-
-        lectures.push(lecture);
-
-    }
-
-    localStorage.setItem(
-
-    `lectures_${auth.currentUser.uid}`,
-
-    JSON.stringify(lectures)
-
-);
-   renderLectures();
-
-updateScheduleLayout();
-
-updateCalendar();
-
-    lectureModule.selectedIndex = 0;
-
-    lectureDay.selectedIndex = 0;
-
-    startTime.value = "";
-
-    endTime.value = "";
-
-    venue.value = "";
-
-    lecturer.value = "";
-
-    addLecturePage.style.display = "none";
-
-    schedulePage.style.display = "block";
-
-});
-
-//==================================================
-// RENDER LECTURES
-//==================================================
-
-function renderLectures(){
-
- lectureList.innerHTML = "";
-
-// Day view does not use lecture cards.
-// Simply hide them and continue.
-if(view.value === "day"){
-
-    lectureList.style.display = "none";
-
-}else{
-
-    lectureList.style.display = "block";
+    weekStrip.appendChild(button);
 
 }
 
-    const emptyImage = document.querySelector(".no-tasks-img");
-    const lectureCount = document.getElementById("lectureCount");
+calendar.appendChild(weekStrip);
 
-    if(lectures.length === 0){
+    const start = new Date(currentDate);
 
-        scheduleEmpty.style.display = "block";
-        document.querySelector(".tip-card").style.display = "flex";
+    // Monday
+    const day = start.getDay();
 
-        if(emptyImage){
-            emptyImage.style.display = "block";
-        }
+    start.setDate(start.getDate() - (day === 0 ? 6 : day - 1));
 
-        lectureList.style.display = "none";
+    const days = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+    ];
 
-        if(lectureCount){
-            lectureCount.textContent = "0 Lectures";
-        }
+    const months = [
+        "Jan","Feb","Mar","Apr","May","Jun",
+        "Jul","Aug","Sep","Oct","Nov","Dec"
+    ];
 
-        return;
+    days.forEach((dayName,index)=>{
+
+        const date = new Date(start);
+
+        date.setDate(start.getDate()+index);
+
+        //------------------------------------------------
+        // Today's lectures
+        //------------------------------------------------
+
+        const dayLectures = lectures
+            .filter(l=>l.day===dayName)
+            .sort((a,b)=>
+
+                a.start_time.localeCompare(
+                    b.start_time
+                )
+
+            );
+
+            //------------------------------------------------
+// Today's Tasks
+//------------------------------------------------
+
+const dayTasks = tasks
+    .filter(task => {
+
+        if (!task.due_date) return false;
+
+        const due = new Date(task.due_date);
+
+        return due.toDateString() === date.toDateString();
+
+    })
+    .sort((a, b) =>
+
+        (a.due_time || "23:59").localeCompare(
+
+            b.due_time || "23:59"
+
+        )
+
+    );
+
+ const dayTopics = weeklyTopics.filter(topic => {
+
+    if(!topic.start_date || !topic.end_date){
+
+        return false;
+
     }
 
-    scheduleEmpty.style.display = "none";
-    document.querySelector(".tip-card").style.display = "none";
+    const current = new Date(date);
 
-    if(emptyImage){
-        emptyImage.style.display = "none";
-    }
+    const start = new Date(topic.start_date);
 
-    lectureList.style.display = "block";
+    const end = new Date(topic.end_date);
 
-    if(lectureCount){
-        lectureCount.textContent =
-        `${lectures.length} Lecture${lectures.length > 1 ? "s" : ""}`;
-    }
+    return current >= start && current <= end;
 
-  if(view.value !== "day"){
+});           
 
-    lectures.forEach((lecture)=>{
+        //------------------------------------------------
+        // DAY CARD
+        //------------------------------------------------
 
-        const card = document.createElement("div");
+        const section = document.createElement("div");
 
-      //==================================================
-// MODULE COLOUR
-//==================================================
+        section.className="week-day-card";
 
-const colour = getModuleColour(lecture.module);
+        section.innerHTML=`
 
-card.className = "lecture-card";
+<div class="week-card-header">
 
-// Entire border
-card.style.border = `3px solid ${colour}`;
-        card.dataset.id = lecture.id;
+    <div>
 
-//========================================
-card.innerHTML = `
+        <h2>${dayName}</h2>
 
-<div class="lecture-card-header">
+        <span>
 
-    <!--=========================================
-    LECTURE DETAILS
-    ==========================================-->
+            ${date.getDate()} ${months[date.getMonth()]}
 
-    <div class="lecture-content">
-
-        <div class="lecture-time">
-
-            ${lecture.day} • ${lecture.start} - ${lecture.end}
-
-        </div>
-
-        <div class="lecture-title">
-
-            ${lecture.module}
-
-        </div>
-
-        <div class="lecture-room">
-
-            📍 ${lecture.venue || "No venue"}
-
-        </div>
+        </span>
 
     </div>
 
-    <!--=========================================
-    ACTION BUTTONS
-    ==========================================-->
+    <div class="lecture-count">
 
-    <div class="lecture-actions">
+        ${dayLectures.length}
 
-        <button class="delete-btn">
+        ${dayLectures.length===1 ? "Lecture":"Lectures"}
 
-            <i class="fa-solid fa-trash"></i>
+    </div>
 
-        </button>
+</div>
 
-        <button class="edit-btn">
+<div class="week-card-body">
 
-            <i class="fa-solid fa-pen"></i>
+</div>
 
-        </button>
+`;
 
+        //------------------------------------------------
+        // BODY
+        //------------------------------------------------
+
+        const body=section.querySelector(".week-card-body");
+
+        //------------------------------------------------
+        // EMPTY
+        //------------------------------------------------
+
+       if(dayLectures.length===0 && dayTasks.length===0){
+
+    body.innerHTML=`
+
+<div class="empty-week-day">
+
+    <i class="fa-regular fa-calendar"></i>
+
+    <p>No events scheduled</p>
+
+</div>
+
+`;
+
+}
+
+        //------------------------------------------------
+        // LECTURES
+        //------------------------------------------------
+
+        dayLectures.forEach(lecture=>{
+
+            //------------------------------------------------
+            // MODULE
+            //------------------------------------------------
+
+            const module=userModules.find(
+
+                m=>m.id===lecture.module_id
+
+            );
+
+            const moduleName=
+                module?.module_name || "Unknown Module";
+
+            const colour=
+                module?.colour || "#3048C8";
+
+            //------------------------------------------------
+            // CARD
+            //------------------------------------------------
+
+            const card=document.createElement("div");
+
+            card.className="week-lecture";
+
+            card.innerHTML=`
+
+<div class="lecture-bar"
+
+style="background:${colour}">
+
+</div>
+
+<div class="lecture-main">
+
+    <div class="lecture-time">
+
+        <strong>
+
+            ${lecture.start_time}
+
+        </strong>
+
+        <span>
+
+            ${lecture.end_time}
+
+        </span>
+
+    </div>
+
+    <div class="lecture-details">
+
+        <h3>
+
+            ${moduleName}
+
+        </h3>
+
+        <p>
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            ${lecture.venue || "No venue"}
+
+        </p>
+
+        ${
+            lecture.lecturer
+
+            ?
+
+            `
+
+<p>
+
+<i class="fa-solid fa-user"></i>
+
+${lecture.lecturer}
+
+</p>
+
+`
+
+            :
+
+            ""
+
+        }
+
+    </div>
+
+</div>
+
+<div class="lecture-options">
+
+    <button
+
+        class="edit-btn"
+
+        data-id="${lecture.id}"
+
+    >
+
+        <i class="fa-solid fa-pen"></i>
+
+    </button>
+
+    <button
+
+        class="delete-btn"
+
+        data-id="${lecture.id}"
+
+    >
+
+        <i class="fa-solid fa-trash"></i>
+
+    </button>
+
+</div>
+
+`;
+
+            body.appendChild(card);
+
+        });
+
+        //------------------------------------------------
+// TASKS
+//------------------------------------------------
+
+dayTasks.forEach(task => {
+
+    let colour = "#22C55E";
+
+    if(task.module_id){
+
+        const module = userModules.find(
+
+            m => m.id == task.module_id
+
+        );
+
+        if(module){
+
+            colour = module.colour;
+
+        }
+
+    }
+
+    const card = document.createElement("div");
+
+    card.className = "week-lecture";
+
+    card.innerHTML = `
+
+<div class="lecture-bar"
+
+style="background:${colour}">
+
+</div>
+
+<div class="lecture-main">
+
+    <div class="lecture-time">
+
+        <strong>
+
+            ${task.due_time || "--:--"}
+
+        </strong>
+
+        <span>
+
+            Due
+
+        </span>
+
+    </div>
+
+    <div class="lecture-details">
+
+        <h3>
+
+            ${task.title}
+
+        </h3>
+
+       <p>
+
+    <i class="fa-solid fa-book"></i>
+
+    ${task.module_name || "General"}
+
+</p>
     </div>
 
 </div>
 
 `;
 
+    body.appendChild(card);
 
+});
 
+        dayTopics.forEach(topic=>{
 
-//==================
+    const card = document.createElement("div");
 
+    card.className = "week-lecture";
 
-        lectureList.appendChild(card);
+    card.innerHTML = `
 
-        //=========================
-        // EDIT
-        //=========================
+        <div class="lecture-bar"
+             style="background:#4F46E5">
+        </div>
 
-        card.querySelector(".edit-btn").addEventListener("click",()=>{
+        <div class="lecture-main">
 
-            editingLectureId = lecture.id;
+            <div class="lecture-details">
 
-            lectureModule.value = lecture.module;
+                <h3>${topic.topic}</h3>
 
-            lectureDay.value = lecture.day;
+                <p>Week ${topic.week}</p>
 
-            startTime.value = lecture.start;
+            </div>
 
-            endTime.value = lecture.end;
+        </div>
 
-            venue.value = lecture.venue;
+    `;
 
-            lecturer.value = lecture.lecturer;
+    body.appendChild(card);
 
-            schedulePage.style.display = "none";
+});
+//========================================
+// OPEN DAY VIEW
+//========================================
 
-            addLecturePage.style.display = "block";
+section.style.cursor = "pointer";
 
-        });
+section.addEventListener("click", (e) => {
 
-        //=========================
-        // DELETE
-        //=========================
+    // Don't switch if Edit/Delete was clicked
+    if (
+        e.target.closest(".edit-btn") ||
+        e.target.closest(".delete-btn")
+    ) {
+        return;
+    }
 
-        card.querySelector(".delete-btn").addEventListener("click",()=>{
+    currentDate = new Date(date);
 
-            const confirmDelete = confirm(
-                "Delete this lecture?"
-            );
+    view.value = "day";
 
-            if(!confirmDelete) return;
+    updateCalendar();
 
-            lectures = lectures.filter(
-
-                item => item.id !== lecture.id
-
-            );
-
-           localStorage.setItem(
-
-    `lectures_${auth.currentUser.uid}`,
-
-    JSON.stringify(lectures)
-
-);
-           renderLectures();
-
-           updateScheduleLayout();
-
-           updateCalendar();
-
-        });
+});
+        scheduleList.appendChild(section);
 
     });
 
-  }
 }
+
 //==================================================
-// AUTO SCROLL DAY VIEW
+// DAY VIEW
 //==================================================
 
-function scrollToRelevantHour(){
+function renderDay() {
 
-    // Today's date
-    const today = new Date();
+    if (!calendar) return;
 
-    // Selected calendar date
-    const selected = new Date(currentDate);
+    calendar.innerHTML = "";
 
-    let hourToScroll;
+    const dayView = document.createElement("div");
 
-    //--------------------------------------------------
-    // IF VIEWING TODAY
-    //--------------------------------------------------
+    dayView.className = "day-view";
+    dayView.id = "dayView";
+dayView.innerHTML = `
 
-    if(
+    <h2 class="day-title">
 
-        today.getFullYear() === selected.getFullYear() &&
-        today.getMonth() === selected.getMonth() &&
-        today.getDate() === selected.getDate()
+        ${currentDate.toLocaleDateString("en-GB", {
 
-    ){
+            weekday: "long",
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
 
-        // Scroll to the current hour
+        })}
 
-        hourToScroll = today.getHours();
+    </h2>
+
+    <div class="day-summary" id="daySummary"></div>
+
+    <div class="timeline">
+
+        ${Array.from({ length: 24 }, (_, hour) => `
+
+            <div class="time-slot" id="hour-${hour}">
+
+                <div class="time-label">
+
+                    ${String(hour).padStart(2,"0")}:00
+
+                </div>
+
+                <div class="events" data-hour="${hour}"></div>
+
+            </div>
+
+        `).join("")}
+
+    </div>
+
+`;
+
+    calendar.appendChild(dayView);
+
+    const selectedDay = currentDate.toLocaleDateString("en-GB", {
+
+        weekday: "long"
+
+    });
+
+   const todaysItems = scheduleItems.filter(
+
+    item => item.day === selectedDay
+
+);
+
+todaysItems.forEach(item=>{
+
+    //-------------------------------------
+    // LECTURE
+    //-------------------------------------
+
+   if(item.type === "lecture"){
+
+    const lecture = item.data;
+    //------------------------------------------------
+    // GET MODULE
+    //------------------------------------------------
+
+    const module = userModules.find(
+
+        m => m.id === lecture.module_id
+
+    );
+
+    const moduleName =
+        module?.module_name || "Unknown Module";
+
+    const colour =
+        module?.colour || "#3048C8";
+
+    //------------------------------------------------
+    // START / END
+    //------------------------------------------------
+
+    const [startHour, startMinute] =
+        lecture.start_time.split(":").map(Number);
+
+    const [endHour, endMinute] =
+        lecture.end_time.split(":").map(Number);
+
+    const duration =
+        (endHour * 60 + endMinute) -
+        (startHour * 60 + startMinute);
+
+    //------------------------------------------------
+    // FIND HOUR
+    //------------------------------------------------
+
+    const container = dayView.querySelector(
+
+        `.events[data-hour="${startHour}"]`
+
+    );
+
+    if(!container) return;
+
+    //------------------------------------------------
+    // EVENT
+    //------------------------------------------------
+
+    const event = document.createElement("div");
+
+    event.className = "lecture-event";
+
+    event.style.borderLeft =
+        `6px solid ${colour}`;
+
+    event.style.left = "8px";
+
+    event.style.right = "8px";
+
+    event.style.top =
+        `${(startMinute / 60) * 80}px`;
+
+    event.style.height =
+        `${(duration / 60) * 80}px`;
+
+    event.innerHTML = `
+
+        <strong>
+
+            ${moduleName}
+
+        </strong>
+
+        <small>
+
+            ${lecture.start_time}
+
+            -
+
+            ${lecture.end_time}
+
+        </small>
+
+        <span>
+
+            📍 ${lecture.venue || "No venue"}
+
+        </span>
+
+    `;
+
+  container.appendChild(event);
+
+}
+
+//-------------------------------------
+// TASK
+//-------------------------------------
+
+if(item.type === "task"){
+
+    const task = item.data;
+
+    const dueTime = task.due_time || "23:59";
+
+    const [hour, minute] = dueTime.split(":").map(Number);
+
+
+    const container = dayView.querySelector(
+        `.events[data-hour="${hour}"]`
+    );
+
+    if(!container) return;
+
+    const event = document.createElement("div");
+
+    event.className = "task-event";
+
+    let colour = "#22C55E";
+
+if(task.module_id){
+
+    const module = userModules.find(
+
+        m => m.id == task.module_id
+
+    );
+
+    if(module){
+
+        colour = module.colour;
 
     }
 
-    //--------------------------------------------------
-    // VIEWING ANOTHER DAY
-    //--------------------------------------------------
+}
 
-    else{
+event.style.borderLeft = `6px solid ${colour}`;
 
-        // Find lectures for the selected day
+    event.style.left = "8px";
+    event.style.right = "8px";
 
-        const dayName = selected.toLocaleDateString(
+    event.style.top = `${(minute / 60) * 80}px`;
 
-            "en-GB",
+    event.style.height = "60px";
 
-            {
+    event.innerHTML = `
+        <strong>✅ ${task.title}</strong>
+        <small>
 
-                weekday:"long"
+    ${task.module_name || "General"}
 
-            }
+</small>
+    `;
 
-        );
+    container.appendChild(event);
+
+}
+
+});
+
+    setTimeout(() => {
+
+        scrollToRelevantHour();
+
+    }, 100);
+
+}
+
+//==================================================
+// MONTH VIEW
+//==================================================
+
+function renderMonth() {
+
+    if (!calendar) return;
+
+    calendar.innerHTML = "";
+
+    //==========================================
+    // MONTH TITLE
+    //==========================================
+
+    const title = document.createElement("h2");
+
+    title.className = "month-title";
+
+    title.textContent = currentDate.toLocaleString("default", {
+
+        month: "long",
+        year: "numeric"
+
+    });
+
+    calendar.appendChild(title);
+
+    //==========================================
+    // WEEK DAYS
+    //==========================================
+
+    const weekDays = document.createElement("div");
+
+    weekDays.className = "week-days";
+
+    ["SUN","MON","TUE","WED","THU","FRI","SAT"].forEach(day => {
+
+        const item = document.createElement("div");
+
+        item.className = "week-name";
+
+        item.textContent = day;
+
+        weekDays.appendChild(item);
+
+    });
+
+    calendar.appendChild(weekDays);
+
+    //==========================================
+    // GRID
+    //==========================================
+
+    const grid = document.createElement("div");
+
+    grid.className = "month-grid";
+
+    const firstDay = new Date(
+
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        1
+
+    );
+
+    const startDay = firstDay.getDay();
+
+    const totalDays = new Date(
+
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        0
+
+    ).getDate();
+
+    //==========================================
+    // EMPTY CELLS
+    //==========================================
+
+    for (let i = 0; i < startDay; i++) {
+
+        const empty = document.createElement("div");
+
+        empty.className = "empty";
+
+        grid.appendChild(empty);
+
+    }
+
+    //==========================================
+    // DAYS
+    //==========================================
+
+    for (let day = 1; day <= totalDays; day++) {
+
+        const button = document.createElement("button");
+
+        button.className = "month-day";
+
+        const dayName = new Date(
+
+            currentDate.getFullYear(),
+            currentDate.getMonth(),
+            day
+
+        ).toLocaleDateString("en-GB", {
+
+            weekday: "long"
+
+        });
 
         const dayLectures = lectures.filter(
 
@@ -1180,45 +1186,374 @@ function scrollToRelevantHour(){
 
         );
 
-        // If lectures exist, scroll to the first one
+        const dayTasks = tasks.filter(task => {
 
-        if(dayLectures.length > 0){
+    if (!task.due_date) return false;
 
-            hourToScroll = parseInt(
+    const due = new Date(task.due_date);
 
-                dayLectures[0].start.split(":")[0]
+    return (
 
-            );
+        due.getDate() === day &&
+
+        due.getMonth() === currentDate.getMonth() &&
+
+        due.getFullYear() === currentDate.getFullYear()
+
+    );
+
+});
+
+        button.innerHTML = `
+
+            <span class="date-number">
+
+                ${day}
+
+            </span>
+
+           <div class="month-dots">
+
+    ${dayLectures.map(lecture => `
+
+        <span
+            class="lecture-dot"
+            style="background:${getModuleColour(lecture.module)}">
+        </span>
+
+    `).join("")}
+
+  ${dayTasks.map(task => {
+
+    const module = userModules.find(
+
+        m => m.id == task.module_id
+
+    );
+
+    const colour = module?.colour || "#22C55E";
+
+    return `
+
+        <span
+            class="task-dot"
+            style="background:${colour}">
+        </span>
+
+    `;
+
+}).join("")} 
+
+${weeklyTopics.filter(topic => {
+
+    if(!topic.start_date || !topic.end_date){
+
+        return false;
+
+    }
+
+    const current = new Date(
+
+        currentDate.getFullYear(),
+
+        currentDate.getMonth(),
+
+        day
+
+    );
+
+    return (
+
+        current >= new Date(topic.start_date)
+
+        &&
+
+        current <= new Date(topic.end_date)
+
+    );
+
+}).map(() => `
+
+    <span
+        class="topic-dot"
+        style="background:#4F46E5">
+    </span>
+
+`).join("")}
+
+</div>
+
+        `;
+
+        //==========================================
+        // TODAY
+        //==========================================
+
+        const today = new Date();
+
+        if (
+
+            day === today.getDate() &&
+            currentDate.getMonth() === today.getMonth() &&
+            currentDate.getFullYear() === today.getFullYear()
+
+        ) {
+
+            button.classList.add("active-day");
 
         }
 
-        // Otherwise start at midnight
+        //==========================================
+        // OPEN DAY VIEW
+        //==========================================
 
-        else{
+        button.addEventListener("click", () => {
 
-            hourToScroll = 0;
+            currentDate = new Date(
+
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                day
+
+            );
+
+            if (view) {
+
+                view.value = "day";
+
+            }
+
+            updateCalendar();
+
+        });
+
+        grid.appendChild(button);
+
+    }
+
+    calendar.appendChild(grid);
+
+}
+
+//==================================================
+// UPDATE CALENDAR
+//==================================================
+
+function updateCalendar() {
+
+    if (!calendar || !view) return;
+
+    switch(view.value){
+
+        case "day":
+
+            renderDay();
+
+            break;
+
+        case "week":
+
+            renderWeek();
+
+            break;
+
+        case "month":
+
+            renderMonth();
+
+            break;
+
+    }
+
+    updateScheduleLayout();
+
+}
+//==================================================
+// VIEW SWITCH
+//==================================================
+
+if (view) {
+
+   view.addEventListener("change", () => {
+
+    updateCalendar();
+
+});
+
+}
+
+//==================================================
+// PREVIOUS
+//==================================================
+
+if (calendarPrevBtn) {
+
+    calendarPrevBtn.addEventListener("click", () => {
+
+        switch (view.value) {
+
+            case "day":
+                currentDate.setDate(currentDate.getDate() - 1);
+                break;
+
+            case "week":
+                currentDate.setDate(currentDate.getDate() - 7);
+                break;
+
+            case "month":
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                break;
+
+        }
+
+        updateCalendar();
+
+    });
+
+}
+
+//==================================================
+// NEXT
+//==================================================
+
+if (calendarNextBtn) {
+
+    calendarNextBtn.addEventListener("click", () => {
+
+        switch (view.value) {
+
+            case "day":
+                currentDate.setDate(currentDate.getDate() + 1);
+                break;
+
+            case "week":
+                currentDate.setDate(currentDate.getDate() + 7);
+                break;
+
+            case "month":
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                break;
+
+        }
+
+        updateCalendar();
+
+    });
+
+}
+
+
+
+function updateScheduleLayout() {
+
+    //-----------------------------------------
+    // DAY
+    //-----------------------------------------
+
+    if(view.value === "day"){
+
+        calendar.style.display = "block";
+
+        scheduleList.style.display = "none";
+
+        return;
+
+    }
+
+    //-----------------------------------------
+    // WEEK
+    //-----------------------------------------
+
+    if(view.value === "week"){
+
+        calendar.style.display = "block";
+
+        scheduleList.style.display = "block";
+
+        return;
+
+    }
+
+    //-----------------------------------------
+    // MONTH
+    //-----------------------------------------
+
+    if(view.value === "month"){
+
+        calendar.style.display = "block";
+
+        scheduleList.style.display = "none";
+
+        return;
+
+    }
+
+}
+
+//==================================================
+// AUTO SCROLL
+//==================================================
+
+function scrollToRelevantHour() {
+
+    const today = new Date();
+
+    let hour = 0;
+
+    if (
+
+        today.toDateString() === currentDate.toDateString()
+
+    ) {
+
+        hour = today.getHours();
+
+    }
+
+    else {
+
+        const dayName = currentDate.toLocaleDateString(
+
+            "en-GB",
+
+            {
+
+                weekday: "long"
+
+            }
+
+        );
+
+        const lecture = lectures.find(
+
+            l => l.day === dayName
+
+        );
+
+        if (lecture) {
+
+           hour = parseInt(
+
+    lecture.start_time.split(":")[0]
+
+);
 
         }
 
     }
 
-    //--------------------------------------------------
-    // SCROLL
-    //--------------------------------------------------
-
     const target = document.getElementById(
 
-        `hour-${hourToScroll}`
+        `hour-${hour}`
 
     );
 
-    if(target){
+    if (target) {
 
         target.scrollIntoView({
 
-            behavior:"smooth",
-
-            block:"center"
+            behavior: "smooth",
+            block: "center"
 
         });
 
@@ -1226,3 +1561,149 @@ function scrollToRelevantHour(){
 
 }
 
+//==================================================
+// INITIALISE
+//==================================================
+
+if (calendar && view) {
+
+    updateCalendar();
+
+}
+
+
+//==================================================
+// EDIT & DELETE BUTTONS
+//==================================================
+
+document.addEventListener("click", async (e) => {
+
+    //==========================
+    // EDIT
+    //==========================
+
+    if (e.target.closest(".edit-btn")) {
+
+        const id = e.target.closest(".edit-btn").dataset.id;
+
+        window.location.href = `21 addlecture.html?id=${id}`;
+
+    }
+
+    //==========================
+    // DELETE
+    //==========================
+
+    if (e.target.closest(".delete-btn")) {
+
+        const id = e.target.closest(".delete-btn").dataset.id;
+
+        const confirmDelete = confirm(
+            "Delete this lecture?"
+        );
+
+        if (!confirmDelete) return;
+
+        const { error } = await supabase
+            .from("lectures")
+            .delete()
+            .eq("id", id);
+
+        if (error) {
+
+            console.error(error);
+            alert("Failed to delete lecture.");
+            return;
+
+        }
+
+        lectures = lectures.filter(
+            lecture => lecture.id != id
+        );
+
+        updateCalendar();
+        updateScheduleLayout();
+
+    }
+
+});
+
+//==================================================
+// CREATE OVERLAY
+//==================================================
+
+if(navAdd){
+
+    navAdd.addEventListener("click",(e)=>{
+
+        e.preventDefault();
+
+        createOverlay.style.display = "flex";
+
+    });
+
+}
+
+if(closeSheet){
+
+    closeSheet.addEventListener("click",()=>{
+
+        createOverlay.style.display = "none";
+
+    });
+
+}
+
+if(createOverlay){
+
+    createOverlay.addEventListener("click",(e)=>{
+
+        if(e.target === createOverlay){
+
+            createOverlay.style.display = "none";
+
+        }
+
+    });
+
+}
+
+if(newModule){
+
+    newModule.addEventListener("click",()=>{
+
+        window.location.href = "08 modules.html?newModule=true";
+
+    });
+
+}
+
+if(newTask){
+
+    newTask.addEventListener("click",()=>{
+
+        window.location.href = "21 addTask.html";
+
+    });
+
+}
+
+if(newLecture){
+
+    newLecture.addEventListener("click",()=>{
+
+        createOverlay.style.display = "none";
+
+    });
+
+}
+
+if(newAssessment){
+
+    newAssessment.addEventListener("click",()=>{
+
+        alert("Assessment page coming soon.");
+
+    });
+
+}

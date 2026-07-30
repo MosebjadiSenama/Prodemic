@@ -12,6 +12,14 @@ import { supabase } from "./supabase.js";
 //-------------
 // Tasks Page
 //-------------
+const createOverlay = document.getElementById("createOverlay");
+const navAdd = document.querySelector(".nav-add");
+const closeSheet = document.getElementById("closeSheet");
+
+const newModule = document.getElementById("newModule");
+const newTask = document.getElementById("newTask");
+const newLecture = document.getElementById("newLecture");
+const newAssessment = document.getElementById("newAssessment");
 
 const taskList = document.getElementById("taskList");
 const emptyState = document.getElementById("emptyState");
@@ -42,9 +50,6 @@ const taskRepeat = document.getElementById("taskRepeat");
 const countdownPreview =
 document.getElementById("countdownPreview");
 
-const priorityButtons =
-document.querySelectorAll(".priority-btn");
-
 const taskTypeButtons =
 document.querySelectorAll(".task-type-btn");
 
@@ -53,6 +58,24 @@ document.getElementById("otherTaskGroup");
 
 const otherTaskType =
 document.getElementById("otherTaskType");
+
+const taskSheetOverlay =
+document.getElementById("taskSheetOverlay");
+
+const taskSheet =
+document.getElementById("taskSheet");
+
+const taskSheetTitle =
+document.getElementById("taskSheetTitle");
+
+const editTaskBtn =
+document.getElementById("editTaskBtn");
+
+const deleteTaskBtn =
+document.getElementById("deleteTaskBtn");
+
+const cancelTaskBtn =
+document.getElementById("cancelTaskBtn");
 
 //==================================================
 // DATA
@@ -64,7 +87,6 @@ let modules = [];
 
 let currentFilter = "All";
 
-let selectedPriority = "Medium";
 
 let selectedTaskType = "Assignment";
 
@@ -73,25 +95,53 @@ let editingTask = null;
 //==================================================
 // SAVE TASKS
 //==================================================
-function saveTasks(){
+async function loadTasks(){
 
     const user = auth.currentUser;
 
-    if(!user){
+    if(!user) return;
+
+    const { data, error } = await supabase
+.from("tasks")
+.select("*")
+.eq("user_id", user.uid);
+
+    if(error){
+
+        console.error(error);
+
+        tasks = [];
 
         return;
 
     }
 
-    localStorage.setItem(
+  tasks = (data || []).map(task => {
 
-        `tasks_${user.uid}`,
-
-        JSON.stringify(tasks)
-
+    const module = modules.find(
+        m => m.id == task.module_id
     );
 
+    return {
+
+        ...task,
+
+        module: task.module_name || "General",
+
+        moduleColour:
+            module?.colour ||
+            "#3048C8",
+
+        date: task.due_date,
+
+        time: task.due_time
+
+    };
+
+});
+
 }
+
 
 //==================================================
 // LOAD MODULES
@@ -134,9 +184,10 @@ console.log("Error:", error);
 
         const option = document.createElement("option");
 
-        option.value = module.name;
+      option.value = module.id;
 
-        option.textContent = `${module.code} - ${module.name}`;
+option.textContent =
+`${module.module_code} - ${module.module_name}`;
 
         taskModule.appendChild(option);
 
@@ -197,6 +248,41 @@ function getRemainingTime(task){
 
 }
 
+//====
+
+function getPriority(task){
+
+    if(!task.date){
+
+        return "Low";
+
+    }
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    const due = new Date(task.date);
+    due.setHours(0,0,0,0);
+
+    const difference =
+        Math.floor((due - today) / (1000 * 60 * 60 * 24));
+
+    if(difference <= 2){
+
+        return "High";
+
+    }
+
+    if(difference <= 7){
+
+        return "Medium";
+
+    }
+
+    return "Low";
+
+}
+
 
 //==================================================
 // RENDER TASKS
@@ -228,59 +314,52 @@ function renderTasks(){
 
     switch(currentFilter){
 
-        case "Today":
+    case "High Priority":
 
-            const today =
+        filteredTasks = filteredTasks.filter(
+            task =>
+            !task.completed &&
+           getPriority(task) === "High"
+        );
 
-            new Date()
+        break;
 
-            .toISOString()
+    case "Due Soon":
 
-            .split("T")[0];
+        const today = new Date();
 
-            filteredTasks =
+        const sevenDays = new Date();
 
-            filteredTasks.filter(
+        sevenDays.setDate(today.getDate() + 7);
 
-                task =>
+        filteredTasks = filteredTasks.filter(task => {
 
-                task.date === today
+            if(task.completed || !task.date) return false;
 
-            );
+            const due = new Date(task.date);
 
-            break;
+            return due >= today && due <= sevenDays;
 
-        case "Upcoming":
+        });
 
-            filteredTasks =
+        break;
 
-            filteredTasks.filter(
+    case "Completed":
 
-                task =>
+        filteredTasks = filteredTasks.filter(
+            task => task.completed
+        );
 
-                !task.completed
+        break;
 
-            );
+    default:
 
-            break;
+        filteredTasks = filteredTasks.filter(
+            task => !task.completed
+        );
 
-        case "Completed":
+        break;
 
-            filteredTasks =
-
-            filteredTasks.filter(
-
-                task =>
-
-                task.completed
-
-            );
-
-            break;
-
-        default:
-
-            break;
 
     }
 
@@ -326,15 +405,63 @@ function renderTasks(){
     // EMPTY STATE
     //------------------------------------------
 
-    if(filteredTasks.length===0){
+   if(filteredTasks.length===0){
 
-        emptyState.style.display="flex";
+    const title =
+    emptyState.querySelector("h2");
 
-        taskList.style.display="none";
+    const text =
+    emptyState.querySelector("p");
 
-        return;
+    switch(currentFilter){
+
+        case "Completed":
+
+            title.textContent = "No Completed Tasks";
+
+            text.textContent =
+            "Complete a task and it will appear here.";
+
+            break;
+
+        case "Due Soon":
+
+            title.textContent = "Nothing Due Soon";
+
+            text.textContent =
+            "You're all caught up for the next 7 days.";
+
+            break;
+
+        case "Priority":
+
+        case "High Priority":
+
+            title.textContent = "No High Priority Tasks";
+
+            text.textContent =
+            "You don't have any high priority tasks right now.";
+
+            break;
+
+        default:
+
+            title.textContent = "No Tasks Yet";
+
+            text.textContent =
+            "Create your first task to stay organised throughout the semester.";
+
+            break;
 
     }
+
+    emptyState.style.display="flex";
+
+    taskList.style.display="none";
+
+    return;
+
+}
 
     emptyState.style.display="none";
 
@@ -377,6 +504,12 @@ function renderTasks(){
         //--------------------------------------
         // CARD HTML
         //--------------------------------------
+const dueText = getRemainingTime(task);
+
+const dueClass =
+    dueText.startsWith("Overdue")
+        ? "overdue"
+        : "";
 
        card.innerHTML = `
 
@@ -386,11 +519,17 @@ function renderTasks(){
 
         <div class="task-details">
 
-            <h3>
+            <div class="task-title-row">
 
-                ${task.title}
+    <h3>${task.title}</h3>
 
-            </h3>
+   <span class="priority-badge ${getPriority(task).toLowerCase()}">
+
+    ${getPriority(task)}
+
+</span>
+
+</div>
 
             <h4 class="task-module">
 
@@ -398,14 +537,14 @@ function renderTasks(){
 
             </h4>
 
-            <p class="task-due">
+          <p class="task-due ${dueClass}">
 
     ${
         task.completed
         ?
         "✓ Completed"
         :
-        getRemainingTime(task)
+        dueText
     }
 
 </p>
@@ -439,7 +578,7 @@ function renderTasks(){
 
         card.querySelector(".task-check");
 
-        checkbox.addEventListener("click",(e)=>{
+        checkbox.addEventListener("click", async (e)=>{
 
             e.stopPropagation();
 
@@ -455,31 +594,51 @@ function renderTasks(){
 
 }
 
-            saveTasks();
+          await supabase
+    .from("tasks")
+    .update({
+        completed: checkbox.checked
+    })
+    .eq("id", task.id);
 
             renderTasks();
 
         });
 
         //--------------------------------------
-        // EDIT TASK
+        // EDIT AND DELETE TASK
         //--------------------------------------
+card.addEventListener("click", () => {
 
-        card.addEventListener("click",()=>{
+    taskSheetTitle.textContent = task.title;
 
-            localStorage.setItem(
+    taskSheetOverlay.classList.add("show");
 
-                "editingTask",
+    editTaskBtn.onclick = () => {
 
-                task.id
+        localStorage.setItem(
+            "editingTask",
+            task.id
+        );
 
-            );
+        window.location.href = "21 addTask.html";
 
-            window.location.href =
+    };
 
-            "21 addTask.html";
+    deleteTaskBtn.onclick = async () => {
 
-        });
+        const yes = confirm("Delete this task?");
+
+        if(!yes) return;
+
+        taskSheetOverlay.classList.remove("show");
+
+        await deleteTask(task.id);
+
+    };
+
+});
+          
 
         //--------------------------------------
         // ADD CARD
@@ -609,9 +768,7 @@ function loadTaskIntoForm(){
 
     editingTask.title || "";
 
-    taskModule.value =
-
-    editingTask.module || "";
+  taskModule.value = editingTask.module_id || "";
 
     taskDate.value =
 
@@ -629,33 +786,7 @@ function loadTaskIntoForm(){
 
     editingTask.repeat || "Never";
 
-    selectedPriority =
 
-    editingTask.priority || "Medium";
-
-    selectedTaskType =
-
-    editingTask.type || "Assignment";
-
-    //------------------------------------------
-    // Priority Buttons
-    //------------------------------------------
-
-    priorityButtons.forEach(button=>{
-
-        button.classList.remove("active");
-
-        if(
-
-            button.dataset.priority===selectedPriority
-
-        ){
-
-            button.classList.add("active");
-
-        }
-
-    });
 
     //------------------------------------------
     // Task Type Buttons
@@ -689,29 +820,6 @@ function loadTaskIntoForm(){
 
 }
 
-//==================================================
-// PRIORITY BUTTONS
-//==================================================
-
-priorityButtons.forEach(button=>{
-
-    button.addEventListener("click",()=>{
-
-        priorityButtons.forEach(btn=>{
-
-            btn.classList.remove("active");
-
-        });
-
-        button.classList.add("active");
-
-        selectedPriority =
-
-        button.dataset.priority;
-
-    });
-
-});
 
 //==================================================
 // TASK TYPE BUTTONS
@@ -878,16 +986,24 @@ async(e)=>{
     //------------------------------------------
     // Module
     //------------------------------------------
+const selectedModule =
+modules.find(module => {
 
-    const selectedModule=
+console.log("Dropdown value:", taskModule.value);
 
-    modules.find(
-
-        module=>
-
-        module.name===taskModule.value
-
+    console.log(
+        module.id,
+        typeof module.id,
+        taskModule.value,
+        typeof taskModule.value
     );
+
+    return String(module.id) === taskModule.value;
+
+});
+
+console.log("Selected module:", selectedModule);
+console.log("Dropdown value:", taskModule.value);
 
     //------------------------------------------
     // Colour
@@ -948,8 +1064,11 @@ async(e)=>{
         taskTitle.value.trim(),
 
         module:
+        selectedModule?.module_name || "General",
 
-        taskModule.value,
+        module_id:
+        selectedModule?.id || null,
+        
 
         moduleColour:
 
@@ -960,8 +1079,9 @@ async(e)=>{
         finalTaskType,
 
         priority:
-
-        selectedPriority,
+       getPriority({
+        date: taskDate.value
+       }),
 
         date:
 
@@ -1027,31 +1147,52 @@ async(e)=>{
     // New
     //------------------------------------------
 
-    else{
+  const { error } = await supabase
+.from("tasks")
+.insert([{
+    user_id: auth.currentUser.uid,
 
-        tasks.push(task);
+    module_id: selectedModule?.id ?? null,
 
-    }
+    module_name: selectedModule
+        ? `${selectedModule.module_code} - ${selectedModule.module_name}`
+        : "General",
 
-    //------------------------------------------
-    // Save
-    //------------------------------------------
+    title: task.title,
 
-    saveTasks();
+    due_date: task.date,
 
-    localStorage.removeItem(
+    due_time: task.time,
 
-        "editingTask"
+    priority: getPriority({
+        date: task.date
+    }),
 
-    );
+    completed: false
+}]);
 
-    //------------------------------------------
-    // Go back
-    //------------------------------------------
+if (error) {
+    console.error("SUPABASE ERROR:", error);
+    alert(JSON.stringify(error, null, 2));
+    return;
+}
 
-    window.location.href=
+if(error){
+    console.error(error);
+    alert(error.message);
+    return;
+}
 
-    "09 tasks.html";
+if(error){
+    console.error(error);
+    alert(error.message);
+    return;
+}
+
+localStorage.removeItem("editingTask");
+
+window.location.href = "09 tasks.html";
+     
 
 });
 
@@ -1151,20 +1292,9 @@ auth.onAuthStateChanged(async(user)=>{
 
     }
 
-    tasks = JSON.parse(
+await loadModules();
 
-    localStorage.getItem(
-
-        `tasks_${user.uid}`
-
-    )
-
-) || [];
-    //------------------------------------------
-    // Load Modules
-    //------------------------------------------
-
-    await loadModules();
+await loadTasks();
 
     //------------------------------------------
     // Editing
@@ -1191,89 +1321,52 @@ auth.onAuthStateChanged(async(user)=>{
 //==================================================
 // STORAGE SYNC
 //==================================================
-window.addEventListener(
-
-    "storage",
-
-    ()=>{
-
-        const user = auth.currentUser;
-
-        if(!user){
-
-            return;
-
-        }
-
-        tasks =
-
-        JSON.parse(
-
-            localStorage.getItem(
-
-                `tasks_${user.uid}`
-
-            )
-
-        ) || [];
-
-        renderTasks();
-
-    }
-
-);
+window.addEventListener("focus", async () => {
+    await loadTasks();
+    renderTasks();
+});
 
 //==================================================
 // DELETE TASK
 //==================================================
 
-function deleteTask(taskId){
+async function deleteTask(taskId){
 
-    tasks = tasks.filter(
+    await supabase
+        .from("tasks")
+        .delete()
+        .eq("id", taskId);
 
-        task =>
-
-        task.id !== taskId
-
-    );
-
-    saveTasks();
+    await loadTasks();
 
     renderTasks();
 
 }
+
 
 //==================================================
 // MARK COMPLETE
 //==================================================
 
-function completeTask(taskId){
+async function completeTask(taskId){
 
-    const task =
+    const task = tasks.find(t => t.id === taskId);
 
-    tasks.find(
+    if(!task) return;
 
-        task =>
+    await supabase
+        .from("tasks")
+        .update({
+            completed: !task.completed
+        })
+        .eq("id", taskId);
 
-        task.id === taskId
-
-    );
-
-    if(!task){
-
-        return;
-
-    }
-
-    task.completed =
-
-    !task.completed;
-
-    saveTasks();
+    await loadTasks();
 
     renderTasks();
 
 }
+
 
 //==================================================
 // SORT TASKS
@@ -1319,4 +1412,115 @@ function sortTasks(){
 
 sortTasks();
 
-saveTasks();
+loadTasks();
+
+
+//=======edit and delete task card
+
+cancelTaskBtn?.addEventListener("click", () => {
+
+    taskSheetOverlay.classList.remove("show");
+
+});
+
+taskSheetOverlay?.addEventListener("click", (e) => {
+
+    if(e.target === taskSheetOverlay){
+
+        taskSheetOverlay.classList.remove("show");
+
+    }
+
+});
+
+taskSheetOverlay?.addEventListener("click", (e) => {
+
+    if(e.target === taskSheetOverlay){
+
+        taskSheetOverlay.classList.remove("show");
+
+    }
+
+});
+
+//==================================================
+// CREATE OVERLAY
+//==================================================
+
+if(navAdd){
+
+    navAdd.addEventListener("click",(e)=>{
+
+        e.preventDefault();
+
+        createOverlay.style.display = "flex";
+
+    });
+
+}
+
+if(closeSheet){
+
+    closeSheet.addEventListener("click",()=>{
+
+        createOverlay.style.display = "none";
+
+    });
+
+}
+
+if(createOverlay){
+
+    createOverlay.addEventListener("click",(e)=>{
+
+        if(e.target === createOverlay){
+
+            createOverlay.style.display = "none";
+
+        }
+
+    });
+
+}
+
+if(newModule){
+
+    newModule.addEventListener("click",()=>{
+
+        window.location.href="08 modules.html?newModule=true";
+
+    });
+
+}
+
+if(newTask){
+
+    newTask.addEventListener("click",()=>{
+
+        createOverlay.style.display = "none";
+
+        window.location.href="21 addTask.html";
+
+    });
+
+}
+
+if(newLecture){
+
+    newLecture.addEventListener("click",()=>{
+
+        window.location.href="21 addlecture.html";
+
+    });
+
+}
+
+if(newAssessment){
+
+    newAssessment.addEventListener("click",()=>{
+
+        alert("Assessment page coming soon.");
+
+    });
+
+}

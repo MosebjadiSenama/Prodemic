@@ -62,19 +62,23 @@ router.post(
 
         }
 
-        catch(error){
+        catch (error) {
 
-            console.error(error);
+    console.error("\n========== GEMINI ERROR ==========\n");
 
-            res.status(500).json({
+    console.dir(error, { depth: null });
 
-                error:error.message
+    console.error("\n==================================\n");
 
-            });
+    res.status(500).json({
+        error: error.message
+    });
+
+}
 
         }
 
-    }
+
 
 );
 

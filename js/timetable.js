@@ -1,38 +1,99 @@
-//==========import storage
-
 import { auth } from "../firebase.js";
 import { supabase } from "./supabase.js";
-//==================================================
-                //ELEMENTS
-//===================================================
+
+/*==================================================
+                    ELEMENTS
+==================================================*/
 
 const backBtn = document.getElementById("backBtn");
-const continueBtn = document.getElementById("continueBtn");
+
 const uploadPDF = document.getElementById("uploadPDF");
+const pdfInput = document.getElementById("pdfInput");
+const pdfName = document.getElementById("pdfName");
+
 const takePhoto = document.getElementById("takePhoto");
+const cameraInput = document.getElementById("cameraInput");
+const cameraName = document.getElementById("cameraName");
+
 const manualEntry = document.getElementById("manualEntry");
 
-const reviewNext = document.getElementById("reviewNext");
-//==========choose one option=======
+const continueBtn = document.getElementById("continueBtn");
+/*==================================================
+                AI DATA
+==================================================*/
 
-let selectedMethod = "";
-let uploadComplete = false;
-let uploading = false;
+const aiData = {
 
-//==========AI Lectures=======
-let lectures = [];
+    module: null,
 
-function clearSelection(){
+    lectures: [],
+
+    assessments: [],
+
+    weeklyTopics: [],
+
+    summary: ""
+
+};
+/*==================================================
+                    APP STATE
+==================================================*/
+
+const uploadState = {
+
+    method: null,
+
+    file: null,
+
+    fileName: "",
+
+    fileURL: "",
+
+    recordId: null,
+
+    uploaded: false
+
+};
+
+/*==================================================
+                INITIALISE
+==================================================*/
+
+continueBtn.disabled = true;
+
+/*==================================================
+                HELPERS
+==================================================*/
+
+function clearSelection() {
 
     uploadPDF.classList.remove("active");
-
     takePhoto.classList.remove("active");
-
     manualEntry.classList.remove("active");
 
 }
-//===============================================pdf
-uploadPDF.addEventListener("click",()=>{
+
+function updateContinueButton() {
+
+    continueBtn.disabled = !uploadState.uploaded;
+
+}
+
+/*==================================================
+                    BACK
+==================================================*/
+
+backBtn.addEventListener("click", () => {
+
+    window.location.href = "07 home.html";
+
+});
+
+/*==================================================
+                PDF CARD
+==================================================*/
+
+uploadPDF.addEventListener("click", () => {
 
     clearSelection();
 
@@ -41,8 +102,12 @@ uploadPDF.addEventListener("click",()=>{
     pdfInput.click();
 
 });
-//======================================================camera
-takePhoto.addEventListener("click",()=>{
+
+/*==================================================
+                CAMERA CARD
+==================================================*/
+
+takePhoto.addEventListener("click", () => {
 
     clearSelection();
 
@@ -51,8 +116,12 @@ takePhoto.addEventListener("click",()=>{
     cameraInput.click();
 
 });
-//========================================================manual
-manualEntry.addEventListener("click",()=>{
+
+/*==================================================
+            MANUAL ENTRY
+==================================================*/
+
+manualEntry.addEventListener("click", () => {
 
     clearSelection();
 
@@ -62,80 +131,29 @@ manualEntry.addEventListener("click",()=>{
 
 });
 
-
 /*==================================================
-                    PDF
-===================================================*/
-
-const pdfInput = document.getElementById("pdfInput");
+                PDF SELECTED
+==================================================*/
 
 pdfInput.addEventListener("change", async () => {
 
     const file = pdfInput.files[0];
 
-    console.log("1. File selected:", file);
-
     if (!file) return;
 
-    selectedMethod = "PDF";
+    uploadState.method = "pdf";
+    uploadState.file = file;
+    uploadState.fileName = file.name;
 
-    document.getElementById("pdfName").textContent = file.name;
+    pdfName.innerHTML = `⏳ Uploading <br><small>${file.name}</small>`;
 
-    const fileName = Date.now() + "_" + file.name;
-
-    const { error } = await supabase.storage
-        .from("timetable")
-        .upload(fileName, file);
-
-    console.log("Upload error:", error);
-
-    if (error) {
-        console.error(error);
-        alert(error.message);
-        return;
-    }
-
-    const { data } = supabase.storage
-        .from("timetable")
-        .getPublicUrl(fileName);
-
-    const fileURL = data.publicUrl;
-
-    console.log("Public URL:", fileURL);
-
-    localStorage.setItem("timetableURL", fileURL);
-    localStorage.setItem("timetableFile", file.name);
-
-    const user = auth.currentUser;
-
-const { error: dbError } = await supabase
-.from("timetables")
-.insert([
-    {
-        user_id: user.uid,
-        file_url: fileURL,
-        file_name: file.name
-    }
-]);
-
-    if (dbError) {
-        console.error(dbError);
-        alert(dbError.message);
-        return;
-    }
-
-    uploadComplete = true;
-    console.log("Upload finished");
-console.log(localStorage.getItem("timetableURL"));
-
-    console.log("uploadComplete =", uploadComplete);
+    await uploadFile(file, pdfName);
 
 });
-/*==================================================
-                    CAMERA
-===================================================*/
 
-const cameraInput = document.getElementById("cameraInput");
+/*==================================================
+            CAMERA SELECTED
+==================================================*/
 
 cameraInput.addEventListener("change", async () => {
 
@@ -143,100 +161,117 @@ cameraInput.addEventListener("change", async () => {
 
     if (!file) return;
 
-    selectedMethod = "Camera";
+    uploadState.method = "camera";
+    uploadState.file = file;
+    uploadState.fileName = file.name;
 
-    document.getElementById("cameraName").textContent = file.name;
+    cameraName.innerHTML = `⏳ Uploading <br><small>${file.name}</small>`;
 
-    const fileName = Date.now() + "_" + file.name;
-
-    const { error } = await supabase.storage
-
-        .from("timetable")
-
-        .upload(fileName, file);
-
-  if (error) {
-
-    console.error(error);
-
-    alert(error.message);
-
-    return;
-
-}
-
-
-
-    const { data } = supabase.storage
-
-        .from("timetable")
-
-        .getPublicUrl(fileName);
-
-    const fileURL = data.publicUrl;
-
-    //=====
-
-const user = auth.currentUser;
-
-const { error: dbError } = await supabase
-.from("timetables")
-.insert([
-    {
-        user_id: user.uid,
-        file_url: fileURL,
-        file_name: file.name
-    }
-]);
-
-if (dbError) {
-    console.error(dbError);
-    alert(dbError.message);
-    return;
-}
-
-//===
-
-
-    localStorage.setItem(
-
-        "timetableURL",
-
-        fileURL
-
-    );
-
-    localStorage.setItem(
-
-        "timetableFile",
-
-    
-        file.name
-
-    );
-
-    uploadComplete = true;
-
-    console.log(fileURL);
+    await uploadFile(file, cameraName);
 
 });
+
 /*==================================================
-                CONTINUE
-===================================================*/
+                UPLOAD FILE
+==================================================*/
 
-continueBtn.addEventListener("click",()=>{
+async function uploadFile(file, label) {
 
-    if(selectedMethod === ""){
+    try {
 
-        alert("Please choose an upload method.");
+        continueBtn.disabled = true;
 
-        return;
+        const user = auth.currentUser;
+
+        if (!user) {
+
+            throw new Error("User not logged in.");
+
+        }
+
+        const fileName = `${Date.now()}_${file.name}`;
+
+        const { data: uploadData, error } = await supabase.storage
+    .from("module_outline")
+    .upload(fileName, file);
+
+if (error) throw error;
+
+const { data: publicURL } = supabase.storage
+    .from("module_outline")
+    .getPublicUrl(fileName);
+
+uploadState.fileURL = publicURL.publicUrl;
+
+        if (error) throw error;
+
+        const {
+
+    data,
+
+    error: dbError
+
+} = await supabase
+
+.from("module_outline")
+
+.insert([
+
+    {
+
+        user_id: user.uid,
+
+        file_name: file.name,
+
+        file_url: uploadState.fileURL
 
     }
 
-    if(!uploadComplete){
+])
 
-        alert("Please upload your timetable first.");
+.select()
+
+.single();
+
+if (dbError) throw dbError;
+
+uploadState.recordId = data.id;
+
+        uploadState.uploaded = true;
+
+        updateContinueButton();
+
+        label.innerHTML = `✅ <strong>${file.name}</strong>`;
+
+        console.log(uploadState);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        uploadState.uploaded = false;
+
+        updateContinueButton();
+
+        label.innerHTML = `❌ Upload failed`;
+
+        alert(error.message);
+
+    }
+
+}
+
+/*==================================================
+                CONTINUE
+==================================================*/
+
+continueBtn.addEventListener("click", () => {
+
+    if (!uploadState.uploaded) {
+
+        alert("Please upload a module outline first.");
 
         return;
 
@@ -249,15 +284,21 @@ continueBtn.addEventListener("click",()=>{
     startProcessing();
 
 });
-/*==================================================
-            AI PROCESSING
-===================================================*/
-function startProcessing(){
 
-    const progressFill = document.getElementById("progressFill");
-    const progressPercent = document.getElementById("progressPercent");
+/*==================================================
+            START AI PROCESSING
+==================================================*/
+
+async function startProcessing() {
+
+    const progressFill =
+        document.getElementById("progressFill");
+
+    const progressPercent =
+        document.getElementById("progressPercent");
 
     const steps = [
+
         document.getElementById("step1"),
         document.getElementById("step2"),
         document.getElementById("step3"),
@@ -265,19 +306,28 @@ function startProcessing(){
         document.getElementById("step5"),
         document.getElementById("step6"),
         document.getElementById("step7")
+
     ];
 
     let progress = 0;
+
     let currentStep = 0;
 
-    const timer = setInterval(()=>{
+    const timer = setInterval(() => {
 
-        progress += 5;
+        progress += 2;
 
         progressFill.style.width = progress + "%";
+
         progressPercent.textContent = progress + "%";
 
-        if(progress >= (currentStep + 1) * 15 && currentStep < steps.length){
+        if (
+
+            currentStep < steps.length &&
+
+            progress >= ((currentStep + 1) * 14)
+
+        ) {
 
             steps[currentStep].classList.add("completed");
 
@@ -289,133 +339,187 @@ function startProcessing(){
 
         }
 
-        if(progress >= 100){
+        if (progress >= 100) {
 
             clearInterval(timer);
 
-            setTimeout(async()=>{
-
-                const timetableURL = localStorage.getItem("timetableURL");
-
-              const response = await fetch("http://localhost:3000/import-timetable",{
-
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":"application/json"
-                    },
-
-                    body:JSON.stringify({
-
-                        fileURL:timetableURL
-
-                    })
-
-                });
-
-                const aiData = await response.json();
-
-                console.log(aiData);
-
-                if(!response.ok){
-
-                    alert(aiData.error);
-
-                    return;
-
-                }
-//==================================================
-// STORE AI LECTURES
-//==================================================
-
-lectures = aiData.lectures || [];
-
-// Show review screen
-
-document.getElementById("processingScreen").style.display = "none";
-
-document.getElementById("reviewScreen").style.display = "block";
-
-renderLectures();    
-
-            },500);
-
         }
 
-    },150);
+    }, 80);
+
+    try {
+
+        const response = await fetch("http://localhost:3000/api/module-outline/extract-outline", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+              body: JSON.stringify({
+
+    fileURL: uploadState.fileURL,
+
+    outlineId: uploadState.recordId
+
+})
+
+            }
+
+        );
+
+    const result = await response.json();
+
+if (!response.ok) {
+
+    throw new Error(result.error);
 
 }
 
+console.log(result);
+
+aiData.module = result.module.module;
+
+aiData.lectures = result.module.timetable;
+
+aiData.assessments = result.module.assessments;
+
+aiData.weeklyTopics = result.module.weeklyTopics;
+
+aiData.summary = result.module.summary;
+
+        console.log(aiData);
+
+        progressFill.style.width = "100%";
+
+        progressPercent.textContent = "100%";
+
+        setTimeout(() => {
+
+            document.getElementById("processingScreen").style.display = "none";
+
+            document.getElementById("reviewScreen").style.display = "block";
+
+            renderReview();
+
+        }, 800);
+
+    }
+
+    catch (error) {
+
+    console.error("FULL ERROR:", error);
+
+    alert(JSON.stringify(error, null, 2));
+
+}
+
+}
 
 /*==================================================
-            RENDER AI LECTURES
-===================================================*/
+                REVIEW SCREEN
+==================================================*/
 
-function renderLectures(){
+function renderReview() {
 
-    const lectureList =
-    document.getElementById("lectureList");
+    renderModule();
+
+    renderLectures();
+
+    renderAssessments();
+
+    renderWeeklyTopics();
+
+    renderSummary();
+
+}
+
+ /*==================================================
+            MODULE CARD
+==================================================*/
+
+function renderModule() {
+
+    const container = document.getElementById("moduleInfo");
+
+    const module = aiData.module;
+
+    container.innerHTML = `
+
+        <div class="review-card">
+
+            <h2>${module.name || "Unknown Module"}</h2>
+
+            <p>
+
+                <strong>${module.code || ""}</strong>
+
+            </p>
+
+            <p>
+
+                Lecturer:
+                ${module.lecturer || "Unknown"}
+
+            </p>
+
+            <p>
+
+                ${module.semester || ""}
+
+            </p>
+
+        </div>
+
+    `;
+
+}  
+
+/*==================================================
+            LECTURES
+==================================================*/
+
+function renderLectures() {
+
+    const lectureList = document.getElementById("lectureList");
 
     lectureList.innerHTML = "";
 
-    lectures.forEach((lecture,index)=>{
+    aiData.lectures.forEach(lecture => {
 
         lectureList.innerHTML += `
 
         <div class="lecture-card">
 
-            <div
-                class="lecture-colour"
-                style="background:#4A90E2;">
-            </div>
+            <h3>
 
-            <div class="lecture-info">
+                ${lecture.type || "Lecture"}
 
-                <h3>${lecture.moduleName}</h3>
+            </h3>
 
-                <p>${lecture.moduleCode}</p>
+            <p>
 
-                <div class="lecture-meta">
+                ${lecture.day}
 
-                    <span>
+            </p>
 
-                        <i class="fa-solid fa-calendar"></i>
+            <p>
 
-                       ${lecture.day}
+                ${lecture.startTime}
 
-                    </span>
+                -
 
-                    <span>
+                ${lecture.endTime}
 
-                        <i class="fa-solid fa-clock"></i>
+            </p>
 
-                        ${lecture.startTime} - ${lecture.endTime}
+            <p>
 
-                    </span>
+                ${lecture.venue}
 
-                </div>
-
-            </div>
-
-            <div class="lecture-actions">
-
-                <button
-                    class="editBtn"
-                    data-index="${index}">
-
-                    <i class="fa-solid fa-pen"></i>
-
-                </button>
-
-                <button
-                    class="deleteBtn"
-                    data-index="${index}">
-
-                    <i class="fa-solid fa-trash"></i>
-
-                </button>
-
-            </div>
+            </p>
 
         </div>
 
@@ -423,101 +527,125 @@ function renderLectures(){
 
     });
 
-    document.getElementById("lectureCount").textContent =
-    lectures.length;
+}
 
-    document.getElementById("sessionCount").textContent =
-    lectures.length;
+/*==================================================
+            ASSESSMENTS
+==================================================*/
 
-    document.getElementById("moduleCount").textContent =
-    new Set(lectures.map(l=>l.moduleCode)).size;
+function renderAssessments() {
 
-    document.getElementById("dayCount").textContent =
-   new Set(lectures.map(l=>l.day)).size;
+    const container = document.getElementById("assessmentList");
 
-    document
-    .querySelectorAll(".deleteBtn")
-    .forEach(button=>{
+    container.innerHTML = "";
 
-        button.addEventListener("click",()=>{
+    aiData.assessments.forEach(item => {
 
-            lectures.splice(button.dataset.index,1);
+        container.innerHTML += `
 
-            renderLectures();
+        <div class="lecture-card">
 
-        });
+            <h3>
 
-    });
+                ${item.title}
 
-    document
-    .querySelectorAll(".editBtn")
-    .forEach(button=>{
+            </h3>
 
-        button.addEventListener("click",()=>{
+            <p>
 
-            alert("Edit lecture coming next.");
+                ${item.type}
 
-        });
+            </p>
+
+            <p>
+
+                Due:
+
+                ${item.dueDate}
+
+            </p>
+
+            <p>
+
+                Weight:
+
+                ${item.weight}
+
+            </p>
+
+        </div>
+
+        `;
 
     });
 
 }
-  //==================================================
-               // BACK
-//===================================================
 
-backBtn.addEventListener("click", () => {
+/*==================================================
+            WEEKLY TOPICS
+==================================================*/
 
-    window.location.href = "07 home.html";
+function renderWeeklyTopics() {
 
-});
+    const container = document.getElementById("weeklyTopics");
 
-//===
-reviewNext.addEventListener("click", async()=>{
+    container.innerHTML = "";
 
-    const user = auth.currentUser;
+    aiData.weeklyTopics.forEach(week => {
 
-    const rows = lectures.map(lecture=>({
+        container.innerHTML += `
 
-        user_id: user.uid,
+        <div class="lecture-card">
 
-        module_name: lecture.moduleName,
+            <h3>
 
-        module_code: lecture.moduleCode,
+                ${week.week}
 
-        lecture_day: lecture.day,
+            </h3>
 
-        start_time: lecture.startTime,
+            <ul>
 
-        end_time: lecture.endTime,
+                ${week.topics
+                    .map(topic => `<li>${topic}</li>`)
+                    .join("")}
 
-        colour:"#4A90E2"
+            </ul>
 
-    }));
+        </div>
 
-    const { error } = await supabase
+        `;
 
-    .from("lectures")
+    });
 
-    .insert(rows);
+}
 
-    if(error){
+/*==================================================
+            SUMMARY
+==================================================*/
 
-        console.error(error);
+function renderSummary() {
 
-        alert(error.message);
+    const container = document.getElementById("moduleSummary");
 
-        return;
+    container.innerHTML = `
 
-    }
+        <div class="review-card">
 
-    alert(`${rows.length} lectures saved successfully!`);
+            <h3>
 
-    // Optional: redirect after saving
-    // window.location.href = "09 timetable.html";
+                AI Summary
 
-});
+            </h3>
 
+            <p>
 
+                ${aiData.summary}
 
+            </p>
+
+        </div>
+
+    `;
+
+}
 

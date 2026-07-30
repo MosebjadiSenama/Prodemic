@@ -1,511 +1,480 @@
-/*==================================================
-                IMPORT SEMESTER
-===================================================*/
+/* ==========================================
+   PRODEMIC - MODULE OUTLINE
+========================================== */
+.page-header{
+    display:grid;
+    grid-template-columns: 50px 1fr;
+    gap:16px 20px;
+    align-items:start;
+    margin-bottom:30px;
+}
 
-.app-container{
+.back-btn{
+    grid-row:1 / span 2;
+}
 
-    max-width:480px;
+.page-header h1{
+    margin:0;
+}
 
-    margin:auto;
+.page-header p{
+    margin:8px 0 0;
+    color:#6b7280;
+    max-width:600px;
+}
 
+.back-btn:hover{
+   
+    color:#8183d3;
+}
+
+.header-text{
+    flex:1;
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,sans-serif;
+}
+
+body{
+    background:#F5F7FB;
+    color:#1F2937;
     min-height:100vh;
+    padding:30px 18px;
+}
 
-    background:#fff;
+.page{
+    width:100%;
+    max-width:720px;
+    margin:0 auto;
+}
 
-    padding:20px;
+/*=========================================
+HEADER
+=========================================*/
+
+.page-header{
+
+    margin-bottom:35px;
 
 }
 
-/*==================================================
-                BACK BUTTON
-===================================================*/
+.page-header h1{
 
-.back-btn{
+    font-size:2.2rem;
 
-    width:45px;
+    font-weight:700;
 
-    height:45px;
+    margin-bottom:8px;
 
-    border:none;
+}
 
-    border-radius:50%;
+.page-header p{
 
-    background:#f3f5fa;
+    color:#6B7280;
 
-    cursor:pointer;
+    font-size:1rem;
 
-    font-size:18px;
+    max-width:600px;
+
+    line-height:1.6;
+
+}
+
+/*=========================================
+CARDS
+=========================================*/
+
+.card{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:35px;
+
+    margin-bottom:30px;
+
+    box-shadow:
+
+    0 15px 40px rgba(15,23,42,.08);
+
+}
+
+.card h2{
 
     margin-bottom:20px;
 
+    font-size:1.5rem;
+
 }
 
-/*==================================================
-                PAGE HEADING
-===================================================*/
+.card h3{
 
-.page-heading{
+    margin:35px 0 15px;
+
+    font-size:1.2rem;
+
+}
+
+.hidden{
+
+    display:none;
+
+}
+
+/*=========================================
+TEXTAREA
+=========================================*/
+
+textarea{
+
+    width:100%;
+
+    min-height:320px;
+
+    resize:vertical;
+
+    border:none;
+
+    outline:none;
+
+    background:#F8FAFC;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    font-size:15px;
+
+    line-height:1.7;
+
+    margin:25px 0;
+
+    transition:.25s;
+
+}
+
+textarea:focus{
+
+    background:white;
+
+    border:2px solid #3048C8;
+
+    box-shadow:
+
+    0 0 0 5px rgba(48,72,200,.12);
+
+}
+
+/*=========================================
+BUTTONS
+=========================================*/
+
+button{
+
+    border:none;
+
+    cursor:pointer;
+
+    border-radius:14px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.primary{
+
+    background:#3048C8;
+
+    color:white;
+
+    padding:15px 28px;
+
+}
+
+.primary:hover{
+
+    background:#243AAE;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+    0 12px 25px rgba(48,72,200,.25);
+
+}
+
+.secondary{
+
+    background:#EEF2FF;
+
+    color:#3048C8;
+
+    padding:15px 28px;
+
+}
+
+.secondary:hover{
+
+    background:#E0E7FF;
+
+}
+
+.buttons{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:15px;
+
+    margin-top:35px;
+
+}
+
+/*=========================================
+SUMMARY GRID
+=========================================*/
+
+.summary{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(180px,1fr));
+
+    gap:18px;
 
     margin-bottom:30px;
 
 }
 
-.page-heading h1{
+.summary div{
 
-    font-size:30px;
-
-    font-weight:700;
-
-    color:#021024;
-
-    margin-bottom:10px;
-
-}
-
-.page-heading p{
-
-    color:#6b7280;
-
-    line-height:1.6;
-
-    font-size:15px;
-
-}
-
-/*==================================================
-                UPLOAD OPTIONS
-===================================================*/
-
-.upload-options{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:18px;
-
-    margin-bottom:35px;
-
-}
-
-/*==================================================
-                UPLOAD CARD
-===================================================*/
-
-.upload-card{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:18px;
-
-    padding:18px;
-
-    background:#ffffff;
-
-    border:2px solid #edf2f7;
+    background:#F8FAFC;
 
     border-radius:18px;
 
-    cursor:pointer;
-
-    transition:.25s;
+    padding:20px;
 
 }
 
-.upload-card:hover{
+.summary label{
 
-    border-color:#5483B3;
+    display:block;
 
-    transform:translateY(-2px);
+    color:#6B7280;
 
-}
+    font-size:.85rem;
 
-.upload-card.active{
-
-    border-color:#052659;
-
-    background:#eef5ff;
+    margin-bottom:8px;
 
 }
 
-/*==================================================
-                ICON
-===================================================*/
+.summary span{
 
-.upload-icon{
+    font-size:1.25rem;
 
-    width:58px;
+    font-weight:700;
 
-    height:58px;
+    color:#111827;
 
-    border-radius:16px;
+}
+
+/*=========================================
+TOPICS
+=========================================*/
+
+#topicsContainer{
+
+    display:grid;
+
+    gap:16px;
+
+}
+
+.topic-card{
 
     display:flex;
 
-    align-items:center;
+    align-items:flex-start;
 
-    justify-content:center;
+    gap:16px;
 
-    background:#e8f0fc;
+    padding:18px;
 
-    color:#052659;
+    background:#F8FAFC;
 
-    font-size:24px;
+    border-radius:18px;
 
-    flex-shrink:0;
+    border-left:6px solid #3048C8;
 
 }
 
-/*==================================================
-                TEXT
-===================================================*/
+.topic-week{
 
-.upload-text{
+    width:70px;
+
+    text-align:center;
+
+    font-weight:700;
+
+    color:#3048C8;
+
+}
+
+.topic-info{
 
     flex:1;
 
 }
 
-.upload-text h3{
+.topic-info h4{
 
-    font-size:17px;
-
-    color:#021024;
-
-    margin-bottom:5px;
-
-    font-weight:600;
+    margin-bottom:6px;
 
 }
 
-.upload-text p{
+.topic-info p{
 
-    color:#7d7d7d;
-
-    font-size:14px;
+    color:#6B7280;
 
     line-height:1.5;
 
 }
 
-/*==================================================
-                CHEVRON
-===================================================*/
+/*=========================================
+ASSESSMENTS
+=========================================*/
 
-.upload-card .fa-chevron-right{
-
-    color:#9ca3af;
-
-    font-size:15px;
-
-}
-
-/*==================================================
-                BUTTON
-===================================================*/
-
-.button-container{
-
-    margin:35px 0;
-
-}
-
-.continue-btn{
-
-    width:100%;
-
-    border:none;
-
-    background:#052659;
-
-    color:white;
-
-    padding:17px;
-
-    border-radius:16px;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-}
-
-.continue-btn:hover{
-
-    background:#021024;
-
-}
-
-/*=======================================================================================================================================================================*/
-
-/*==================================================
-                AI FEATURES
-===================================================*/
-
-.ai-features{
+#assessmentContainer{
 
     display:grid;
 
-    grid-template-columns:repeat(2,1fr);
-
-    gap:15px;
-
-    margin-bottom:35px;
+    gap:16px;
 
 }
 
-.feature{
-
-    background:#ffffff;
-
-    border:2px solid #edf2f7;
-
-    border-radius:18px;
-
-    padding:20px;
-
-    text-align:center;
-
-    transition:.25s;
-
-}
-
-.feature:hover{
-
-    border-color:#5483B3;
-
-    transform:translateY(-2px);
-
-}
-
-.feature i{
-
-    font-size:24px;
-
-    color:#052659;
-
-    margin-bottom:12px;
-
-}
-
-.feature span{
-
-    display:block;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    color:#021024;
-
-    line-height:1.4;
-
-}
-
-/*==================================================
-                INFO CARD
-===================================================*/
-
-.info-card{
+.assessment-card{
 
     display:flex;
 
-    gap:18px;
-
-    padding:20px;
-
-    background:#eef5ff;
-
-    border-radius:18px;
-
-    margin-top:15px;
-
-}
-
-.info-icon{
-
-    width:50px;
-
-    height:50px;
-
-    border-radius:14px;
-
-    background:white;
-
-    display:flex;
+    justify-content:space-between;
 
     align-items:center;
 
-    justify-content:center;
+    background:#F8FAFC;
 
-    flex-shrink:0;
+    border-radius:18px;
 
-}
+    padding:20px;
 
-.info-icon i{
-
-    font-size:22px;
-
-    color:#052659;
+    border-left:6px solid #22C55E;
 
 }
 
-.info-card h3{
+.assessment-card h4{
 
-    color:#021024;
-
-    margin-bottom:8px;
-
-    font-size:16px;
+    margin-bottom:6px;
 
 }
 
-.info-card p{
+.assessment-card p{
 
-    color:#6b7280;
-
-    line-height:1.6;
-
-    font-size:14px;
+    color:#6B7280;
 
 }
 
-/*==================================================
-                SUCCESS STATE
-===================================================*/
+.assessment-date{
 
-.upload-card.success{
+    text-align:right;
 
-    border-color:#22c55e;
+    font-weight:600;
 
-    background:#f0fdf4;
+    color:#3048C8;
 
 }
 
-.upload-card.success .upload-icon{
+/*=========================================
+SCROLLBAR
+=========================================*/
 
-    background:#dcfce7;
+::-webkit-scrollbar{
 
-    color:#16a34a;
-
-}
-
-/*==================================================
-                LOADING STATE
-===================================================*/
-
-.upload-card.loading{
-
-    pointer-events:none;
-
-    opacity:.75;
+    width:8px;
 
 }
 
-.upload-card.loading .upload-icon{
+::-webkit-scrollbar-thumb{
 
-    animation:spin 1s linear infinite;
+    background:#3048C8;
 
-}
-
-@keyframes spin{
-
-    from{
-
-        transform:rotate(0deg);
-
-    }
-
-    to{
-
-        transform:rotate(360deg);
-
-    }
+    border-radius:20px;
 
 }
 
-/*==================================================
-                FILE NAME
-===================================================*/
+::-webkit-scrollbar-track{
 
-#pdfName,
-#cameraName{
-
-    word-break:break-word;
+    background:#EEF2FF;
 
 }
 
-/*==================================================
-                RESPONSIVE
-===================================================*/
+/*=========================================
+RESPONSIVE
+=========================================*/
 
-@media(max-width:420px){
+@media(max-width:768px){
 
-    .page-heading h1{
+.page{
 
-        font-size:26px;
-
-    }
-
-    .upload-card{
-
-        padding:16px;
-
-    }
-
-    .upload-icon{
-
-        width:50px;
-
-        height:50px;
-
-        font-size:20px;
-
-    }
-
-    .feature{
-
-        padding:16px;
-
-    }
+    padding:0;
 
 }
 
-/*==================================================
-                FADE IN
-===================================================*/
+.card{
 
-.upload-card,
-.feature,
-.info-card,
-.continue-btn{
+    padding:22px;
 
-    animation:fadeIn .5s ease;
+    border-radius:18px;
 
 }
 
-@keyframes fadeIn{
+.page-header h1{
 
-    from{
+    font-size:1.8rem;
 
-        opacity:0;
+}
 
-        transform:translateY(12px);
+.buttons{
 
-    }
+    flex-direction:column;
 
-    to{
+}
 
-        opacity:1;
+.buttons button{
 
-        transform:translateY(0);
+    width:100%;
 
-    }
+}
+
+.summary{
+
+    grid-template-columns:1fr 1fr;
+
+}
+
+textarea{
+
+    min-height:250px;
+
+}
 
 }

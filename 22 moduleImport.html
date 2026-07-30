@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Import Module Outline | Prodemic</title>
+
+    <link rel="stylesheet" href="css/moduleImport.css">
+     <link rel="stylesheet" href="css/home.css">
+   <script type="module" src="js/moduleImport.js" defer></script>
+
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h1>Import Module Outline</h1>
+
+            <p class="subtitle">
+                Upload your university module outline so Prodemic can automatically
+                extract important information such as assessments, deadlines,
+                lecturer details and weekly topics.
+            </p>
+
+            <label class="upload-box">
+
+                <input
+                    type="file"
+                    id="pdfInput"
+                    accept=".pdf"
+                    hidden
+                >
+
+                <div class="upload-content">
+
+                    <div class="icon">
+                        📄
+                    </div>
+
+                    <h2>Select PDF</h2>
+
+                    <p>
+                        Drag & Drop or Click to Upload
+                    </p>
+
+                </div>
+
+            </label>
+
+            <p id="fileName">
+                No file selected
+            </p>
+
+            <button id="continueBtn">
+                Continue
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+</body>
+</html>

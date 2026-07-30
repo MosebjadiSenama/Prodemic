@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<title>Import Module Outline | Prodemic</title>
 
     <link rel="stylesheet" href="css/module.css">
-<link rel="stylesheet" href="css/home.css">
+ <link rel="stylesheet" href="css/home.css">
 <script type="module" src="js/timetable.js"></script>
 
 <link rel="stylesheet"
@@ -30,7 +30,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
     <h2>
 
-        Upload Timetable
+        Import Module Outline
 
     </h2>
 
@@ -42,16 +42,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
     <h1>
 
-        Upload your lecture timetable
+    Upload your module outline
 
-    </h1>
+</h1>
 
-    <p>
+  <p>
 
-        We'll use your timetable to identify your free time
-        and automatically build a personalised study schedule.
+    Upload your official module outline.
+    Prodemic AI will automatically extract your lectures,
+    assessments, deadlines and weekly topics to build
+    your personalised study schedule.
 
-    </p>
+</p>
 
 </section>
 
@@ -85,9 +87,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
            <p id="pdfName">
 
-              Upload your official lecture timetable.
+    Upload your official module outline PDF.
 
-           </p>
+</p>
 
         </div>
 
@@ -122,9 +124,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
           </h3>
 
-         <p id="cameraName">
+        <p id="cameraName">
 
-    Capture a picture of your timetable.
+    Capture pages from your module outline.
 
 </p>
 
@@ -183,14 +185,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 <div class="button-container">
 
-    <button
-        type="button"
-        class="continue-btn"
-        id="continueBtn">
+   <button
+    type="button"
+    class="continue-btn"
+    id="continueBtn"
+    disabled>
 
-        Continue
+    Continue
 
-    </button>
+</button>
 
 </div>
 
@@ -214,13 +217,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
         </h3>
 
-        <p>
+       <p>
 
-            Prodemic uses your lecture timetable to avoid
-            scheduling study sessions during classes and to
-            recommend the best times for studying.
+    Prodemic AI analyses your module outline,
+    extracts your lectures, assessments,
+    deadlines and weekly topics,
+    then generates a personalised
+    AI study schedule.
 
-        </p>
+</p>
 
     </div>
 
@@ -435,9 +440,35 @@ style="display:none;">
 
     <!-- LECTURE CARDS -->
 
-    <div id="lectureList">
+    <!--==========================================
+            MODULE INFORMATION
+===========================================-->
 
-    </div>
+<div id="moduleInfo"></div>
+
+<!--==========================================
+                LECTURES
+===========================================-->
+
+<div id="lectureList"></div>
+
+<!--==========================================
+            ASSESSMENTS
+===========================================-->
+
+<div id="assessmentList"></div>
+
+<!--==========================================
+            WEEKLY TOPICS
+===========================================-->
+
+<div id="weeklyTopics"></div>
+
+<!--==========================================
+            AI SUMMARY
+===========================================-->
+
+<div id="moduleSummary"></div>
 
 
 

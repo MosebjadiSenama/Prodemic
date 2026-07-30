@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Lecture</title>
+
+    <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/schedule.css">
+     <link rel="stylesheet" href="css/add.lecturre.css">
+
+
+    <script type="module" src="js/addlecture.js"></script>
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <header class="top-bar">
+
+        <button
+            id="backToSchedule"
+            class="back-btn">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+        </button>
+
+        <h2>Add Lecture</h2>
+
+    </header>
+
+    <div class="form-card">
+
+       <label for="lectureModule">Module</label>
+
+<select id="lectureModule" required>
+
+    <option value="">Loading modules...</option>
+
+</select>
+
+        <label>Day</label>
+
+        <select id="lectureDay" required>
+
+    <option value="">Select Day</option>
+
+    <option value="Monday">Monday</option>
+    <option value="Tuesday">Tuesday</option>
+    <option value="Wednesday">Wednesday</option>
+    <option value="Thursday">Thursday</option>
+    <option value="Friday">Friday</option>
+    <option value="Saturday">Saturday</option>
+    <option value="Sunday">Sunday</option>
+
+</select>
+
+        <label>Start Time</label>
+
+        <input
+            type="time"
+            id="startTime">
+
+        <label>End Time</label>
+
+        <input
+            type="time"
+            id="endTime">
+
+        <label>Venue</label>
+
+        <input
+            type="text"
+            id="venue"
+            placeholder="e.g. Room A12">
+
+        <label>Lecturer (Optional)</label>
+
+        <input
+            type="text"
+            id="lecturer"
+            placeholder="e.g. Dr Smith">
+
+        <button
+            id="saveLecture"
+            class="primary-btn">
+
+            Save Lecture
+
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>

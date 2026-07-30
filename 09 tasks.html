@@ -7,10 +7,12 @@
 
 <title>Tasks</title>
 
-<link rel="stylesheet" href="style.css">
+ <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/tasks.css">
+<link rel="stylesheet" href="css/overlay.css">
 
 <script type="module" src="js/tasks.js"></script>
+
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -58,13 +60,13 @@ All
 
 <button class="filter-btn">
 
-Today
+Due soon
 
 </button>
 
 <button class="filter-btn">
 
-Upcoming
+Priority
 
 </button>
 
@@ -206,6 +208,143 @@ BOTTOM NAVIGATION
 
 
 
+<!--=========================================
+TASK ACTION SHEET
+==========================================-->
+
+<div class="task-sheet-overlay" id="taskSheetOverlay">
+
+    <div class="task-sheet" id="taskSheet">
+
+        <h3 id="taskSheetTitle">Task</h3>
+
+        <button id="editTaskBtn">
+            ✏️ Edit Task
+        </button>
+
+        <button id="deleteTaskBtn">
+            🗑 Delete Task
+        </button>
+
+        <button id="cancelTaskBtn">
+            Cancel
+        </button>
+
+    </div>
+
+</div>
+<!--==================================================
+CREATE MENU
+===================================================-->
+<button id="menuToggle" class="menu-toggle">
+    <i class="fa-solid fa-bars"></i>
+</button>
+<div class="create-overlay" id="createOverlay">
+
+    <div class="create-sheet">
+
+        <div class="sheet-handle"></div>
+
+        <h2>Create New</h2>
+
+        <!-- Module -->
+
+        <div class="create-option" id="newModule">
+
+            <div class="option-icon blue">
+
+                <i class="fa-solid fa-book"></i>
+
+            </div>
+
+            <div class="option-text">
+
+                <h3>New Module</h3>
+
+                <p>Add a new subject</p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!-- Task -->
+
+        <div class="create-option" id="newTask">
+
+            <div class="option-icon green">
+
+                <i class="fa-solid fa-list-check"></i>
+
+            </div>
+
+            <div class="option-text">
+
+                <h3>New Task</h3>
+
+                <p>Add a task</p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!-- Lecture -->
+
+       <div class="create-option" id="newLecture">
+
+            <div class="option-icon purple">
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+            </div>
+
+            <div class="option-text">
+
+                <h3>New Lecture</h3>
+
+                <p>Add a lecture to your schedule</p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!-- Assessment -->
+
+       <div class="create-option" id="newAssessment">
+
+            <div class="option-icon orange">
+
+                <i class="fa-solid fa-file-pen"></i>
+
+            </div>
+
+            <div class="option-text">
+
+                <h3>New Assessment</h3>
+
+                <p>Add an upcoming assessment</p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <button
+            id="closeSheet"
+            class="cancel-btn">
+
+            Cancel
+
+        </button>
+
+    </div>
+</div>
 
 
 </body>

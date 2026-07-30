@@ -6,12 +6,18 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="css/module.css">
-     <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="css/home.css">
+     <link rel="stylesheet" href="css/overlay.css">
+     
 
 <script type="module" src="js/modules.js"></script>
 <!---ICONS-->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+ <script
+        type="module"
+        src="js/overlay.js"
+        defer></script>
 
 <!--GOOGLE FONTS-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,286 +31,297 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <body>
 
     <div class="app-container">
-<div class="modules-header" id="modulesHeader">
-    <div class="modules-header-top">
 
-        <div>
-            <h1>Modules</h1>
-            <p>Manage your subjects and track your progress</p>
+        <!--=========================================================
+                            MODULES HEADER
+        ==========================================================-->
+
+        <div
+            class="modules-header"
+            id="modulesHeader">
+
+            <div class="modules-header-top">
+
+                <div class="modules-text">
+
+                    <h1>
+
+                        Modules
+
+                    </h1>
+
+                    <p>
+
+                        Manage your subjects and track your progress.
+
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
 
-     
+        <!--=========================================================
+                            FILTERS
+        ==========================================================-->
 
-    </div>
-</div>
+        <div
+            class="filter-card"
+            id="filterCard">
 
-<!--======================================================================================     modules card           ============================================================================================================================================-->
-<div class="filter-card" id="filterCard">
-    <button class="filter-btn active"  data-filter="All">
-        All
+            <button
+                class="filter-btn active"
+                data-filter="All">
 
-    </button>
+                All
 
-    <button class="filter-btn" data-filter="Active"> Active</button>
-    <button class="filter-btn" data-filter="Completed">Completed</button>
+            </button>
 
-</div>
+            <button
+                class="filter-btn"
+                data-filter="Active">
 
-<!--===========================================================================================      MODULE CARD  LIST APPEARS ======================================================================================-->
- 
-<div class="module-list" id="modulesList"></div>
-<!-- =========================================================================== empty state=========================================================----->
-<div class="module-empty" id="moduleEmpty" style="display:none;">
+                Active
 
-    <img src="assets/images/No-modules.png" class="module-empty-img">
-    <h2>
-    No modules yet
-</h2>
-<p>
-    Add your mdoules to stay organised, track progresss and never miss a deadline.
-</p>
+            </button>
 
+            <button
+                class="filter-btn"
+                data-filter="Completed">
 
-</div>
+                Completed
 
+            </button>
 
+        </div>
 
+        <!--=========================================================
+                        MODULE LIST
+        ==========================================================-->
 
-<!-- ==================================================================================== button======================================================-->
-<div class="module-buttons">
-    <a class="add-module-btn" id="addModuleBtn">
-    + Add your first module
-</a>
+        <div
+            class="module-list"
+            id="modulesList">
 
+        </div>
 
-<a class="how-it-works" id="howItWorks">
-    How it works &#x3E;
-    
-</a>
+        <!--=========================================================
+                        EMPTY STATE
+        ==========================================================-->
 
-</div>
+        <div
+            class="module-empty"
+            id="moduleEmpty"
+            style="display:none;">
 
-<!---============================================================================= ADD MODULE ===================================================================-->
+            <img
+                src="assets/images/No-modules.png"
+                alt="No modules"
+                class="module-empty-img">
 
-<div class="module-form"  id="moduleForm">
+            <h2>
+
+                No modules yet
+
+            </h2>
+
+            <p>
+
+                Add your modules to stay organised,
+                track your progress and never miss
+                another deadline.
+
+            </p>
+
+        </div>
+
+        <!--=========================================================
+                        ACTION BUTTONS
+        ==========================================================-->
+
+        <div class="module-buttons">
+
+            <a
+                class="add-module-btn"
+                id="addModuleBtn">
+
+                + Add your module
+
+            </a>
+
+           
+
+        </div>
+
+        <!--=========================================================
+                    ADD MODULE FORM
+==========================================================-->
+
+<div
+    class="module-form"
+    id="moduleForm">
 
     <div class="module-heading">
-        <button class="back-btn" id="backBtn">
+
+        <button
+            class="back-btn"
+            id="backBtn">
+
             <i class="fa-solid fa-arrow-left"></i>
+
         </button>
-       
+
         <h2 id="moduleFormTitle">
-        Add New Module
+
+            Add New Module
+
         </h2>
+
     </div>
-    
-    <label>
+
+    <!--================ MODULE NAME =================-->
+
+    <label for="moduleName">
+
         Module Name
+
     </label>
-
-    <input 
-    type="text"
-    id="moduleName"
-    placeholder="e.g. Interactive Media">
-
-
-    <label>
-       Module Code
-    </label>
-
-    <input 
-    type="text"
-    id="moduleCode"
-    placeholder="e.g. DIGA4014A">
-
-
-
-    <label>
-       Semester
-    </label>
-
-
-   <select id="semester">
-    <option>Semester 1</option>
-    <option > Semester 2</option>
-    <option > Year long</option>
-
-   </select>
-<!--============================================================================================MODULE COLOUR ==============================================-->
-<label for="moduleColour">Module Colour</label>
-
-<div class="colour-container">
-
-    <div class="colour-preview" id="colourPreview"></div>
-
-    <span>Choose a colour</span>
-    <i class="fa-solid fa-eye-dropper colour-icon"></i>
 
     <input
-        type="color"
-        id="moduleColour"
-        value="#2E4AAC">
+        type="text"
+        id="moduleName"
+        placeholder="e.g. Interactive Media">
 
-</div>
+    <!--================ MODULE CODE =================-->
 
+    <label for="moduleCode">
 
-   <button id="saveModule">
-    Save Module
-   </button>
+        Module Code
+
+    </label>
+
+    <input
+        type="text"
+        id="moduleCode"
+        placeholder="e.g. DIGA4014A">
+
+    <!--================ SEMESTER =================-->
+
+    <label for="semester">
+
+        Semester
+
+    </label>
+
+    <select id="semester">
+
+        <option>
+
+            Semester 1
+
+        </option>
+
+        <option>
+
+            Semester 2
+
+        </option>
+
+        <option>
+
+            Year Long
+
+        </option>
+
+    </select>
+
+    <!--================ MODULE COLOUR =================-->
+
+    <label for="moduleColour">
+
+        Module Colour
+
+    </label>
+
+    <div class="colour-container">
+
+        <div
+            class="colour-preview"
+            id="colourPreview">
+
+        </div>
+
+        <span>
+
+            Choose a colour
+
+        </span>
+
+        <i class="fa-solid fa-eye-dropper colour-icon"></i>
+
+        <input
+            type="color"
+            id="moduleColour"
+            value="#2E4AAC">
+
+    </div>
+
+    <!--================ SAVE BUTTON =================-->
+
+    <button id="saveModule">
+
+        Save Module
+
+    </button>
 
 </div>
 
 
 <!--=========================================================
-                    MODULE PROGRESS PAGE
+                    CREATE MENU
 ==========================================================-->
 
-
-<!---module overview-->
-<div class="module-overview-page" id="moduleOverviewPage">
-
-
-    <div class="overview-header">
-
-    <button id="overviewBackBtn" class="back-btn">
-        <i class="fa-solid fa-arrow-left"></i>
-    </button>
-
-</div>
-
-<div class="overview-module-info">
-
-    <div
-        class="module-avatar"
-        id="moduleAvatar">
-    </div>
-
-    <div class="overview-module-details">
-
-        <h2 id="overviewModuleName"></h2>
-
-        <p id="overviewModuleCode"></p>
-
-        <span
-            class="semester-badge"
-            id="overviewModuleSemester">
-        </span>
-
-    </div>
-
-</div>
-
-<!---Progress bar-->
-
-<div class="progress-section">
-
-    <div class="progress-top">
-
-        <h2>Overall Progress</h2>
-
-        <span id="progressPercent"></span>
-
-    </div>
-
-    <div class="progress-bar">
-
-        <div
-            class="progress-fill"
-            id="progressFill">
-        </div>
-
-    </div>
-
-</div>
-
-
-
-
-<!--upload outline-->
 <div
-class="upload-card"
-id="uploadOutline">
+    class="create-overlay"
+    id="createOverlay">
 
-    <div class="upload-icon">
-
-        <i class="fa-solid fa-file-arrow-up"></i>
-
-    </div>
-
-    <div>
-
-        <h3>Upload Module Outline</h3>
-
-        <p>
-            Upload your outline and we'll extract deadlines and important dates.
-        </p>
-
-    </div>
-
-    <i class="fa-solid fa-chevron-right"></i>
-
-</div>
-
-<button class="add-new-task2">
-    <i class="fa-solid fa-plus"></i>
-    <span>Add New Task</span>
-</button>
-
-<!--upcoming submissions-->
-
-<div class="card">
-
-    <div class="card-heading">
-
-        <h2>Upcoming Submissions</h2>
-
-        <a id="viewAllSubmissions">
-            View all
-        </a>
-
-    </div>
-
-    <div
-        class="submission-list"
-        id="submissionList">
-
-       
-
-    </div>
-
-</div>
-</div>
-    </div>
-
-
-
-
-
-
-<!--====================== CREATE MENU ======================-->
-
-<!-- Overlay background -->
-<div class="create-overlay" id="createOverlay">
-
-    <!-- Bottom sheet -->
     <div class="create-sheet">
 
-        <!-- Drag handle -->
         <div class="sheet-handle"></div>
 
-        <!-- Sheet heading -->
-        <h2>Create New</h2>
+        <h2>
+
+            Create New
+
+        </h2>
 
         <!--================ NEW MODULE =================-->
-        <div class="create-option" id="newModule">
+
+        <div
+            class="create-option"
+            id="newModule">
 
             <div class="option-icon blue">
+
                 <i class="fa-solid fa-book"></i>
+
             </div>
 
             <div class="option-text">
-                <h3>New Module</h3>
-                <p>Add a new subject</p>
+
+                <h3>
+
+                    New Module
+
+                </h3>
+
+                <p>
+
+                    Add a new subject
+
+                </p>
+
             </div>
 
             <i class="fa-solid fa-chevron-right"></i>
@@ -312,15 +329,29 @@ id="uploadOutline">
         </div>
 
         <!--================ NEW TASK =================-->
+
         <div class="create-option">
 
             <div class="option-icon green">
+
                 <i class="fa-solid fa-list-check"></i>
+
             </div>
 
             <div class="option-text">
-                <h3>New Task</h3>
-                <p>Add a task</p>
+
+                <h3>
+
+                    New Task
+
+                </h3>
+
+                <p>
+
+                    Add a task
+
+                </p>
+
             </div>
 
             <i class="fa-solid fa-chevron-right"></i>
@@ -328,15 +359,29 @@ id="uploadOutline">
         </div>
 
         <!--================ NEW SCHEDULE =================-->
+
         <div class="create-option">
 
             <div class="option-icon purple">
+
                 <i class="fa-solid fa-calendar"></i>
+
             </div>
 
             <div class="option-text">
-                <h3>New Schedule</h3>
-                <p>Create a schedule</p>
+
+                <h3>
+
+                    New Schedule
+
+                </h3>
+
+                <p>
+
+                    Create a schedule
+
+                </p>
+
             </div>
 
             <i class="fa-solid fa-chevron-right"></i>
@@ -344,41 +389,64 @@ id="uploadOutline">
         </div>
 
         <!--================ NEW ASSESSMENT =================-->
+
         <div class="create-option">
 
             <div class="option-icon orange">
+
                 <i class="fa-solid fa-file-pen"></i>
+
             </div>
 
             <div class="option-text">
-                <h3>New Assessment</h3>
-                <p>Add an assessment</p>
+
+                <h3>
+
+                    New Assessment
+
+                </h3>
+
+                <p>
+
+                    Add an assessment
+
+                </p>
+
             </div>
 
             <i class="fa-solid fa-chevron-right"></i>
 
         </div>
 
-        <!--================ CANCEL BUTTON =================-->
-        <button id="closeSheet" class="cancel-btn">
+        <button
+            id="closeSheet"
+            class="cancel-btn">
+
             Cancel
+
         </button>
 
-    </div> <!-- End create-sheet -->
+    </div>
 
-</div> <!-- End create-overlay -->
+</div>
 
+<!--=========================================================
+                    DELETE MODULE MODAL
+==========================================================-->
 
-
-<!---delete module-->
-
-<div class="delete-overlay" id="deleteOverlay">
+<div
+    class="delete-overlay"
+    id="deleteOverlay">
 
     <div class="delete-modal">
 
         <i class="fa-solid fa-trash delete-icon"></i>
 
-        <h2>Delete Module?</h2>
+        <h2>
+
+            Delete Module?
+
+        </h2>
 
         <p>
 
@@ -406,57 +474,112 @@ id="uploadOutline">
 
 </div>
 
-
-
-
-
-
-<!--===========================================================================================navigation bar=====================================================-->
+<!--=========================================================
+                    BOTTOM NAVIGATION
+==========================================================-->
 
 <div class="nav-bar">
-<!--home button-->
-<a href="07 home.html" class="nav-item"> 
+
+    <!-- Home -->
+
+    <a
+        href="07 home.html"
+        class="nav-item">
+
         <i class="fa-solid fa-house"></i>
-        <span class="home">Home</span>
-</a>
-   
 
-<!--tasks-->
-    <a href="09 tasks.html" class="nav-item">
-       <i class="fa-solid fa-list-check"></i>
-        <span class="home">Tasks</span>
-       
+        <span class="home">
+
+            Home
+
+        </span>
+
     </a>
 
-<!--add button-->
-    <a  href="10 add.html" class="nav-add">
-       <i class="fa-solid fa-plus"></i>
+    <!-- Tasks -->
+
+    <a
+        href="09 tasks.html"
+        class="nav-item">
+
+        <i class="fa-solid fa-list-check"></i>
+
+        <span class="home">
+
+            Tasks
+
+        </span>
+
     </a>
 
+    <!-- Create -->
 
+    <a
+        href="10 add.html"
+        class="nav-add">
 
-<!--schedule-->
+        <i class="fa-solid fa-plus"></i>
 
-<a  href="11 schedule.html"  class="nav-item">
-       <i class="fa-solid fa-calendar"></i>
-        <span class="home">Schedule</span>
-</a>
-   
+    </a>
 
+    <!-- Schedule -->
 
-<!--modules-->
-   <a  href="08 modules.html"  class="nav-item active">
+    <a
+        href="11 schedule.html"
+        class="nav-item">
+
+        <i class="fa-solid fa-calendar"></i>
+
+        <span class="home">
+
+            Schedule
+
+        </span>
+
+    </a>
+
+    <!-- Modules -->
+
+    <a
+        href="08 modules.html"
+        class="nav-item active">
+
         <i class="fa-solid fa-book"></i>
-        <span class="home">Modules</span>
-   </a>
+
+        <span class="home">
+
+            Modules
+
+        </span>
+
+    </a>
 
 </div>
-</div>
 
- <!-------------alert module saved-->   
- <div class="toast" id="toast">
+</div>
+<!-- End .app-container -->
+
+<!--=========================================================
+                    TOAST NOTIFICATION
+==========================================================-->
+
+<div
+    class="toast"
+    id="toast">
+
     <i class="fa-solid fa-circle-check"></i>
-    <span id="toastMessage"></span>
- </div>
+
+    <span id="toastMessage">
+
+    </span>
+
+</div>
+<input
+    type="hidden"
+    id="selectedModuleId">
+
+    
 </body>
+
 </html>
+

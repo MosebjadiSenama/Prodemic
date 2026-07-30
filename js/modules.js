@@ -1,23 +1,13 @@
-//============================================================================================== FIREBASE IMPORTS ================================================
-import { auth, db } from "../firebase.js";
+//==================================================
+// IMPORTS
+//==================================================
 
-import {
+import { auth } from "../firebase.js";
+import { supabase } from "./supabase.js";
 
-    collection,
-    addDoc,
-    getDocs,
-    orderBy,
-    query,
-    where,
-    updateDoc,
-    deleteDoc,
-    doc
-
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
-
-
-//================================================ MODULE FILTER BUTTONS ================================================
+//==================================================
+// FILTER BUTTONS
+//==================================================
 
 const filterButtons = document.querySelectorAll(".filter-btn");
 
@@ -25,474 +15,188 @@ filterButtons.forEach(button => {
 
     button.addEventListener("click", () => {
 
-        // Remove active from all buttons
-        filterButtons.forEach(btn => {
-            btn.classList.remove("active");
-        });
+        filterButtons.forEach(btn =>
 
-        // Add active to clicked button
+            btn.classList.remove("active")
+
+        );
+
         button.classList.add("active");
 
-        // Which filter was selected?
-        const filter = button.dataset.filter;
-
-        console.log(filter);
-
-        // We'll filter the module cards here later
+        loadModules(button.dataset.filter);
 
     });
 
 });
 
+//==================================================
+// MODULE STATE
+//==================================================
 
+let editingModuleId = null;
 
+let moduleToDelete = null;
 
+let modules = [];
 
-//============================================================ MODULES============================================================//
+//==================================================
+// ELEMENTS
+//==================================================
 
-const addModuleBtn = document.getElementById("addModuleBtn")
-const moduleEmpty = document.getElementById("moduleEmpty")
-const moduleForm = document.getElementById("moduleForm")
+const addModuleBtn = document.getElementById("addModuleBtn");
+const addModuleIcon = document.getElementById("addModuleIcon");
 
-//=======progress========
-const moduleProgressPage = document.getElementById("moduleProgressPage");
-const moduleOverviewPage = document.getElementById("moduleOverviewPage");
-
-const overviewBackBtn =
-document.getElementById("overviewBackBtn");
-const moduleAvatar = document.getElementById("moduleAvatar");
-
-const progressModuleName = document.getElementById("progressModuleName");
-
-const progressModuleCode = document.getElementById("progressModuleCode");
+const moduleForm = document.getElementById("moduleForm");
+const moduleEmpty = document.getElementById("moduleEmpty");
+const modulesList = document.getElementById("modulesList");
 
 const modulesHeader = document.getElementById("modulesHeader");
 const filterCard = document.getElementById("filterCard");
-const howItWorks = document.getElementById("howItWorks");
-const backBtn = document.getElementById("backBtn");
-const addModuleIcon=document.getElementById("addModuleIcon");
+
+const moduleProgressPage =
+document.getElementById("moduleProgressPage");
 
 
 
-const moduleColour = document.getElementById("moduleColour");
-const colourPreview = document.getElementById("colourPreview");
+const backBtn =
+document.getElementById("backBtn");
 
-moduleColour.addEventListener("input", () => {
+const saveModule =
+document.getElementById("saveModule");
 
-    colourPreview.style.backgroundColor = moduleColour.value;
+const moduleName =
+document.getElementById("moduleName");
 
-});
+const moduleCode =
+document.getElementById("moduleCode");
+
+const semester =
+document.getElementById("semester");
+
+const moduleColour =
+document.getElementById("moduleColour");
+
+const colourPreview =
+document.getElementById("colourPreview");
+
+const moduleAvatar =
+document.getElementById("moduleAvatar");
+
+const toast =
+document.getElementById("toast");
+
+const toastMessage =
+document.getElementById("toastMessage");
+
+const deleteOverlay =
+document.getElementById("deleteOverlay");
+
+const cancelDelete =
+document.getElementById("cancelDelete");
+
+const confirmDelete =
+document.getElementById("confirmDelete");
+
+const createOverlay =
+document.getElementById("createOverlay");
+
+const navAdd =
+document.querySelector(".nav-add");
+
+const closeSheet =
+document.getElementById("closeSheet");
+
+const newModule =
+document.getElementById("newModule");
+
+//==================================================
+// COLOUR PICKER
+//==================================================
 
 if(moduleColour && colourPreview){
 
-    colourPreview.style.backgroundColor = moduleColour.value;
+    colourPreview.style.backgroundColor =
+    moduleColour.value;
 
-    moduleColour.addEventListener("input", () => {
+    moduleColour.addEventListener("input",()=>{
 
-        colourPreview.style.backgroundColor = moduleColour.value;
+        colourPreview.style.backgroundColor =
+        moduleColour.value;
 
     });
 
 }
 
-//===============================================================================back button restoration=================================
-
-backBtn.addEventListener("click",()=>{
-
-    moduleForm.style.display="none";
-
-    modulesHeader.style.display="block";
-
-    filterCard.style.display="flex";
-
-    if(modulesList.children.length>0){
-
-        modulesList.style.display="flex";
-
-        moduleEmpty.style.display="none";
-
-        document.querySelector(".module-buttons").style.display="none";
-
-    }
-
-    else{
-
-        modulesList.style.display="none";
-
-        moduleEmpty.style.display="flex";
-
-        document.querySelector(".module-buttons").style.display="flex";
-
-    }
-
-});
-
-
-//==================================================================================== Module list=================================
-const moduleName = document.getElementById("moduleName");
-const moduleCode = document.getElementById("moduleCode");
-const semester = document.getElementById("semester");
-const saveModule = document.getElementById("saveModule");
-const modulesList = document.getElementById("modulesList");
-//================================================== EDIT MODE ==================================
-let editingModuleId = null;
-//===============================================================================================
-
-const toast = document.getElementById("toast");
-
-const toastMessage = document.getElementById("toastMessage");
+//==================================================
+// TOAST
+//==================================================
 
 function showToast(message){
 
-    if(!toast || !toastMessage) return;
+    if(!toast) return;
 
     toastMessage.textContent = message;
 
     toast.classList.add("show");
 
-    setTimeout(() => {
+    setTimeout(()=>{
 
         toast.classList.remove("show");
 
-    }, 2500);
+    },2500);
 
 }
-//================================================================================================== Module menu (edit, delete and view progress)======================================================
-//delete module
-const deleteOverlay = document.getElementById("deleteOverlay");
-const cancelDelete = document.getElementById("cancelDelete");
-const confirmDelete = document.getElementById("confirmDelete");
 
-let moduleToDelete = null;
-//=================
+//==================================================
+// INITIALS
+//==================================================
 
 function getModuleInitials(name){
 
     return name
-        .trim()
-        .split(" ")
-        .map(word => word.charAt(0))
-        .join("")
-        .toUpperCase();
+
+    .trim()
+
+    .split(" ")
+
+    .map(word=>word[0])
+
+    .join("")
+
+    .toUpperCase();
 
 }
 
-//==============================
-
-function createModuleCard(module){
-
-    const card = document.createElement("div");
-
-    card.className = "module-card";
-
-    card.style.setProperty("--module-colour", module.colour);
-//==========
-card.innerHTML = `
-
-<!--================ MODULE AVATAR ================-->
-<div class="module-card-avatar"
-     style="background:${module.colour}">
-    ${getModuleInitials(module.name)}
-</div>
-
-<!--================ MODULE INFO ================-->
-<div class="module-info">
-
-    <h3 class="module-title">${module.name}</h3>
-
-    <p class="module-code">${module.code}</p>
-
-    <span class="module-semester">${module.semester}</span>
-
-</div>
-
-<div class="module-actions">
-
-    <button class="more-btn">
-        <i class="fa-solid fa-ellipsis-vertical"></i>
-    </button>
-
-    <button class="open-btn">
-        <i class="fa-solid fa-chevron-right"></i>
-    </button>
-
-</div>
-
-<div class="module-menu">
-
-    <button class="menu-item edit-module">
-        <i class="fa-solid fa-pen"></i>
-        Edit
-    </button>
-
-    <button class="menu-item delete">
-        <i class="fa-solid fa-trash"></i>
-        Delete
-    </button>
-
-</div>
-
-`;
-//=====
-    modulesList.appendChild(card);
-   const moreBtn = card.querySelector(".more-btn");
-const menu = card.querySelector(".module-menu");
-
-
-// ======more button functionality 
-
-const menuItems = card.querySelectorAll(".menu-item");
-
-const editBtn = menuItems[0];
-const deleteBtn = menuItems[1];
-const openBtn = card.querySelector(".open-btn");
-
-
-if(!moreBtn || !menu || !editBtn || !deleteBtn || !openBtn){
-
-    return;
-
-}
-
-
-//================================================================================================== MORE OPTION FOR =================================
-
-editBtn.addEventListener("click", () => {
-    editingModuleId = module.id;
-
-    menu.classList.remove("show");
-
-    showModuleForm();
-
-    // Change heading
-    document.getElementById("moduleFormTitle").textContent = "Edit Module";
-
-    // Change button text
-    saveModule.textContent = "Update Module";
-
-    // Fill the form
-    moduleName.value = module.name;
-    moduleCode.value = module.code;
-    semester.value = module.semester;
-    moduleColour.value = module.colour;
-    colourPreview.style.backgroundColor = module.colour;
-
-});
-//====delete  module
-
-deleteBtn.addEventListener("click",()=>{
-
-    menu.classList.remove("show");
-
-    moduleToDelete = module.id;
-
-    deleteOverlay.style.display="flex";
-
-});
-
-
-
-
-
-//=====================================================
-openBtn.addEventListener("click",()=>{
-
-    modulesHeader.style.display = "none";
-    filterCard.style.display = "none";
-    modulesList.style.display = "none";
-    moduleEmpty.style.display = "none";
-    moduleForm.style.display = "none";
-
-    moduleOverviewPage.style.display = "block";
-
-    const overviewModuleName =
-    document.getElementById("overviewModuleName");
-
-    const overviewModuleCode =
-    document.getElementById("overviewModuleCode");
-
-    const overviewModuleSemester =
-    document.getElementById("overviewModuleSemester");
-
-    moduleAvatar.style.backgroundColor = module.colour;
-    moduleAvatar.textContent = getModuleInitials(module.name);
-
-    overviewModuleName.textContent = module.name;
-    overviewModuleCode.textContent = module.code;
-    overviewModuleSemester.textContent = module.semester;
-
-    document.documentElement.style.setProperty(
-        "--current-module-colour",
-        module.colour
-    );
-
-});
-
-
-moreBtn.addEventListener("click",(e)=>{
-  
-
-//=====================================================
-// OPEN MODULE OVERVIEW
-//=====================================================
-
-
-    e.stopPropagation();
-
-    document.querySelectorAll(".module-menu").forEach(m=>{
-
-        if(m!==menu){
-
-            m.classList.remove("show");
-
-        }
-
-    });
-
-    menu.classList.toggle("show");
-
-});
-
-
-
-
-//=====
-
-document.addEventListener("click",()=>{
-
-    menu.classList.remove("show");
-
-});
-
-}
-
-saveModule.addEventListener("click", async () => {
-if(
-
-    moduleName.value.trim()==="" ||
-
-    moduleCode.value.trim()===""
-
-){
-
-    showToast("Please complete all fields.");
-
-    return;
-
-}
- 
-    if (!auth.currentUser) {
-       showToast("No user is logged in.");
-        return;
-    }
-
-  try {
-
-    if(editingModuleId){
-
-       await updateDoc(
-
-    doc(
-        db,
-        "modules",
-        editingModuleId
-    ),
-
-    {
-        name: moduleName.value,
-        code: moduleCode.value,
-       semester: semester.value,
-        colour: moduleColour.value
-    }
-
-);
-
-        showToast("Module updated successfully!");
-
-        editingModuleId = null;
-
-    }
-
-    else{
-
-      await addDoc(
-
-    collection(db, "modules"),
-
-    {
-
-        user_id: auth.currentUser.uid,
-
-        name: moduleName.value,
-
-        code: moduleCode.value,
-
-        semester: semester.value,
-
-        colour: moduleColour.value,
-
-        createdAt: Date.now()
-
-    }
-
-);  
-
-        showToast("Module saved successfully!");
-
-    }
-
-    await loadModules();
-    //==================================================
-// FIRST MODULE ONBOARDING
+//==================================================
+// RESET FORM
 //==================================================
 
-const moduleSnapshot = await getDocs(
+function resetForm(){
 
-    query(
+    editingModuleId = null;
 
-        collection(db, "modules"),
+    moduleName.value = "";
 
-        where("user_id", "==", auth.currentUser.uid)
+    moduleCode.value = "";
 
-    )
+    semester.selectedIndex = 0;
 
-);
-//====
-if(moduleSnapshot.size === 1){
+    moduleColour.value = "#2E4AAC";
 
-    setTimeout(() => {
+    colourPreview.style.backgroundColor = "#2E4AAC";
 
-        window.location.href = "07 home.html";
+    document.getElementById("moduleFormTitle").textContent =
+    "Add Module";
 
-    }, 2000);
-
-}
-
-    document.getElementById("moduleFormTitle").textContent = "Add New Module";
-
-saveModule.textContent = "Save Module";
-
-editingModuleId = null;
- 
-      
-moduleName.value = "";
-moduleCode.value = "";
-semester.selectedIndex = 0;
-moduleColour.value = "#2E4AAC";
-colourPreview.style.backgroundColor = "#2E4AAC";
-
-
-
-catch (error) {
-
-    console.error(error);
-
-    alert(error.message);
+    saveModule.textContent =
+    "Save Module";
 
 }
 
-});
-//==================================================display modules=============================
+//==================================================
+// SHOW FORM
+//==================================================
+
 function showModuleForm(){
 
     modulesHeader.style.display = "none";
@@ -503,37 +207,574 @@ function showModuleForm(){
 
     modulesList.style.display = "none";
 
-    document.querySelector(".module-buttons").style.display = "none";
+    document.querySelector(".module-buttons").style.display =
+    "none";
+
+    
 
     moduleForm.style.display = "block";
 
 }
 
-addModuleBtn.addEventListener("click", showModuleForm);
+//==================================================
+// SHOW MODULES
+//==================================================
 
-if(addModuleIcon){
+function showModulesPage(){
 
-    addModuleIcon.addEventListener("click", showModuleForm);
+    moduleForm.style.display = "none";
+
+    
+
+    modulesHeader.style.display = "block";
+
+    filterCard.style.display = "flex";
+
+    if(modules.length){
+
+        modulesList.style.display = "flex";
+
+        moduleEmpty.style.display = "none";
+
+        document.querySelector(".module-buttons").style.display =
+        "none";
+
+    }
+
+    else{
+
+        modulesList.style.display = "none";
+
+        moduleEmpty.style.display = "flex";
+
+        document.querySelector(".module-buttons").style.display =
+        "flex";
+
+    }
 
 }
 
 
+//==================================================
+// CREATE MODULE CARD
+//==================================================
 
-//============================================================================
-// NAV BAR ADD BUTTON OVERLAY
-//============================================================================
+function createModuleCard(module){
 
-const navAdd = document.querySelector(".nav-add");
-const createOverlay = document.getElementById("createOverlay");
-const closeSheet = document.getElementById("closeSheet");
+    const card = document.createElement("div");
 
-if(navAdd && createOverlay){
+    card.className = "module-card";
+
+    card.style.setProperty(
+
+        "--module-colour",
+
+        module.colour
+
+    );
+
+    card.innerHTML = `
+
+<div class="module-card-avatar"
+style="background:${module.colour}">
+
+${getModuleInitials(module.module_name)}
+
+</div>
+
+<div class="module-info">
+
+<h3 class="module-title">
+
+${module.module_name}
+
+</h3>
+
+<p class="module-code">
+
+${module.module_code}
+
+</p>
+
+<span class="module-semester">
+
+${module.semester}
+
+</span>
+
+</div>
+
+<div class="module-actions">
+
+<button
+class="more-btn">
+
+<i class="fa-solid fa-ellipsis-vertical"></i>
+
+</button>
+
+<button
+class="upload-outline-btn"
+data-id="${module.id}">
+
+
+
+</button>
+
+</div>
+
+<div class="module-menu">
+
+<button class="menu-item edit-module">
+
+<i class="fa-solid fa-pen"></i>
+
+Edit
+
+</button>
+
+<button class="menu-item delete">
+
+<i class="fa-solid fa-trash"></i>
+
+Delete
+
+</button>
+
+</div>
+
+`;
+
+    modulesList.appendChild(card);
+
+    //--------------------------------------------------
+    // ELEMENTS
+    //--------------------------------------------------
+
+    const moreBtn = card.querySelector(".more-btn");
+
+    const uploadBtn =
+card.querySelector(".upload-outline-btn");
+
+    const menu = card.querySelector(".module-menu");
+
+    const editBtn = card.querySelector(".edit-module");
+
+    const deleteBtn = card.querySelector(".delete");
+
+    //--------------------------------------------------
+    // MENU
+    //--------------------------------------------------
+
+    moreBtn.addEventListener("click",(e)=>{
+
+        e.stopPropagation();
+
+        document
+
+        .querySelectorAll(".module-menu")
+
+        .forEach(item=>{
+
+            if(item!==menu){
+
+                item.classList.remove("show");
+
+            }
+
+        });
+
+        menu.classList.toggle("show");
+
+    });
+
+    document.addEventListener("click",()=>{
+
+        menu.classList.remove("show");
+
+    });
+
+    //--------------------------------------------------
+    // EDIT MODULE
+    //--------------------------------------------------
+
+    editBtn.addEventListener("click",()=>{
+
+        editingModuleId = module.id;
+
+        menu.classList.remove("show");
+
+        showModuleForm();
+
+        document.getElementById(
+
+            "moduleFormTitle"
+
+        ).textContent =
+
+        "Edit Module";
+
+        saveModule.textContent =
+
+        "Update Module";
+
+        moduleName.value =
+
+        module.module_name;
+
+        moduleCode.value =
+
+        module.module_code;
+
+        semester.value =
+
+        module.semester;
+
+        moduleColour.value =
+
+        module.colour;
+
+        colourPreview.style.backgroundColor =
+
+        module.colour;
+
+    });
+
+    //--------------------------------------------------
+    // DELETE
+    //--------------------------------------------------
+
+    deleteBtn.addEventListener("click",()=>{
+
+        moduleToDelete = module.id;
+
+        deleteOverlay.style.display = "flex";
+
+        menu.classList.remove("show");
+
+    });
+
+  
+//--------------------------------------------------
+// UPLOAD MODULE OUTLINE
+//--------------------------------------------------
+
+uploadBtn.addEventListener("click", () => {
+
+    console.log("=================================");
+    console.log("FULL MODULE OBJECT:");
+    console.log(module);
+    console.log("=================================");
+    console.log("module.id =", module.id);
+    console.log("URL =", `13 moduleoutline.html?id=${module.id}`);
+
+    alert(`Module ID = ${module.id}`);
+window.location.href = `13 moduleoutline.html?id=${module.id}`;
+
+});
+}
+
+//==================================================
+// BACK BUTTON
+//==================================================
+
+backBtn.addEventListener("click",()=>{
+
+    resetForm();
+
+    showModulesPage();
+
+});
+
+//==================================================
+// ADD MODULE
+//==================================================
+
+addModuleBtn.addEventListener(
+
+    "click",
+
+    showModuleForm
+
+);
+
+if(addModuleIcon){
+
+    addModuleIcon.addEventListener(
+
+        "click",
+
+        showModuleForm
+
+    );
+
+}
+
+//==================================================
+// LOAD MODULES
+//==================================================
+
+
+async function loadModules(filter = "all"){
+
+    if(!auth.currentUser) return;
+
+    modulesList.innerHTML = "";
+
+    modules = [];
+
+    const { data, error } = await supabase
+
+    .from("modules")
+
+    .select("*")
+
+    .eq("user_id", auth.currentUser.uid)
+
+    .order("created_at", { ascending: true });
+
+    if(error){
+
+        console.error(error);
+
+        showToast(error.message);
+
+        return;
+
+    }
+
+    modules = data || [];
+
+    //--------------------------------------------------
+    // FILTERS
+    //--------------------------------------------------
+
+    let filteredModules = modules;
+
+    if(filter !== "all"){
+
+        filteredModules = modules.filter(module =>
+
+            module.semester === filter
+
+        );
+
+    }
+
+if (moduleForm.style.display === "block") {
+    return;
+}
+if(filteredModules.length === 0){
+
+    moduleEmpty.style.display = "flex";
+    modulesList.style.display = "none";
+    document.querySelector(".module-buttons").style.display = "flex";
+
+    return;
+
+}
+
+    moduleEmpty.style.display = "none";
+
+    modulesList.style.display = "flex";
+
+    document.querySelector(".module-buttons")
+
+    .style.display = "none";
+
+    filteredModules.forEach(module=>{
+
+        createModuleCard(module);
+
+    });
+
+}
+
+//==================================================
+// SAVE / UPDATE MODULE
+//==================================================
+
+saveModule.addEventListener("click", async()=>{
+
+    if(
+
+        moduleName.value.trim()==="" ||
+
+        moduleCode.value.trim()===""
+
+    ){
+
+        showToast("Please complete all fields.");
+
+        return;
+
+    }
+
+    if(!auth.currentUser){
+
+        showToast("Please login first.");
+
+        return;
+
+    }
+
+    try{
+
+        //--------------------------------------------------
+        // UPDATE
+        //--------------------------------------------------
+
+        if(editingModuleId){
+
+            const { error } = await supabase
+
+            .from("modules")
+
+            .update({
+
+                module_name : moduleName.value,
+
+                module_code : moduleCode.value,
+
+                semester : semester.value,
+
+                colour : moduleColour.value
+
+            })
+
+            .eq("id", editingModuleId)
+
+            .eq("user_id", auth.currentUser.uid);
+
+            if(error) throw error;
+
+            showToast("Module updated.");
+
+        }
+
+        //--------------------------------------------------
+        // INSERT
+        //--------------------------------------------------
+
+        else{
+
+            const { error } = await supabase
+
+            .from("modules")
+
+            .insert([{
+
+                user_id : auth.currentUser.uid,
+
+                module_name : moduleName.value,
+
+                module_code : moduleCode.value,
+
+                semester : semester.value,
+
+                colour : moduleColour.value
+
+            }]);
+
+            if(error) throw error;
+
+            showToast("Module added.");
+
+        }
+
+        //--------------------------------------------------
+        // RESET
+        //--------------------------------------------------
+
+        resetForm();
+
+        showModulesPage();
+
+        await loadModules();
+
+        //--------------------------------------------------
+        // FIRST MODULE
+        //--------------------------------------------------
+
+        if(modules.length === 1){
+
+            setTimeout(()=>{
+
+                window.location.href =
+
+                "07 home.html";
+
+            },1500);
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        showToast(error.message);
+
+    }
+
+});
+
+//==================================================
+// DELETE MODULE
+//==================================================
+
+cancelDelete.addEventListener("click",()=>{
+
+    deleteOverlay.style.display = "none";
+
+    moduleToDelete = null;
+
+});
+
+confirmDelete.addEventListener("click", async()=>{
+
+    if(!moduleToDelete) return;
+
+    const { error } = await supabase
+
+    .from("modules")
+
+    .delete()
+
+    .eq("id", moduleToDelete)
+
+    .eq("user_id", auth.currentUser.uid);
+
+    if(error){
+
+        showToast(error.message);
+
+        return;
+
+    }
+
+    deleteOverlay.style.display = "none";
+
+    moduleToDelete = null;
+
+    showToast("Module deleted.");
+
+    await loadModules();
+
+});
+
+//==================================================
+// NAV BAR OVERLAY
+//==================================================
+
+if(navAdd){
 
     navAdd.addEventListener("click",(e)=>{
 
         e.preventDefault();
 
-        createOverlay.style.display="flex";
+        createOverlay.style.display = "flex";
 
     });
 
@@ -543,7 +784,7 @@ if(closeSheet){
 
     closeSheet.addEventListener("click",()=>{
 
-        createOverlay.style.display="none";
+        createOverlay.style.display = "none";
 
     });
 
@@ -553,9 +794,9 @@ if(createOverlay){
 
     createOverlay.addEventListener("click",(e)=>{
 
-        if(e.target===createOverlay){
+        if(e.target === createOverlay){
 
-            createOverlay.style.display="none";
+            createOverlay.style.display = "none";
 
         }
 
@@ -563,161 +804,184 @@ if(createOverlay){
 
 }
 
-
-//=========================================IF ON CERTAIN PAGE============================
-
-const newModule = document.getElementById("newModule");
+//==================================================
+// NEW MODULE FROM CREATE MENU
+//==================================================
 
 if(newModule){
 
     newModule.addEventListener("click",()=>{
 
-       showModuleForm();
+        createOverlay.style.display = "none";
 
-createOverlay.style.display = "none";
+        resetForm();
+
+        showModuleForm();
 
     });
 
 }
-//==========when user taps on = sign it will take the usr to add new module page========================================================
 
-//===============================
 
-async function loadModules(){
+//==================================================
+// AUTH
+//==================================================
 
-    if(!auth.currentUser) return;
+auth.onAuthStateChanged(async(user)=>{
 
-    modulesList.innerHTML = "";
+    if(!user){
 
-    moduleEmpty.style.display = "none";
-    modulesList.style.display = "none";
-
-  const q = query(
-
-    collection(db, "modules"),
-
-    where("user_id", "==", auth.currentUser.uid),
-
-    orderBy("createdAt")
-
-);
-
-    const snapshot = await getDocs(q);
-
-    if(snapshot.empty){
-
-        moduleEmpty.style.display = "flex";
-
-        document.querySelector(".module-buttons").style.display = "flex";
-
-        modulesList.style.display = "none";
+        window.location.href = "01 login.html";
 
         return;
 
     }
 
-    moduleEmpty.style.display = "none";
-
-    document.querySelector(".module-buttons").style.display = "none";
-
-    modulesList.style.display = "flex";
-
-    moduleForm.style.display = "none";
-
-modulesHeader.style.display = "block";
-
-filterCard.style.display = "flex";
-
-  snapshot.forEach((doc)=>{
-
-    createModuleCard({
-
-        id: doc.id,
-
-        ...doc.data()
-
-    });
-
-});
-//==============================================================================
-}   // <-- ADD THIS
-
-overviewBackBtn.addEventListener("click", () => {
-
-    moduleOverviewPage.style.display = "none";
-
-    modulesHeader.style.display = "block";
-
-    filterCard.style.display = "flex";
-
-    modulesList.style.display = "flex";
-
-});
-//===
-
-auth.onAuthStateChanged(async (user)=>{
-
-    if(user){
-
-        moduleEmpty.style.display = "none";
-        modulesList.style.display = "none";
+    try{
 
         await loadModules();
 
-        const params = new URLSearchParams(window.location.search);
+    }
 
-if(params.get("newModule") === "true"){
+    catch(error){
 
-    showModuleForm();
+        console.error(error);
 
-}
+        showToast("Failed to load modules.");
 
     }
 
 });
 
+//==================================================
+// REFRESH MODULES
+//==================================================
 
-//delete
-cancelDelete.addEventListener("click", () => {
+window.addEventListener("focus",()=>{
 
-    deleteOverlay.style.display = "none";
+    if(auth.currentUser){
 
-    moduleToDelete = null;
+        loadModules();
+
+    }
 
 });
 
-confirmDelete.addEventListener("click", async () => {
+//==================================================
+// ESC KEY CLOSES MENUS
+//==================================================
 
-    if (!moduleToDelete) return;
+document.addEventListener("keydown",(e)=>{
 
-    await deleteDoc(
-        doc(
-    db,
-    "modules",
-    moduleToDelete
-)
-       
-    );
+    if(e.key === "Escape"){
 
-    deleteOverlay.style.display = "none";
+        deleteOverlay.style.display = "none";
 
-    moduleToDelete = null;
+        createOverlay.style.display = "none";
 
-    showToast("Module deleted.");
-
-    loadModules();
+    }
 
 });
 
+//==================================================
+// DEFAULT COLOUR
+//==================================================
+
+if(colourPreview){
+
+    colourPreview.style.backgroundColor =
+
+    moduleColour.value;
+
+}
 
 //==================================================
-// OPEN FORM FROM SCHEDULE PAGE
+// INITIAL PAGE
 //==================================================
+
+resetForm();
 
 const params = new URLSearchParams(window.location.search);
 
-if(params.get("newModule") === "true"){
-
+if (params.get("newModule") === "true") {
     showModuleForm();
+} else {
+    showModulesPage();
+}
+
+async function loadSubmissions(moduleId){
+
+    const submissionList =
+    document.getElementById("submissionList");
+
+    submissionList.innerHTML = "";
+
+    const { data, error } = await supabase
+
+        .from("assessments")
+
+        .select("*")
+
+        .eq("module_id", moduleId)
+
+        .order("due_date",{ascending:true});
+
+    if(error){
+
+        console.error(error);
+
+        return;
+
+    }
+
+    if(!data.length){
+
+        submissionList.innerHTML = `
+
+        <div class="empty-state">
+
+            <i class="fa-solid fa-file-circle-xmark"></i>
+
+            <h3>No submissions yet</h3>
+
+            <p>Import a module outline to generate submissions.</p>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+    data.forEach(item=>{
+
+        const div = document.createElement("div");
+
+        div.className = "submission-item";
+
+        div.innerHTML = `
+
+            <div>
+
+                <div class="submission-title">
+
+                    ${item.title}
+
+                </div>
+
+            </div>
+
+            <div class="submission-date">
+
+                ${item.due_date ?? "No date"}
+
+            </div>
+
+        `;
+
+        submissionList.appendChild(div);
+
+    });
 
 }

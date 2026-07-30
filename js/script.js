@@ -4,10 +4,10 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     updateProfile,
-    sendEmailVerification
+    sendEmailVerification,
+    sendPasswordResetEmail
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-
 
 
 
@@ -19,7 +19,7 @@ if (document.querySelector(".splash-screen")) {
 
         window.location.href = "03 Authentication.html";
 
-    }, 3000);
+    }, 2000);
 
 }
 
@@ -31,7 +31,7 @@ if(document.querySelector(".splash-screen")){
 
         window.location.href="03 Authentication.html";
 
-    },3000);
+    },2000);
 
 }
 
@@ -49,9 +49,21 @@ document.getElementById("welcomeSection");
 const signinSection =
 document.getElementById("signinSection");
 
-if(signinSection){
+const params = new URLSearchParams(window.location.search);
 
-    signinSection.style.display = "none";
+if (signinSection && welcomeSection) {
+
+    if (params.get("signin") === "true") {
+
+        welcomeSection.style.display = "none";
+        signinSection.style.display = "block";
+
+    } else {
+
+        welcomeSection.style.display = "block";
+        signinSection.style.display = "none";
+
+    }
 
 }
 
@@ -154,45 +166,43 @@ createUserWithEmailAndPassword(auth, email, password)
 
     });
 
-  await sendEmailVerification(userCredential.user);
+ await sendEmailVerification(userCredential.user);
 
-    await fetch(
+// Sign the user out immediately
+await auth.signOut();
 
-        "http://localhost:3000/send-welcome-email",
+alert(
+    "Account created successfully!\n\nA verification email has been sent to your inbox.\n\nPlease verify your email before logging in."
+);
 
-        {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type": "application/json"
-
-            },
-
-            body: JSON.stringify({
-
-                name: name,
-
-                email: email,
-
-    
-
-            })
-
-        }
-
-    );
-
-    alert("Account created successfully! Please verify your email.");
-
-    window.location.href = "04 Personalisation.html";
+// Go back to the login page
+window.location.href = "03 Authentication.html?signin=true";
 
 })
 
 .catch((error) => {
 
-    errorMessage.textContent = error.message;
+    switch (error.code) {
+
+    case "auth/email-already-in-use":
+        errorMessage.textContent =
+        "An account with this email already exists.";
+        break;
+
+    case "auth/invalid-email":
+        errorMessage.textContent =
+        "Please enter a valid email address.";
+        break;
+
+    case "auth/weak-password":
+        errorMessage.textContent =
+        "Password is too weak.";
+        break;
+
+    default:
+        errorMessage.textContent =
+        "Something went wrong. Please try again.";
+}
 
 });
 
@@ -214,10 +224,10 @@ if(resetBtn){
         const error =
         document.getElementById("reset-error");
 
-       if(email === ""){
-    error.textContent = "Please enter your email";
-    return;
-}
+        if(email === ""){
+            error.textContent = "Please enter your email";
+            return;
+        }
 
         if(!email.includes("@") || !email.includes(".")){
             error.textContent =
@@ -227,7 +237,29 @@ if(resetBtn){
 
         error.textContent = "";
 
-        alert("Password reset link sent!");
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                alert(
+"Password reset email sent.\n\nPlease check your inbox and spam folder."
+);
+            })
+           .catch((err) => {
+
+    switch (err.code) {
+
+        case "auth/user-not-found":
+            error.textContent = "No account found with this email.";
+            break;
+
+        case "auth/invalid-email":
+            error.textContent = "Please enter a valid email.";
+            break;
+
+        default:
+            error.textContent = "Unable to send reset email.";
+    }
+
+});
     });
 }
 
@@ -263,7 +295,20 @@ if(signInBtn){
 
         signInWithEmailAndPassword(auth, email, password)
 
-.then((userCredential) => {
+//====user verifies email
+
+.then(async (userCredential) => {
+
+    await userCredential.user.reload();
+
+    if (!userCredential.user.emailVerified) {
+
+        alert("Please verify your email before logging in.");
+
+        await auth.signOut();
+
+        return;
+    }
 
     alert("Login successful!");
 
@@ -271,9 +316,27 @@ if(signInBtn){
 
 })
 
+//=====
+
 .catch((error) => {
 
-    alert(error.message);
+    switch (error.code) {
+
+        case "auth/invalid-credential":
+            alert("Incorrect email or password.");
+            break;
+
+        case "auth/user-not-found":
+            alert("No account found with this email.");
+            break;
+
+        case "auth/too-many-requests":
+            alert("Too many failed attempts. Please try again later.");
+            break;
+
+        default:
+            alert("Unable to sign in. Please try again.");
+    }
 
 });
     });

@@ -1,155 +1,53 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create</title>
 
-    <link rel="stylesheet" href="style.css">
-    <script type="module" src="js/script.js"></script>
-<!---ICONS-->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="css/overlay.css">
 
-<!--GOOGLE FONTS-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Anton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script defer src="js/overlay.js" ></script>
 </head>
+
 <body>
 
-    <div class="app-container">
+<div id="overlay" class="overlay">
 
-<h1>add</h1>
+    <div class="sheet">
 
-
-
-
-<!--====================== CREATE MENU ======================-->
-
-<div class="create-overlay" id="createOverlay">
-
-    <div class="create-sheet">
-
-        <div class="sheet-handle"></div>
+        <div class="handle"></div>
 
         <h2>Create New</h2>
 
-        <div class="create-option" id="newModule">
-
-            <div class="option-icon blue">
-                <i class="fa-solid fa-book"></i>
-            </div>
-
-            <div class="option-text">
-                <h3>New Module</h3>
-                <p>Add a new subject</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
+        <div class="item" id="moduleBtn">
+            <i class="fa-solid fa-book"></i>
+            <span>Module</span>
         </div>
 
-        <div class="create-option">
-
-            <div class="option-icon green">
-                <i class="fa-solid fa-list-check"></i>
-            </div>
-
-            <div class="option-text">
-                <h3>New Task</h3>
-                <p>Add a task</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
+        <div class="item" id="taskBtn">
+            <i class="fa-solid fa-list-check"></i>
+            <span>Task</span>
         </div>
 
-        <div class="create-option">
-
-            <div class="option-icon purple">
-                <i class="fa-solid fa-calendar"></i>
-            </div>
-
-            <div class="option-text">
-                <h3>New Schedule</h3>
-                <p>Create a schedule</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
+        <div class="item" id="scheduleBtn">
+            <i class="fa-solid fa-calendar"></i>
+            <span>Schedule</span>
         </div>
 
-        <div class="create-option">
-
-            <div class="option-icon orange">
-                <i class="fa-solid fa-file-pen"></i>
-            </div>
-
-            <div class="option-text">
-                <h3>New Assessment</h3>
-                <p>Add an assessment</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
+        <div class="item" id="assessmentBtn">
+            <i class="fa-solid fa-file-pen"></i>
+            <span>Assessment</span>
         </div>
 
-        <button id="closeSheet" class="cancel-btn">
-            Cancel
-        </button>
+        <button id="closeOverlay">Cancel</button>
 
     </div>
 
 </div>
 
-<!--navigation bar-->
-
-
-<div class="nav-bar">
-<!--home button-->
-<a href="07 home.html" class="nav-item"> 
-        <i class="fa-solid fa-house"></i>
-        <span class="home">Home</span>
-</a>
-   
-
-<!--tasks-->
-    <a href="09 tasks.html" class="nav-item">
-       <i class="fa-solid fa-list-check"></i>
-        <span class="home">Tasks</span>
-       
-    </a>
-
-<!--add button-->
-    <a  href="10 add.html" class="nav-add active">
-       <i class="fa-solid fa-plus"></i>
-    </a>
-
-
-
-<!--schedule-->
-
-<a  href="11 schedule.html"  class="nav-item">
-       <i class="fa-solid fa-calendar"></i>
-        <span class="home">Schedule</span>
-</a>
-   
-
-
-<!--modules-->
-   <a  href="08 modules.html"  class="nav-item">
-        <i class="fa-solid fa-book"></i>
-        <span class="home">Modules</span>
-   </a>
-
-</div>
-</div>
-
-    
 </body>
 </html>
