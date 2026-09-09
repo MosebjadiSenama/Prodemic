@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Track Module</title>
+
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/overlay.css">
+    <link rel="stylesheet" href="css/track module.css">
+
+    <script
+        type="module"
+        src="js/trackmodule.js"
+    ></script>
+
+</head>
+
+
+<body>
+
+    <!-- ==================================================
+         MODULE PAGE
+    =================================================== -->
+
+    <main
+        id="modulePage"
+        class="module-page"
+    >
+
+
+        <!-- ==================================================
+             MODULE HERO
+        =================================================== -->
+
+        <section
+            id="moduleHeader"
+            class="module-header"
+        >
+
+            <div class="module-header-inner">
+
+
+                <!-- BACK -->
+
+                <a
+                    href="08 modules.html"
+                    id="backBtn"
+                    class="back-btn"
+                >
+                    <span>Back to Modules</span>
+                </a>
+
+
+                <!-- EDIT -->
+
+                <a
+                    href="#"
+                    id="editModuleBtn"
+                    class="edit-module-btn"
+                >
+                    <span>Edit</span>
+                </a>
+
+
+                <!-- MODULE INFORMATION -->
+
+                <div
+                    id="moduleHeaderInfo"
+                    class="module-header-info"
+                >
+
+                    <p
+                        id="moduleCode"
+                        class="module-code"
+                    ></p>
+
+
+                    <h1
+                        id="moduleName"
+                        class="module-name"
+                    ></h1>
+
+
+                    <p
+                        id="moduleCredits"
+                        class="module-credits"
+                    ></p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             MODULE CONTENT
+        =================================================== -->
+
+        <div class="module-content">
+
+
+            <!-- ==================================================
+                 MODULE TABS
+            =================================================== -->
+
+            <nav
+                class="module-tabs"
+                aria-label="Module sections"
+            >
+
+                <button
+                    type="button"
+                    class="module-tab active"
+                    data-section="overview"
+                >
+                    Overview
+                </button>
+
+
+                <button
+                    type="button"
+                    class="module-tab"
+                    data-section="classes"
+                >
+                    Classes
+                </button>
+
+
+                <button
+                    type="button"
+                    class="module-tab"
+                    data-section="assessments"
+                >
+                    Assessments
+                </button>
+
+
+                <button
+                    type="button"
+                    class="module-tab"
+                    data-section="people"
+                >
+                    People
+                </button>
+
+
+                <button
+                    type="button"
+                    class="module-tab"
+                    data-section="academicEvents"
+                >
+                    Academic Events
+                </button>
+
+            </nav>
+
+
+
+            <!-- ==================================================
+                 OVERVIEW SECTION
+            =================================================== -->
+
+            <section
+                id="overviewSection"
+                class="module-section module-overview"
+            >
+
+
+                <!-- ==================================================
+                     ABOUT THIS MODULE
+                =================================================== -->
+
+                <article class="about-module-card">
+
+                    <p class="about-label">
+                        ABOUT THIS MODULE
+                    </p>
+
+
+                    <h2>
+                        Module summary
+                    </h2>
+
+
+                    <p
+                        id="moduleSummary"
+                        class="module-summary"
+                    ></p>
+
+                </article>
+
+
+
+                <!-- ==================================================
+                     MODULE PROGRESS
+                =================================================== -->
+
+                <div class="progress-overview">
+
+
+                    <!-- PROGRESS CIRCLE -->
+
+                    <article class="progress-chart-card">
+
+                        <div class="progress-chart">
+
+                            <div class="progress-chart-inner">
+
+                                <span
+                                    id="progressPercentage"
+                                ></span>
+
+                                <small>
+                                    complete
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- PROGRESS INFORMATION -->
+
+                    <article class="progress-info-card">
+
+                        <div class="progress-info">
+
+                            <p class="progress-label">
+                                MODULE PROGRESS
+                            </p>
+
+
+                            <h2
+                                id="progressStatus"
+                            ></h2>
+
+
+                            <p
+                                id="progressMessage"
+                                class="progress-message"
+                            ></p>
+
+
+                            <div class="progress-stat">
+
+                                <span>
+                                    Completed tasks
+                                </span>
+
+                                <strong
+                                    id="completedTasks"
+                                ></strong>
+
+                            </div>
+
+
+                            <div class="progress-stat">
+
+                                <span>
+                                    Remaining tasks
+                                </span>
+
+                                <strong
+                                    id="remainingTasks"
+                                ></strong>
+
+                            </div>
+
+
+                            <div class="progress-stat">
+
+                                <span>
+                                    Assessments
+                                </span>
+
+                                <strong
+                                    id="assessmentCount"
+                                ></strong>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 CLASSES SECTION
+            =================================================== -->
+
+            <section
+                id="classesSection"
+                class="module-section"
+                style="display: none;"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Classes
+                        </h2>
+
+                        <p>
+                            Your lectures and classes for this module.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="add-section-btn"
+                    >
+                        + Add Lecture
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="lectureList"
+                    class="section-list"
+                ></div>
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 ASSESSMENTS SECTION
+            =================================================== -->
+
+            <section
+                id="assessmentsSection"
+                class="module-section"
+                style="display: none;"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Assessments
+                        </h2>
+
+                        <p>
+                            Assessments belonging to this module.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="add-section-btn"
+                    >
+                        + Add Assessment
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="assessmentList"
+                    class="section-list"
+                ></div>
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 PEOPLE SECTION
+            =================================================== -->
+
+            <section
+                id="peopleSection"
+                class="module-section"
+                style="display: none;"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            People
+                        </h2>
+
+                        <p>
+                            Lecturers and tutors associated with this module.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="add-section-btn"
+                    >
+                        + Add Person
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="peopleList"
+                    class="section-list"
+                ></div>
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 ACADEMIC EVENTS SECTION
+            =================================================== -->
+
+            <section
+                id="academicEventsSection"
+                class="module-section"
+                style="display: none;"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Academic Events
+                        </h2>
+
+                        <p>
+                            Important academic events for this module.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="add-section-btn"
+                    >
+                        + Add Event
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="academicEventsList"
+                    class="section-list"
+                ></div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

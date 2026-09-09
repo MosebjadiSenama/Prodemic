@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="css/overlay.css">
 
 <script type="module" src="js/tasks.js"></script>
+<script type="module" src="js/script.js"></script>
 
 
 <link rel="stylesheet"
@@ -158,192 +159,176 @@ Generate AI Tasks
 
 
 
-<!--==================================================
-BOTTOM NAVIGATION
-===================================================-->
+<<!-- ==================================================
+     DESKTOP SIDEBAR
+================================================== -->
 
-<nav class="nav-bar">
+<aside class="sidebar collapsed" id="sidebar">
 
-<a href="07 home.html" class="nav-item">
+    <!-- ==================================================
+         Sidebar Logo
+    ================================================== -->
 
-<i class="fa-solid fa-house"></i>
+    <div class="sidebar-logo">
 
-<span>Home</span>
+        <!-- Logo shown when sidebar is CLOSED -->
 
-</a>
+        <img
+            src="assets/images/logo.png"
+            alt="Logo"
+            class="sidebar-logo-image">
 
-<a href="09 tasks.html" class="nav-item active">
+        <!-- Text shown when sidebar is OPEN -->
 
-<i class="fa-solid fa-list-check"></i>
-
-<span>Tasks</span>
-
-</a>
-
-<a href="#" class="nav-add">
-
-<i class="fa-solid fa-plus"></i>
-
-</a>
-
-<a href="11 schedule.html" class="nav-item">
-
-<i class="fa-solid fa-calendar"></i>
-
-<span>Schedule</span>
-
-</a>
-
-<a href="08 modules.html" class="nav-item">
-
-<i class="fa-solid fa-book"></i>
-
-<span>Modules</span>
-
-</a>
-
-</nav>
-
-</div>
-
-
-
-<!--=========================================
-TASK ACTION SHEET
-==========================================-->
-
-<div class="task-sheet-overlay" id="taskSheetOverlay">
-
-    <div class="task-sheet" id="taskSheet">
-
-        <h3 id="taskSheetTitle">Task</h3>
-
-        <button id="editTaskBtn">
-            ✏️ Edit Task
-        </button>
-
-        <button id="deleteTaskBtn">
-            🗑 Delete Task
-        </button>
-
-        <button id="cancelTaskBtn">
-            Cancel
-        </button>
+        <h1>Prodemic</h1>
 
     </div>
 
-</div>
-<!--==================================================
-CREATE MENU
-===================================================-->
-<button id="menuToggle" class="menu-toggle">
-    <i class="fa-solid fa-bars"></i>
-</button>
-<div class="create-overlay" id="createOverlay">
 
-    <div class="create-sheet">
+    <!-- ==================================================
+         Sidebar Navigation
+    ================================================== -->
 
-        <div class="sheet-handle"></div>
+    <nav class="sidebar-navigation">
 
-        <h2>Create New</h2>
+        <!-- Home -->
 
-        <!-- Module -->
+        <a
+            href="07 home.html"
+            class="sidebar-item "
+            data-tooltip="Home">
 
-        <div class="create-option" id="newModule">
+            <i class="fa-solid fa-house"></i>
 
-            <div class="option-icon blue">
+            <span>Home</span>
 
-                <i class="fa-solid fa-book"></i>
+        </a>
 
-            </div>
 
-            <div class="option-text">
+        <!-- Tasks -->
 
-                <h3>New Module</h3>
+        <a
+            href="09 tasks.html"
+            class="sidebar-item active"
+            data-tooltip="Tasks">
 
-                <p>Add a new subject</p>
+            <i class="fa-solid fa-list-check"></i>
 
-            </div>
+            <span>Tasks</span>
 
-            <i class="fa-solid fa-chevron-right"></i>
+        </a>
 
-        </div>
 
-        <!-- Task -->
-
-        <div class="create-option" id="newTask">
-
-            <div class="option-icon green">
-
-                <i class="fa-solid fa-list-check"></i>
-
-            </div>
-
-            <div class="option-text">
-
-                <h3>New Task</h3>
-
-                <p>Add a task</p>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-        <!-- Lecture -->
-
-       <div class="create-option" id="newLecture">
-
-            <div class="option-icon purple">
-
-                <i class="fa-solid fa-calendar-days"></i>
-
-            </div>
-
-            <div class="option-text">
-
-                <h3>New Lecture</h3>
-
-                <p>Add a lecture to your schedule</p>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-        <!-- Assessment -->
-
-       <div class="create-option" id="newAssessment">
-
-            <div class="option-icon orange">
-
-                <i class="fa-solid fa-file-pen"></i>
-
-            </div>
-
-            <div class="option-text">
-
-                <h3>New Assessment</h3>
-
-                <p>Add an upcoming assessment</p>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
+        <!-- Add Button -->
 
         <button
-            id="closeSheet"
-            class="cancel-btn">
+            class="sidebar-add nav-add"
+            type="button"
+            data-tooltip="Add">
 
-            Cancel
+            <i class="fa-solid fa-plus"></i>
+
+            <span>Add</span>
+
+        </button>
+
+
+        <!-- Schedule -->
+
+        <a
+            href="11 schedule.html"
+            class="sidebar-item"
+            data-tooltip="Schedule">
+
+            <i class="fa-solid fa-calendar"></i>
+
+            <span>Schedule</span>
+
+        </a>
+
+
+        <!-- Modules -->
+
+        <a
+            href="08 modules.html"
+            class="sidebar-item"
+            data-tooltip="Modules">
+
+            <i class="fa-solid fa-book"></i>
+
+            <span>Modules</span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- ==================================================
+         Sidebar Bottom
+    ================================================== -->
+
+    <div class="sidebar-bottom">
+
+        <!-- Settings -->
+
+        <a
+            href="#"
+            class="sidebar-item"
+            data-tooltip="Settings">
+
+            <i class="fa-solid fa-gear"></i>
+
+            <span>Settings</span>
+
+        </a>
+
+
+        <!-- Profile -->
+
+        <a
+            href="#"
+            class="sidebar-item"
+            data-tooltip="Profile">
+
+            <i class="fa-solid fa-circle-user"></i>
+
+            <span>Profile</span>
+
+        </a>
+
+
+        <!-- Logout -->
+
+        <button
+            class="sidebar-item sidebar-logout"
+            id="logoutBtn"
+            type="button"
+            data-tooltip="Logout">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>Logout</span>
 
         </button>
 
     </div>
+
+
+    <!-- ==================================================
+         Sidebar Open / Close Button
+    ================================================== -->
+
+    <button
+        class="sidebar-toggle"
+        id="sidebarToggle"
+        type="button"
+        aria-label="Open navbar">
+
+        <i class="fa-solid fa-angles-right"></i>
+
+    </button>
+
+</aside>
 </div>
 
 

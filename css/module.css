@@ -2837,6 +2837,84 @@ DELETE MODAL
 
 }
 
+
+/*=====bottom add module buttons====*/
+
+.module-buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+    width: 100%;
+}
+
+.module-option-btn {
+    flex: 1;
+    min-height: 90px;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 18px 20px;
+
+    background: white;
+    border: 1px solid #dfe8f2;
+    border-radius: 16px;
+
+    color: #052659;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition: 0.2s ease;
+}
+
+.module-option-btn:hover {
+    border-color: #5483b3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(5, 38, 89, 0.08);
+}
+
+.module-option-btn i {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f0f6ff;
+    border-radius: 12px;
+
+    color: #052659;
+    font-size: 18px;
+
+    flex-shrink: 0;
+}
+
+.module-option-btn span {
+    font-size: 15px;
+    font-weight: 600;
+    color: #052659;
+}
+
+
+/* mobile */
+
+@media (max-width: 650px) {
+
+    .module-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .module-option-btn {
+        width: 100%;
+        min-height: 80px;
+    }
+}
+
 /*=========================================================
                     RESPONSIVE
 =========================================================*/
@@ -2865,4 +2943,52 @@ DELETE MODAL
 
 }
 
+}
+
+
+/* ==================================================
+   VIEW PROGRESS BUTTON
+================================================== */
+
+.track-progress-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: none;
+    background: transparent;
+
+    color: #3154b8;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    padding: 8px 4px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.track-progress-btn:hover {
+    color: #1749a8;
+
+    transform: translateX(2px);
+}
+
+
+.track-progress-btn i {
+    font-size: 12px;
+
+    transition: transform 0.2s ease;
+}
+
+
+.track-progress-btn:hover i {
+    transform: translateX(3px);
 }

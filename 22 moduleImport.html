@@ -1,70 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Import Module Outline | Prodemic</title>
+    <title>Import Module</title>
+    <link rel="stylesheet" href="css/moduleoutline.css">
+   
 
-    <link rel="stylesheet" href="css/moduleImport.css">
-     <link rel="stylesheet" href="css/home.css">
-   <script type="module" src="js/moduleImport.js" defer></script>
+    <script type="module" src="js/ai.js"></script>
 
 
 </head>
 
 <body>
 
-    <div class="container">
+    <h1>Import Module</h1>
 
-        <div class="card">
+    <p>
+        Upload your module outline and Prodemic will extract
+        the important academic information.
+    </p>
 
-            <h1>Import Module Outline</h1>
 
-            <p class="subtitle">
-                Upload your university module outline so Prodemic can automatically
-                extract important information such as assessments, deadlines,
-                lecturer details and weekly topics.
-            </p>
+    <!-- PDF upload -->
 
-            <label class="upload-box">
+    <input
+        type="file"
+        id="pdf-upload"
+        accept="application/pdf"
+    >
 
-                <input
-                    type="file"
-                    id="pdfInput"
-                    accept=".pdf"
-                    hidden
-                >
 
-                <div class="upload-content">
+    <!-- File preview -->
 
-                    <div class="icon">
-                        📄
-                    </div>
+    <div id="file-preview" style="display: none;">
 
-                    <h2>Select PDF</h2>
+        <p id="file-name"></p>
 
-                    <p>
-                        Drag & Drop or Click to Upload
-                    </p>
+        <p id="file-size"></p>
 
-                </div>
-
-            </label>
-
-            <p id="fileName">
-                No file selected
-            </p>
-
-            <button id="continueBtn">
-                Continue
-            </button>
-
-        </div>
+        <button
+            type="button"
+            id="remove-file"
+        >
+            Remove
+        </button>
 
     </div>
 
 
+    <!-- Continue button -->
+<button id="continue-btn" disabled>
 
+    <!-- Normal button text -->
+    <span id="continue-text">Continue</span>
+
+    <!-- Loading spinner -->
+    <span id="loading-spinner" class="loading-spinner"></span>
+
+</button>
+
+
+    
 </body>
+
 </html>

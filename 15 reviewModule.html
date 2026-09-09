@@ -1,221 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>Review Module</title>
+    <title>Review Module</title>
 
-<link rel="stylesheet" href="css/module.css">
- <link rel="stylesheet" href="css/home.css">
-<link rel="stylesheet" href="css/reviewModule.css">
-<script type="module" src="js/reviewModule.js"></script>
+    <link
+        rel="stylesheet"
+        href="css/reviewModule.css"
+    >
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
+    <script
+        type="module"
+        src="js/reviewModule.js"
+    ></script>
 
 </head>
 
+
 <body>
 
-<div class="app-container">
-
-<!--==================================================
-                HEADER
-===================================================-->
-
-<button
-type="button"
-class="back-btn"
-id="backBtn">
-
-<i class="fa-solid fa-arrow-left"></i>
-
-</button>
+    <div class="app-container">
 
 
-<section class="page-heading">
+        <!-- BACK BUTTON -->
 
-<h1>
+        <button
+            type="button"
+            id="backBtn"
+        >
+            Back
+        </button>
 
-Review Module
 
-</h1>
+        <!-- PAGE HEADING -->
 
-<p>
+        <div class="page-header">
 
-Please review the information extracted by Prodemic AI.
+            <h1>
+                Review Module
+            </h1>
 
-</p>
+            <p>
+                Please review the information extracted by Prodemic AI before saving your module.
+            </p>
+
+        </div>
+
+
+
+        <!-- ================================================== -->
+        <!-- MODULE INFORMATION -->
+        <!-- ================================================== -->
+
+        <section class="review-section">
+
+            <h2>
+                Module Information
+            </h2>
+
+
+            <!-- MODULE NAME -->
+
+           <section>
+
+    <h2>
+        Module Information
+    </h2>
+
+    <!-- MODULE NAME -->
+
+    <div class="review-field">
+
+        <label for="moduleName">
+            Module Name
+        </label>
+
+        <input
+            type="text"
+            id="moduleName"
+            placeholder="Module name"
+        >
+
+    </div>
+
+
+    <!-- MODULE CODE -->
+
+    <div class="review-field">
+
+        <label for="moduleCode">
+            Module Code
+        </label>
+
+        <input
+            type="text"
+            id="moduleCode"
+            placeholder="Module code"
+        >
+
+    </div>
+
+
+    <!-- MODULE SUMMARY -->
+
+    <div class="review-field">
+
+        <label for="summary">
+            Module Summary
+        </label>
+
+        <textarea
+            id="summary"
+            placeholder="Module summary"
+            rows="5"
+        ></textarea>
+
+    </div>
 
 </section>
 
 
-<!--==================================================
-                MODULE
-===================================================-->
 
-<div class="review-card">
+        <!-- ================================================== -->
+        <!-- LECTURERS -->
+        <!-- ================================================== -->
 
-<h3>
+        <section class="review-section">
 
-Module Name
+            <h2>
+                Lecturers
+            </h2>
 
-</h3>
+            <div id="lecturer">
 
-<p id="moduleName">
+                Loading lecturer information...
 
--
+            </div>
 
-</p>
+        </section>
 
-</div>
 
 
+        <!-- ================================================== -->
+        <!-- TUTORS -->
+        <!-- ================================================== -->
 
-<div class="review-card">
+        <section class="review-section">
 
-<h3>
+            <h2>
+                Tutors
+            </h2>
 
-Module Code
+            <div id="tutor">
 
-</h3>
+                Loading tutor information...
 
-<p id="moduleCode">
+            </div>
 
--
+        </section>
 
-</p>
 
-</div>
 
+        <!-- ================================================== -->
+        <!-- CONSULTATION HOURS -->
+        <!-- ================================================== -->
 
+        <section class="review-section">
 
-<div class="review-card">
+            <h2>
+                Consultation Hours
+            </h2>
 
-<h3>
+            <div id="consultation">
 
-Lecturer
+                Loading consultation information...
 
-</h3>
+            </div>
 
-<p id="lecturer">
+        </section>
 
--
 
-</p>
 
-</div>
+        <!-- ================================================== -->
+        <!-- LECTURES -->
+        <!-- ================================================== -->
 
+        <section class="review-section">
 
+            <h2>
+                Lectures
+            </h2>
 
-<div class="review-card">
+            <div id="lectureList">
 
-<h3>
+                Loading lecture information...
 
-Email
+            </div>
 
-</h3>
+        </section>
 
-<p id="email">
 
--
 
-</p>
+        <!-- ================================================== -->
+        <!-- ASSESSMENTS -->
+        <!-- ================================================== -->
 
-</div>
+        <section class="review-section">
 
+            <h2>
+                Assessments
+            </h2>
 
+            <div id="assessmentList">
 
-<div class="review-card">
+                Loading assessment information...
 
-<h3>
+            </div>
 
-Consultation Hours
+        </section>
 
-</h3>
 
-<p id="consultation">
 
--
+        <!-- ================================================== -->
+        <!-- ACADEMIC EVENTS -->
+        <!-- ================================================== -->
 
-</p>
+        <section class="review-section">
 
-</div>
+            <h2>
+                Academic Events
+            </h2>
 
+            <div id="academicEventsList">
 
+                Loading academic event information...
 
-<div class="review-card">
+            </div>
 
-<h3>
+        </section>
 
-Module Summary
 
-</h3>
 
-<p id="summary">
 
--
 
-</p>
+      <!-- ================================================== -->
+<!-- MODULE COLOUR -->
+<!-- ================================================== -->
 
-</div>
+<section class="review-section">
 
+    <h2>Module Colour</h2>
 
+    <div class="module-colour">
 
-<!--==================================================
-            LECTURE TIMES
-===================================================-->
+        <label for="moduleColour">
+            Choose a colour
+        </label>
 
-<h2 class="section-title">
+        <label class="colour-picker" for="moduleColour">
 
-Lecture Schedule
+            <div
+                class="colour-preview"
+                id="colourPreview"
+            ></div>
 
-</h2>
+            <span id="colourText">
+                Choose a colour
+            </span>
 
-<div id="lectureList">
+            <svg
+                class="colour-edit-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <path
+                    d="M4 20h4L19.5 8.5a2.12 2.12 0 0 0-3-3L5 17v3z"
+                ></path>
 
-</div>
+                <path
+                    d="M14.5 6.5l3 3"
+                ></path>
+            </svg>
 
+            <input
+                type="color"
+                id="moduleColour"
+                value="#3154B8"
+            >
 
+        </label>
 
-<!--==================================================
-            ASSESSMENTS
-===================================================-->
+    </div>
 
-<h2 class="section-title">
+</section>
 
-Assessments
 
-</h2>
 
-<div id="assessmentList">
+        <!-- ================================================== -->
+        <!-- SAVE -->
+        <!-- ================================================== -->
 
-</div>
+        <section class="save-section">
 
+            <button
+                type="button"
+                id="saveModule"
+            >
+                Save Module
+            </button>
 
+        </section>
 
-<!--==================================================
-            BUTTON
-===================================================-->
 
-<div class="button-container">
-
-<button
-class="continue-btn"
-id="saveModule">
-
-Save Module
-
-</button>
-
-</div>
-
-</div>
+    </div>
 
 </body>
+
 </html>

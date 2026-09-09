@@ -11,6 +11,7 @@
      
 
 <script type="module" src="js/modules.js"></script>
+<script type="module" src="js/script.js"></script>
 <!---ICONS-->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -140,19 +141,24 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                         ACTION BUTTONS
         ==========================================================-->
 
-        <div class="module-buttons">
+      <div class="module-buttons">
 
-            <a
-                class="add-module-btn"
-                id="addModuleBtn">
+    <a
+        href="22 moduleImport.html"
+        class="upload-module-btn"
+        id="uploadBtn">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        Upload Module Outline with AI
+    </a>
 
-                + Add your module
+    <a
+        href="#"
+        class="add-module-btn"
+        id="addModuleBtn">
+        + Add your module manually
+    </a>
 
-            </a>
-
-           
-
-        </div>
+</div>
 
         <!--=========================================================
                     ADD MODULE FORM
@@ -474,90 +480,169 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </div>
 
-<!--=========================================================
-                    BOTTOM NAVIGATION
-==========================================================-->
 
-<div class="nav-bar">
+<!-- ==================================================
+     SIDEBAR NAVIGATION
+================================================== -->
 
-    <!-- Home -->
+<aside class="sidebar collapsed" id="sidebar">
 
-    <a
-        href="07 home.html"
-        class="nav-item">
+    <!-- Logo -->
 
-        <i class="fa-solid fa-house"></i>
+    <div class="sidebar-logo">
 
-        <span class="home">
+        <img
+            src="assets/images/logo.png"
+            alt="Logo"
+            class="sidebar-logo-image">
 
-            Home
+        <h1>Prodemic</h1>
 
-        </span>
+    </div>
 
-    </a>
 
-    <!-- Tasks -->
+    <!-- Navigation -->
 
-    <a
-        href="09 tasks.html"
-        class="nav-item">
+    <nav class="sidebar-navigation">
 
-        <i class="fa-solid fa-list-check"></i>
+        <!-- Home -->
 
-        <span class="home">
+        <a
+            href="07 home.html"
+            class="sidebar-item"
+            data-tooltip="Home">
 
-            Tasks
+            <i class="fa-solid fa-house"></i>
 
-        </span>
+            <span>Home</span>
 
-    </a>
+        </a>
 
-    <!-- Create -->
 
-    <a
-        href="10 add.html"
-        class="nav-add">
+        <!-- Tasks -->
 
-        <i class="fa-solid fa-plus"></i>
+        <a
+            href="09 tasks.html"
+            class="sidebar-item"
+            data-tooltip="Tasks">
 
-    </a>
+            <i class="fa-solid fa-list-check"></i>
 
-    <!-- Schedule -->
+            <span>Tasks</span>
 
-    <a
-        href="11 schedule.html"
-        class="nav-item">
+        </a>
 
-        <i class="fa-solid fa-calendar"></i>
 
-        <span class="home">
+        <!-- Add -->
 
-            Schedule
+        <button
+            class="sidebar-add nav-add"
+            type="button"
+            data-tooltip="Add">
 
-        </span>
+            <i class="fa-solid fa-plus"></i>
 
-    </a>
+            <span>Add</span>
 
-    <!-- Modules -->
+        </button>
 
-    <a
-        href="08 modules.html"
-        class="nav-item active">
 
-        <i class="fa-solid fa-book"></i>
+        <!-- Schedule -->
 
-        <span class="home">
+        <a
+            href="11 schedule.html"
+            class="sidebar-item"
+            data-tooltip="Schedule">
 
-            Modules
+            <i class="fa-solid fa-calendar"></i>
 
-        </span>
+            <span>Schedule</span>
 
-    </a>
+        </a>
+
+
+        <!-- Modules -->
+
+        <a
+            href="08 modules.html"
+            class="sidebar-item active"
+            data-tooltip="Modules" >
+
+            <i class="fa-solid fa-book"></i>
+
+            <span>Modules</span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- Bottom Navigation -->
+
+    <div class="sidebar-bottom">
+
+        <!-- Settings -->
+
+        <a
+            href="#"
+            class="sidebar-item"
+            data-tooltip="Settings">
+
+            <i class="fa-solid fa-gear"></i>
+
+            <span>Settings</span>
+
+        </a>
+
+
+        <!-- Profile -->
+
+        <a
+            href="#"
+            class="sidebar-item"
+            data-tooltip="Profile">
+
+            <i class="fa-solid fa-circle-user"></i>
+
+            <span>Profile</span>
+
+        </a>
+
+
+        <!-- Logout -->
+
+        <button
+            class="sidebar-item sidebar-logout"
+            id="logoutBtn"
+            type="button"
+            data-tooltip="Logout">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>Logout</span>
+
+        </button>
+
+    </div>
+
+
+    <!-- Sidebar Toggle -->
+
+    <button
+        class="sidebar-toggle"
+        id="sidebarToggle"
+        type="button"
+        aria-label="Open navbar">
+
+        <i class="fa-solid fa-angles-right"></i>
+
+    </button>
+
+</aside>
+    </div>
 
 </div>
 
-</div>
-<!-- End .app-container -->
 
 <!--=========================================================
                     TOAST NOTIFICATION

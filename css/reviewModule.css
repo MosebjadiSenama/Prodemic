@@ -1,197 +1,604 @@
-/*==================================================
-                PAGE
-===================================================*/
+/* ==================================================
+   GLOBAL
+   ================================================== */
 
-.app-container{
-
-    max-width:480px;
-
-    margin:auto;
-
-    min-height:100vh;
-
-    background:#fff;
-
-    padding:20px 20px 100px;
-
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/*==================================================
-                BACK BUTTON
-===================================================*/
-
-.back-btn{
-
-    width:45px;
-
-    height:45px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:#edf2f7;
-
-    cursor:pointer;
-
-    margin-bottom:20px;
-
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+    line-height: 1.6;
 }
 
-/*==================================================
-                HEADER
-===================================================*/
-
-.page-heading{
-
-    margin-bottom:30px;
-
+.app-container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+    padding: 40px 0 70px;
 }
 
-.page-heading h1{
 
-    font-size:30px;
+/* ==================================================
+   BACK BUTTON
+   ================================================== */
 
-    color:#021024;
-
-    margin-bottom:10px;
-
+#backBtn {
+    border: none;
+    background: transparent;
+    color: #3154b8;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 0;
+    margin-bottom: 20px;
 }
 
-.page-heading p{
-
-    color:#6b7280;
-
-    line-height:1.6;
-
+#backBtn:hover {
+    text-decoration: underline;
 }
 
-/*==================================================
-                SECTION TITLE
-===================================================*/
 
-.section-title{
+/* ==================================================
+   PAGE HEADER
+   ================================================== */
 
-    margin:30px 0 15px;
-
-    color:#021024;
-
-    font-size:20px;
-
+.app-container > h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
 }
 
-/*==================================================
-                REVIEW CARD
-===================================================*/
-
-.review-card{
-
-    background:white;
-
-    border:2px solid #edf2f7;
-
-    border-radius:18px;
-
-    padding:18px;
-
-    margin-bottom:15px;
-
+.app-container > p {
+    color: #6b7280;
+    font-size: 15px;
+    margin-bottom: 35px;
 }
 
-.review-card h3{
 
-    color:#052659;
+/* ==================================================
+   SECTIONS
+   ================================================== */
 
-    margin-bottom:8px;
-
-    font-size:15px;
-
+section {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
-.review-card p{
-
-    color:#4b5563;
-
-    line-height:1.6;
-
+section h2 {
+    font-size: 20px;
+    color: #111827;
+    margin-bottom: 24px;
+    font-weight: 700;
 }
 
-/*==================================================
-                LECTURES
-===================================================*/
 
-#lectureList{
+/* ==================================================
+   MODULE INFORMATION
+   ================================================== */
 
-    display:flex;
-
-    flex-direction:column;
-
-    gap:15px;
-
+section:first-of-type > div {
+    margin-bottom: 20px;
 }
 
-/*==================================================
-                ASSESSMENTS
-===================================================*/
-
-#assessmentList{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:15px;
-
+section:first-of-type > div:last-child {
+    margin-bottom: 0;
 }
 
-/*==================================================
-                BUTTON
-===================================================*/
-
-.button-container{
-
-    margin-top:35px;
-
+section h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
-.continue-btn{
 
-    width:100%;
+/* ==================================================
+   EDITABLE FIELD STYLE
+   ================================================== */
 
-    padding:18px;
-
-    border:none;
-
-    border-radius:16px;
-
-    background:#052659;
-
-    color:white;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
+#moduleName,
+#moduleCode,
+#summary {
+    background: #f9fafb;
+    border: 1px solid #dfe3ea;
+    border-radius: 10px;
+    padding: 13px 15px;
+    color: #111827;
+    min-height: 48px;
 }
 
-.continue-btn:hover{
-
-    background:#021024;
-
+#moduleName,
+#moduleCode {
+    display: flex;
+    align-items: center;
 }
 
-/*==================================================
-                MOBILE
-===================================================*/
+#summary {
+    min-height: 100px;
+}
 
-@media(max-width:420px){
 
-    .page-heading h1{
+/* ==================================================
+   LECTURERS / TUTORS
+   ================================================== */
 
-        font-size:26px;
+#lecturer,
+#tutor {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
 
+#lecturer > div,
+#tutor > div {
+    background: #f9fafb;
+    border: 1px solid #e1e5ec;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+#lecturer > div:hover,
+#tutor > div:hover {
+    border-color: #3154b8;
+}
+
+
+/* ==================================================
+   PERSON NAME
+   ================================================== */
+
+#lecturer h3,
+#tutor h3 {
+    color: #111827;
+    font-size: 16px;
+    margin-bottom: 8px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+#lecturer p,
+#tutor p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* ==================================================
+   CONSULTATION HOURS
+   ================================================== */
+
+#consultation {
+    display: grid;
+    gap: 14px;
+}
+
+#consultation > div {
+    background: #f9fafb;
+    border: 1px solid #e1e5ec;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+
+/* ==================================================
+   LECTURES
+   ================================================== */
+
+#lectureList {
+    display: grid;
+    gap: 16px;
+}
+
+#lectureList > div {
+    background: #f9fafb;
+    border: 1px solid #e1e5ec;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+#lectureList h3 {
+    color: #3154b8;
+    font-size: 16px;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 12px;
+}
+
+#lectureList p {
+    margin-bottom: 5px;
+    color: #4b5563;
+    font-size: 14px;
+}
+
+
+/* ==================================================
+   ASSESSMENTS
+   ================================================== */
+
+#assessmentList {
+    display: grid;
+    gap: 16px;
+}
+
+#assessmentList > div {
+    background: #f9fafb;
+    border: 1px solid #e1e5ec;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+#assessmentList h3 {
+    color: #111827;
+    font-size: 17px;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 14px;
+}
+
+#assessmentList p {
+    margin-bottom: 6px;
+    color: #4b5563;
+    font-size: 14px;
+}
+
+
+/* ==================================================
+   ACADEMIC EVENTS
+   ================================================== */
+
+#academicEventsList {
+    display: grid;
+    gap: 16px;
+}
+
+#academicEventsList > div {
+    background: #f9fafb;
+    border: 1px solid #e1e5ec;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+#academicEventsList h3 {
+    color: #111827;
+    font-size: 17px;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 12px;
+}
+
+#academicEventsList p {
+    margin-bottom: 6px;
+    color: #4b5563;
+    font-size: 14px;
+}
+
+
+/* ==================================================
+   FIELD LABELS INSIDE CARDS
+   ================================================== */
+
+#lectureList strong,
+#assessmentList strong,
+#academicEventsList strong,
+#consultation strong {
+    color: #374151;
+    font-weight: 600;
+}
+
+
+/* ==================================================
+   MODULE COLOUR
+   ================================================== */
+
+.module-colour {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.module-colour label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.colour-picker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#moduleColour {
+    width: 52px;
+    height: 42px;
+    border: 1px solid #dfe3ea;
+    border-radius: 8px;
+    padding: 3px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+#colourValue {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+
+/* ==================================================
+   SAVE BUTTON
+   ================================================== */
+
+#saveModule {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 20px;
+    background: #3154b8;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#saveModule:hover {
+    background: #27469d;
+}
+
+#saveModule:active {
+    transform: translateY(1px);
+}
+
+
+/* ==================================================
+   EMPTY / LOADING STATES
+   ================================================== */
+
+#lecturer:empty,
+#tutor:empty,
+#consultation:empty,
+#lectureList:empty,
+#assessmentList:empty,
+#academicEventsList:empty {
+    color: #9ca3af;
+}
+
+
+/* ==================================================
+   RESPONSIVE
+   ================================================== */
+
+@media (max-width: 768px) {
+
+    .app-container {
+        width: 94%;
+        padding: 25px 0 50px;
     }
 
+    .app-container > h1 {
+        font-size: 27px;
+    }
+
+    section {
+        padding: 20px;
+        border-radius: 14px;
+    }
+
+    #lecturer,
+    #tutor {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ==================================================
+   SMALL MOBILE
+   ================================================== */
+
+@media (max-width: 480px) {
+
+    .app-container {
+        width: 92%;
+    }
+
+    .app-container > h1 {
+        font-size: 24px;
+    }
+
+    .app-container > p {
+        font-size: 14px;
+    }
+
+    section {
+        padding: 18px;
+        margin-bottom: 18px;
+    }
+
+    section h2 {
+        font-size: 18px;
+    }
+
+    #moduleName,
+    #moduleCode,
+    #summary {
+        padding: 12px;
+    }
+
+    #lectureList > div,
+    #assessmentList > div,
+    #academicEventsList > div,
+    #lecturer > div,
+    #tutor > div {
+        padding: 15px;
+    }
+}
+
+.review-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.review-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.review-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid #d9dee7;
+    border-radius: 6px;
+    background: #ffffff;
+    font-size: 13px;
+    color: #1f2937;
+}
+
+.review-field input:focus {
+    outline: none;
+    border-color: #3154B8;
+}
+
+.review-card {
+    margin-bottom: 16px;
+    padding: 18px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #f9fafb;
+}
+
+/* ==================================================
+   MODULE COLOUR
+   ================================================== */
+
+.module-colour {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.module-colour > label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #263238;
+}
+
+.colour-picker {
+    position: relative;
+    width: 100%;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 16px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border: 1px solid #e1e5eb;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.colour-picker:hover {
+    border-color: #3154B8;
+}
+
+.colour-picker:focus-within {
+    border-color: #3154B8;
+    box-shadow: 0 0 0 3px rgba(49, 84, 184, 0.08);
+}
+
+
+/* ==================================================
+   COLOUR PREVIEW
+   ================================================== */
+
+.colour-preview {
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: #3154B8;
+
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+
+/* ==================================================
+   COLOUR TEXT
+   ================================================== */
+
+#colourText {
+    margin-left: 16px;
+
+    font-size: 14px;
+    font-weight: 400;
+
+    color: #374151;
+}
+
+
+/* ==================================================
+   EDIT ICON
+   ================================================== */
+
+.colour-edit-icon {
+    width: 18px;
+    height: 18px;
+
+    margin-left: auto;
+
+    fill: none;
+
+    stroke: #3154B8;
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    pointer-events: none;
+}
+
+
+/* ==================================================
+   ACTUAL COLOUR INPUT
+   ================================================== */
+
+#moduleColour {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    opacity: 0;
+
+    pointer-events: none;
 }

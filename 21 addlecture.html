@@ -1,103 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Lecture</title>
 
-    <link rel="stylesheet" href="style.css">
-     <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/schedule.css">
-     <link rel="stylesheet" href="css/add.lecturre.css">
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Add Task</title>
+
+<link rel="stylesheet" href="css/add.css">
+ 
 
 
-    <script type="module" src="js/addlecture.js"></script>
+<script type="module" src="js/tasks.js"></script>
 
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
 </head>
-
 <body>
 
 <div class="app-container">
 
-    <header class="top-bar">
+<div class="page">
 
-        <button
-            id="backToSchedule"
-            class="back-btn">
+<!--==================================================
+HEADER
+===================================================-->
 
-            <i class="fa-solid fa-arrow-left"></i>
+<header class="top-bar">
 
-        </button>
+<button
+type="button"
+id="backBtn"
+class="back-btn">
 
-        <h2>Add Lecture</h2>
+<i class="fa-solid fa-arrow-left"></i>
 
-    </header>
+</button>
 
-    <div class="form-card">
+<h2>
 
-       <label for="lectureModule">Module</label>
+Add Task
 
-<select id="lectureModule" required>
+</h2>
 
-    <option value="">Loading modules...</option>
+</header>
+
+<!--==================================================
+FORM
+===================================================-->
+
+<form id="taskForm">
+
+
+<!--==================================================
+MODULE
+===================================================-->
+
+<div class="input-group">
+
+<label>
+
+Module
+
+</label>
+
+<select id="taskModule">
+
+<option value="">
+
+Select Module
+
+</option>
+
+<option value="General">
+
+General Task
+
+</option>
 
 </select>
 
-        <label>Day</label>
+</div>
 
-        <select id="lectureDay" required>
 
-    <option value="">Select Day</option>
+<!--==================================================
+ASSESSMENT NAME
+===================================================-->
 
-    <option value="Monday">Monday</option>
-    <option value="Tuesday">Tuesday</option>
-    <option value="Wednesday">Wednesday</option>
-    <option value="Thursday">Thursday</option>
-    <option value="Friday">Friday</option>
-    <option value="Saturday">Saturday</option>
-    <option value="Sunday">Sunday</option>
+<div class="input-group">
+
+<label>
+
+Assessment Name
+
+</label>
+
+<input
+
+type="text"
+
+id="taskTitle"
+
+placeholder="e.g. Assignment 2, Presentation, Essay"
+
+required
+
+>
+
+</div>
+
+
+<!--==================================================
+DATE & TIME
+===================================================-->
+
+<div class="row">
+
+<div class="input-group half">
+
+<label>
+
+Due Date
+
+</label>
+
+<input
+type="date"
+id="taskDate">
+
+</div>
+
+<div class="input-group half">
+
+<label>
+
+Time
+
+</label>
+
+<input
+type="time"
+id="taskTime">
+
+</div>
+
+</div>
+
+<!--==================================================
+COUNTDOWN
+===================================================-->
+
+<div class="input-group">
+
+<label>
+
+Countdown
+
+</label>
+
+<div id="countdownPreview" class="countdown-preview">
+
+No due date selected
+
+</div>
+
+</div>
+
+<!--==================================================
+REMINDER
+===================================================-->
+
+<div class="input-group">
+
+<label>
+
+Reminder
+
+</label>
+
+<select id="taskReminder">
+
+<option value="None">
+
+None
+
+</option>
+
+<option value="10 Minutes Before">
+
+10 Minutes Before
+
+</option>
+
+<option value="30 Minutes Before">
+
+30 Minutes Before
+
+</option>
+
+<option value="1 Hour Before">
+
+1 Hour Before
+
+</option>
+
+<option value="1 Day Before">
+
+1 Day Before
+
+</option>
 
 </select>
 
-        <label>Start Time</label>
+</div>
 
-        <input
-            type="time"
-            id="startTime">
+<!--==================================================
+REPEAT
+===================================================-->
 
-        <label>End Time</label>
+<div class="input-group">
 
-        <input
-            type="time"
-            id="endTime">
+<label>
 
-        <label>Venue</label>
+Repeat
 
-        <input
-            type="text"
-            id="venue"
-            placeholder="e.g. Room A12">
+</label>
 
-        <label>Lecturer (Optional)</label>
+<select id="taskRepeat">
 
-        <input
-            type="text"
-            id="lecturer"
-            placeholder="e.g. Dr Smith">
+<option value="Never">
 
-        <button
-            id="saveLecture"
-            class="primary-btn">
+Never
 
-            Save Lecture
+</option>
 
-        </button>
+<option value="Daily">
 
-    </div>
+Daily
+
+</option>
+
+<option value="Weekly">
+
+Weekly
+
+</option>
+
+<option value="Monthly">
+
+Monthly
+
+</option>
+
+</select>
+
+</div>
+
+<!--==================================================
+SAVE BUTTON
+===================================================-->
+
+<button
+type="submit"
+class="save-btn">
+
+
+Save Task
+
+</button>
+
+</form>
+
+</div>
 
 </div>
 
 </body>
+
+</body>
+
 </html>

@@ -1,13 +1,12 @@
 # Environment secrets
 .env
 .env.*
-Backend/.env
-BackendV2/.env
+**/.env
+**/.env.*
 
 # Node packages
 node_modules/
-Backend/node_modules/
-BackendV2/node_modules/
+**/node_modules/
 
 # VS Code
 .vscode/
@@ -15,4 +14,3 @@ BackendV2/node_modules/
 # OS files
 Thumbs.db
 .DS_Store
-

@@ -9,21 +9,31 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-    <title>Prodemic</title>
+    <title>Home</title>
 
-    <!-- CSS -->
+
+    <!-- ==================================================
+         CSS
+    =================================================== -->
+
     <link rel="stylesheet" href="css/home.css">
-   <link rel="stylesheet" href="css/overlay.css">
-   
+    <link rel="stylesheet" href="css/overlay.css">
+    <link rel="stylesheet" href="style.css">
 
 
+    <!-- ==================================================
+         Font Awesome Icons
+    =================================================== -->
 
-    <!-- Icons -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <!-- Fonts -->
+
+    <!-- ==================================================
+         Fonts
+    =================================================== -->
+
     <link
         rel="preconnect"
         href="https://fonts.googleapis.com">
@@ -37,168 +47,230 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- JS -->
+
+    <!-- ==================================================
+         JavaScript
+    =================================================== -->
+
     <script
         type="module"
         src="js/home.js"
-        defer></script>
+        defer>
+    </script>
 
-        <script
+    <script
         type="module"
         src="js/script.js"
-        defer></script>
+        defer>
+    </script>
 
-    
 </head>
+
 
 <body>
 
 <div class="app-layout">
 
-    <!-- ==========================================
-    Navigation
-    =========================================== -->
 
-    <nav class="nav-bar">
+    <!-- ==================================================
+         DESKTOP SIDEBAR
+    =================================================== -->
 
-        <a
-            href="07 home.html"
-            class="nav-item active">
+    <aside class="sidebar collapsed" id="sidebar">
 
-            <i class="fa-solid fa-house"></i>
 
-            <span>Home</span>
+        <!-- ==================================================
+             Sidebar Logo
+        =================================================== -->
 
-        </a>
+        <div class="sidebar-logo">
 
-        <a
-            href="09 tasks.html"
-            class="nav-item">
+            <!-- Logo shown when sidebar is CLOSED -->
 
-            <i class="fa-solid fa-list-check"></i>
+            <img
+                src="assets/images/logo.png"
+                alt="Logo"
+                class="sidebar-logo-image">
 
-            <span>Tasks</span>
 
-        </a>
+            <!-- Text shown when sidebar is OPEN -->
 
-       <a
-    href="#"
-    class="nav-add">
-
-    <i class="fa-solid fa-plus"></i>
-
-</a>
-
-        <a
-            href="11 schedule.html"
-            class="nav-item">
-
-            <i class="fa-solid fa-calendar"></i>
-
-            <span>Schedule</span>
-
-        </a>
-
-        <a
-            href="08 modules.html"
-            class="nav-item">
-
-            <i class="fa-solid fa-book"></i>
-
-            <span>Modules</span>
-
-        </a>
-
-    </nav>
-
-    <!-- ==========================================
-    Main Content
-    =========================================== -->
-
-    <main class="home-content">
-
-        <!-- Header -->
-
-        <header class="home-header">
-
-            <div class="home-logo">
-
-                <h1 class="prodemic-home">
-
-                    Prodemic
-
-                </h1>
-
-            </div>
-
-            <div class="home-icons">
-
-                <button
-                    class="menu-btn"
-                    id="menuBtn">
-
-                    <i class="fa-solid fa-bars"></i>
-
-                </button>
-
-                <button
-                    class="notification-btn">
-
-                    <i class="fa-regular fa-bell"></i>
-
-                </button>
-
-                <button
-                    class="profile-btn"
-                    id="profileBtn">
-
-                    <i class="fa-solid fa-circle-user"></i>
-
-                </button>
-
-            </div>
-
-        </header>
-
-        <!-- ==========================================
-        Profile Menu
-        =========================================== -->
-
-        <div
-            class="profile-menu"
-            id="profileMenu">
-
-            <button class="profile-option">
-
-                <i class="fa-solid fa-user"></i>
-
-                Profile
-
-            </button>
-
-            <button class="profile-option">
-
-                <i class="fa-solid fa-gear"></i>
-
-                Settings
-
-            </button>
-
-            <button
-                class="profile-option logout-btn"
-                id="logoutBtn">
-
-                <i class="fa-solid fa-right-from-bracket"></i>
-
-                Logout
-
-            </button>
+            <h1>Prodemic</h1>
 
         </div>
 
-        <!-- ==========================================
-        Welcome
-        =========================================== -->
+
+        <!-- ==================================================
+             Sidebar Navigation
+        =================================================== -->
+
+        <nav class="sidebar-navigation">
+
+
+            <!-- Home -->
+
+            <a
+                href="07 home.html"
+                class="sidebar-item active"
+                data-tooltip="Home">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>Home</span>
+
+            </a>
+
+
+            <!-- Tasks -->
+
+            <a
+                href="09 tasks.html"
+                class="sidebar-item"
+                data-tooltip="Tasks">
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <span>Tasks</span>
+
+            </a>
+
+<!-- ==================================================
+             Add Button
+        =================================================== -->
+
+        <button
+            class="sidebar-add nav-add"
+            type="button"
+            data-tooltip="Add">
+
+            <i class="fa-solid fa-plus"></i>
+
+
+            <span>Add</span>
+
+        </button>
+
+            <!-- Schedule -->
+
+            <a
+                href="11 schedule.html"
+                class="sidebar-item"
+                data-tooltip="Schedule">
+
+                <i class="fa-solid fa-calendar"></i>
+
+                <span>Schedule</span>
+
+            </a>
+
+
+            <!-- Modules -->
+
+            <a
+                href="08 modules.html"
+                class="sidebar-item"
+                data-tooltip="Modules">
+
+                <i class="fa-solid fa-book"></i>
+
+                <span>Modules</span>
+
+            </a>
+
+        </nav>
+
+
+        
+
+        <!-- ==================================================
+             Sidebar Bottom
+        =================================================== -->
+
+        <div class="sidebar-bottom">
+
+
+            <!-- Settings -->
+
+            <a
+                href="#"
+                class="sidebar-item"
+                data-tooltip="Settings">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>Settings</span>
+
+            </a>
+
+
+            <!-- Profile -->
+
+            <a
+                href="#"
+                class="sidebar-item"
+                data-tooltip="Profile">
+
+                <i class="fa-solid fa-circle-user"></i>
+
+                <span>Profile</span>
+
+            </a>
+
+
+            <!-- Logout -->
+
+            <button
+                class="sidebar-item sidebar-logout"
+                id="logoutBtn"
+                type="button"
+                data-tooltip="Logout">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </button>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             Sidebar Open / Close Button
+        =================================================== -->
+
+        <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Open navbar">
+    <i class="fa-solid fa-angles-right"></i>
+</button>
+
+
+    </aside>
+
+
+    <!-- ==================================================
+         MAIN CONTENT
+    =================================================== -->
+
+    <main class="home-content">
+
+
+        <!-- ==================================================
+             Header
+        =================================================== -->
+
+        <header class="home-header">
+
+            <!--
+                No Prodemic text here.
+                The brand only appears inside the sidebar.
+            -->
+
+        </header>
+
+
+        <!-- ==================================================
+             Welcome
+        =================================================== -->
 
         <section class="welcome-content">
 
@@ -210,21 +282,26 @@
 
             </h2>
 
+
             <p class="welcome-text">
-
                 Let's make today productive.
-
             </p>
 
         </section>
 
-        <!-- ==========================================
-        Dynamic Semester Card
-        =========================================== -->
+
+        <!-- ==================================================
+             Dynamic Semester Card
+        =================================================== -->
 
         <section
             class="setup-card"
             id="setupSection">
+
+
+            <!-- ==================================================
+                 Setup Image
+            =================================================== -->
 
             <div class="setup-image-container">
 
@@ -235,52 +312,71 @@
 
             </div>
 
+
+            <!-- ==================================================
+                 Setup Content
+            =================================================== -->
+
             <div
                 class="setup-content"
                 id="setupContent">
 
+
                 <h2 id="setupTitle">
-
                     Let's Set Up Your Semester
-
                 </h2>
+
 
                 <p id="setupText">
 
-                    Add your modules manually or import your module outlines.
-                    Prodemic will automatically organise your semester and prepare your study planner.
+                    Add your modules manually or import your module
+                    outlines. Your semester information will be
+                    organised automatically.
 
                 </p>
+
+
+                <!-- ==================================================
+                     Buttons
+                =================================================== -->
 
                 <div
                     class="setup-buttons"
                     id="setupButtons">
 
-                    
 
-                    <button
+                    <!-- Import Module Outlines -->
+
+                    <a href="22 moduleImport.html"
                         id="importModuleBtn"
-                        class="secondary-btn">
+                        class="secondary-btn"
+                        type="button">
 
                         <i class="fa-solid fa-file-import"></i>
 
                         Import Module Outlines
 
-                    </button>
+            </a>
+
 
                 </div>
 
+
             </div>
+
 
         </section>
 
+
     </main>
+
 
 </div>
 
-<!-- ==========================================
-Toast
-=========================================== -->
+
+<!-- ==================================================
+     Toast
+=================================================== -->
 
 <div
     class="toast"
@@ -291,21 +387,40 @@ Toast
     <span id="toastMessage"></span>
 
 </div>
-<!--==================================================
-CREATE MENU
-===================================================-->
 
-<div class="create-overlay" id="createOverlay">
+
+<!-- ==================================================
+     CREATE MENU OVERLAY
+=================================================== -->
+
+<div
+    class="create-overlay"
+    id="createOverlay">
+
 
     <div class="create-sheet">
 
+
+        <!-- Handle -->
+
         <div class="sheet-handle"></div>
 
-        <h2>Create New</h2>
 
-        <!-- Module -->
+        <!-- Title -->
 
-        <div class="create-option" id="newModule">
+        <h2>
+            Create New
+        </h2>
+
+
+        <!-- ==================================================
+             New Module
+        =================================================== -->
+
+        <div
+            class="create-option"
+            id="newModule">
+
 
             <div class="option-icon blue">
 
@@ -313,21 +428,34 @@ CREATE MENU
 
             </div>
 
+
             <div class="option-text">
 
-                <h3>New Module</h3>
+                <h3>
+                    New Module
+                </h3>
 
-                <p>Add a new subject</p>
+                <p>
+                    Add a new subject
+                </p>
 
             </div>
 
+
             <i class="fa-solid fa-chevron-right"></i>
+
 
         </div>
 
-        <!-- Task -->
 
-        <div class="create-option" id="newTask">
+        <!-- ==================================================
+             New Task
+        =================================================== -->
+
+        <div
+            class="create-option"
+            id="newTask">
+
 
             <div class="option-icon green">
 
@@ -335,21 +463,34 @@ CREATE MENU
 
             </div>
 
+
             <div class="option-text">
 
-                <h3>New Task</h3>
+                <h3>
+                    New Task
+                </h3>
 
-                <p>Add a task</p>
+                <p>
+                    Add a task
+                </p>
 
             </div>
 
+
             <i class="fa-solid fa-chevron-right"></i>
+
 
         </div>
 
-        <!-- Lecture -->
 
-       <div class="create-option" id="newLecture">
+        <!-- ==================================================
+             New Lecture
+        =================================================== -->
+
+        <div
+            class="create-option"
+            id="newLecture">
+
 
             <div class="option-icon purple">
 
@@ -357,21 +498,34 @@ CREATE MENU
 
             </div>
 
+
             <div class="option-text">
 
-                <h3>New Lecture</h3>
+                <h3>
+                    New Lecture
+                </h3>
 
-                <p>Add a lecture to your schedule</p>
+                <p>
+                    Add a lecture to your schedule
+                </p>
 
             </div>
 
+
             <i class="fa-solid fa-chevron-right"></i>
+
 
         </div>
 
-        <!-- Assessment -->
 
-       <div class="create-option" id="newAssessment">
+        <!-- ==================================================
+             New Assessment
+        =================================================== -->
+
+        <div
+            class="create-option"
+            id="newAssessment">
+
 
             <div class="option-icon orange">
 
@@ -379,27 +533,42 @@ CREATE MENU
 
             </div>
 
+
             <div class="option-text">
 
-                <h3>New Assessment</h3>
+                <h3>
+                    New Assessment
+                </h3>
 
-                <p>Add an upcoming assessment</p>
+                <p>
+                    Add an upcoming assessment
+                </p>
 
             </div>
 
+
             <i class="fa-solid fa-chevron-right"></i>
+
 
         </div>
 
+
+        <!-- ==================================================
+             Cancel
+        =================================================== -->
+
         <button
             id="closeSheet"
-            class="cancel-btn">
+            class="cancel-btn"
+            type="button">
 
             Cancel
 
         </button>
 
+
     </div>
+
 
 </div>
 

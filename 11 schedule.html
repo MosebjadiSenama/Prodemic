@@ -127,7 +127,7 @@ CALENDAR HEADER
 
     <button
         class="add-lecture-btn"
-        onclick="window.location.href='21 addlecture.html'">
+        onclick="window.location.href='21 addevent.html'">
 
         <i class="fa-solid fa-plus"></i>
 
@@ -169,11 +169,11 @@ BOTTOM ACTIONS
 
     <button
         class="primary-btn"
-        onclick="window.location.href='21 addlecture.html'">
+        onclick="window.location.href='21 addevent.html'">
 
         <i class="fa-solid fa-plus"></i>
 
-        Add Lecture
+        Add event
 
     </button>
 
@@ -240,7 +240,7 @@ CREATE MENU
         <!-- Lecture -->
 
         <div class="create-option"
-             onclick="window.location.href='21 addlecture.html'">
+             onclick="window.location.href='21 addevent.html'">
 
             <div class="option-icon purple">
 
@@ -296,72 +296,176 @@ CREATE MENU
 
 
 
-<!--==================================================
-BOTTOM NAVIGATION
-===================================================-->
+<!-- ==================================================
+     DESKTOP SIDEBAR
+================================================== -->
 
-<nav class="nav-bar">
+<aside class="sidebar collapsed" id="sidebar">
 
-    <!-- Home -->
+    <!-- ==================================================
+         Sidebar Logo
+    ================================================== -->
 
-    <a
-        href="07 home.html"
-        class="nav-item">
+    <div class="sidebar-logo">
 
-        <i class="fa-solid fa-house"></i>
+        <!-- Logo shown when sidebar is CLOSED -->
 
-        <span>Home</span>
+        <img
+            src="assets/images/logo.png"
+            alt="Logo"
+            class="sidebar-logo-image">
 
-    </a>
+        <!-- Text shown when sidebar is OPEN -->
 
-    <!-- Tasks -->
+        <h1>Prodemic</h1>
 
-    <a
-        href="09 tasks.html"
-        class="nav-item">
+    </div>
 
-        <i class="fa-solid fa-list-check"></i>
 
-        <span>Tasks</span>
+    <!-- ==================================================
+         Sidebar Navigation
+    ================================================== -->
 
-    </a>
+    <nav class="sidebar-navigation">
 
-    <!-- Create -->
+        <!-- Home -->
 
-   <a
-    href="#"
-    class="nav-add">
+        <a
+            href="07 home.html"
+            class="sidebar-item"
+            data-tooltip="Home">
 
-    <i class="fa-solid fa-plus"></i>
+            <i class="fa-solid fa-house"></i>
 
-</a>
+            <span>Home</span>
 
-    <!-- Schedule -->
+        </a>
 
-    <a
-        href="11 schedule.html"
-        class="nav-item active">
 
-        <i class="fa-solid fa-calendar-days"></i>
+        <!-- Tasks -->
 
-        <span>Schedule</span>
+        <a
+            href="09 tasks.html"
+            class="sidebar-item"
+            data-tooltip="Tasks">
 
-    </a>
+            <i class="fa-solid fa-list-check"></i>
 
-    <!-- Modules -->
+            <span>Tasks</span>
 
-    <a
-        href="08 modules.html"
-        class="nav-item">
+        </a>
 
-        <i class="fa-solid fa-book"></i>
 
-        <span>Modules</span>
+        <!-- Add Button -->
 
-    </a>
+        <button
+            class="sidebar-add nav-add"
+            type="button"
+            data-tooltip="Add">
 
-</nav>
+            <i class="fa-solid fa-plus"></i>
 
+            <span>Add</span>
+
+        </button>
+
+
+        <!-- Schedule -->
+
+        <a
+            href="11 schedule.html"
+            class="sidebar-item active"
+            data-tooltip="Schedule">
+
+            <i class="fa-solid fa-calendar"></i>
+
+            <span>Schedule</span>
+
+        </a>
+
+
+        <!-- Modules -->
+
+        <a
+            href="08 modules.html"
+            class="sidebar-item"
+            data-tooltip="Modules">
+
+            <i class="fa-solid fa-book"></i>
+
+            <span>Modules</span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- ==================================================
+         Sidebar Bottom
+    ================================================== -->
+
+    <div class="sidebar-bottom">
+
+        <!-- Settings -->
+
+        <a
+            href="#"
+            class="sidebar-item"
+            data-tooltip="Settings">
+
+            <i class="fa-solid fa-gear"></i>
+
+            <span>Settings</span>
+
+        </a>
+
+
+        <!-- Profile -->
+
+        <a
+            href="#"
+            class="sidebar-item"
+            data-tooltip="Profile">
+
+            <i class="fa-solid fa-circle-user"></i>
+
+            <span>Profile</span>
+
+        </a>
+
+
+        <!-- Logout -->
+
+        <button
+            class="sidebar-item sidebar-logout"
+            id="logoutBtn"
+            type="button"
+            data-tooltip="Logout">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>Logout</span>
+
+        </button>
+
+    </div>
+
+
+    <!-- ==================================================
+         Sidebar Open / Close Button
+    ================================================== -->
+
+    <button
+        class="sidebar-toggle"
+        id="sidebarToggle"
+        type="button"
+        aria-label="Open navbar">
+
+        <i class="fa-solid fa-angles-right"></i>
+
+    </button>
+
+</aside>
 </section>
 
 </div>

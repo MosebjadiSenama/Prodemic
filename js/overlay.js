@@ -1,29 +1,44 @@
 const overlay = document.getElementById("overlay");
+const closeOverlay = document.getElementById("closeOverlay");
 
-document.getElementById("closeOverlay").addEventListener("click", () => {
-    overlay.style.display = "none";
-});
+if (overlay && closeOverlay) {
 
-// Close when clicking outside the sheet
-overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) {
+    closeOverlay.addEventListener("click", () => {
         overlay.style.display = "none";
-    }
-});
+    });
 
-// Open forms
-document.getElementById("moduleBtn").addEventListener("click", () => {
-    window.location.href = "08 moduleImport.html";
-});
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            overlay.style.display = "none";
+        }
+    });
+}
 
-document.getElementById("taskBtn").addEventListener("click", () => {
-    window.location.href = "21 addTask.html";
-});
+const moduleBtn = document.getElementById("moduleBtn");
+const taskBtn = document.getElementById("taskBtn");
+const scheduleBtn = document.getElementById("scheduleBtn");
+const assessmentBtn = document.getElementById("assessmentBtn");
 
-document.getElementById("scheduleBtn").addEventListener("click", () => {
-    window.location.href = "scheduleForm.html";
-});
+if (moduleBtn) {
+    moduleBtn.addEventListener("click", () => {
+        window.location.href = "08 moduleImport.html";
+    });
+}
 
-document.getElementById("assessmentBtn").addEventListener("click", () => {
-    window.location.href = "addAssessment.html";
-});
+if (taskBtn) {
+    taskBtn.addEventListener("click", () => {
+        window.location.href = "21 addTask.html";
+    });
+}
+
+if (scheduleBtn) {
+    scheduleBtn.addEventListener("click", () => {
+        window.location.href = "scheduleForm.html";
+    });
+}
+
+if (assessmentBtn) {
+    assessmentBtn.addEventListener("click", () => {
+        window.location.href = "addAssessment.html";
+    });
+}

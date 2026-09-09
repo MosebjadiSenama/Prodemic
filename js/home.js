@@ -126,18 +126,29 @@ if(profileMenu){
 // LOGOUT
 //==================================================
 
-if(logoutBtn){
+async function handleLogout(){
 
-    logoutBtn.addEventListener("click",async()=>{
+    try{
 
         await signOut(auth);
 
-       window.location.href = "03 Authentication.html?signin=true";
+        window.location.href = "03 Authentication.html?signin=true";
 
-    });
+    }catch(error){
+
+        console.error("Logout failed:", error);
+
+    }
 
 }
 
+if(logoutBtn){
+    logoutBtn.addEventListener("click", handleLogout);
+}
+
+if(sidebarLogout){
+    sidebarLogout.addEventListener("click", handleLogout);
+}
 //==================================================
 // HOME ONBOARDING
 //==================================================

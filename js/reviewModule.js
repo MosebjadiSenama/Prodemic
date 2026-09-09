@@ -1,248 +1,1380 @@
 import { supabase } from "./supabase.js";
 
-//==================================================
-// DATA
-//==================================================
+// ==================================================
+// GET MODULE ID FROM URL
+// ==================================================
 
-const moduleData = JSON.parse(localStorage.getItem("moduleData"));
+const urlParams = new URLSearchParams(window.location.search);
+const moduleId = urlParams.get("id");
 
-if (!moduleData) {
 
-    alert("No module data found.");
 
-    window.location.href = "17 pasteModule.html";
-
+if (!moduleId) {
+    alert("No module was selected.");
+    window.location.href = "08 modules.html";
+    throw new Error("No module ID found.");
 }
 
-//==================================================
-// ELEMENTS
-//==================================================
+// ==================================================
+// GET HTML ELEMENTS
+// ==================================================
 
-const moduleName = document.getElementById("moduleName");
-const moduleCode = document.getElementById("moduleCode");
-const lecturer = document.getElementById("lecturer");
-const email = document.getElementById("email");
-const consultation = document.getElementById("consultation");
-const summary = document.getElementById("summary");
+const moduleNameInput = document.getElementById("moduleName");
+const moduleCodeInput = document.getElementById("moduleCode");
+const summaryInput = document.getElementById("summary");
+
+const lecturerContainer = document.getElementById("lecturer");
+const tutorContainer = document.getElementById("tutor");
+const consultationContainer = document.getElementById("consultation");
 
 const lectureList = document.getElementById("lectureList");
 const assessmentList = document.getElementById("assessmentList");
+const academicEventsList = document.getElementById("academicEventsList");
 
-const saveModule = document.getElementById("saveModule");
-const backBtn = document.getElementById("backBtn");
+const moduleColourInput = document.getElementById("moduleColour");
+const colourPreview = document.getElementById("colourPreview");
+const colourText = document.getElementById("colourText");
 
-//==================================================
-// DISPLAY
-//==================================================
+const saveButton = document.getElementById("saveModule");
+const backButton = document.getElementById("backBtn");
 
-moduleName.textContent = moduleData.moduleName || "Not found";
-moduleCode.textContent = moduleData.moduleCode || "Not found";
-lecturer.textContent = moduleData.lecturer || "Not found";
-email.textContent = moduleData.email || "Not found";
-consultation.textContent = moduleData.consultation || "Not found";
-summary.textContent = moduleData.moduleSummary || "No summary available";
+// ==================================================
+// STORE DATA
+// ==================================================
 
-//==================================================
-// LECTURES
-//==================================================
+let moduleData = null;
+let lectures = [];
+let assessments = [];
+let academicEvents = [];
 
-lectureList.innerHTML = "";
+// These are kept so your existing page structure continues
+// to work even if the information is not stored yet.
+let lecturers = [];
+let tutors = [];
+let consultationHours = [];
 
-(moduleData.lectureTimes || []).forEach(lecture => {
+// ==================================================
+// SMALL HELPERS
+// ==================================================
 
-    lectureList.innerHTML += `
+function safeText(value) {
+    if (value === null || value === undefined) {
+        return "";
+    }
 
-    <div class="review-card">
+    if (typeof value === "object") {
+        return JSON.stringify(value);
+    }
 
-        <h3>${lecture.day || "-"}</h3>
-
-        <p>${lecture.startTime || "-"} - ${lecture.endTime || "-"}</p>
-
-        <p>${lecture.venue || "Venue not provided"}</p>
-
-    </div>
-
-    `;
-
-});
-
-if ((moduleData.lectureTimes || []).length === 0) {
-
-    lectureList.innerHTML = `
-
-    <div class="review-card">
-
-        <p>No lecture timetable found.</p>
-
-    </div>
-
-    `;
-
+    return String(value);
 }
 
-//==================================================
-// ASSESSMENTS
-//==================================================
+function getFirstValue(object, keys) {
+    if (!object) {
+        return "";
+    }
 
-assessmentList.innerHTML = "";
+    for (const key of keys) {
+        if (
+            object[key] !== undefined &&
+            object[key] !== null &&
+            object[key] !== ""
+        ) {
+            return object[key];
+        }
+    }
 
-(moduleData.assessments || []).forEach(item => {
-
-    assessmentList.innerHTML += `
-
-    <div class="review-card">
-
-        <h3>${item.title || "-"}</h3>
-
-        <p>${item.type || "-"}</p>
-
-        <p>${item.weight || "-"}</p>
-
-        <p>${item.dueDate || "-"}</p>
-
-    </div>
-
-    `;
-
-});
-
-if ((moduleData.assessments || []).length === 0) {
-
-    assessmentList.innerHTML = `
-
-    <div class="review-card">
-
-        <p>No assessments found.</p>
-
-    </div>
-
-    `;
-
+    return "";
 }
 
-//==================================================
-// SAVE
-//==================================================
+// ==================================================
+// LOAD MODULE
+// ==================================================
 
-saveModule.addEventListener("click", async () => {
+async function loadModule() {
 
-    saveModule.disabled = true;
-    saveModule.textContent = "Saving...";
+    console.log("Loading module from Supabase...");
 
     try {
 
+        // ==================================================
+        // LOAD MAIN MODULE
+        // ==================================================
+
         const {
-
-            data: moduleRow,
-
+            data: module,
             error: moduleError
-
         } = await supabase
-
             .from("modules")
-
-            .insert({
-
-                module_name: moduleData.moduleName,
-                module_code: moduleData.moduleCode,
-                lecturer: moduleData.lecturer,
-                email: moduleData.email,
-                consultation: moduleData.consultation,
-                summary: moduleData.moduleSummary
-
-            })
-
-            .select()
-
+            .select("*")
+            .eq("id", moduleId)
             .single();
-            console.log("Module Row:", moduleRow);
-console.log("Module Error:", moduleError);
 
-if (moduleError) throw moduleError;
+        if (moduleError) {
+
+            console.error(
+                "MODULE LOAD ERROR:",
+                moduleError
+            );
+
+            alert(
+                "Could not load the module.\n\n" +
+                moduleError.message
+            );
+
+            return;
+        }
+
+        if (!module) {
+
+            alert("Module could not be found.");
+
+            return;
+        }
+
+        moduleData = module;
+
+        console.log(
+            "MODULE FROM SUPABASE:",
+            moduleData
+        );
+
+        // ==================================================
+        // DISPLAY MAIN MODULE INFORMATION
+        // ==================================================
+
+        displayModuleInformation();
+
+        // ==================================================
+        // LOAD LECTURES
+        // ==================================================
+
+        const {
+            data: lectureData,
+            error: lectureError
+        } = await supabase
+            .from("lectures")
+            .select("*")
+            .eq("module_id", moduleId)
+            .order("id", { ascending: true });
+
+        if (lectureError) {
+
+            console.warn(
+                "LECTURES LOAD ERROR:",
+                lectureError
+            );
+
+            lectures = [];
+
+        } else {
+
+            lectures = lectureData || [];
+        }
+
+        console.log(
+            "LECTURES FROM SUPABASE:",
+            lectures
+        );
+
+        // ==================================================
+        // LOAD ASSESSMENTS
+        // ==================================================
+
+        const {
+            data: assessmentData,
+            error: assessmentError
+        } = await supabase
+            .from("assessments")
+            .select("*")
+            .eq("module_id", moduleId)
+            .order("id", { ascending: true });
+
+        if (assessmentError) {
+
+            console.warn(
+                "ASSESSMENTS LOAD ERROR:",
+                assessmentError
+            );
+
+            assessments = [];
+
+        } else {
+
+            assessments = assessmentData || [];
+        }
+
+        console.log(
+            "ASSESSMENTS FROM SUPABASE:",
+            assessments
+        );
+
+        // ==================================================
+        // LOAD ACADEMIC EVENTS
+        // ==================================================
+        //
+        // Your academic_events table currently does not exist.
+        // Therefore this is deliberately optional.
+        //
+
+        if (academicEventsList) {
+
+            const {
+                data: eventData,
+                error: eventError
+            } = await supabase
+                .from("academic_events")
+                .select("*")
+                .eq("module_id", moduleId);
+
+            if (eventError) {
+
+                console.warn(
+                    "Academic events are unavailable:",
+                    eventError.message
+                );
+
+                academicEvents = [];
+
+            } else {
+
+                academicEvents = eventData || [];
+            }
+        }
+// ==================================================
+// LOAD LECTURERS
+// ==================================================
+
+const {
+    data: lecturerData,
+    error: lecturerError
+} = await supabase
+    .from("lecturers")
+    .select("*")
+    .eq("module_id", moduleId)
+    .order("id", { ascending: true });
+
+if (lecturerError) {
+    console.error(
+        "LECTURERS LOAD ERROR:",
+        lecturerError
+    );
+
+    lecturers = [];
+} else {
+    lecturers = lecturerData || [];
+}
+
+console.log(
+    "LECTURERS FROM SUPABASE:",
+    lecturers
+);
 
 
-            console.log(moduleRow);
-            console.log(moduleError);
+// ==================================================
+// LOAD TUTORS
+// ==================================================
 
-        if (moduleError) throw moduleError;
+const {
+    data: tutorData,
+    error: tutorError
+} = await supabase
+    .from("tutors")
+    .select("*")
+    .eq("module_id", moduleId)
+    .order("id", { ascending: true });
 
-        if ((moduleData.lectureTimes || []).length > 0) {
+if (tutorError) {
+    console.error(
+        "TUTORS LOAD ERROR:",
+        tutorError
+    );
 
-            const lectures = moduleData.lectureTimes.map(lecture => ({
+    tutors = [];
+} else {
+    tutors = tutorData || [];
+}
 
-                module_id: moduleRow.id,
-                day: lecture.day,
-                start_time: lecture.startTime,
-                end_time: lecture.endTime,
-                venue: lecture.venue
+console.log(
+    "TUTORS FROM SUPABASE:",
+    tutors
+);
 
-            }));
+        // ==================================================
+        // DISPLAY EVERYTHING
+        // ==================================================
 
-            const { error } = await supabase
+        displayModuleInformation();
 
+        displayLecturers();
+
+        displayTutors();
+
+        displayConsultationHours();
+
+        displayLectures();
+
+        displayAssessments();
+
+        displayAcademicEvents();
+
+        setupColourPicker();
+
+        console.log(
+            "REVIEW PAGE LOADED SUCCESSFULLY"
+        );
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOAD MODULE ERROR:",
+            error
+        );
+
+        alert(
+            "Something went wrong while loading the module.\n\n" +
+            error.message
+        );
+    }
+}
+
+// ==================================================
+// OPTIONAL INFORMATION
+// ==================================================
+
+function loadOptionalInformationFromModule() {
+
+    if (!moduleData) {
+        return;
+    }
+
+    // Lecturer
+    if (moduleData.lecturer) {
+
+        lecturers = [
+            {
+                name: moduleData.lecturer
+            }
+        ];
+    }
+
+    // Tutor
+    if (moduleData.tutor) {
+
+        tutors = [
+            {
+                name: moduleData.tutor
+            }
+        ];
+    }
+
+    // Consultation hours
+    if (moduleData.consultation_hours) {
+
+        if (Array.isArray(moduleData.consultation_hours)) {
+
+            consultationHours =
+                moduleData.consultation_hours;
+
+        } else {
+
+            consultationHours = [
+                moduleData.consultation_hours
+            ];
+        }
+    }
+}
+
+// ==================================================
+// DISPLAY MODULE INFORMATION
+// ==================================================
+
+function displayModuleInformation() {
+
+    if (!moduleData) {
+        return;
+    }
+
+    if (moduleNameInput) {
+
+        moduleNameInput.value =
+            safeText(moduleData.module_name);
+    }
+
+    if (moduleCodeInput) {
+
+        moduleCodeInput.value =
+            safeText(moduleData.module_code);
+    }
+
+    if (summaryInput) {
+
+        summaryInput.value =
+            safeText(moduleData.summary);
+    }
+
+    if (moduleColourInput) {
+
+        moduleColourInput.value =
+            moduleData.colour || "#3154B8";
+    }
+
+    if (colourPreview) {
+
+        colourPreview.style.backgroundColor =
+            moduleData.colour || "#3154B8";
+    }
+
+    if (colourText) {
+
+        colourText.textContent =
+            moduleData.colour || "#3154B8";
+    }
+}
+
+// ==================================================
+// DISPLAY LECTURERS
+// ==================================================
+
+function displayLecturers() {
+
+    if (!lecturerContainer) {
+        return;
+    }
+
+    lecturerContainer.innerHTML = "";
+
+    if (
+        !lecturers ||
+        lecturers.length === 0
+    ) {
+
+        lecturerContainer.innerHTML =
+            "<p>No lecturers listed.</p>";
+
+        return;
+    }
+
+    lecturers.forEach(function (lecturer) {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "review-person";
+
+        const name =
+            document.createElement("h3");
+
+        name.textContent =
+            getFirstValue(
+                lecturer,
+                ["name", "full_name", "lecturer"]
+            ) || "Lecturer";
+
+        card.appendChild(name);
+
+        if (lecturer.email) {
+
+            const email =
+                document.createElement("p");
+
+            email.textContent =
+                lecturer.email;
+
+            card.appendChild(email);
+        }
+
+        lecturerContainer.appendChild(card);
+    });
+}
+
+// ==================================================
+// DISPLAY TUTORS
+// ==================================================
+
+function displayTutors() {
+
+    if (!tutorContainer) {
+        return;
+    }
+
+    tutorContainer.innerHTML = "";
+
+    if (
+        !tutors ||
+        tutors.length === 0
+    ) {
+
+        tutorContainer.innerHTML =
+            "<p>No tutors listed.</p>";
+
+        return;
+    }
+
+    tutors.forEach(function (tutor) {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "review-person";
+
+        const name =
+            document.createElement("h3");
+
+        name.textContent =
+            getFirstValue(
+                tutor,
+                ["name", "full_name", "tutor"]
+            ) || "Tutor";
+
+        card.appendChild(name);
+
+        if (tutor.email) {
+
+            const email =
+                document.createElement("p");
+
+            email.textContent =
+                tutor.email;
+
+            card.appendChild(email);
+        }
+
+        tutorContainer.appendChild(card);
+    });
+}
+
+// ==================================================
+// DISPLAY CONSULTATION HOURS
+// ==================================================
+
+function displayConsultationHours() {
+
+    if (!consultationContainer) {
+        return;
+    }
+
+    consultationContainer.innerHTML = "";
+
+    if (
+        !consultationHours ||
+        consultationHours.length === 0
+    ) {
+
+        consultationContainer.innerHTML =
+            "<p>No consultation hours listed.</p>";
+
+        return;
+    }
+
+    consultationHours.forEach(
+        function (item) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "review-card";
+
+            const person =
+                document.createElement("h3");
+
+            person.textContent =
+                getFirstValue(
+                    item,
+                    ["person", "name"]
+                );
+
+            card.appendChild(person);
+
+            const day =
+                document.createElement("p");
+
+            day.textContent =
+                getFirstValue(
+                    item,
+                    ["day"]
+                );
+
+            card.appendChild(day);
+
+            const time =
+                document.createElement("p");
+
+            const start =
+                getFirstValue(
+                    item,
+                    ["start_time", "startTime"]
+                );
+
+            const end =
+                getFirstValue(
+                    item,
+                    ["end_time", "endTime"]
+                );
+
+            time.textContent =
+                `${start} - ${end}`;
+
+            card.appendChild(time);
+
+            const location =
+                document.createElement("p");
+
+            location.textContent =
+                getFirstValue(
+                    item,
+                    ["location", "venue"]
+                );
+
+            card.appendChild(location);
+
+            consultationContainer.appendChild(card);
+        }
+    );
+}
+
+// ==================================================
+// DISPLAY LECTURES
+// ==================================================
+
+function displayLectures() {
+
+    if (!lectureList) {
+        return;
+    }
+
+    lectureList.innerHTML = "";
+
+    if (
+        !lectures ||
+        lectures.length === 0
+    ) {
+
+        lectureList.innerHTML =
+            "<p>No lectures listed.</p>";
+
+        return;
+    }
+
+    lectures.forEach(
+        function (lecture) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "review-card";
+
+            const dayGroup =
+                createInputField(
+                    "Day",
+                    getFirstValue(
+                        lecture,
+                        ["day"]
+                    )
+                );
+
+            card.appendChild(
+                dayGroup.container
+            );
+
+            const startGroup =
+                createInputField(
+                    "Start Time",
+                    getFirstValue(
+                        lecture,
+                        ["start_time", "startTime"]
+                    )
+                );
+
+            card.appendChild(
+                startGroup.container
+            );
+
+            const endGroup =
+                createInputField(
+                    "End Time",
+                    getFirstValue(
+                        lecture,
+                        ["end_time", "endTime"]
+                    )
+                );
+
+            card.appendChild(
+                endGroup.container
+            );
+
+            const venueGroup =
+                createInputField(
+                    "Venue",
+                    getFirstValue(
+                        lecture,
+                        ["venue", "location"]
+                    )
+                );
+
+            card.appendChild(
+                venueGroup.container
+            );
+
+            const descriptionGroup =
+                createInputField(
+                    "Description",
+                    getFirstValue(
+                        lecture,
+                        ["description"]
+                    )
+                );
+
+            card.appendChild(
+                descriptionGroup.container
+            );
+
+            lecture._dayInput =
+                dayGroup.input;
+
+            lecture._startTimeInput =
+                startGroup.input;
+
+            lecture._endTimeInput =
+                endGroup.input;
+
+            lecture._venueInput =
+                venueGroup.input;
+
+            lecture._descriptionInput =
+                descriptionGroup.input;
+
+            lectureList.appendChild(card);
+        }
+    );
+}
+
+// ==================================================
+// DISPLAY ASSESSMENTS
+// ==================================================
+
+function displayAssessments() {
+
+    if (!assessmentList) {
+        return;
+    }
+
+    assessmentList.innerHTML = "";
+
+    if (
+        !assessments ||
+        assessments.length === 0
+    ) {
+
+        assessmentList.innerHTML =
+            "<p>No assessments found.</p>";
+
+        return;
+    }
+
+    assessments.forEach(
+        function (assessment) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "review-card";
+
+            const titleGroup =
+                createInputField(
+                    "Title",
+                    getFirstValue(
+                        assessment,
+                        ["title", "name"]
+                    )
+                );
+
+            card.appendChild(
+                titleGroup.container
+            );
+
+            const typeGroup =
+                createInputField(
+                    "Type",
+                    getFirstValue(
+                        assessment,
+                        ["type"]
+                    )
+                );
+
+            card.appendChild(
+                typeGroup.container
+            );
+
+            const descriptionGroup =
+                createInputField(
+                    "Description",
+                    getFirstValue(
+                        assessment,
+                        ["description"]
+                    )
+                );
+
+            card.appendChild(
+                descriptionGroup.container
+            );
+
+            const dueDateGroup =
+                createInputField(
+                    "Due Date",
+                    getFirstValue(
+                        assessment,
+                        ["due_date", "dueDate"]
+                    )
+                );
+
+            card.appendChild(
+                dueDateGroup.container
+            );
+
+            const weightGroup =
+                createInputField(
+                    "Weight",
+                    getFirstValue(
+                        assessment,
+                        ["weight"]
+                    )
+                );
+
+            card.appendChild(
+                weightGroup.container
+            );
+
+            assessment._titleInput =
+                titleGroup.input;
+
+            assessment._typeInput =
+                typeGroup.input;
+
+            assessment._descriptionInput =
+                descriptionGroup.input;
+
+            assessment._dueDateInput =
+                dueDateGroup.input;
+
+            assessment._weightInput =
+                weightGroup.input;
+
+            assessmentList.appendChild(card);
+        }
+    );
+}
+
+// ==================================================
+// DISPLAY ACADEMIC EVENTS
+// ==================================================
+
+function displayAcademicEvents() {
+
+    if (!academicEventsList) {
+        return;
+    }
+
+    academicEventsList.innerHTML = "";
+
+    if (
+        !academicEvents ||
+        academicEvents.length === 0
+    ) {
+
+        academicEventsList.innerHTML =
+            "<p>No academic events found.</p>";
+
+        return;
+    }
+
+    academicEvents.forEach(
+        function (event) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "review-card";
+
+            const titleGroup =
+                createInputField(
+                    "Title",
+                    getFirstValue(
+                        event,
+                        ["title", "name"]
+                    )
+                );
+
+            card.appendChild(
+                titleGroup.container
+            );
+
+            const typeGroup =
+                createInputField(
+                    "Type",
+                    getFirstValue(
+                        event,
+                        ["type"]
+                    )
+                );
+
+            card.appendChild(
+                typeGroup.container
+            );
+
+            const startDateGroup =
+                createInputField(
+                    "Start Date",
+                    getFirstValue(
+                        event,
+                        ["start_date", "startDate"]
+                    )
+                );
+
+            card.appendChild(
+                startDateGroup.container
+            );
+
+            const endDateGroup =
+                createInputField(
+                    "End Date",
+                    getFirstValue(
+                        event,
+                        ["end_date", "endDate"]
+                    )
+                );
+
+            card.appendChild(
+                endDateGroup.container
+            );
+
+            const descriptionGroup =
+                createInputField(
+                    "Description",
+                    getFirstValue(
+                        event,
+                        ["description"]
+                    )
+                );
+
+            card.appendChild(
+                descriptionGroup.container
+            );
+
+            event._titleInput =
+                titleGroup.input;
+
+            event._typeInput =
+                typeGroup.input;
+
+            event._startDateInput =
+                startDateGroup.input;
+
+            event._endDateInput =
+                endDateGroup.input;
+
+            event._descriptionInput =
+                descriptionGroup.input;
+
+            academicEventsList.appendChild(card);
+        }
+    );
+}
+
+// ==================================================
+// CREATE INPUT FIELD
+// ==================================================
+
+function createInputField(labelText, value) {
+
+    const container =
+        document.createElement("div");
+
+    container.className =
+        "review-field";
+
+    const label =
+        document.createElement("label");
+
+    label.textContent =
+        labelText;
+
+    const input =
+        document.createElement("input");
+
+    input.type = "text";
+
+    input.value =
+        safeText(value);
+
+    container.appendChild(label);
+    container.appendChild(input);
+
+    return {
+        container: container,
+        input: input
+    };
+}
+
+// ==================================================
+// COLOUR PICKER
+// ==================================================
+
+function setupColourPicker() {
+
+    if (
+        !moduleColourInput ||
+        !colourPreview ||
+        !colourText
+    ) {
+        return;
+    }
+
+    const currentColour =
+        moduleData.colour || "#3154B8";
+
+    moduleColourInput.value =
+        currentColour;
+
+    colourPreview.style.backgroundColor =
+        currentColour;
+
+    colourText.textContent =
+        currentColour;
+
+    moduleColourInput.addEventListener(
+        "input",
+        function () {
+
+            const colour =
+                moduleColourInput.value;
+
+            colourPreview.style.backgroundColor =
+                colour;
+
+            colourText.textContent =
+                colour;
+        }
+    );
+}
+
+// ==================================================
+// SAVE EVERYTHING
+// ==================================================
+
+if (saveButton) {
+
+    saveButton.addEventListener(
+        "click",
+        saveModule
+    );
+}
+
+async function saveModule() {
+
+    console.log(
+        "Saving reviewed module..."
+    );
+
+    if (!saveButton) {
+        return;
+    }
+
+    saveButton.disabled = true;
+
+    saveButton.textContent =
+        "Saving...";
+
+    try {
+
+        // ==================================================
+        // GET EDITED MODULE
+        // ==================================================
+
+        const updatedModule = {
+
+            module_name:
+                moduleNameInput
+                    ? moduleNameInput.value.trim()
+                    : moduleData.module_name,
+
+            module_code:
+                moduleCodeInput
+                    ? moduleCodeInput.value.trim()
+                    : moduleData.module_code,
+
+            summary:
+                summaryInput
+                    ? summaryInput.value.trim()
+                    : moduleData.summary,
+
+            colour:
+                moduleColourInput
+                    ? moduleColourInput.value
+                    : moduleData.colour
+        };
+
+        // ==================================================
+        // REQUIRED FIELDS
+        // ==================================================
+
+        if (
+            !updatedModule.module_name ||
+            !updatedModule.module_code
+        ) {
+
+            alert(
+                "Please enter the module name and module code."
+            );
+
+            return;
+        }
+
+        // ==================================================
+        // UPDATE MODULE
+        // ==================================================
+
+        const {
+            data: updatedData,
+            error: moduleError
+        } = await supabase
+            .from("modules")
+            .update(updatedModule)
+            .eq("id", moduleId)
+            .select()
+            .single();
+
+        if (moduleError) {
+
+            console.error(
+                "MODULE UPDATE ERROR:",
+                moduleError
+            );
+
+            alert(
+                "The module could not be saved.\n\n" +
+                moduleError.message
+            );
+
+            return;
+        }
+
+        console.log(
+            "MODULE UPDATED:",
+            updatedData
+        );
+
+        // ==================================================
+        // UPDATE LECTURES
+        // ==================================================
+
+        for (const lecture of lectures) {
+
+            if (
+                !lecture.id ||
+                !lecture._dayInput
+            ) {
+                continue;
+            }
+
+          const lectureUpdate = {
+    day:
+        lecture._dayInput.value.trim(),
+
+    start_time:
+        lecture._startTimeInput.value.trim(),
+
+    end_time:
+        lecture._endTimeInput.value.trim(),
+
+    venue:
+        lecture._venueInput.value.trim()
+};
+
+            const {
+                error
+            } = await supabase
                 .from("lectures")
+                .update(lectureUpdate)
+                .eq("id", lecture.id)
+                .eq("module_id", moduleId);
 
-                .insert(lectures);
+            if (error) {
 
-            if (error) throw error;
+                console.error(
+                    "LECTURE UPDATE ERROR:",
+                    error
+                );
 
+                throw error;
+            }
         }
 
-       if ((moduleData.assessments || []).length > 0) {
+        // ==================================================
+        // UPDATE ASSESSMENTS
+        // ==================================================
 
-            const assessments = moduleData.assessments.map(item => ({
+        for (const assessment of assessments) {
 
-                module_id: moduleRow.id,
-                title: item.title,
-                type: item.type,
-                weight: item.weight,
-                due_date: item.dueDate
+            if (
+                !assessment.id ||
+                !assessment._titleInput
+            ) {
+                continue;
+            }
 
-            }));
+           const assessmentUpdate = {
+    title:
+        assessment._titleInput.value.trim(),
 
-            const { error } = await supabase
+    due_date:
+        assessment._dueDateInput.value.trim(),
 
+    weight:
+        assessment._weightInput.value.trim()
+};
+
+            const {
+                error
+            } = await supabase
                 .from("assessments")
+                .update(assessmentUpdate)
+                .eq("id", assessment.id)
+                .eq("module_id", moduleId);
 
-                .insert(assessments);
+            if (error) {
 
-            if (error) throw error;
+                console.error(
+                    "ASSESSMENT UPDATE ERROR:",
+                    error
+                );
 
+                throw error;
+            }
         }
 
-        localStorage.removeItem("moduleData");
+        // ==================================================
+        // UPDATE ACADEMIC EVENTS
+        // ==================================================
+        //
+        // Only attempt this if events actually exist.
+        //
 
-        alert("Module imported successfully.");
+        for (const event of academicEvents) {
 
-        window.location.href = "09 modules.html";
+            if (
+                !event.id ||
+                !event._titleInput
+            ) {
+                continue;
+            }
+
+            const eventUpdate = {
+
+                title:
+                    event._titleInput.value.trim(),
+
+                type:
+                    event._typeInput.value.trim(),
+
+                start_date:
+                    event._startDateInput.value.trim() ||
+                    null,
+
+                end_date:
+                    event._endDateInput.value.trim() ||
+                    null,
+
+                description:
+                    event._descriptionInput.value.trim()
+            };
+
+            const {
+                error
+            } = await supabase
+                .from("academic_events")
+                .update(eventUpdate)
+                .eq("id", event.id)
+                .eq("module_id", moduleId);
+
+            if (error) {
+
+                console.warn(
+                    "ACADEMIC EVENT UPDATE SKIPPED:",
+                    error
+                );
+            }
+        }
+
+        // ==================================================
+        // SUCCESS
+        // ==================================================
+
+        console.log(
+            "COMPLETE MODULE SAVED:",
+            moduleId
+        );
+
+        alert(
+            "Module saved successfully."
+        );
+
+        // ==================================================
+        // GO TO TRACK MODULE
+        // ==================================================
+
+        window.location.href =
+            `23 moduleTrack.html?id=${encodeURIComponent(moduleId)}`;
 
     }
 
-   catch (error) {
+    catch (error) {
 
-    console.error("FULL ERROR:", error);
+        console.error(
+            "SAVE MODULE ERROR:",
+            error
+        );
 
-    alert(
-        JSON.stringify(error, null, 2)
-    );
-
-}
+        alert(
+            "Something went wrong while saving the module.\n\n" +
+            error.message
+        );
+    }
 
     finally {
 
-        saveModule.disabled = false;
-        saveModule.textContent = "Save Module";
+        saveButton.disabled = false;
 
+        saveButton.textContent =
+            "Save Module";
     }
+}
 
-});
+// ==================================================
+// BACK BUTTON
+// ==================================================
 
-//==================================================
-// BACK
-//==================================================
+if (backButton) {
 
-backBtn.addEventListener("click", () => {
+    backButton.addEventListener(
+        "click",
+        function () {
 
-    history.back();
+            window.location.href =
+                "08 modules.html";
+        }
+    );
+}
 
-});
+// ==================================================
+// START
+// ==================================================
+
+loadModule();

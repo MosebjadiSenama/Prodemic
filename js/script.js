@@ -351,8 +351,11 @@ if(signInBtn){
 //===================================================================================================================================================
 
 const navAdd = document.querySelector(".nav-add");
+
 const createOverlay = document.getElementById("createOverlay");
+
 const closeSheet = document.getElementById("closeSheet");
+
 
 if(navAdd && createOverlay){
 
@@ -366,6 +369,7 @@ if(navAdd && createOverlay){
 
 }
 
+
 if(closeSheet){
 
     closeSheet.addEventListener("click",()=>{
@@ -376,11 +380,12 @@ if(closeSheet){
 
 }
 
+
 if(createOverlay){
 
     createOverlay.addEventListener("click",(e)=>{
 
-        if(e.target===createOverlay){
+        if(e.target === createOverlay){
 
             createOverlay.style.display="none";
 
@@ -391,6 +396,44 @@ if(createOverlay){
 }
 
 
+//==================================================
+// SIDEBAR OPEN / COLLAPSE
+//==================================================
+
+const sidebar = document.getElementById("sidebar");
+const sidebarToggle = document.getElementById("sidebarToggle");
+
+if (sidebar && sidebarToggle) {
+
+    sidebarToggle.addEventListener("click", () => {
+
+        sidebar.classList.toggle("collapsed");
+
+        const icon = sidebarToggle.querySelector("i");
+
+        if (sidebar.classList.contains("collapsed")) {
+
+            // Sidebar is CLOSED
+            icon.classList.remove("fa-angles-left");
+            icon.classList.add("fa-angles-right");
+
+    
+            sidebarToggle.setAttribute("aria-label", "Open navbar");
+
+        } else {
+
+            // Sidebar is OPEN
+            icon.classList.remove("fa-angles-right");
+            icon.classList.add("fa-angles-left");
+
+           
+            sidebarToggle.setAttribute("aria-label", "Collapse navbar");
+
+        }
+
+    });
+
+}
 //=========================================IF ON CERTAIN PAGE============================
 
 const newModule = document.getElementById("newModule");

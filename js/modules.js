@@ -148,25 +148,20 @@ function showToast(message){
 }
 
 //==================================================
-// INITIALS
+// ABBREVIATION
 //==================================================
-
 function getModuleInitials(name){
 
     return name
-
-    .trim()
-
-    .split(" ")
-
-    .map(word=>word[0])
-
-    .join("")
-
-    .toUpperCase();
+        .trim()
+        .split(" ")
+        .filter(word => !/^\d+$/.test(word))
+        .map(word => word[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 3);
 
 }
-
 //==================================================
 // RESET FORM
 //==================================================
@@ -314,10 +309,15 @@ class="more-btn">
 </button>
 
 <button
-class="upload-outline-btn"
-data-id="${module.id}">
+    class="track-progress-btn"
+    data-id="${module.id}"
+    aria-label="View module progress">
 
+    <span>
+        View Progress
+    </span>
 
+    <i class="fa-solid fa-arrow-right"></i>
 
 </button>
 
@@ -353,8 +353,8 @@ Delete
 
     const moreBtn = card.querySelector(".more-btn");
 
-    const uploadBtn =
-card.querySelector(".upload-outline-btn");
+   const trackProgressBtn =
+card.querySelector(".track-progress-btn");
 
     const menu = card.querySelector(".module-menu");
 
@@ -576,17 +576,14 @@ if(filteredModules.length === 0){
 
     moduleEmpty.style.display = "none";
 
-    modulesList.style.display = "flex";
+modulesList.style.display = "flex";
 
-    document.querySelector(".module-buttons")
+document.querySelector(".module-buttons")
+    .style.display = "flex";
 
-    .style.display = "none";
-
-    filteredModules.forEach(module=>{
-
-        createModuleCard(module);
-
-    });
+filteredModules.forEach(module=>{
+    createModuleCard(module);
+});
 
 }
 
@@ -837,13 +834,61 @@ auth.onAuthStateChanged(async(user)=>{
 
     }
 
-    try{
+  try{
 
-        await loadModules();
+    await loadModules();
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    const editId =
+        params.get("edit");
+
+    if(editId){
+
+        const module =
+            modules.find(
+                item =>
+                    String(item.id) ===
+                    String(editId)
+            );
+
+        if(module){
+
+            editingModuleId =
+                module.id;
+
+            showModuleForm();
+
+            document.getElementById(
+                "moduleFormTitle"
+            ).textContent =
+                "Edit Module";
+
+            saveModule.textContent =
+                "Update Module";
+
+            moduleName.value =
+                module.module_name;
+
+            moduleCode.value =
+                module.module_code;
+
+            semester.value =
+                module.semester;
+
+            moduleColour.value =
+                module.colour;
+
+            colourPreview.style.backgroundColor =
+                module.colour;
+
+        }
 
     }
 
-    catch(error){
+}
+catch(error){
 
         console.error(error);
 
@@ -985,3 +1030,26 @@ async function loadSubmissions(moduleId){
     });
 
 }
+
+// ==================================================
+// TRACK PROGRESS BUTTONS
+// ==================================================
+
+document.addEventListener("click", function (event) {
+
+    const trackButton = event.target.closest(".track-progress-btn");
+
+    if (!trackButton) {
+        return;
+    }
+
+    const moduleId = trackButton.dataset.id;
+
+    console.log("Track Progress clicked");
+    console.log("Module ID:", moduleId);
+
+    // Go to Track Progress page
+    window.location.href =
+        "23%20moduleTrack.html?id=" +
+        encodeURIComponent(moduleId);
+});
