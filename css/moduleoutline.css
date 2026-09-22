@@ -1,3 +1,471 @@
+/*==================================================
+                IMPORT MODULE
+==================================================*/
+
+*{
+
+    box-sizing:border-box;
+
+}
+
+
+body{
+
+    margin:0;
+
+    min-height:100vh;
+
+    background:#F5F7FC;
+
+    color:#1F2937;
+
+    font-family:'Poppins',sans-serif;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    padding:60px 20px;
+
+}
+
+
+/*==================================================
+                MAIN CONTAINER
+==================================================*/
+
+body > *{
+
+    width:100%;
+
+    max-width:760px;
+
+}
+
+
+/*==================================================
+                BACK BUTTON
+==================================================*/
+
+body > a{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    width:auto;
+
+    align-self:flex-start;
+
+    margin-bottom:28px;
+
+    padding:10px 18px;
+
+    background:#FFFFFF;
+
+    border:1px solid #E3E6EC;
+
+    border-radius:12px;
+
+    color:#2E4AAC;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+    transition:.25s ease;
+
+}
+
+
+body > a:hover{
+
+    background:#EEF2FF;
+
+    border-color:#2E4AAC;
+
+    transform:translateX(-2px);
+
+}
+
+
+/*==================================================
+                PAGE HEADING
+==================================================*/
+
+h1{
+
+    margin:0 0 12px;
+
+    color:#1F2937;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    line-height:1.2;
+
+}
+
+
+h1 + p{
+
+    margin:0 0 35px;
+
+    color:#7B8495;
+
+    font-size:15px;
+
+    line-height:1.7;
+
+}
+
+
+/*==================================================
+                UPLOAD CARD
+==================================================*/
+
+#pdf-upload{
+
+    width:100%;
+
+    min-height:150px;
+
+    padding:55px 30px;
+
+    background:#FFFFFF;
+
+    border:2px dashed #C8D0E2;
+
+    border-radius:22px;
+
+    color:#7B8495;
+
+    font-family:'Poppins',sans-serif;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    transition:.25s ease;
+
+}
+
+
+#pdf-upload:hover{
+
+    border-color:#2E4AAC;
+
+    background:#FAFBFF;
+
+}
+
+
+#pdf-upload:focus{
+
+    outline:none;
+
+    border-color:#2E4AAC;
+
+    box-shadow:0 0 0 4px rgba(46,74,172,.10);
+
+}
+
+
+/*==================================================
+                FILE PREVIEW
+==================================================*/
+
+#file-preview{
+
+    margin-top:20px;
+
+    padding:20px 22px;
+
+    background:#FFFFFF;
+
+    border:1px solid #E3E6EC;
+
+    border-radius:18px;
+
+    box-shadow:0 8px 25px rgba(2,16,36,.04);
+
+}
+
+
+#file-preview p{
+
+    margin:0;
+
+}
+
+
+#file-name{
+
+    color:#1F2937;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    margin-bottom:5px !important;
+
+    word-break:break-word;
+
+}
+
+
+#file-size{
+
+    color:#8A849C;
+
+    font-size:13px;
+
+}
+
+
+/*==================================================
+                REMOVE FILE
+==================================================*/
+
+#remove-file{
+
+    margin-top:15px;
+
+    padding:9px 16px;
+
+    border:1px solid #E3E6EC;
+
+    border-radius:10px;
+
+    background:#FFFFFF;
+
+    color:#7B8495;
+
+    font-family:'Poppins',sans-serif;
+
+    font-size:13px;
+
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:.25s ease;
+
+}
+
+
+#remove-file:hover{
+
+    background:#F5F7FC;
+
+    color:#2E4AAC;
+
+    border-color:#2E4AAC;
+
+}
+
+
+/*==================================================
+                CONTINUE BUTTON
+==================================================*/
+
+#continue-btn{
+
+    width:100%;
+
+    height:58px;
+
+    margin-top:25px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#2E4AAC;
+
+    color:#FFFFFF;
+
+    font-family:'Poppins',sans-serif;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    box-shadow:0 12px 28px rgba(46,74,172,.22);
+
+    transition:.25s ease;
+
+}
+
+
+#continue-btn:hover:not(:disabled){
+
+    background:#233B8F;
+
+    transform:translateY(-2px);
+
+}
+
+
+#continue-btn:active:not(:disabled){
+
+    transform:scale(.99);
+
+}
+
+
+#continue-btn:disabled{
+
+    background:#C8D0E2;
+
+    color:#FFFFFF;
+
+    cursor:not-allowed;
+
+    box-shadow:none;
+
+}
+
+
+/*==================================================
+                LOADING SPINNER
+==================================================*/
+
+.loading-spinner{
+
+    width:18px;
+
+    height:18px;
+
+    border:2px solid rgba(255,255,255,.4);
+
+    border-top-color:#FFFFFF;
+
+    border-radius:50%;
+
+    display:none;
+
+    animation:spin .8s linear infinite;
+
+}
+
+
+.loading-spinner.show{
+
+    display:block;
+
+}
+
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+
+/*==================================================
+                RESPONSIVE
+==================================================*/
+
+@media (max-width:768px){
+
+    body{
+
+        padding:35px 18px;
+
+    }
+
+
+    h1{
+
+        font-size:28px;
+
+    }
+
+
+    h1 + p{
+
+        font-size:14px;
+
+        margin-bottom:25px;
+
+    }
+
+
+    #pdf-upload{
+
+        min-height:130px;
+
+        padding:40px 20px;
+
+    }
+
+}
+
+
+@media (max-width:480px){
+
+    body{
+
+        padding:25px 15px;
+
+    }
+
+
+    h1{
+
+        font-size:25px;
+
+    }
+
+
+    #continue-btn{
+
+        height:55px;
+
+        font-size:15px;
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /* =========================================
    LOADING SPINNER
    ========================================= */

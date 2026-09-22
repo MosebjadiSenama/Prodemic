@@ -1,37 +1,85 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Modules</title>
+
 
     <link rel="stylesheet" href="css/module.css">
-     <link rel="stylesheet" href="css/home.css">
-     <link rel="stylesheet" href="css/overlay.css">
-     
 
-<script type="module" src="js/modules.js"></script>
-<script type="module" src="js/script.js"></script>
-<!---ICONS-->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
- <script
+    <link rel="stylesheet" href="css/home.css">
+
+    <link rel="stylesheet" href="css/overlay.css">
+
+
+    <script
+        type="module"
+        src="js/modules.js">
+    </script>
+
+    <script
+        type="module"
+        src="js/script.js">
+    </script>
+
+
+    <!--=========================================================
+                            ICONS
+    ==========================================================-->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+    <script
         type="module"
         src="js/overlay.js"
-        defer></script>
+        defer>
+    </script>
 
-<!--GOOGLE FONTS-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Anton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!--=========================================================
+                        GOOGLE FONTS
+    ==========================================================-->
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap"
+        rel="stylesheet">
+
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Anton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
 </head>
+
+
 <body>
 
+
     <div class="app-container">
+
 
         <!--=========================================================
                             MODULES HEADER
@@ -41,74 +89,84 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             class="modules-header"
             id="modulesHeader">
 
+
             <div class="modules-header-top">
+
 
                 <div class="modules-text">
 
+
                     <h1>
-
                         Modules
-
                     </h1>
 
+
                     <p>
-
                         Manage your subjects and track your progress.
-
                     </p>
+
 
                 </div>
 
+
+
+                <!--==================================================
+                                ACTION BUTTONS
+                ==================================================-->
+
+                <div class="module-buttons">
+
+
+                    <a
+                        href="22 moduleImport.html"
+                        class="upload-module-btn"
+                        id="uploadBtn">
+
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                        Upload Module Outline
+
+                    </a>
+
+
+
+                    <a
+                        href=""
+                        class="add-module-btn"
+                        id="addModuleBtn">
+
+                        + Add your module manually
+
+                    </a>
+
+
+                </div>
+
+
             </div>
 
-        </div>
-
-        <!--=========================================================
-                            FILTERS
-        ==========================================================-->
-
-        <div
-            class="filter-card"
-            id="filterCard">
-
-            <button
-                class="filter-btn active"
-                data-filter="All">
-
-                All
-
-            </button>
-
-            <button
-                class="filter-btn"
-                data-filter="Active">
-
-                Active
-
-            </button>
-
-            <button
-                class="filter-btn"
-                data-filter="Completed">
-
-                Completed
-
-            </button>
 
         </div>
 
+
+
+
+
         <!--=========================================================
-                        MODULE LIST
+                            MODULE LIST
         ==========================================================-->
 
         <div
             class="module-list"
             id="modulesList">
 
+
         </div>
 
+
+
         <!--=========================================================
-                        EMPTY STATE
+                            EMPTY STATE
         ==========================================================-->
 
         <div
@@ -116,16 +174,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             id="moduleEmpty"
             style="display:none;">
 
+
             <img
                 src="assets/images/No-modules.png"
                 alt="No modules"
                 class="module-empty-img">
+
 
             <h2>
 
                 No modules yet
 
             </h2>
+
 
             <p>
 
@@ -135,536 +196,653 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
             </p>
 
+
+
+            <!--=================================================
+                            EMPTY STATE BUTTONS
+            ==================================================-->
+
+            <div class="module-empty-buttons">
+
+
+                <button
+                    type="button"
+                    class="empty-add-module"
+                    onclick="document.getElementById('addModuleBtn').click();">
+
+
+                    <i class="fa-solid fa-plus"></i>
+
+
+                    Add Module
+
+
+                </button>
+
+
+
+                <a
+                    href="22 moduleImport.html"
+                    class="empty-upload-module">
+
+
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+
+                    Upload Outline
+
+
+                </a>
+
+
+            </div>
+
+
+
+            <!--=================================================
+                                TIP
+            ==================================================-->
+
+            <div class="module-empty-tip">
+
+
+                <div class="module-empty-tip-icon">
+
+
+                    <i class="fa-regular fa-lightbulb"></i>
+
+
+                </div>
+
+
+
+                <div class="module-empty-tip-text">
+
+
+                    <strong>
+                        Tip
+                    </strong>
+
+
+                    <p>
+                        You can upload your module outline
+                        and we'll automatically set up
+                        assignments for you.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
         </div>
 
+
+
         <!--=========================================================
-                        ACTION BUTTONS
+                            ADD MODULE FORM
         ==========================================================-->
 
-      <div class="module-buttons">
-
-    <a
-        href="22 moduleImport.html"
-        class="upload-module-btn"
-        id="uploadBtn">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        Upload Module Outline with AI
-    </a>
-
-    <a
-        href="#"
-        class="add-module-btn"
-        id="addModuleBtn">
-        + Add your module manually
-    </a>
-
-</div>
-
-        <!--=========================================================
-                    ADD MODULE FORM
-==========================================================-->
-
-<div
-    class="module-form"
-    id="moduleForm">
-
-    <div class="module-heading">
-
-        <button
-            class="back-btn"
-            id="backBtn">
-
-            <i class="fa-solid fa-arrow-left"></i>
-
-        </button>
-
-        <h2 id="moduleFormTitle">
-
-            Add New Module
-
-        </h2>
-
-    </div>
-
-    <!--================ MODULE NAME =================-->
-
-    <label for="moduleName">
-
-        Module Name
-
-    </label>
-
-    <input
-        type="text"
-        id="moduleName"
-        placeholder="e.g. Interactive Media">
-
-    <!--================ MODULE CODE =================-->
-
-    <label for="moduleCode">
-
-        Module Code
-
-    </label>
-
-    <input
-        type="text"
-        id="moduleCode"
-        placeholder="e.g. DIGA4014A">
-
-    <!--================ SEMESTER =================-->
-
-    <label for="semester">
-
-        Semester
-
-    </label>
-
-    <select id="semester">
-
-        <option>
-
-            Semester 1
-
-        </option>
-
-        <option>
-
-            Semester 2
-
-        </option>
-
-        <option>
-
-            Year Long
-
-        </option>
-
-    </select>
-
-    <!--================ MODULE COLOUR =================-->
-
-    <label for="moduleColour">
-
-        Module Colour
-
-    </label>
-
-    <div class="colour-container">
-
         <div
-            class="colour-preview"
-            id="colourPreview">
+            class="module-form"
+            id="moduleForm">
+
+
+            <div class="module-heading">
+
+
+                <button
+                    class="back-btn"
+                    id="backBtn">
+
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+
+                </button>
+
+
+                <h2 id="moduleFormTitle">
+
+                    Add New Module
+
+                </h2>
+
+
+            </div>
+
+
+
+            <!--================ MODULE NAME =================-->
+
+            <label for="moduleName">
+
+                Module Name
+
+            </label>
+
+
+            <input
+                type="text"
+                id="moduleName"
+                placeholder="e.g. Interactive Media">
+
+
+
+            <!--================ MODULE CODE =================-->
+
+            <label for="moduleCode">
+
+                Module Code
+
+            </label>
+
+
+            <input
+                type="text"
+                id="moduleCode"
+                placeholder="e.g. DIGA4014A">
+
+
+
+            <!--================ SEMESTER =================-->
+
+            <label for="semester">
+
+                Semester
+
+            </label>
+
+
+            <select id="semester">
+
+
+                <option>
+
+                    Semester 1
+
+                </option>
+
+
+                <option>
+
+                    Semester 2
+
+                </option>
+
+
+                <option>
+
+                    Year Long
+
+                </option>
+
+
+            </select>
+
+
+
+            <!--================ MODULE COLOUR =================-->
+
+            <label for="moduleColour">
+
+                Module Colour
+
+            </label>
+
+
+            <div class="colour-container">
+
+
+                <div
+                    class="colour-preview"
+                    id="colourPreview">
+                </div>
+
+
+                <span>
+
+                    Choose a colour
+
+                </span>
+
+
+                <i
+                    class="fa-solid fa-eye-dropper colour-icon">
+                </i>
+
+
+                <input
+                    type="color"
+                    id="moduleColour"
+                    value="#2E4AAC">
+
+
+            </div>
+
+
+
+            <!--================ SAVE BUTTON =================-->
+
+            <button
+                id="saveModule">
+
+                Save Module
+
+            </button>
+
 
         </div>
 
-        <span>
 
-            Choose a colour
-
-        </span>
-
-        <i class="fa-solid fa-eye-dropper colour-icon"></i>
-
-        <input
-            type="color"
-            id="moduleColour"
-            value="#2E4AAC">
-
-    </div>
-
-    <!--================ SAVE BUTTON =================-->
-
-    <button id="saveModule">
-
-        Save Module
-
-    </button>
-
-</div>
-
-
-<!--=========================================================
-                    CREATE MENU
-==========================================================-->
+<!--==================================================
+                CREATE MENU
+==================================================-->
 
 <div
     class="create-overlay"
-    id="createOverlay">
+    id="createOverlay"
+>
+
 
     <div class="create-sheet">
 
+
         <div class="sheet-handle"></div>
 
+
         <h2>
-
             Create New
-
         </h2>
 
-        <!--================ NEW MODULE =================-->
+
+        <!--==================================================
+                    NEW TASK
+        ==================================================-->
 
         <div
             class="create-option"
-            id="newModule">
-
-            <div class="option-icon blue">
-
-                <i class="fa-solid fa-book"></i>
-
-            </div>
+            id="newTask"
+        >
 
             <div class="option-text">
 
                 <h3>
-
-                    New Module
-
-                </h3>
-
-                <p>
-
-                    Add a new subject
-
-                </p>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-        <!--================ NEW TASK =================-->
-
-        <div class="create-option">
-
-            <div class="option-icon green">
-
-                <i class="fa-solid fa-list-check"></i>
-
-            </div>
-
-            <div class="option-text">
-
-                <h3>
-
                     New Task
-
                 </h3>
 
                 <p>
-
                     Add a task
-
                 </p>
 
             </div>
 
-            <i class="fa-solid fa-chevron-right"></i>
+
+            <span>
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+            </span>
 
         </div>
 
-        <!--================ NEW SCHEDULE =================-->
 
-        <div class="create-option">
 
-            <div class="option-icon purple">
+        <!--==================================================
+                    ADD EVENT
+        ==================================================-->
 
-                <i class="fa-solid fa-calendar"></i>
-
-            </div>
+        <div
+            class="create-option"
+            id="newLecture"
+        >
 
             <div class="option-text">
 
                 <h3>
-
-                    New Schedule
-
+                    Add Event
                 </h3>
 
                 <p>
-
-                    Create a schedule
-
+                    Add a lecture, assessment or academic event
                 </p>
 
             </div>
 
-            <i class="fa-solid fa-chevron-right"></i>
+
+            <span>
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+            </span>
 
         </div>
 
-        <!--================ NEW ASSESSMENT =================-->
 
-        <div class="create-option">
 
-            <div class="option-icon orange">
-
-                <i class="fa-solid fa-file-pen"></i>
-
-            </div>
-
-            <div class="option-text">
-
-                <h3>
-
-                    New Assessment
-
-                </h3>
-
-                <p>
-
-                    Add an assessment
-
-                </p>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
+        <!--==================================================
+                    CLOSE
+        ==================================================-->
 
         <button
+            type="button"
             id="closeSheet"
-            class="cancel-btn">
+            class="cancel-btn"
+        >
 
             Cancel
 
         </button>
 
+
     </div>
+
 
 </div>
 
-<!--=========================================================
-                    DELETE MODULE MODAL
-==========================================================-->
 
-<div
-    class="delete-overlay"
-    id="deleteOverlay">
 
-    <div class="delete-modal">
+        <!--=========================================================
+                        DELETE MODULE MODAL
+        ==========================================================-->
 
-        <i class="fa-solid fa-trash delete-icon"></i>
+        <div
+            class="delete-overlay"
+            id="deleteOverlay">
 
-        <h2>
 
-            Delete Module?
+            <div class="delete-modal">
 
-        </h2>
 
-        <p>
+                <i class="fa-solid fa-trash delete-icon"></i>
 
-            This will permanently delete this module and cannot be undone.
 
-        </p>
+                <h2>
 
-        <div class="delete-buttons">
+                    Delete Module?
 
-            <button id="cancelDelete">
+                </h2>
 
-                Cancel
 
-            </button>
+                <p>
 
-            <button id="confirmDelete">
+                    This will permanently delete this module
+                    and cannot be undone.
 
-                Delete
+                </p>
 
-            </button>
+
+                <div class="delete-buttons">
+
+
+                    <button id="cancelDelete">
+
+                        Cancel
+
+                    </button>
+
+
+                    <button id="confirmDelete">
+
+                        Delete
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
 
         </div>
 
-    </div>
-
-</div>
 
 
-<!-- ==================================================
-     SIDEBAR NAVIGATION
-================================================== -->
+        <!-- ==================================================
+                SIDEBAR NAVIGATION
+        ================================================== -->
 
-<aside class="sidebar collapsed" id="sidebar">
 
-    <!-- Logo -->
+        <aside
+            class="sidebar collapsed"
+            id="sidebar">
+
+
+            <!--=================================================
+                                LOGO
+            ==================================================-->
+
+            <div class="sidebar-logo">
+
+
+                <img
+                    src="assets/images/logo.png"
+                    alt="Logo"
+                    class="sidebar-logo-image">
+
+
+                <h1>
+                    Prodemic
+                </h1>
+
+
+            </div>
+
+
+
+          <!--==================================================
+                SIDEBAR
+==================================================-->
+
+<aside
+    class="sidebar collapsed"
+    id="sidebar"
+>
+
+
+    <!--==================================================
+                    SIDEBAR LOGO
+    ==================================================-->
 
     <div class="sidebar-logo">
 
         <img
             src="assets/images/logo.png"
-            alt="Logo"
-            class="sidebar-logo-image">
+            alt="Prodemic Logo"
+            class="sidebar-logo-image"
+        >
 
-        <h1>Prodemic</h1>
+        <h1>
+            Prodemic
+        </h1>
 
     </div>
 
 
-    <!-- Navigation -->
+    <!--==================================================
+                SIDEBAR NAVIGATION
+    ==================================================-->
 
     <nav class="sidebar-navigation">
 
-        <!-- Home -->
 
         <a
             href="07 home.html"
             class="sidebar-item"
-            data-tooltip="Home">
+            data-tooltip="Home"
+        >
 
             <i class="fa-solid fa-house"></i>
 
-            <span>Home</span>
+            <span>
+                Home
+            </span>
 
         </a>
 
-
-        <!-- Tasks -->
 
         <a
             href="09 tasks.html"
             class="sidebar-item"
-            data-tooltip="Tasks">
+            data-tooltip="Tasks"
+        >
 
             <i class="fa-solid fa-list-check"></i>
 
-            <span>Tasks</span>
+            <span>
+                Tasks
+            </span>
 
         </a>
 
-
-        <!-- Add -->
 
         <button
             class="sidebar-add nav-add"
             type="button"
-            data-tooltip="Add">
+            data-tooltip="Add"
+        >
 
             <i class="fa-solid fa-plus"></i>
 
-            <span>Add</span>
+            <span>
+                Add
+            </span>
 
         </button>
 
-
-        <!-- Schedule -->
 
         <a
             href="11 schedule.html"
             class="sidebar-item"
-            data-tooltip="Schedule">
+            data-tooltip="Schedule"
+        >
 
             <i class="fa-solid fa-calendar"></i>
 
-            <span>Schedule</span>
+            <span>
+                Schedule
+            </span>
 
         </a>
 
-
-        <!-- Modules -->
 
         <a
             href="08 modules.html"
-            class="sidebar-item active"
-            data-tooltip="Modules" >
+            class="sidebar-item  active"
+            data-tooltip="Modules"
+        >
 
             <i class="fa-solid fa-book"></i>
 
-            <span>Modules</span>
+            <span>
+                Modules
+            </span>
 
         </a>
+
 
     </nav>
 
 
-    <!-- Bottom Navigation -->
+    <!--==================================================
+                SIDEBAR BOTTOM
+    ==================================================-->
 
     <div class="sidebar-bottom">
-
-        <!-- Settings -->
-
-        <a
-            href="#"
-            class="sidebar-item"
-            data-tooltip="Settings">
-
-            <i class="fa-solid fa-gear"></i>
-
-            <span>Settings</span>
-
-        </a>
 
 
         <!-- Profile -->
 
-        <a
-            href="#"
+        <button
             class="sidebar-item"
-            data-tooltip="Profile">
+            id="profileBtn"
+            type="button"
+            data-tooltip="Profile"
+        >
 
             <i class="fa-solid fa-circle-user"></i>
 
-            <span>Profile</span>
-
-        </a>
-
-
-        <!-- Logout -->
-
-        <button
-            class="sidebar-item sidebar-logout"
-            id="logoutBtn"
-            type="button"
-            data-tooltip="Logout">
-
-            <i class="fa-solid fa-right-from-bracket"></i>
-
-            <span>Logout</span>
+            <span>
+                Profile
+            </span>
 
         </button>
+
 
     </div>
 
 
-    <!-- Sidebar Toggle -->
+    <!--==================================================
+                SIDEBAR TOGGLE
+    ==================================================-->
 
     <button
         class="sidebar-toggle"
         id="sidebarToggle"
         type="button"
-        aria-label="Open navbar">
+        aria-label="Open navbar"
+        title="Open navbar"
+    >
 
         <i class="fa-solid fa-angles-right"></i>
 
     </button>
 
+
 </aside>
+
+            <!--=================================================
+                        SIDEBAR TOGGLE
+            ==================================================-->
+
+            <button
+                class="sidebar-toggle"
+                id="sidebarToggle"
+                type="button"
+                aria-label="Open navbar">
+
+
+                <i class="fa-solid fa-angles-right"></i>
+
+
+            </button>
+
+
+        </aside>
+
+
     </div>
 
-</div>
 
 
-<!--=========================================================
-                    TOAST NOTIFICATION
-==========================================================-->
+    <!--=========================================================
+                        TOAST NOTIFICATION
+    ==========================================================-->
 
-<div
-    class="toast"
-    id="toast">
+    <div
+        class="toast"
+        id="toast">
 
-    <i class="fa-solid fa-circle-check"></i>
 
-    <span id="toastMessage">
+        <i class="fa-solid fa-circle-check"></i>
 
-    </span>
 
-</div>
-<input
-    type="hidden"
-    id="selectedModuleId">
+        <span id="toastMessage">
+        </span>
 
-    
+
+    </div>
+
+
+
+    <input
+        type="hidden"
+        id="selectedModuleId">
+
+
 </body>
 
 </html>
-

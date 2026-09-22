@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Add Event</title>
+
+
+    <!-- MAIN CSS -->
+
+    <link
+        rel="stylesheet"
+        href="css/addevent.css">
+
+
+    <!-- HOME CSS -->
+
+    <link
+        rel="stylesheet"
+        href="css/home.css">
+
+
+    <!-- SCHEDULE CSS -->
+
+    <link
+        rel="stylesheet"
+        href="css/schedule.css">
+
+
+
+    <!-- FONT AWESOME -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+    <!-- ADD EVENT JAVASCRIPT -->
+
+    <script
+        type="module"
+        src="js/addevent.js" defer>
+    </script>
+
+</head>
+
+
+<body>
+
+<div class="app-container">
+
+
+    <!-- ==================================================
+         TOP BAR
+         ================================================== -->
+
+    <header class="top-bar">
+
+        <a href="11 schedule.html"
+            id="backToSchedule"
+            class="back-btn"
+            type="button">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+    </a>
+
+
+        <div class="page-heading">
+
+            <h2>Add Event</h2>
+
+            <p>
+                Add something to your schedule.
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ==================================================
+         FORM CARD
+         ================================================== -->
+
+    <main class="form-card">
+
+
+        <!-- ==================================================
+             EVENT TYPE
+             ================================================== -->
+
+        <div class="form-group">
+
+            <label for="eventType">
+                Type
+            </label>
+
+            <select
+                id="eventType"
+                required>
+
+                <option value="">
+                    Select event type
+                </option>
+
+
+                <option value="class">
+                    Class
+                </option>
+
+                <option value="assessment">
+                    Assessment
+                </option>
+
+                <option value="academic_event">
+                    Academic Event
+                </option>
+
+                <option value="study_session">
+                    Study Session
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             EVENT TITLE
+             ================================================== -->
+
+        <div class="form-group">
+
+            <label for="eventTitle">
+                Event Title
+            </label>
+
+            <input
+                type="text"
+                id="eventTitle"
+                placeholder="e.g. Interactive Media Lecture"
+                required>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             MODULE
+             ================================================== -->
+
+        <div
+            class="form-group"
+            id="moduleGroup">
+
+            <label for="eventModule">
+                Module
+            </label>
+
+            <select
+                id="eventModule">
+
+                <option value="">
+                    Select Module
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             DATE
+             ================================================== -->
+
+        <div class="form-group">
+
+            <label for="eventDate">
+                Date
+            </label>
+
+            <input
+                type="date"
+                id="eventDate"
+                required>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             START AND END TIME
+             ================================================== -->
+
+        <div class="time-row">
+
+
+            <div class="form-group">
+
+                <label for="startTime">
+                    Start Time
+                </label>
+
+                <input
+                    type="time"
+                    id="startTime">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="endTime">
+                    End Time
+                </label>
+
+                <input
+                    type="time"
+                    id="endTime">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             VENUE
+             ================================================== -->
+
+        <div class="form-group">
+
+            <label for="venue">
+                Venue
+            </label>
+
+            <input
+                type="text"
+                id="venue"
+                placeholder="e.g. Digital Arts Building, Room 3">
+
+        </div>
+
+
+
+        <!-- ==================================================
+             DESCRIPTION
+             ================================================== -->
+
+        <div class="form-group">
+
+            <label for="description">
+                Description
+            </label>
+
+            <textarea
+                id="description"
+                rows="4"
+                placeholder="Add any extra details..."></textarea>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             SAVE BUTTON
+             ================================================== -->
+
+        <button
+            id="saveEvent"
+            class="primary-btn"
+            type="button">
+
+            Save Event
+
+        </button>
+
+
+    </main>
+
+
+</div>
+
+</body>
+
+</html>

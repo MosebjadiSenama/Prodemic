@@ -5,29 +5,6 @@
 import { auth } from "../firebase.js";
 import { supabase } from "./supabase.js";
 
-//==================================================
-// FILTER BUTTONS
-//==================================================
-
-const filterButtons = document.querySelectorAll(".filter-btn");
-
-filterButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        filterButtons.forEach(btn =>
-
-            btn.classList.remove("active")
-
-        );
-
-        button.classList.add("active");
-
-        loadModules(button.dataset.filter);
-
-    });
-
-});
 
 //==================================================
 // MODULE STATE
@@ -43,7 +20,10 @@ let modules = [];
 // ELEMENTS
 //==================================================
 
-const addModuleBtn = document.getElementById("addModuleBtn");
+const addModuleBtn =document.getElementById("addModuleBtn");
+
+const uploadBtn = document.getElementById("uploadBtn");
+
 const addModuleIcon = document.getElementById("addModuleIcon");
 
 const moduleForm = document.getElementById("moduleForm");
@@ -51,11 +31,9 @@ const moduleEmpty = document.getElementById("moduleEmpty");
 const modulesList = document.getElementById("modulesList");
 
 const modulesHeader = document.getElementById("modulesHeader");
-const filterCard = document.getElementById("filterCard");
 
 const moduleProgressPage =
 document.getElementById("moduleProgressPage");
-
 
 
 const backBtn =
@@ -196,8 +174,6 @@ function showModuleForm(){
 
     modulesHeader.style.display = "none";
 
-    filterCard.style.display = "none";
-
     moduleEmpty.style.display = "none";
 
     modulesList.style.display = "none";
@@ -215,41 +191,21 @@ function showModuleForm(){
 // SHOW MODULES
 //==================================================
 
+
 function showModulesPage(){
 
     moduleForm.style.display = "none";
 
-    
-
     modulesHeader.style.display = "block";
 
-    filterCard.style.display = "flex";
+    // Keep the page blank while modules are loading
+    moduleEmpty.style.display = "none";
+    modulesList.style.display = "none";
 
-    if(modules.length){
-
-        modulesList.style.display = "flex";
-
-        moduleEmpty.style.display = "none";
-
-        document.querySelector(".module-buttons").style.display =
-        "none";
-
-    }
-
-    else{
-
-        modulesList.style.display = "none";
-
-        moduleEmpty.style.display = "flex";
-
-        document.querySelector(".module-buttons").style.display =
-        "flex";
-
-    }
+    document.querySelector(".module-buttons").style.display =
+    "flex";
 
 }
-
-
 //==================================================
 // CREATE MODULE CARD
 //==================================================
@@ -468,7 +424,7 @@ uploadBtn.addEventListener("click", () => {
     console.log("module.id =", module.id);
     console.log("URL =", `13 moduleoutline.html?id=${module.id}`);
 
-    alert(`Module ID = ${module.id}`);
+    
 window.location.href = `13 moduleoutline.html?id=${module.id}`;
 
 });
@@ -478,25 +434,33 @@ window.location.href = `13 moduleoutline.html?id=${module.id}`;
 // BACK BUTTON
 //==================================================
 
-backBtn.addEventListener("click",()=>{
+backBtn.addEventListener("click",async()=>{
 
     resetForm();
 
     showModulesPage();
+
+    await loadModules();
 
 });
 
 //==================================================
 // ADD MODULE
 //==================================================
-
 addModuleBtn.addEventListener(
 
     "click",
 
-    showModuleForm
+    function(event){
+
+        event.preventDefault();
+
+        showModuleForm();
+
+    }
 
 );
+
 
 if(addModuleIcon){
 
@@ -519,19 +483,32 @@ async function loadModules(filter = "all"){
 
     if(!auth.currentUser) return;
 
+    //--------------------------------------------------
+    // LOADING STATE
+    //--------------------------------------------------
+
     modulesList.innerHTML = "";
 
-    modules = [];
+    modulesList.style.display = "none";
+
+    moduleEmpty.style.display = "none";
+
+    document.querySelector(".module-buttons").style.display =
+    "flex";
+
+    //--------------------------------------------------
+    // GET MODULES
+    //--------------------------------------------------
 
     const { data, error } = await supabase
+        .from("modules")
+        .select("*")
+        .eq("user_id", auth.currentUser.uid)
+        .order("created_at", { ascending: true });
 
-    .from("modules")
-
-    .select("*")
-
-    .eq("user_id", auth.currentUser.uid)
-
-    .order("created_at", { ascending: true });
+    //--------------------------------------------------
+    // ERROR
+    //--------------------------------------------------
 
     if(error){
 
@@ -540,8 +517,11 @@ async function loadModules(filter = "all"){
         showToast(error.message);
 
         return;
-
     }
+
+    //--------------------------------------------------
+    // SAVE MODULES
+    //--------------------------------------------------
 
     modules = data || [];
 
@@ -554,36 +534,47 @@ async function loadModules(filter = "all"){
     if(filter !== "all"){
 
         filteredModules = modules.filter(module =>
-
             module.semester === filter
-
         );
 
     }
 
-if (moduleForm.style.display === "block") {
-    return;
-}
-if(filteredModules.length === 0){
+    //--------------------------------------------------
+    // NO MODULES
+    //--------------------------------------------------
+
+    if(filteredModules.length === 0){
 
     moduleEmpty.style.display = "flex";
+
     modulesList.style.display = "none";
-    document.querySelector(".module-buttons").style.display = "flex";
+
+    document.querySelector(".module-buttons").style.display =
+    "flex";
 
     return;
-
 }
 
-    moduleEmpty.style.display = "none";
+    //--------------------------------------------------
+// MODULES EXIST
+//--------------------------------------------------
+
+moduleEmpty.style.display = "none";
+
+document.querySelector(".module-buttons").style.display =
+"flex";
 
 modulesList.style.display = "flex";
 
-document.querySelector(".module-buttons")
-    .style.display = "flex";
+    //--------------------------------------------------
+    // DISPLAY MODULES
+    //--------------------------------------------------
 
-filteredModules.forEach(module=>{
-    createModuleCard(module);
-});
+    filteredModules.forEach(module => {
+
+        createModuleCard(module);
+
+    });
 
 }
 
@@ -949,9 +940,9 @@ resetForm();
 const params = new URLSearchParams(window.location.search);
 
 if (params.get("newModule") === "true") {
+
     showModuleForm();
-} else {
-    showModulesPage();
+
 }
 
 async function loadSubmissions(moduleId){
@@ -1053,3 +1044,5 @@ document.addEventListener("click", function (event) {
         "23%20moduleTrack.html?id=" +
         encodeURIComponent(moduleId);
 });
+
+

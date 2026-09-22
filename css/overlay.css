@@ -910,43 +910,459 @@ body {
 
 }
 
-
 /* ==================================================
-   DESKTOP
+   RESPONSIVE NAVIGATION
 ================================================== */
 
-@media (min-width: 769px) {
 
-    .create-sheet {
-        width: 430px;
+/* ==================================================
+   TABLET
+================================================== */
 
-        margin: 0 auto 25px;
+@media (max-width: 1100px) and (min-width: 769px){
 
-        border-radius: 20px;
+    .sidebar{
+
+        width:76px;
+
+        padding-left:12px;
+        padding-right:12px;
+
+    }
+
+
+    /* Hide Prodemic text */
+
+    .sidebar-logo h1{
+
+        display:none;
+
+    }
+
+
+    /* Show logo */
+
+    .sidebar-logo-image{
+
+        display:block;
+
+        width:38px;
+        height:38px;
+
+        object-fit:contain;
+
+    }
+
+
+    /* Center navigation */
+
+    .sidebar-navigation{
+
+        align-items:center;
+
+    }
+
+
+    .sidebar-item{
+
+        justify-content:center;
+
+        padding:0;
+
+        gap:0;
+
+    }
+
+
+    .sidebar-item span{
+
+        display:none;
+
+    }
+
+
+    .sidebar-item i{
+
+        margin:0;
+
+    }
+
+
+    /* Add button */
+
+    .sidebar-add{
+
+        width:42px;
+        height:42px;
+
+        justify-content:center;
+
+        padding:0;
+
+        margin:4px auto;
+
+        border-radius:13px;
+
+    }
+
+
+    .sidebar-add span{
+
+        display:none;
+
+    }
+
+
+    /* Profile */
+
+    .sidebar-bottom{
+
+        align-items:center;
+
+    }
+
+
+    .sidebar-bottom .sidebar-item{
+
+        width:42px;
+
+        padding:0;
+
+    }
+
+
+    /* Main content */
+
+    .home-content{
+
+        margin-left:76px;
+
+        width:calc(100% - 76px);
+
     }
 
 }
 
 
 /* ==================================================
-   MOBILE
+   MOBILE NAVIGATION
 ================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 768px){
 
-    .sidebar {
-        display: none;
+    /* Hide desktop sidebar */
+
+    .sidebar{
+
+        position:fixed;
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        top:auto;
+
+        width:100% !important;
+
+        height:74px;
+
+        padding:0;
+
+        margin:0;
+
+        display:block;
+
+        background:#ffffff;
+
+        border:none;
+
+        border-top:1px solid #E6EBF2;
+
+        box-shadow:0 -5px 20px rgba(15,23,42,.08);
+
+        z-index:1000;
+
     }
 
-    .home-content {
-        margin-left: 0 !important;
 
-        width: 100% !important;
+    /* Hide logo */
+
+    .sidebar-logo{
+
+        display:none;
+
     }
 
-    .sidebar-toggle {
-        display: none;
+
+    /* Hide sidebar toggle */
+
+    .sidebar-toggle{
+
+        display:none;
+
+    }
+
+
+    /* Bottom navigation */
+
+    .sidebar-navigation{
+
+        width:100%;
+
+        height:74px;
+
+        display:flex;
+
+        flex-direction:row;
+
+        align-items:center;
+
+        justify-content:space-around;
+
+        gap:0;
+
+        padding:6px 8px;
+
+        margin:0;
+
+    }
+
+
+    /* Navigation items */
+
+    .sidebar-navigation .sidebar-item{
+
+        flex:1;
+
+        width:auto;
+
+        min-width:0;
+
+        height:60px;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        justify-content:center;
+
+        gap:4px;
+
+        padding:4px;
+
+        margin:0;
+
+        border:none;
+
+        border-radius:10px;
+
+        background:transparent;
+
+        color:#64748B;
+
+    }
+
+
+    .sidebar-navigation .sidebar-item i{
+
+        width:auto;
+
+        min-width:0;
+
+        margin:0;
+
+        font-size:1rem;
+
+    }
+
+
+    .sidebar-navigation .sidebar-item span{
+
+        display:block;
+
+        font-size:.62rem;
+
+        line-height:1;
+
+        white-space:nowrap;
+
+    }
+
+
+    .sidebar-navigation .sidebar-item.active{
+
+        background:transparent;
+
+        color:#2E4AAC;
+
+    }
+
+
+    /* Add button */
+
+    .sidebar-navigation .sidebar-add{
+
+        flex:0 0 56px;
+
+        width:56px;
+
+        height:56px;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        padding:0;
+
+        margin:-25px 4px 0;
+
+        border:none;
+
+        border-radius:50%;
+
+        background:#2E4AAC;
+
+        color:#ffffff;
+
+        box-shadow:0 8px 20px rgba(46,74,172,.25);
+
+    }
+
+
+    .sidebar-navigation .sidebar-add i{
+
+        width:auto;
+
+        min-width:0;
+
+        font-size:1.25rem;
+
+    }
+
+
+    .sidebar-navigation .sidebar-add span{
+
+        display:none;
+
+    }
+
+
+    /* Hide desktop profile area */
+
+    .sidebar-bottom{
+
+        display:block;
+
+        width:0;
+
+        height:0;
+
+        padding:0;
+
+        margin:0;
+
+    }
+
+
+    .sidebar-bottom::before{
+
+        display:none;
+
+    }
+
+
+    /* Main content */
+
+    .home-content{
+
+        width:100% !important;
+
+        margin-left:0 !important;
+
+        padding-bottom:100px;
+
     }
 
 }
+/* ==================================================
+   MOBILE PROFILE BUTTON
+================================================== */
 
+@media (max-width:768px){
+
+    /* Hide Profile on mobile pages */
+
+    .sidebar-bottom #profileBtn{
+
+        display:none;
+
+    }
+
+
+    /* Show Profile only on Home */
+
+    .home-page .sidebar-bottom #profileBtn{
+
+        position:fixed;
+
+        top:18px;
+
+        right:20px;
+
+        z-index:2100;
+
+        width:38px;
+
+        height:38px;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        padding:0;
+
+        border:none;
+
+        border-radius:50%;
+
+        background:#ffffff;
+
+        color:#2456C6;
+
+        font-size:1.2rem;
+
+        box-shadow:0 3px 12px rgba(15,23,42,.08);
+
+    }
+
+
+    .home-page .sidebar-bottom #profileBtn span{
+
+        display:none;
+
+    }
+
+
+    /* Profile menu */
+
+    .home-page .profile-menu{
+
+        position:fixed;
+
+        top:64px;
+
+        right:20px;
+
+        left:auto;
+
+        z-index:2200;
+
+    }
+
+}

@@ -1,0 +1,520 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add to Module</title>
+
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/overlay.css">
+    <link rel="stylesheet" href="css/track module.css">
+    <link rel="stylesheet" href="css/addtomodule.css">
+
+
+
+    <script
+        type="module"
+        src="js/addtomodule.js">
+    </script>
+
+</head>
+
+
+<body>
+
+    <main class="module-page">
+
+        <button
+            type="button"
+            id="backButton"
+            aria-label="Go back"
+        >
+            ←
+        </button>
+
+
+        <!-- ==================================================
+             ADD LECTURE
+        =================================================== -->
+
+        <section
+            id="lectureForm"
+            class="add-form-section"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h1>Add Lecture</h1>
+
+                    <p>
+                        Add a lecture or class for this module.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="lectureFormElement">
+
+                <div class="form-group">
+
+                    <label for="lectureDay">
+                        Day
+                    </label>
+
+                    <select
+                        id="lectureDay"
+                        required
+                    >
+
+                        <option value="">
+                            Select day
+                        </option>
+
+                        <option value="Monday">
+                            Monday
+                        </option>
+
+                        <option value="Tuesday">
+                            Tuesday
+                        </option>
+
+                        <option value="Wednesday">
+                            Wednesday
+                        </option>
+
+                        <option value="Thursday">
+                            Thursday
+                        </option>
+
+                        <option value="Friday">
+                            Friday
+                        </option>
+
+                        <option value="Saturday">
+                            Saturday
+                        </option>
+
+                        <option value="Sunday">
+                            Sunday
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="lectureStartTime">
+                        Start Time
+                    </label>
+
+                    <input
+                        type="time"
+                        id="lectureStartTime"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="lectureEndTime">
+                        End Time
+                    </label>
+
+                    <input
+                        type="time"
+                        id="lectureEndTime"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="lectureVenue">
+                        Venue
+                    </label>
+
+                    <input
+                        type="text"
+                        id="lectureVenue"
+                        placeholder="Enter venue"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="lectureCancel"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="lectureSave"
+                    >
+                        Add Lecture
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             ADD ASSESSMENT
+        =================================================== -->
+
+        <section
+            id="taskForm"
+            class="add-form-section"
+            style="display: none;"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h1>Add Assessment</h1>
+
+                    <p>
+                        Add an assessment for this module.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="taskFormElement">
+
+                <div class="form-group">
+
+                    <label for="taskTitle">
+                        Assessment Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="taskTitle"
+                        placeholder="Enter assessment title"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="taskWeight">
+                        Weight
+                    </label>
+
+                    <input
+                        type="text"
+                        id="taskWeight"
+                        placeholder="e.g. 20%"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="taskDueDate">
+                        Due Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="taskDueDate"
+                    >
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="taskCancel"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="taskSave"
+                    >
+                        Add Assessment
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             ADD PERSON
+        =================================================== -->
+
+        <section
+            id="personForm"
+            class="add-form-section"
+            style="display: none;"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h1>Add Person</h1>
+
+                    <p>
+                        Add a lecturer or tutor for this module.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="personFormElement">
+
+                <div class="form-group">
+
+                    <label for="personType">
+                        Person Type
+                    </label>
+
+                    <select
+                        id="personType"
+                        required
+                    >
+
+                        <option value="">
+                            Select person type
+                        </option>
+
+                        <option value="Lecturer">
+                            Lecturer
+                        </option>
+
+                        <option value="Tutor">
+                            Tutor
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="personName">
+                        Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="personName"
+                        placeholder="Enter name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="personEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="personEmail"
+                        placeholder="Enter email"
+                    >
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="personCancel"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="personSave"
+                    >
+                        Add Person
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             ADD ACADEMIC EVENT
+        =================================================== -->
+
+        <section
+            id="eventForm"
+            class="add-form-section"
+            style="display: none;"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h1>Add Academic Event</h1>
+
+                    <p>
+                        Add an important academic event for this module.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="eventFormElement">
+
+                <div class="form-group">
+
+                    <label for="eventTitle">
+                        Event Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="eventTitle"
+                        placeholder="Enter event title"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="eventType">
+                        Event Type
+                    </label>
+
+                    <input
+                        type="text"
+                        id="eventType"
+                        placeholder="e.g. Test, Exam, Submission"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="eventStartDate">
+                        Start Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="eventStartDate"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="eventEndDate">
+                        End Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="eventEndDate"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="eventDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="eventDescription"
+                        placeholder="Enter description"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="eventCancel"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="eventSave"
+                    >
+                        Add Event
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+ 
+
+</body>
+
+</html>

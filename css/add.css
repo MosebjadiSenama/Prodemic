@@ -1,324 +1,484 @@
-/*=========================================
-ADD TASK
-=========================================*/
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap");
 
-.page{
-    padding: 24px 20px 120px;
-    max-width: 500px;
-    margin: auto;
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/*=========================================
-HEADER
-=========================================*/
-
-.top-bar{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    margin-bottom:30px;
+html {
+    scroll-behavior: smooth;
 }
 
-.back-btn{
-    width:45px;
-    height:45px;
-    border:none;
-    border-radius:14px;
-    background:white;
-    box-shadow:0 6px 18px rgba(0,0,0,.08);
-    cursor:pointer;
-    font-size:18px;
-    color:#1f3fb8;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    transition:.25s;
+body {
+    min-height: 100vh;
+    background: #f6f7fb;
+    color: #18202f;
+    font-family: "Inter", sans-serif;
 }
 
-.back-btn:hover{
-    transform:translateY(-2px);
-}
-
-.top-bar h2{
-    font-size:28px;
-    font-weight:700;
-}
-
-/*=========================================
-FORM
-=========================================*/
-
-#taskForm{
-
-    display:flex;
-    flex-direction:column;
-    gap:22px;
-
-}
-
-.input-group{
-
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-
-}
-
-.input-group label{
-
-    font-size:14px;
-    font-weight:600;
-    color:#444;
-
-}
-
-/*=========================================
-INPUTS
-=========================================*/
-
+button,
 input,
-select{
-
-    width:100%;
-    height:58px;
-
-    border:none;
-    border-radius:18px;
-
-    padding:0 18px;
-
-    font-size:15px;
-    font-family:Poppins,sans-serif;
-
-    background:white;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.06);
-
-    transition:.25s;
-
+select,
+textarea {
+    font-family: inherit;
 }
 
-input:focus,
-select:focus{
-
-    outline:none;
-
-    border:2px solid #2F55D4;
-
-    box-shadow:0 8px 24px rgba(47,85,212,.18);
-
+button {
+    cursor: pointer;
 }
 
-/*=========================================
-DATE + TIME
-=========================================*/
 
-.row{
+/* =========================================================
+   PAGE
+========================================================= */
 
-    display:flex;
-    gap:15px;
-
+.app-container {
+    width: 100%;
+    min-height: 100vh;
 }
 
-.half{
-
-    flex:1;
-
+.page {
+    width: 100%;
+    min-height: 100vh;
 }
 
-/*=========================================
-COUNTDOWN
-=========================================*/
 
-.countdown-preview{
+/* =========================================================
+   HEADER
+========================================================= */
 
-    background:white;
+.top-bar {
+    width: 100%;
+    max-width: 720px;
 
-    border-radius:18px;
+    margin: 0 auto;
+    padding: 32px 0 20px;
 
-    padding:18px;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.06);
-
-    font-weight:600;
-
-    color:#2F55D4;
-
-    min-height:58px;
-
-    display:flex;
-    align-items:center;
-
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
-/*=========================================
-SAVE BUTTON
-=========================================*/
-
-.save-btn{
-
-    margin-top:20px;
-
-    height:60px;
-
-    border:none;
-
-    border-radius:18px;
-
-    background:#2F55D4;
-
-    color:white;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    box-shadow:0 12px 25px rgba(47,85,212,.25);
-
+.top-bar h2 {
+    color: #172033;
+    font-family: "Poppins", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1;
 }
 
-.save-btn:hover{
+.back-btn {
+    width: 40px;
+    height: 40px;
 
-    transform:translateY(-3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    background:#2447bd;
+    background: #ffffff;
+    border: 1px solid #dfe3ea;
+    border-radius: 10px;
 
+    color: #263449;
+    font-size: 16px;
+
+    transition: 0.2s ease;
 }
 
-/*=========================================
-PLACEHOLDER
-=========================================*/
-
-input::placeholder{
-
-    color:#aaa;
-
+.back-btn:hover {
+    background: #f0f2f6;
+    border-color: #cfd4dd;
 }
 
-/*=========================================
-RESPONSIVE
-=========================================*/
-
-@media (min-width:768px){
-
-    .page{
-
-        max-width:650px;
-
-    }
-
-    .top-bar h2{
-
-        font-size:34px;
-
-    }
-
+.back-btn:active {
+    transform: translateY(1px);
 }
 
-/*=========================================
-DESKTOP
-=========================================*/
 
-@media (min-width:1024px){
+/* =========================================================
+   FORM
+========================================================= */
 
-    .app-container{
+#taskForm {
+    width: 620px;
+    max-width: calc(100% - 40px);
 
-        display:flex;
-        justify-content:center;
-        align-items:flex-start;
+    margin: 0 auto 50px;
+    padding: 28px;
 
-        padding:60px 40px;
+    background: #ffffff;
+    border: 1px solid #e1e5eb;
+    border-radius: 16px;
 
+    box-shadow: 0 8px 28px rgba(24, 32, 47, 0.06);
+}
+
+
+/* =========================================================
+   INPUT GROUP
+========================================================= */
+
+.input-group {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.input-group:last-of-type {
+    margin-bottom: 0;
+}
+
+.input-group > label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #263449;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   INPUTS + SELECTS
+========================================================= */
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 13px;
+
+    background: #ffffff;
+    border: 1px solid #dce1e8;
+    border-radius: 9px;
+
+    color: #1d2738;
+    font-size: 13px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.input-group input::placeholder {
+    color: #9aa3b2;
+}
+
+.input-group input:hover,
+.input-group select:hover {
+    border-color: #c8ced8;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #3048c8;
+    box-shadow: 0 0 0 3px rgba(48, 72, 200, 0.08);
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.input-group select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    padding-right: 40px;
+
+    background-color: #ffffff;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, #747d8d 50%),
+        linear-gradient(135deg, #747d8d 50%, transparent 50%);
+
+    background-position:
+        calc(100% - 17px) 20px,
+        calc(100% - 12px) 20px;
+
+    background-size:
+        5px 5px,
+        5px 5px;
+
+    background-repeat: no-repeat;
+}
+
+
+/* =========================================================
+   DATE + TIME
+========================================================= */
+
+.row {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 14px;
+}
+
+.row .input-group {
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   PRIORITY
+========================================================= */
+
+.priority-options {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+}
+
+.priority-btn {
+    min-height: 70px;
+
+    padding: 12px 13px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    background: #ffffff;
+    border: 1px solid #dce1e8;
+    border-radius: 10px;
+
+    text-align: left;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+}
+
+.priority-btn:hover {
+    background: #fafbfc;
+    border-color: #c8ced8;
+}
+
+.priority-btn:active {
+    transform: translateY(1px);
+}
+
+.priority-btn.active {
+    background: #f1f3ff;
+    border-color: #3048c8;
+
+    box-shadow: 0 0 0 2px rgba(48, 72, 200, 0.07);
+}
+
+.priority-name {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #202a3a;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.priority-description {
+    display: block;
+
+    color: #8791a1;
+    font-size: 10px;
+    line-height: 1.35;
+}
+
+.priority-btn.active .priority-name {
+    color: #3048c8;
+}
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+.countdown-preview {
+    width: 100%;
+    min-height: 46px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 13px;
+
+    background: #f7f8fa;
+    border: 1px solid #e5e8ed;
+    border-radius: 9px;
+
+    color: #687386;
+    font-size: 12px;
+}
+
+.countdown-preview strong {
+    color: #3048c8;
+    font-weight: 600;
+    margin: 0 3px;
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+
+.save-btn {
+    display: block;
+    width: 180px;
+    height: 44px;
+
+    margin: 10px auto 0;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #3048c8;
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+}
+
+.save-btn:hover {
+    background: #263bb0;
+    box-shadow: 0 6px 16px rgba(48, 72, 200, 0.18);
+}
+
+.save-btn:active {
+    transform: translateY(1px);
+}
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid rgba(48, 72, 200, 0.25);
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 760px) {
+
+    .top-bar {
+        max-width: calc(100% - 40px);
     }
 
-    .page{
+    #taskForm {
+        width: 620px;
+        max-width: calc(100% - 40px);
+    }
+}
 
-        width:100%;
-        max-width:850px;
 
-        padding:40px;
+/* =========================================================
+   MOBILE
+========================================================= */
 
-        background:#fff;
+@media (max-width: 560px) {
 
-        border-radius:28px;
-
-        box-shadow:0 15px 40px rgba(0,0,0,.08);
-
+    body {
+        background: #ffffff;
     }
 
-    .top-bar{
+    .top-bar {
+        width: 100%;
+        max-width: none;
 
-        margin-bottom:40px;
-
+        padding: 20px 18px 16px;
     }
 
-    .top-bar h2{
-
-        font-size:34px;
-
+    .top-bar h2 {
+        font-size: 20px;
     }
 
-    #taskForm{
-
-        gap:30px;
-
+    .back-btn {
+        width: 38px;
+        height: 38px;
     }
 
-    .input-group label{
+    #taskForm {
+        width: 100%;
+        max-width: none;
 
-        font-size:15px;
+        margin: 0;
+        padding: 20px 18px 30px;
 
+        border: none;
+        border-radius: 0;
+
+        box-shadow: none;
     }
 
-    input,
-    select{
-
-        height:60px;
-
-        font-size:16px;
-
-        padding:0 20px;
-
+    .input-group {
+        margin-bottom: 18px;
     }
 
-    .countdown-preview{
-
-        height:60px;
-
-        padding:0 20px;
-
-        font-size:16px;
-
+    .row {
+        grid-template-columns: 1fr;
+        gap: 0;
     }
 
-    .row{
-
-        display:grid;
-
-        grid-template-columns:1fr 1fr;
-
-        gap:25px;
-
+    .row .input-group {
+        margin-bottom: 18px;
     }
 
-    .save-btn{
-
-        width:260px;
-
-        height:60px;
-
-        margin:30px auto 0;
-
-        display:block;
-
-        font-size:17px;
-
+    .priority-options {
+        grid-template-columns: 1fr;
+        gap: 8px;
     }
 
+    .priority-btn {
+        min-height: 60px;
+    }
+
+    .save-btn {
+        margin-top: 5px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .top-bar {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    #taskForm {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }

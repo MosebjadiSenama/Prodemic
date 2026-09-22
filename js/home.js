@@ -1,8 +1,10 @@
-import { auth, db } from "../firebase.js";
+import { auth } from "../firebase.js";
 import { supabase } from "./supabase.js";
+
+
 //==================================================
 // FIREBASE
-//==================================================;
+//==================================================
 
 import {
     collection,
@@ -25,17 +27,31 @@ const newModule = document.getElementById("newModule");
 const newTask = document.getElementById("newTask");
 const newLecture = document.getElementById("newLecture");
 const newAssessment = document.getElementById("newAssessment");
+
 const greetingText = document.getElementById("greetingText");
 
 const profileBtn = document.getElementById("profileBtn");
 const profileMenu = document.getElementById("profileMenu");
+const profileName = document.getElementById("profileName");
 const logoutBtn = document.getElementById("logoutBtn");
 
 const setupSection = document.getElementById("setupSection");
-const lectureSection = document.getElementById("lectureSection");
+const todaySection = document.getElementById("todaySection");
+const todayEvents = document.getElementById("todayEvents");
 
 const addModuleBtn = document.getElementById("addModuleBtn");
 const importModuleBtn = document.getElementById("importModuleBtn");
+
+
+//==================================================
+// HOME DATA
+//==================================================
+
+let userModules = [];
+let lectures = [];
+let tasks = [];
+let assessments = [];
+let academicEvents = [];
 
 //==================================================
 // USER
@@ -78,7 +94,14 @@ auth.onAuthStateChanged(async (user) => {
     }
 
     greetingText.textContent =
-    `${greeting}, ${user.displayName} 👋`;
+    `${greeting}, ${user.displayName} `;
+
+    if(profileName){
+
+    profileName.textContent =
+        user.displayName || "Profile";
+
+}
 
     //------------------------------------------
     // Home State
@@ -146,69 +169,731 @@ if(logoutBtn){
     logoutBtn.addEventListener("click", handleLogout);
 }
 
-if(sidebarLogout){
-    sidebarLogout.addEventListener("click", handleLogout);
-}
+
 //==================================================
-// HOME ONBOARDING
+// HOME
 //==================================================
 
 async function loadHome(uid){
 
-    if(!setupSection || !lectureSection){
+    // Hide both states while the home data is loading
+
+    if(setupSection){
+        setupSection.style.display = "none";
+    }
+
+    if(todaySection){
+        todaySection.style.display = "none";
+    }
+
+    const today = new Date();
+
+    const todayString =
+        today.getFullYear() +
+        "-" +
+        String(today.getMonth() + 1).padStart(2,"0") +
+        "-" +
+        String(today.getDate()).padStart(2,"0");
+
+
+        //==================================================
+    // LOAD HOME DATA
+    //==================================================
+
+    const [
+        modulesResult,
+        lecturesResult,
+        tasksResult,
+        assessmentsResult,
+        academicEventsResult
+    ] = await Promise.all([
+
+        supabase
+            .from("modules")
+            .select("*")
+            .eq("user_id",uid),
+
+        supabase
+            .from("lectures")
+            .select("*")
+            .eq("user_id",uid),
+
+        supabase
+            .from("tasks")
+            .select("*")
+            .eq("user_id",uid),
+
+        supabase
+            .from("assessments")
+            .select("*")
+            .eq("user_id",uid),
+
+        supabase
+            .from("academic_events")
+            .select("*")
+            .eq("user_id",uid)
+
+    ]);
+
+
+    //==================================================
+    // MODULES
+    //==================================================
+
+    if(modulesResult.error){
+
+        console.error(
+            "Could not load modules:",
+            modulesResult.error
+        );
 
         return;
 
     }
 
-    const snapshot = await getDocs(
+    userModules = modulesResult.data || [];
 
-        collection(
 
-            db,
+    //==================================================
+    // LECTURES
+    //==================================================
 
-            "users",
+    if(lecturesResult.error){
 
-            uid,
+        console.error(
+            "Could not load lectures:",
+            lecturesResult.error
+        );
 
-            "modules"
+        lectures = [];
 
-        )
+    }
 
-    );
+    else{
 
-    //------------------------------------------
-    // No Modules
-    //------------------------------------------
+        lectures = lecturesResult.data || [];
 
-   async function loadHome(uid){
+    }
 
-    const snapshot = await getDocs(
 
-        collection(
+    //==================================================
+    // TASKS
+    //==================================================
 
-            db,
+    if(tasksResult.error){
 
-            "users",
+        console.error(
+            "Could not load tasks:",
+            tasksResult.error
+        );
 
-            uid,
+        tasks = [];
 
-            "modules"
+    }
 
-        )
+    else{
 
-    );
+        tasks = tasksResult.data || [];
 
-    if(snapshot.empty){
+    }
+
+
+    //==================================================
+    // ASSESSMENTS
+    //==================================================
+
+    if(assessmentsResult.error){
+
+        console.error(
+            "Could not load assessments:",
+            assessmentsResult.error
+        );
+
+        assessments = [];
+
+    }
+
+    else{
+
+        assessments = assessmentsResult.data || [];
+
+    }
+
+
+    //==================================================
+    // ACADEMIC EVENTS
+    //==================================================
+
+    if(academicEventsResult.error){
+
+        console.error(
+            "Could not load academic events:",
+            academicEventsResult.error
+        );
+
+        academicEvents = [];
+
+    }
+
+    else{
+
+        academicEvents = academicEventsResult.data || [];
+
+    }
+
+
+    //==================================================
+    // HOME STATE
+    //==================================================
+
+    if(userModules.length === 0){
+
+        if(setupSection){
+
+            setupSection.style.display = "";
+
+        }
+
+        if(todaySection){
+
+            todaySection.style.display = "none";
+
+        }
 
         return;
 
     }
 
-}
+
+   if(setupSection){
+
+    setupSection.style.display = "none";
 
 }
 
+if(todaySection){
+
+    todaySection.style.display = "block";
+
+}
+
+renderTodayEvents(todayString);
+
+}
+
+ //==================================================
+// TODAY'S EVENTS
+//==================================================
+
+function renderTodayEvents(todayString){
+
+    if(!todayEvents){
+
+        return;
+
+    }
+
+
+    const events = [];
+
+
+    //==================================================
+    // LECTURES
+    //==================================================
+
+    const todayLectures =
+        getTodayLectures();
+
+
+    todayLectures.forEach(lecture => {
+
+        events.push({
+
+            title:
+                lecture.title ||
+                lecture.lecture_name ||
+                getModuleName(
+                    lecture.module_id
+                ) ||
+                "Class",
+
+            module:
+                getModuleName(
+                    lecture.module_id
+                ),
+
+            type:
+                "Class",
+
+            start:
+                lecture.start_time ||
+                "",
+
+            end:
+                lecture.end_time ||
+                "",
+
+            colour:
+                "#2862D9"
+
+        });
+
+    });
+
+
+    //==================================================
+    // TASKS
+    //==================================================
+
+    tasks
+
+        .filter(task => {
+
+            if(!task.due_date){
+
+                return false;
+
+            }
+
+
+            return String(
+                task.due_date
+            ).slice(0,10) === todayString;
+
+        })
+
+        .forEach(task => {
+
+            events.push({
+
+                title:
+                    task.title ||
+                    task.task_name ||
+                    "Task",
+
+                module:
+                    getModuleName(
+                        task.module_id
+                    ),
+
+                type:
+                    "Task",
+
+                start:
+                    task.due_time ||
+                    "",
+
+                end:
+                    "",
+
+                colour:
+                    "#9B35D1"
+
+            });
+
+        });
+
+
+    //==================================================
+    // ASSESSMENTS
+    //==================================================
+
+    const todayAssessments =
+        getTodayAssessments(
+            todayString
+        );
+
+
+    todayAssessments.forEach(assessment => {
+
+        events.push({
+
+            title:
+                assessment.title ||
+                assessment.name ||
+                "Assessment",
+
+            module:
+                getModuleName(
+                    assessment.module_id
+                ),
+
+            type:
+                "Assessment",
+
+            start:
+                assessment.due_time ||
+                assessment.start_time ||
+                "",
+
+            end:
+                assessment.end_time ||
+                "",
+
+            colour:
+                "#D62B8A"
+
+        });
+
+    });
+
+
+
+
+    //==================================================
+    // SORT EVENTS
+    //==================================================
+
+    events.sort((a,b) => {
+
+        return String(
+            a.start ||
+            "99:99"
+        ).localeCompare(
+            String(
+                b.start ||
+                "99:99"
+            )
+        );
+
+    });
+
+
+    //==================================================
+    // NO EVENTS
+    //==================================================
+
+    if(events.length === 0){
+
+        todayEvents.innerHTML = `
+
+            <p class="today-empty">
+
+                Nothing scheduled for today.
+
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+
+    //==================================================
+    // SHOW EVENTS
+    //==================================================
+
+    todayEvents.innerHTML = "";
+
+
+    events
+        .slice(0,3)
+        .forEach(event => {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "today-item";
+
+
+            const check =
+                document.createElement("div");
+
+            check.className =
+                "today-check";
+
+
+            const marker =
+                document.createElement("div");
+
+            marker.className =
+                "today-marker";
+
+            marker.style.background =
+                event.colour;
+
+
+            const content =
+                document.createElement("div");
+
+            content.className =
+                "today-item-content";
+
+
+            const title =
+                document.createElement("div");
+
+            title.className =
+                "today-item-title";
+
+            title.textContent =
+                event.title;
+
+
+            const meta =
+                document.createElement("div");
+
+            meta.className =
+                "today-item-meta";
+
+
+            let metaText =
+                event.type;
+
+
+            if(event.module){
+
+                metaText +=
+                    " · " +
+                    event.module;
+
+            }
+
+
+            meta.textContent =
+                metaText;
+
+
+            content.appendChild(
+                title
+            );
+
+            content.appendChild(
+                meta
+            );
+
+
+            const time =
+                document.createElement("div");
+
+            time.className =
+                "today-item-time";
+
+            time.textContent =
+                formatTimeRange(
+                    event.start,
+                    event.end
+                );
+
+
+            item.appendChild(
+                check
+            );
+
+            item.appendChild(
+                marker
+            );
+
+            item.appendChild(
+                content
+            );
+
+            item.appendChild(
+                time
+            );
+
+
+            todayEvents.appendChild(
+                item
+            );
+
+        });
+
+}
+
+
+//==================================================
+// GET MODULE NAME
+//==================================================
+
+function getModuleName(moduleId){
+
+    if(!moduleId){
+
+        return "";
+
+    }
+
+    const module =
+        userModules.find(
+            item =>
+                String(item.id) ===
+                String(moduleId)
+        );
+
+    if(!module){
+
+        return "";
+
+    }
+
+    return (
+        module.module_name ||
+        module.name ||
+        module.code ||
+        ""
+    );
+
+}
+
+
+//==================================================
+// GET TODAY'S WEEKDAY
+//==================================================
+
+function getTodayWeekday(){
+
+    return new Date()
+        .toLocaleDateString(
+            "en-US",
+            {
+                weekday:"long"
+            }
+        )
+        .toLowerCase();
+
+}
+
+
+//==================================================
+// GET LECTURES FOR TODAY
+//==================================================
+
+function getTodayLectures(){
+
+    const weekday =
+        getTodayWeekday();
+
+    return lectures
+
+        .filter(lecture => {
+
+            const lectureDay =
+                String(
+                    lecture.day ||
+                    lecture.weekday ||
+                    lecture.day_of_week ||
+                    ""
+                ).toLowerCase();
+
+            return lectureDay === weekday;
+
+        })
+
+        .sort((a,b) => {
+
+            return String(
+                a.start_time || ""
+            ).localeCompare(
+                String(
+                    b.start_time || ""
+                )
+            );
+
+        });
+
+}
+
+
+//==================================================
+// GET TODAY'S ASSESSMENTS
+//==================================================
+
+function getTodayAssessments(todayString){
+
+    return assessments
+
+        .filter(assessment => {
+
+            const assessmentDate =
+                assessment.due_date ||
+                assessment.date;
+
+            return assessmentDate ===
+                todayString;
+
+        })
+
+        .sort((a,b) => {
+
+            return String(
+                a.due_time ||
+                a.start_time ||
+                ""
+            ).localeCompare(
+                String(
+                    b.due_time ||
+                    b.start_time ||
+                    ""
+                )
+            );
+
+        });
+
+}
+
+
+//==================================================
+// FORMAT TIME
+//==================================================
+
+function formatTimeRange(start,end){
+
+    if(!start){
+
+        return "";
+
+    }
+
+    function formatTime(time){
+
+        if(!time){
+
+            return "";
+
+        }
+
+        const parts =
+            String(time).split(":");
+
+        let hour =
+            parseInt(
+                parts[0],
+                10
+            );
+
+        const minutes =
+            parts[1] || "00";
+
+        const period =
+            hour >= 12
+                ? "PM"
+                : "AM";
+
+        hour =
+            hour % 12 || 12;
+
+        return `${hour}:${minutes} ${period}`;
+
+    }
+
+    const startText =
+        formatTime(start);
+
+    const endText =
+        formatTime(end);
+
+    if(!endText){
+
+        return startText;
+
+    }
+
+    return `${startText} – ${endText}`;
+
+}
 //==================================================
 // OPTIONAL LECTURE BUTTON
 //==================================================
@@ -229,16 +914,22 @@ if(lectureBtn){
 //===================================================================================================================nav bar menu
 
 const menuBtn = document.getElementById("menuBtn");
+
 const navBar = document.querySelector(".nav-bar");
+
 const homeContent = document.querySelector(".home-content");
 
-menuBtn.addEventListener("click", () => {
+if(menuBtn){
 
-    navBar.classList.toggle("open");
+    menuBtn.addEventListener("click", () => {
 
-    homeContent.classList.toggle("shift");
+        navBar.classList.toggle("open");
 
-});
+        homeContent.classList.toggle("shift");
+
+    });
+
+}
 
 
 async function updateSetupCard(){
@@ -419,5 +1110,127 @@ if(importModuleBtn){
         window.location.href = "13 moduleoutline.html";
 
     });
+
+}
+
+
+
+//==================================================
+// CREATE OVERLAY
+//==================================================
+
+function closeCreateOverlay() {
+
+    if (
+        createOverlay
+    ) {
+
+        createOverlay.style.display =
+            "none";
+
+    }
+
+}
+
+if (
+    navAdd &&
+    createOverlay
+) {
+
+    navAdd.addEventListener(
+        "click",
+        () => {
+
+            createOverlay.style.display =
+                "flex";
+
+        }
+    );
+
+}
+
+if (closeSheet) {
+
+    closeSheet.addEventListener(
+        "click",
+        closeCreateOverlay
+    );
+
+}
+
+if (createOverlay) {
+
+    createOverlay.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                createOverlay
+            ) {
+
+                closeCreateOverlay();
+
+            }
+
+        }
+    );
+
+}
+
+
+//==================================================
+// CREATE MODULE
+//==================================================
+
+if (newModule) {
+
+    newModule.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "08 modules.html?add=true";
+
+        }
+    );
+
+}
+
+
+//==================================================
+// CREATE TASK
+//==================================================
+
+if (newTask) {
+
+    newTask.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "21 addtask.html";
+
+        }
+    );
+
+}
+
+
+//==================================================
+// CREATE EVENT
+//==================================================
+
+if (newLecture) {
+
+    newLecture.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "21 addevent.html";
+
+        }
+    );
 
 }

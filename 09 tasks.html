@@ -1,334 +1,560 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Tasks</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
- <link rel="stylesheet" href="css/home.css">
-<link rel="stylesheet" href="css/tasks.css">
-<link rel="stylesheet" href="css/overlay.css">
-
-<script type="module" src="js/tasks.js"></script>
-<script type="module" src="js/script.js"></script>
+    <title>Tasks</title>
 
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!--==================================================
+         CSS
+    ==================================================-->
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/home.css">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tasks.css">
+
+    <link rel="stylesheet" href="css/overlay.css">
+
+
+    <!--==================================================
+         JavaScript
+    ==================================================-->
+
+    <script
+        type="module"
+        src="js/tasks.js"
+    >
+    </script>
+
+     <script
+        type="module"
+        src="js/script.js"
+        defer
+    >
+    </script>
+
+    <!--==================================================
+         Font Awesome Icons
+    ==================================================-->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+
+    <!--==================================================
+         Fonts
+    ==================================================-->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
 </head>
+
 
 <body>
 
 <div class="app-container">
 
-<div class="page">
 
-<!--==================================================
-HEADER
-===================================================-->
+    <!--==================================================
+         PAGE
+    ==================================================-->
 
-<header class="page-header">
+    <div class="page">
 
-<h1>Tasks</h1>
 
-<p>
+        <!--==================================================
+             HEADER
+        ==================================================-->
 
-Stay on top of everything you need to do.
+        <header class="page-header">
 
-</p>
+            <div class="header-top">
 
-</header>
+                <div class="header-text">
 
-<!--==================================================
-FILTERS
-===================================================-->
+                    <h1>
+                        Tasks
+                    </h1>
 
-<div class="task-filters">
+                    <p>
+                        Stay on top of everything you need to do.
+                    </p>
 
-<button class="filter-btn active">
+                </div>
 
-All
 
-</button>
+                <a
+                    href="21 addtask.html"
+                    class="primary-btn"
+                >
 
-<button class="filter-btn">
+                    <i class="fa-solid fa-plus"></i>
 
-Due soon
+                    Add Task
 
-</button>
+                </a>
 
-<button class="filter-btn">
+            </div>
 
-Priority
+        </header>
 
-</button>
 
-<button class="filter-btn">
+        <!--==================================================
+             FILTERS
+        ==================================================-->
 
-Completed
+        <div class="task-filters">
 
-</button>
+            <button
+                class="filter-btn active"
+            >
 
-</div>
+                All
 
-<!--==================================================
-TASK LIST
-===================================================-->
+            </button>
 
-<section id="taskList" class="task-list">
 
-<!-- Tasks will appear here -->
+            <button
+                class="filter-btn"
+            >
 
-</section>
+                Due soon
 
-<!--==================================================
-EMPTY STATE
-===================================================-->
+            </button>
 
-<section id="emptyState" class="empty-state">
 
-<img
+            <button
+                class="filter-btn"
+            >
 
-src="assets/images/no-tasks.png"
+                Priority
 
-alt="No Tasks"
+            </button>
 
-class="empty-image"
 
->
+            <button
+                class="filter-btn"
+            >
 
-<h2>
+                Completed
 
-No Tasks Yet
+            </button>
 
-</h2>
+        </div>
 
-<p>
 
-Create your first task to stay organised throughout the semester.
+        <!--==================================================
+             TASK LIST
+        ==================================================-->
 
-</p>
+        <section
+            id="taskList"
+            class="task-list"
+        >
 
-</section>
+            <!-- Tasks will appear here -->
 
-<!--==================================================
-BOTTOM BUTTONS
-===================================================-->
+        </section>
 
-<div class="task-actions">
 
-<a
+        <!--==================================================
+             EMPTY STATE
+        ==================================================-->
 
-href="21 addTask.html"
+        <section
+            id="emptyState"
+            class="empty-state"
+        >
 
-class="primary-btn"
+            <img
+                src="assets/images/no-tasks.png"
+                alt="No Tasks"
+                class="empty-image"
+            >
 
->
+            <h2>
 
-<i class="fa-solid fa-plus"></i>
+                No Tasks Yet
 
-Add Task
+            </h2>
 
-</a>
+            <p>
 
-<a
+                Create your first task to stay organised throughout the semester.
 
-href="#"
+            </p>
 
-class="secondary-btn"
+        </section>
 
->
-
-<i class="fa-solid fa-wand-magic-sparkles"></i>
-
-Generate AI Tasks
-
-</a>
-
-</div>
-
-</div>
-
-
-
-<<!-- ==================================================
-     DESKTOP SIDEBAR
-================================================== -->
-
-<aside class="sidebar collapsed" id="sidebar">
-
-    <!-- ==================================================
-         Sidebar Logo
-    ================================================== -->
-
-    <div class="sidebar-logo">
-
-        <!-- Logo shown when sidebar is CLOSED -->
-
-        <img
-            src="assets/images/logo.png"
-            alt="Logo"
-            class="sidebar-logo-image">
-
-        <!-- Text shown when sidebar is OPEN -->
-
-        <h1>Prodemic</h1>
 
     </div>
 
 
-    <!-- ==================================================
-         Sidebar Navigation
-    ================================================== -->
+    <!--==================================================
+         DESKTOP SIDEBAR
+    ==================================================-->
 
-    <nav class="sidebar-navigation">
-
-        <!-- Home -->
-
-        <a
-            href="07 home.html"
-            class="sidebar-item "
-            data-tooltip="Home">
-
-            <i class="fa-solid fa-house"></i>
-
-            <span>Home</span>
-
-        </a>
+    <aside
+        class="sidebar collapsed"
+        id="sidebar"
+    >
 
 
-        <!-- Tasks -->
+        <!--==================================================
+             SIDEBAR LOGO
+        ==================================================-->
 
-        <a
-            href="09 tasks.html"
-            class="sidebar-item active"
-            data-tooltip="Tasks">
+        <div class="sidebar-logo">
 
-            <i class="fa-solid fa-list-check"></i>
+            <img
+                src="assets/images/logo.png"
+                alt="Logo"
+                class="sidebar-logo-image"
+            >
 
-            <span>Tasks</span>
+            <h1>
 
-        </a>
+                Prodemic
+
+            </h1>
+
+        </div>
 
 
-        <!-- Add Button -->
+        <!--==================================================
+             SIDEBAR NAVIGATION
+        ==================================================-->
+
+        <nav class="sidebar-navigation">
+
+
+            <!-- Home -->
+
+            <a
+                href="07 home.html"
+                class="sidebar-item"
+                data-tooltip="Home"
+            >
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>
+
+                    Home
+
+                </span>
+
+            </a>
+
+
+            <!-- Tasks -->
+
+            <a
+                href="09 tasks.html"
+                class="sidebar-item active"
+                data-tooltip="Tasks"
+            >
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <span>
+
+                    Tasks
+
+                </span>
+
+            </a>
+
+
+            <!-- Add -->
+
+            <button
+                class="sidebar-add nav-add"
+                type="button"
+                data-tooltip="Add"
+            >
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>
+
+                    Add
+
+                </span>
+
+            </button>
+
+
+            <!-- Schedule -->
+
+            <a
+                href="11 schedule.html"
+                class="sidebar-item"
+                data-tooltip="Schedule"
+            >
+
+                <i class="fa-solid fa-calendar"></i>
+
+                <span>
+
+                    Schedule
+
+                </span>
+
+            </a>
+
+
+            <!-- Modules -->
+
+            <a
+                href="08 modules.html"
+                class="sidebar-item"
+                data-tooltip="Modules"
+            >
+
+                <i class="fa-solid fa-book"></i>
+
+                <span>
+
+                    Modules
+
+                </span>
+
+            </a>
+
+
+        </nav>
+<!--==================================================
+                CREATE MENU
+==================================================-->
+
+<div
+    class="create-overlay"
+    id="createOverlay"
+>
+
+
+    <div class="create-sheet">
+
+
+        <div class="sheet-handle"></div>
+
+
+        <h2>
+            Create New
+        </h2>
+
+
+        <!--==================================================
+                    NEW TASK
+        ==================================================-->
+
+        <div
+            class="create-option"
+            id="newTask"
+        >
+
+            <div class="option-text">
+
+                <h3>
+                    New Task
+                </h3>
+
+                <p>
+                    Add a task
+                </p>
+
+            </div>
+
+
+            <span>
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+            </span>
+
+        </div>
+
+
+
+        <!--==================================================
+                    ADD EVENT
+        ==================================================-->
+
+        <div
+            class="create-option"
+            id="newLecture"
+        >
+
+            <div class="option-text">
+
+                <h3>
+                    Add Event
+                </h3>
+
+                <p>
+                    Add a lecture, assessment or academic event
+                </p>
+
+            </div>
+
+
+            <span>
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+            </span>
+
+        </div>
+
+
+
+        <!--==================================================
+                    CLOSE
+        ==================================================-->
 
         <button
-            class="sidebar-add nav-add"
             type="button"
-            data-tooltip="Add">
+            id="closeSheet"
+            class="cancel-btn"
+        >
 
-            <i class="fa-solid fa-plus"></i>
-
-            <span>Add</span>
+            Cancel
 
         </button>
 
 
-        <!-- Schedule -->
-
-        <a
-            href="11 schedule.html"
-            class="sidebar-item"
-            data-tooltip="Schedule">
-
-            <i class="fa-solid fa-calendar"></i>
-
-            <span>Schedule</span>
-
-        </a>
+    </div>
 
 
-        <!-- Modules -->
+</div>
 
-        <a
-            href="08 modules.html"
-            class="sidebar-item"
-            data-tooltip="Modules">
+        <!--==================================================
+             SIDEBAR BOTTOM
+        ==================================================-->
 
-            <i class="fa-solid fa-book"></i>
-
-            <span>Modules</span>
-
-        </a>
-
-    </nav>
+        <div class="sidebar-bottom">
 
 
-    <!-- ==================================================
-         Sidebar Bottom
-    ================================================== -->
+            <!-- Profile -->
 
-    <div class="sidebar-bottom">
+            <button
+                class="sidebar-item"
+                id="profileBtn"
+                type="button"
+                data-tooltip="Profile"
+            >
 
-        <!-- Settings -->
+                <i class="fa-solid fa-circle-user"></i>
 
-        <a
-            href="#"
-            class="sidebar-item"
-            data-tooltip="Settings">
+                <span>
 
-            <i class="fa-solid fa-gear"></i>
+                    Profile
 
-            <span>Settings</span>
+                </span>
 
-        </a>
-
-
-        <!-- Profile -->
-
-        <a
-            href="#"
-            class="sidebar-item"
-            data-tooltip="Profile">
-
-            <i class="fa-solid fa-circle-user"></i>
-
-            <span>Profile</span>
-
-        </a>
+            </button>
 
 
-        <!-- Logout -->
+        </div>
+
+
+        <!--==================================================
+             SIDEBAR TOGGLE
+        ==================================================-->
 
         <button
-            class="sidebar-item sidebar-logout"
+            class="sidebar-toggle"
+            id="sidebarToggle"
+            type="button"
+            aria-label="Open navbar"
+        >
+
+            <i class="fa-solid fa-angles-right"></i>
+
+        </button>
+
+
+    </aside>
+
+
+    <!--==================================================
+         PROFILE MENU
+    ==================================================-->
+
+    <div
+        class="profile-menu"
+        id="profileMenu"
+    >
+
+
+        <div class="profile-menu-header">
+
+            <div class="profile-menu-icon">
+
+                <i class="fa-solid fa-circle-user"></i>
+
+            </div>
+
+
+            <div class="profile-menu-user">
+
+                <strong id="profileName">
+
+                    Profile
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="profile-option logout-btn"
             id="logoutBtn"
             type="button"
-            data-tooltip="Logout">
+        >
 
             <i class="fa-solid fa-right-from-bracket"></i>
 
-            <span>Logout</span>
+            <span>
+
+                Logout
+
+            </span>
 
         </button>
+
 
     </div>
 
 
-    <!-- ==================================================
-         Sidebar Open / Close Button
-    ================================================== -->
-
-    <button
-        class="sidebar-toggle"
-        id="sidebarToggle"
-        type="button"
-        aria-label="Open navbar">
-
-        <i class="fa-solid fa-angles-right"></i>
-
-    </button>
-
-</aside>
 </div>
 
 

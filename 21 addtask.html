@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Add Task</title>
+
+<link
+    rel="stylesheet"
+    href="css/add.css"
+>
+
+<script
+    type="module"
+    src="js/tasks.js"
+></script>
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+<div class="page">
+
+
+<!--==================================================
+HEADER
+===================================================-->
+
+<header class="top-bar">
+
+<button
+    type="button"
+    id="backBtn"
+    class="back-btn"
+>
+
+<i class="fa-solid fa-arrow-left"></i>
+
+</button>
+
+<h2>
+Add Task
+</h2>
+
+</header>
+
+
+<!--==================================================
+FORM
+===================================================-->
+
+<form id="taskForm">
+
+
+<!--==================================================
+MODULE
+===================================================-->
+
+<div class="input-group">
+
+<label>
+Module
+</label>
+
+<select id="taskModule">
+
+<option value="">
+Select Module
+</option>
+
+<option value="General">
+General Task
+</option>
+
+</select>
+
+</div>
+
+
+<!--==================================================
+TASK NAME
+===================================================-->
+
+<div class="input-group">
+
+<label>
+Task Name
+</label>
+
+<input
+    type="text"
+    id="taskTitle"
+    placeholder="e.g. Assignment 2, Presentation, Essay"
+    required
+>
+
+</div>
+
+
+<!--==================================================
+DATE & TIME
+===================================================-->
+
+<div class="row">
+
+<div class="input-group half">
+
+<label>
+Due Date
+</label>
+
+<input
+    type="date"
+    id="taskDate"
+>
+
+</div>
+
+
+<div class="input-group half">
+
+<label>
+Time
+</label>
+
+<input
+    type="time"
+    id="taskTime"
+>
+
+</div>
+
+</div>
+
+
+
+<!--==================================================
+COUNTDOWN
+===================================================-->
+
+<div class="input-group">
+
+<label>
+Countdown
+</label>
+
+<div
+    id="countdownPreview"
+    class="countdown-preview"
+>
+
+No due date selected
+
+</div>
+
+</div>
+
+
+
+
+<!--==================================================
+SAVE BUTTON
+===================================================-->
+
+<button
+    type="submit"
+    class="save-btn"
+>
+
+Save Task
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

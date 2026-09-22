@@ -4,7 +4,7 @@
     "@google/genai": "^2.10.0",
     "axios": "^1.18.1",
     "mime-types": "^3.0.2",
-    "openai": "^7.5.0",
+    "openai": "^7.15.0",
     "pdf-parse": "^2.4.5",
     "resend": "^6.17.2"
   }

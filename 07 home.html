@@ -7,7 +7,8 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0">
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Home</title>
 
@@ -17,7 +18,9 @@
     =================================================== -->
 
     <link rel="stylesheet" href="css/home.css">
+
     <link rel="stylesheet" href="css/overlay.css">
+
     <link rel="stylesheet" href="style.css">
 
 
@@ -27,7 +30,8 @@
 
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
 
 
     <!-- ==================================================
@@ -36,16 +40,19 @@
 
     <link
         rel="preconnect"
-        href="https://fonts.googleapis.com">
+        href="https://fonts.googleapis.com"
+    >
 
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
-        crossorigin>
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+        rel="stylesheet"
+    >
 
 
     <!-- ==================================================
@@ -55,54 +62,58 @@
     <script
         type="module"
         src="js/home.js"
-        defer>
+        defer
+    >
     </script>
 
     <script
         type="module"
         src="js/script.js"
-        defer>
+        defer
+    >
     </script>
 
 </head>
 
 
-<body>
+<body class="home-page">
+
 
 <div class="app-layout">
 
 
     <!-- ==================================================
          DESKTOP SIDEBAR
-    =================================================== -->
+    ================================================== -->
 
-    <aside class="sidebar collapsed" id="sidebar">
+    <aside
+        class="sidebar collapsed"
+        id="sidebar"
+    >
 
 
         <!-- ==================================================
              Sidebar Logo
-        =================================================== -->
+        ================================================== -->
 
         <div class="sidebar-logo">
-
-            <!-- Logo shown when sidebar is CLOSED -->
 
             <img
                 src="assets/images/logo.png"
                 alt="Logo"
-                class="sidebar-logo-image">
+                class="sidebar-logo-image"
+            >
 
-
-            <!-- Text shown when sidebar is OPEN -->
-
-            <h1>Prodemic</h1>
+            <h1>
+                Prodemic
+            </h1>
 
         </div>
 
 
         <!-- ==================================================
              Sidebar Navigation
-        =================================================== -->
+        ================================================== -->
 
         <nav class="sidebar-navigation">
 
@@ -112,11 +123,14 @@
             <a
                 href="07 home.html"
                 class="sidebar-item active"
-                data-tooltip="Home">
+                data-tooltip="Home"
+            >
 
                 <i class="fa-solid fa-house"></i>
 
-                <span>Home</span>
+                <span>
+                    Home
+                </span>
 
             </a>
 
@@ -126,40 +140,48 @@
             <a
                 href="09 tasks.html"
                 class="sidebar-item"
-                data-tooltip="Tasks">
+                data-tooltip="Tasks"
+            >
 
                 <i class="fa-solid fa-list-check"></i>
 
-                <span>Tasks</span>
+                <span>
+                    Tasks
+                </span>
 
             </a>
 
-<!-- ==================================================
-             Add Button
-        =================================================== -->
 
-        <button
-            class="sidebar-add nav-add"
-            type="button"
-            data-tooltip="Add">
+            <!-- Add Button -->
 
-            <i class="fa-solid fa-plus"></i>
+            <button
+                class="sidebar-add nav-add"
+                type="button"
+                data-tooltip="Add"
+            >
 
+                <i class="fa-solid fa-plus"></i>
 
-            <span>Add</span>
+                <span>
+                    Add
+                </span>
 
-        </button>
+            </button>
+
 
             <!-- Schedule -->
 
             <a
                 href="11 schedule.html"
                 class="sidebar-item"
-                data-tooltip="Schedule">
+                data-tooltip="Schedule"
+            >
 
                 <i class="fa-solid fa-calendar"></i>
 
-                <span>Schedule</span>
+                <span>
+                    Schedule
+                </span>
 
             </a>
 
@@ -169,18 +191,20 @@
             <a
                 href="08 modules.html"
                 class="sidebar-item"
-                data-tooltip="Modules">
+                data-tooltip="Modules"
+            >
 
                 <i class="fa-solid fa-book"></i>
 
-                <span>Modules</span>
+                <span>
+                    Modules
+                </span>
 
             </a>
 
+
         </nav>
 
-
-        
 
         <!-- ==================================================
              Sidebar Bottom
@@ -189,45 +213,20 @@
         <div class="sidebar-bottom">
 
 
-            <!-- Settings -->
-
-            <a
-                href="#"
-                class="sidebar-item"
-                data-tooltip="Settings">
-
-                <i class="fa-solid fa-gear"></i>
-
-                <span>Settings</span>
-
-            </a>
-
-
             <!-- Profile -->
 
-            <a
-                href="#"
+            <button
                 class="sidebar-item"
-                data-tooltip="Profile">
+                id="profileBtn"
+                type="button"
+                data-tooltip="Profile"
+            >
 
                 <i class="fa-solid fa-circle-user"></i>
 
-                <span>Profile</span>
-
-            </a>
-
-
-            <!-- Logout -->
-
-            <button
-                class="sidebar-item sidebar-logout"
-                id="logoutBtn"
-                type="button"
-                data-tooltip="Logout">
-
-                <i class="fa-solid fa-right-from-bracket"></i>
-
-                <span>Logout</span>
+                <span>
+                    Profile
+                </span>
 
             </button>
 
@@ -239,9 +238,16 @@
              Sidebar Open / Close Button
         =================================================== -->
 
-        <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Open navbar">
-    <i class="fa-solid fa-angles-right"></i>
-</button>
+        <button
+            class="sidebar-toggle"
+            id="sidebarToggle"
+            type="button"
+            aria-label="Open navbar"
+        >
+
+            <i class="fa-solid fa-angles-right"></i>
+
+        </button>
 
 
     </aside>
@@ -249,7 +255,7 @@
 
     <!-- ==================================================
          MAIN CONTENT
-    =================================================== -->
+    ================================================== -->
 
     <main class="home-content">
 
@@ -260,10 +266,15 @@
 
         <header class="home-header">
 
-            <!--
-                No Prodemic text here.
-                The brand only appears inside the sidebar.
-            -->
+            <div class="home-header-space"></div>
+
+            <div class="home-date">
+
+                <span id="homeDay"></span>
+
+                <strong id="homeDate"></strong>
+
+            </div>
 
         </header>
 
@@ -274,18 +285,26 @@
 
         <section class="welcome-content">
 
+
             <h2 class="greeting">
 
                 <span id="greetingText"></span>
 
                 <span id="userName"></span>
 
+                <span class="greeting-wave">
+
+                </span>
+
             </h2>
 
 
             <p class="welcome-text">
+
                 Let's make today productive.
+
             </p>
+
 
         </section>
 
@@ -296,7 +315,8 @@
 
         <section
             class="setup-card"
-            id="setupSection">
+            id="setupSection"
+        >
 
 
             <!-- ==================================================
@@ -308,7 +328,8 @@
                 <img
                     src="assets/images/1.png"
                     alt="Semester Setup"
-                    class="setup-image">
+                    class="setup-image"
+                >
 
             </div>
 
@@ -319,11 +340,14 @@
 
             <div
                 class="setup-content"
-                id="setupContent">
+                id="setupContent"
+            >
 
 
                 <h2 id="setupTitle">
+
                     Let's Set Up Your Semester
+
                 </h2>
 
 
@@ -342,21 +366,24 @@
 
                 <div
                     class="setup-buttons"
-                    id="setupButtons">
+                    id="setupButtons"
+                >
 
 
                     <!-- Import Module Outlines -->
 
-                    <a href="22 moduleImport.html"
+                    <a
+                        href="22 moduleImport.html"
                         id="importModuleBtn"
                         class="secondary-btn"
-                        type="button">
+                        type="button"
+                    >
 
                         <i class="fa-solid fa-file-import"></i>
 
                         Import Module Outlines
 
-            </a>
+                    </a>
 
 
                 </div>
@@ -368,101 +395,259 @@
         </section>
 
 
+        <!-- ==================================================
+             ACTIVE USER HOME
+        =================================================== -->
+
+        <section
+            class="today-section"
+            id="todaySection"
+            style="display:none;"
+        >
+
+
+            <!-- ==================================================
+                 Normal Semester Focus
+            =================================================== -->
+
+            <div
+                class="focus-card"
+                id="focusCard"
+            >
+
+
+                <div class="focus-content">
+
+                    <p class="focus-label">
+
+                        TODAY'S FOCUS
+
+                    </p>
+
+
+                    <h2 id="focusTitle">
+
+                        Progress is the sum of small efforts,
+                        repeated every day.
+
+                    </h2>
+
+
+                    <span id="focusAuthor">
+
+                        — Unknown
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ==================================================
+                 Academic Event Period
+            =================================================== -->
+
+            <div
+                class="academic-period-card"
+                id="academicPeriodCard"
+                style="display:none;"
+            >
+
+
+                <p class="academic-period-label">
+
+                    HAPPENING NOW
+
+                </p>
+
+
+                <h2 id="academicPeriodTitle">
+
+                    Your academic period is here
+
+                </h2>
+
+
+                <p id="academicPeriodDates"></p>
+
+
+                <span id="academicPeriodMessage">
+
+                    Focus on preparation and take care of yourself.
+
+                </span>
+
+
+            </div>
+
+
+            <!-- ==================================================
+                 Tasks For Today
+            =================================================== -->
+
+            <section class="home-section">
+
+
+                <div class="home-section-header">
+
+                    <h2>
+
+                        Tasks for today
+
+                    </h2>
+
+
+                    <a href="11 schedule.html?view=day">
+
+                        View all
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="today-events"
+                    id="todayEvents"
+                >
+
+                    <p class="today-empty">
+
+                        Loading today's schedule...
+
+                    </p>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- ==================================================
+                 Footer
+            =================================================== -->
+
+            <div class="home-footer-message">
+
+                <span></span>
+
+                <p>
+
+                    A more productive you is possible.
+
+                </p>
+
+            </div>
+
+
+        </section>
+
+
     </main>
 
 
-</div>
+    <!-- ==================================================
+         PROFILE MENU
+    =================================================== -->
+
+    <div
+        class="profile-menu"
+        id="profileMenu"
+    >
 
 
-<!-- ==================================================
-     Toast
-=================================================== -->
+        <div class="profile-menu-header">
 
-<div
-    class="toast"
-    id="toast">
+            <div class="profile-menu-icon">
 
-    <i class="fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-user"></i>
 
-    <span id="toastMessage"></span>
-
-</div>
+            </div>
 
 
-<!-- ==================================================
-     CREATE MENU OVERLAY
-=================================================== -->
+            <div class="profile-menu-user">
+
+                <strong id="profileName">
+
+                    Profile
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="profile-option logout-btn"
+            id="logoutBtn"
+            type="button"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+
+                Logout
+
+            </span>
+
+        </button>
+
+
+    </div>
+
+
+    <!-- ==================================================
+         Toast
+    =================================================== -->
+
+    <div
+        class="toast"
+        id="toast"
+    >
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        <span id="toastMessage"></span>
+
+    </div>
+
+<!--==================================================
+                CREATE MENU
+==================================================-->
 
 <div
     class="create-overlay"
-    id="createOverlay">
+    id="createOverlay"
+>
 
 
     <div class="create-sheet">
 
 
-        <!-- Handle -->
-
         <div class="sheet-handle"></div>
 
-
-        <!-- Title -->
 
         <h2>
             Create New
         </h2>
 
 
-        <!-- ==================================================
-             New Module
-        =================================================== -->
+
+
+        <!--==================================================
+                    NEW TASK
+        ==================================================-->
 
         <div
             class="create-option"
-            id="newModule">
-
-
-            <div class="option-icon blue">
-
-                <i class="fa-solid fa-book"></i>
-
-            </div>
-
-
-            <div class="option-text">
-
-                <h3>
-                    New Module
-                </h3>
-
-                <p>
-                    Add a new subject
-                </p>
-
-            </div>
-
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-
-        </div>
-
-
-        <!-- ==================================================
-             New Task
-        =================================================== -->
-
-        <div
-            class="create-option"
-            id="newTask">
-
-
-            <div class="option-icon green">
-
-                <i class="fa-solid fa-list-check"></i>
-
-            </div>
-
+            id="newTask"
+        >
 
             <div class="option-text">
 
@@ -477,90 +662,57 @@
             </div>
 
 
-            <i class="fa-solid fa-chevron-right"></i>
+            <span>
 
+                <i class="fa-solid fa-chevron-right"></i>
+
+            </span>
 
         </div>
 
 
-        <!-- ==================================================
-             New Lecture
-        =================================================== -->
+
+        <!--==================================================
+                    ADD EVENT
+        ==================================================-->
 
         <div
             class="create-option"
-            id="newLecture">
-
-
-            <div class="option-icon purple">
-
-                <i class="fa-solid fa-calendar-days"></i>
-
-            </div>
-
+            id="newLecture"
+        >
 
             <div class="option-text">
 
                 <h3>
-                    New Lecture
+                    Add Event
                 </h3>
 
                 <p>
-                    Add a lecture to your schedule
+                    Add a lecture, assessment or academic event
                 </p>
 
             </div>
 
 
-            <i class="fa-solid fa-chevron-right"></i>
+            <span>
 
+                <i class="fa-solid fa-chevron-right"></i>
 
-        </div>
-
-
-        <!-- ==================================================
-             New Assessment
-        =================================================== -->
-
-        <div
-            class="create-option"
-            id="newAssessment">
-
-
-            <div class="option-icon orange">
-
-                <i class="fa-solid fa-file-pen"></i>
-
-            </div>
-
-
-            <div class="option-text">
-
-                <h3>
-                    New Assessment
-                </h3>
-
-                <p>
-                    Add an upcoming assessment
-                </p>
-
-            </div>
-
-
-            <i class="fa-solid fa-chevron-right"></i>
-
+            </span>
 
         </div>
 
 
-        <!-- ==================================================
-             Cancel
-        =================================================== -->
+
+        <!--==================================================
+                    CLOSE
+        ==================================================-->
 
         <button
+            type="button"
             id="closeSheet"
             class="cancel-btn"
-            type="button">
+        >
 
             Cancel
 
@@ -571,7 +723,7 @@
 
 
 </div>
-
+</div>
 
 </body>
 

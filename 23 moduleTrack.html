@@ -14,7 +14,7 @@
 
     <script
         type="module"
-        src="js/trackmodule.js"
+        src="js/trackmodule.js" defer
     ></script>
 
 </head>
@@ -324,11 +324,12 @@
 
 
                     <button
-                        type="button"
-                        class="add-section-btn"
-                    >
-                        + Add Lecture
-                    </button>
+    type="button"
+    class="add-section-btn"
+    id="addClassBtn"
+>
+    + Add Lecture
+</button>
 
                 </div>
 
@@ -370,7 +371,7 @@
                     <button
                         type="button"
                         class="add-section-btn"
-                    >
+                          id="addAssessmentBtn"                 >
                         + Add Assessment
                     </button>
 
@@ -414,6 +415,7 @@
                     <button
                         type="button"
                         class="add-section-btn"
+                         id="addPersonBtn"
                     >
                         + Add Person
                     </button>
@@ -458,6 +460,7 @@
                     <button
                         type="button"
                         class="add-section-btn"
+                         id="addEventBtn"
                     >
                         + Add Event
                     </button>
@@ -476,6 +479,8 @@
         </div>
 
     </main>
+
+
 
 </body>
 

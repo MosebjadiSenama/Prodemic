@@ -447,3 +447,124 @@ if(newModule){
     });
 
 }
+
+
+//==================================================
+// CREATE OVERLAY
+//==================================================
+
+function closeCreateOverlay() {
+
+    if (
+        createOverlay
+    ) {
+
+        createOverlay.style.display =
+            "none";
+
+    }
+
+}
+
+if (
+    navAdd &&
+    createOverlay
+) {
+
+    navAdd.addEventListener(
+        "click",
+        () => {
+
+            createOverlay.style.display =
+                "flex";
+
+        }
+    );
+
+}
+
+if (closeSheet) {
+
+    closeSheet.addEventListener(
+        "click",
+        closeCreateOverlay
+    );
+
+}
+
+if (createOverlay) {
+
+    createOverlay.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                createOverlay
+            ) {
+
+                closeCreateOverlay();
+
+            }
+
+        }
+    );
+
+}
+
+
+//==================================================
+// CREATE MODULE
+//==================================================
+
+if (newModule) {
+
+    newModule.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "08 modules.html?add=true";
+
+        }
+    );
+
+}
+
+
+//==================================================
+// CREATE TASK
+//==================================================
+
+if (newTask) {
+
+    newTask.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "21 addtask.html";
+
+        }
+    );
+
+}
+
+
+//==================================================
+// CREATE EVENT
+//==================================================
+
+if (newLecture) {
+
+    newLecture.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "21 addevent.html";
+
+        }
+    );
+
+}

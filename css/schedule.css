@@ -1,2199 +1,1427 @@
 /*==================================================
-                SCHEDULE PAGE
+SCHEDULE PAGE
 ==================================================*/
 
-/*==============================
-PAGE
-==============================*/
+#schedulePage {
 
-#schedulePage{
-
-    width:100%;
-
-    max-width:1200px;
-
-    margin:0 auto;
-
-    padding:35px 20px 140px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 42px 40px 100px;
+    box-sizing: border-box;
 
 }
 
 
-
-
-/*==============================
+/*==================================================
 HEADER
-==============================*/
+==================================================*/
 
-.schedule-header{
+.schedule-header {
 
-    display:flex;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 30px;
 
-    justify-content:space-between;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
 
-    align-items:flex-end;
-
-    gap:24px;
-
-    margin-bottom:32px;
-
-}
-
-.schedule-header h1{
-
-    font-size:2.5rem;
-
-    font-weight:700;
-
-    color:#222;
-
-    margin-bottom:8px;
+    gap: 30px;
 
 }
 
-.schedule-header p{
 
-    color:#6B7280;
+.schedule-header h1 {
 
-    font-size:1rem;
+    margin: 0 0 8px;
 
-    line-height:1.6;
+    color: #20242B;
+
+    font-size: 42px;
+
+    font-weight: 700;
+
+    line-height: 1.1;
 
 }
 
-/*==============================
+
+.schedule-header p {
+
+    margin: 0;
+
+    color: #718096;
+
+    font-size: 16px;
+
+    line-height: 1.5;
+
+}
+
+
+/*==================================================
 CALENDAR CONTROLS
-==============================*/
+==================================================*/
 
-.calendar-controls{
+.calendar-controls {
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
+    align-items: center;
 
-    gap:12px;
-
-}
-
-.calendar-controls button{
-
-    width:48px;
-
-    height:48px;
-
-    border:none;
-
-    border-radius:16px;
-
-    background:#FFFFFF;
-
-    color:#3048C8;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.06);
+    gap: 12px;
 
 }
 
-.calendar-controls button:hover{
 
-    background:#EEF4FF;
+.calendar-controls button {
 
-    transform:translateY(-2px);
+    width: 54px;
 
-}
+    height: 54px;
 
-.calendar-controls button:active{
+    padding: 0;
 
-    transform:scale(.97);
+    border: none;
 
-}
+    border-radius: 16px;
 
-.calendar-controls select{
+    background: #FFFFFF;
 
-    height:48px;
+    color: #3048C8;
 
-    padding:0 18px;
+    font-family: inherit;
 
-    border:none;
+    font-size: 26px;
 
-    border-radius:16px;
+    font-weight: 500;
 
-    background:#FFFFFF;
+    line-height: 1;
 
-    font-family:inherit;
+    cursor: pointer;
 
-    font-size:15px;
+    box-shadow: 0 8px 24px rgba(28, 39, 63, 0.06);
 
-    font-weight:600;
-
-    color:#222;
-
-    cursor:pointer;
-
-    outline:none;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.06);
+    transition: 0.2s ease;
 
 }
 
-/*==============================
+
+.calendar-controls button:hover {
+
+    background: #F7F9FF;
+
+}
+
+
+.calendar-controls select {
+
+    min-width: 150px;
+
+    height: 54px;
+
+    padding: 0 18px;
+
+    border: none;
+
+    border-radius: 16px;
+
+    background: #FFFFFF;
+
+    color: #20242B;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    outline: none;
+
+    box-shadow: 0 8px 24px rgba(28, 39, 63, 0.06);
+
+}
+
+
+/*==================================================
 CALENDAR HEADER
-==============================*/
+==================================================*/
 
-.calendar-header{
+.calendar-header {
 
-    display:flex;
+    width: 100%;
 
-    justify-content:space-between;
+    max-width: 900px;
 
-    align-items:center;
+    margin: 0 auto 38px;
 
-    gap:20px;
+    display: flex;
 
-    padding:24px;
+    align-items: center;
 
-    margin-bottom:28px;
+    justify-content: space-between;
 
-    background:#FFFFFF;
+    gap: 24px;
 
-    border-radius:24px;
+    min-height: 126px;
 
-    box-shadow:0 12px 30px rgba(0,0,0,.05);
+    padding: 26px;
 
-}
+    box-sizing: border-box;
 
-.calendar-header h2{
+    border-radius: 26px;
 
-    font-size:1.8rem;
+    background: #FFFFFF;
 
-    font-weight:700;
-
-    color:#222;
-
-    margin-bottom:6px;
+    box-shadow: 0 12px 30px rgba(28, 39, 63, 0.05);
 
 }
 
-.calendar-header p{
 
-    color:#6B7280;
+.calendar-header h2 {
 
-    line-height:1.6;
+    margin: 0 0 7px;
 
-}
+    color: #20242B;
 
-.add-lecture-btn{
+    font-size: 28px;
 
-    width:58px;
+    font-weight: 700;
 
-    height:58px;
-
-    border:none;
-
-    border-radius:18px;
-
-    background:#3048C8;
-
-    color:#FFFFFF;
-
-    font-size:20px;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    box-shadow:0 12px 28px rgba(48,72,200,.25);
+    line-height: 1.2;
 
 }
 
-.add-lecture-btn:hover{
 
-    background:#243AB0;
+.calendar-header p {
 
-    transform:translateY(-2px);
+    margin: 0;
+
+    color: #718096;
+
+    font-size: 15px;
+
+    line-height: 1.5;
 
 }
 
-/*==============================
+
+.add-lecture-btn {
+
+    width: 58px;
+
+    height: 58px;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 18px;
+
+    background: #3048C8;
+
+    color: #FFFFFF;
+
+    font-family: inherit;
+
+    font-size: 28px;
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    box-shadow: 0 12px 25px rgba(48, 72, 200, 0.18);
+
+    transition: 0.2s ease;
+
+}
+
+
+.add-lecture-btn:hover {
+
+    background: #263CB7;
+
+}
+
+
+/*==================================================
 CALENDAR
-==============================*/
-
-#calendar{
-
-    margin-bottom:28px;
-
-}
-
-/*==============================
-SCHEDULE LIST
-==============================*/
-#scheduleList{
-    display:flex;
-    flex-direction:column;
-    gap:24px;
-}
-
-
-.week-day-card{
-    margin-bottom:24px;
-}
-
-
-/*==============================
-ACTION BUTTONS
-==============================*/
-
-.schedule-actions{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:18px;
-
-    margin-top:35px;
-
-}
-
-.primary-btn,
-.secondary-btn{
-
-    height:58px;
-
-    border-radius:18px;
-
-    border:none;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:10px;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-}
-
-.primary-btn{
-
-    background:#3048C8;
-
-    color:#FFFFFF;
-
-    box-shadow:0 12px 28px rgba(48,72,200,.22);
-
-}
-
-.primary-btn:hover{
-
-    background:#243AB0;
-
-    transform:translateY(-2px);
-
-}
-
-.secondary-btn{
-
-    background:#FFFFFF;
-
-    color:#3048C8;
-
-    border:1px solid #D9E3F7;
-
-}
-
-.secondary-btn:hover{
-
-    background:#F7F9FF;
-
-}
-
-/*==================================================
-TABLET
 ==================================================*/
 
-@media (max-width:991px){
+#calendar {
 
-.schedule-header{
+    width: 100%;
 
-    flex-direction:column;
+    max-width: 900px;
 
-    align-items:flex-start;
-
-}
-
-.calendar-controls{
-
-    width:100%;
-
-    justify-content:flex-start;
-
-    flex-wrap:wrap;
+    margin: 0 auto 30px;
 
 }
 
-.calendar-header{
-
-    flex-direction:column;
-
-    align-items:flex-start;
-
-}
-
-.add-lecture-btn{
-
-    align-self:flex-end;
-
-}
-
-.schedule-actions{
-
-    grid-template-columns:1fr;
-
-}
-
-}
 
 /*==================================================
-MOBILE
-==================================================*/
-
-@media (max-width:768px){
-
-#schedulePage{
-
-    padding:25px 18px 120px;
-
-}
-
-.schedule-header h1{
-
-    font-size:2rem;
-
-}
-
-.calendar-header{
-
-    padding:20px;
-
-}
-
-.calendar-header h2{
-
-    font-size:1.5rem;
-
-}
-
-.calendar-controls{
-
-    justify-content:space-between;
-
-    width:100%;
-
-}
-
-.calendar-controls select{
-
-    flex:1;
-
-}
-
-.calendar-controls button{
-
-    width:46px;
-
-    height:46px;
-
-}
-
-.add-lecture-btn{
-
-    width:54px;
-
-    height:54px;
-
-}
-
-}
-
-/*==================================================
-                WEEK VIEW
-==================================================*/
-
-/*==============================
 WEEK STRIP
-==============================*/
-
-.week-strip{
-
-    display:flex;
-
-    gap:14px;
-
-    overflow-x:auto;
-
-    padding-bottom:24px;
-
-    scrollbar-width:none;
-
-}
-
-.week-strip::-webkit-scrollbar{
-
-    display:none;
-
-}
-
-.week-strip-day{
-
-    min-width:78px;
-
-    border:none;
-
-    border-radius:20px;
-
-    background:#FFFFFF;
-
-    padding:16px 14px;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    box-shadow:0 8px 22px rgba(0,0,0,.05);
-
-}
-
-.week-strip-day:hover{
-
-    transform:translateY(-3px);
-
-}
-
-.week-strip-day.active{
-
-    background:#3048C8;
-
-    color:#FFFFFF;
-
-    box-shadow:0 14px 28px rgba(48,72,200,.28);
-
-}
-
-.strip-day{
-
-    display:block;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    text-transform:uppercase;
-
-    letter-spacing:.6px;
-
-}
-
-.strip-date{
-
-    display:block;
-
-    margin-top:8px;
-
-    font-size:1.55rem;
-
-    font-weight:700;
-
-}
-
-/*==================================================
-SCHEDULE LIST
 ==================================================*/
 
-#scheduleList{
+.week-strip {
 
-    display:flex;
+    width: 100%;
 
-    flex-direction:column;
+    display: grid;
 
-    gap:24px;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+
+    gap: 10px;
+
+    margin: 0 auto 24px;
 
 }
+
+
+.week-strip-day {
+
+    min-height: 78px;
+
+    padding: 13px 10px;
+
+    border: 1px solid #E8ECF3;
+
+    border-radius: 16px;
+
+    background: #FFFFFF;
+
+    color: #4A5568;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    box-shadow: 0 5px 18px rgba(28, 39, 63, 0.035);
+
+    transition: 0.2s ease;
+
+}
+
+
+.week-strip-day:hover {
+
+    border-color: #CBD4E3;
+
+    background: #FAFBFD;
+
+}
+
+
+.week-strip-day.active {
+
+    border-color: #3048C8;
+
+    background: #3048C8;
+
+    color: #FFFFFF;
+
+}
+
+
+.strip-day {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+
+    text-transform: uppercase;
+
+}
+
+
+.strip-date {
+
+    display: block;
+
+    font-size: 23px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+}
+
 
 /*==================================================
-DAY CARD
+WEEK DAY CARDS
 ==================================================*/
 
-.week-day-card{
+#scheduleList {
 
-    background:#FFFFFF;
+    width: 100%;
 
-    border-radius:26px;
+    max-width: 900px;
 
-    overflow:hidden;
+    margin: 0 auto;
 
-    box-shadow:0 12px 30px rgba(0,0,0,.05);
+    display: grid;
 
-    transition:.25s;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+
+}
+
+
+.week-day-card {
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    border: 1px solid #E9EDF3;
+
+    border-radius: 22px;
+
+    background: #FFFFFF;
+
+    box-shadow: 0 8px 24px rgba(28, 39, 63, 0.04);
 
 }
 
-.week-day-card:hover{
 
-    transform:translateY(-4px);
+.week-card-header {
 
-    box-shadow:0 18px 40px rgba(0,0,0,.08);
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding: 20px 22px;
+
+    border-bottom: 1px solid #EEF1F5;
 
 }
+
+
+.week-card-header h2 {
+
+    margin: 0 0 4px;
+
+    color: #20242B;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+
+
+.week-card-header span {
+
+    color: #7A8699;
+
+    font-size: 13px;
+
+}
+
+
+.day-item-count {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 30px;
+
+    height: 30px;
+
+    padding: 0 8px;
+
+    box-sizing: border-box;
+
+    border-radius: 999px;
+
+    background: #F1F4F8;
+
+    color: #5E6A7D !important;
+
+    font-size: 12px !important;
+
+    font-weight: 600;
+
+}
+
+
+.week-card-body {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    padding: 16px;
+
+}
+
 
 /*==================================================
-CARD HEADER
+SCHEDULE CARD
 ==================================================*/
 
-.week-card-header{
+.schedule-card {
 
-    display:flex;
+    position: relative;
 
-    justify-content:space-between;
+    display: grid;
 
-    align-items:center;
+    grid-template-columns: 78px minmax(0, 1fr);
 
-    gap:20px;
+    gap: 18px;
 
-    padding:24px;
+    min-height: 74px;
 
-    border-bottom:1px solid #EEF2F7;
+    padding: 15px 16px;
 
-}
+    box-sizing: border-box;
 
-.week-card-header h2{
+    border: 1px solid #EDF0F4;
 
-    font-size:1.5rem;
+    border-left: 4px solid var(--event-colour, #3048C8);
 
-    font-weight:700;
+    border-radius: 14px;
 
-    color:#222;
+    background: #FFFFFF;
 
-    margin-bottom:6px;
+    cursor: pointer;
 
-}
-
-.week-card-header span{
-
-    color:#6B7280;
-
-    font-size:14px;
+    transition: 0.2s ease;
 
 }
 
-.lecture-count{
 
-    padding:10px 18px;
+.schedule-card:hover {
 
-    border-radius:999px;
+    border-color: #DCE2EA;
 
-    background:#EEF4FF;
-
-    color:#3048C8;
-
-    font-size:13px;
-
-    font-weight:600;
-
-    white-space:nowrap;
+    box-shadow: 0 5px 16px rgba(28, 39, 63, 0.05);
 
 }
+
+
+.schedule-time {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding-right: 14px;
+
+    border-right: 1px solid #EDF0F4;
+
+}
+
+
+.schedule-time strong {
+
+    color: #303846;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+.schedule-time span {
+
+    margin-top: 3px;
+
+    color: #8A95A5;
+
+    font-size: 11px;
+
+    line-height: 1.3;
+
+}
+
+
+.schedule-details {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+}
+
+
+.schedule-details h3 {
+
+    overflow: hidden;
+
+    margin: 0 0 5px;
+
+    color: #252B35;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    line-height: 1.35;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.schedule-details p {
+
+    overflow: hidden;
+
+    margin: 0;
+
+    color: #7A8699;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.empty-week-day {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 74px;
+
+    color: #9AA4B2;
+
+    font-size: 13px;
+
+}
+
 
 /*==================================================
-CARD BODY
-==================================================*/
-
-.week-card-body{
-
-    padding:22px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:18px;
-
-}
-
-/*==================================================
-EMPTY STATE
-==================================================*/
-
-.empty-week-day{
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    padding:45px 20px;
-
-    border:2px dashed #D9E3F7;
-
-    border-radius:20px;
-
-    color:#94A3B8;
-
-}
-
-.empty-week-day i{
-
-    font-size:36px;
-
-    color:#3048C8;
-
-    margin-bottom:16px;
-
-}
-
-.empty-week-day p{
-
-    font-size:15px;
-
-}
-
-/*==================================================
-LECTURE CARD
-==================================================*/
-
-.week-lecture{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:18px;
-
-    padding:18px;
-
-    background:#F8FAFF;
-
-    border-radius:20px;
-
-    transition:.25s;
-
-}
-
-.week-lecture:hover{
-
-    transform:translateY(-2px);
-
-    background:#F3F7FF;
-
-}
-
-/*==================================================
-LEFT BAR
-==================================================*/
-
-.lecture-bar{
-
-    width:6px;
-
-    align-self:stretch;
-
-    border-radius:999px;
-
-    flex-shrink:0;
-
-}
-
-/*==================================================
-MAIN CONTENT
-==================================================*/
-
-.lecture-main{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:20px;
-
-    flex:1;
-
-}
-
-/*==================================================
-TIME
-==================================================*/
-
-.lecture-time{
-
-    min-width:82px;
-
-    padding:12px;
-
-    text-align:center;
-
-    background:#EEF4FF;
-
-    border-radius:16px;
-
-}
-
-.lecture-time strong{
-
-    display:block;
-
-    color:#3048C8;
-
-    font-size:18px;
-
-    font-weight:700;
-
-}
-
-.lecture-time span{
-
-    display:block;
-
-    margin-top:5px;
-
-    font-size:13px;
-
-    color:#6B7280;
-
-}
-
-/*==================================================
-DETAILS
-==================================================*/
-
-.lecture-details{
-
-    flex:1;
-
-}
-
-.lecture-details h3{
-
-    font-size:19px;
-
-    font-weight:700;
-
-    color:#222;
-
-    margin-bottom:10px;
-
-}
-
-.lecture-details p{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    margin-bottom:8px;
-
-    font-size:14px;
-
-    color:#6B7280;
-
-}
-
-/*==================================================
-BUTTONS
-==================================================*/
-
-.lecture-options{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:12px;
-
-}
-
-.lecture-options button{
-
-    width:42px;
-
-    height:42px;
-
-    border:none;
-
-    border-radius:14px;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-}
-
-.lecture-options .edit-btn{
-
-    background:#EEF4FF;
-
-    color:#3048C8;
-
-}
-
-.lecture-options .delete-btn{
-
-    background:#FFF0F0;
-
-    color:#D32F2F;
-
-}
-
-.lecture-options button:hover{
-
-    transform:scale(1.08);
-
-}
-
-/*==================================================
-TABLET
-==================================================*/
-
-@media (max-width:991px){
-
-    .lecture-main{
-
-        flex-direction:column;
-
-    }
-
-    .lecture-time{
-
-        width:100%;
-
-    }
-
-}
-
-/*==================================================
-MOBILE
-==================================================*/
-
-@media (max-width:768px){
-
-    .week-card-header{
-
-        padding:20px;
-
-    }
-
-    .week-card-header h2{
-
-        font-size:1.3rem;
-
-    }
-
-    .week-card-body{
-
-        padding:18px;
-
-    }
-
-    .week-lecture{
-
-        flex-direction:column;
-
-    }
-
-    .lecture-options{
-
-        width:100%;
-
-        flex-direction:row;
-
-        justify-content:flex-end;
-
-    }
-
-}
-
-/*==================================================
-DESKTOP
-==================================================*/
-
-@media (min-width:1100px){
-
-    #scheduleList{
-
-        display:grid;
-
-        grid-template-columns:repeat(2,1fr);
-
-        gap:28px;
-
-    }
-
-}
-
-/*==================================================
-                DAY VIEW
-==================================================*/
-
-/*==============================
 DAY VIEW
-==============================*/
+==================================================*/
 
-.day-view{
+.day-view {
 
-    background:#FFFFFF;
+    overflow: hidden;
 
-    border-radius:28px;
+    border: 1px solid #E9EDF3;
 
-    overflow:hidden;
+    border-radius: 22px;
 
-    box-shadow:0 12px 30px rgba(0,0,0,.05);
+    background: #FFFFFF;
 
-}
-
-.day-title{
-
-    padding:28px 30px 10px;
-
-    font-size:2rem;
-
-    font-weight:700;
-
-    color:#222;
+    box-shadow: 0 8px 24px rgba(28, 39, 63, 0.04);
 
 }
 
-.day-summary{
 
-    padding:0 30px 25px;
+.day-view-header {
 
-    color:#6B7280;
+    padding: 24px 26px;
 
-    font-size:15px;
+    border-bottom: 1px solid #EEF1F5;
 
 }
 
-/*==============================
+
+.day-view-header h2 {
+
+    margin: 0 0 5px;
+
+    color: #20242B;
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+}
+
+
+.day-view-header p {
+
+    margin: 0;
+
+    color: #7A8699;
+
+    font-size: 13px;
+
+}
+
+
+/*==================================================
 TIMELINE
-==============================*/
+==================================================*/
 
-.timeline{
+.timeline {
 
-    border-top:1px solid #EEF2F7;
-
-}
-
-.time-slot{
-
-    display:flex;
-
-    position:relative;
-
-    min-height:85px;
-
-    border-bottom:1px solid #EEF2F7;
+    position: relative;
 
 }
 
-.time-slot:last-child{
 
-    border-bottom:none;
+/*==================================================
+TIME SLOT
+
+Each hour remains a row.
+
+Events inside the hour are allowed to grow naturally.
+==================================================*/
+
+.time-slot {
+
+    display: flex;
+
+    position: relative;
+
+    min-height: 80px;
+
+    height: auto;
+
+    border-bottom: 1px solid #F0F2F5;
 
 }
 
-/*==============================
+
+.time-slot:last-child {
+
+    border-bottom: none;
+
+}
+
+
+/*==================================================
 TIME LABEL
-==============================*/
+==================================================*/
 
-.time-label{
+.time-label {
 
-    width:90px;
+    width: 76px;
 
-    flex-shrink:0;
+    flex-shrink: 0;
 
-    padding:18px;
+    padding: 15px 12px;
 
-    font-size:14px;
+    box-sizing: border-box;
 
-    font-weight:600;
+    border-right: 1px solid #EEF1F5;
 
-    color:#94A3B8;
+    color: #98A2B1;
 
-    border-right:1px solid #EEF2F7;
+    font-size: 11px;
 
-}
-
-.events{
-
-    position:relative;
-
-    flex:1;
+    font-weight: 600;
 
 }
 
 
 /*==================================================
-MONTH CONTAINER
+EVENT LIST
+
+IMPORTANT:
+Events are stacked vertically.
+
+There is deliberately NO absolute positioning here.
 ==================================================*/
 
-.month-title{
+.events {
 
-    max-width:900px;
+    position: relative;
 
-    margin:0 auto 12px;
+    flex: 1;
 
-    font-size:2rem;
+    min-width: 0;
 
-    font-weight:700;
+    min-height: 80px;
 
-    color:#222;
+    display: flex;
 
-}
+    flex-direction: column;
 
-.week-days{
+    align-items: stretch;
 
-    max-width:900px;
+    justify-content: flex-start;
 
-    margin:0 auto 8px;
+    gap: 8px;
 
-    display:grid;
+    padding: 8px 0;
 
-    grid-template-columns:repeat(7,1fr);
-
-}
-
-/*==================================================
-MONTH CALENDAR
-==================================================*/
-
-.month-grid{
-
-    width:100%;
-
-    max-width:900px;
-
-    margin:0 auto;
-
-    display:grid;
-
-    grid-template-columns:repeat(7,1fr);
-
-    gap:8px;
-
-}
-
-/*==================================================
-DAY CARD
-==================================================*/
-
-.month-day{
-
-    height:92px;
-
-    padding:8px;
-
-    border:none;
-
-    border-radius:14px;
-
-    background:#FFFFFF;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:flex-start;
-
-    align-items:flex-start;
-
-    transition:.25s;
-
-    box-shadow:0 6px 18px rgba(0,0,0,.05);
-
-}
-
-.month-day:hover{
-
-    transform:translateY(-2px);
+    box-sizing: border-box;
 
 }
 
 
 /*==================================================
-LECTURE EVENT
+DAY VIEW EVENT CARDS
+
+These cards are normal flex items.
+
+If six events start at 08:00, all six are placed
+one after another instead of occupying the same
+position.
 ==================================================*/
 
-.lecture-event{
+.timeline-event {
 
-    position:absolute;
+    position: relative !important;
 
-    left:10px;
+    top: auto !important;
 
-    right:10px;
+    right: auto !important;
 
-    border-radius:16px;
+    bottom: auto !important;
 
-    background:#EEF4FF;
+    left: auto !important;
 
-    padding:12px 14px;
+    width: auto !important;
 
-    box-shadow:0 6px 18px rgba(0,0,0,.08);
+    height: auto !important;
 
-    overflow:hidden;
+    min-height: 72px;
 
-}
+    margin: 0 12px;
 
-.lecture-event strong{
+    padding: 12px 14px;
 
-    display:block;
+    box-sizing: border-box;
 
-    font-size:15px;
+    border-left: 4px solid var(--event-colour, #3048C8);
 
-    color:#222;
+    border-radius: 12px;
 
-    margin-bottom:4px;
+    background: #F9FAFC;
 
-}
+    box-shadow: 0 4px 12px rgba(28, 39, 63, 0.05);
 
-.lecture-event small{
+    flex: 0 0 auto;
 
-    display:block;
+    overflow: hidden;
 
-    color:#3048C8;
+    cursor: pointer;
 
-    font-weight:600;
-
-    margin-bottom:6px;
+    transition: 0.2s ease;
 
 }
 
-.lecture-event span{
 
-    color:#6B7280;
+.timeline-event:hover {
 
-    font-size:13px;
+    transform: translateY(-1px);
+
+    box-shadow: 0 7px 16px rgba(28, 39, 63, 0.08);
 
 }
+
 
 /*==================================================
-TASK EVENT
+DAY VIEW EVENT TITLE
 ==================================================*/
 
-.task-event{
+.timeline-event strong {
 
-    position:absolute;
+    display: block;
 
-    left:10px;
+    overflow: hidden;
 
-    right:10px;
+    margin-bottom: 4px;
 
-    border-radius:16px;
+    color: #111827;
 
-    background:#ECFDF5;
+    font-size: 14px;
 
-    padding:12px 14px;
+    font-weight: 700;
 
-    box-shadow:0 6px 18px rgba(0,0,0,.08);
+    line-height: 1.35;
 
-    overflow:hidden;
+    text-overflow: ellipsis;
 
-}
-
-.task-event strong{
-
-    display:block;
-
-    color:#15803D;
-
-    margin-bottom:5px;
+    white-space: nowrap;
 
 }
 
-.task-event small{
 
-    color:#166534;
+/*==================================================
+DAY VIEW EVENT TYPE
+==================================================*/
+
+.timeline-event .event-type {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--event-colour, #3048C8);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+
+    text-transform: uppercase;
+
+    line-height: 1.3;
 
 }
+
+
+/*==================================================
+DAY VIEW EVENT INFORMATION
+==================================================*/
+
+.timeline-event span {
+
+    display: block;
+
+    color: #64748B;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+
+}
+
+
+/*==================================================
+DAY VIEW EVENT SMALL INFORMATION
+==================================================*/
+
+.timeline-event small {
+
+    display: block;
+
+    overflow: hidden;
+
+    margin-top: 4px;
+
+    color: #8A95A5;
+
+    font-size: 10px;
+
+    line-height: 1.4;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/*==================================================
+DAY VIEW CLASS CARD
+==================================================*/
+
+.timeline-event.class-event,
+.timeline-event.lecture-event {
+
+    background: #EEF4FF;
+
+    border-left-color: #2563EB;
+
+    --event-colour: #2563EB;
+
+}
+
+
+/*==================================================
+DAY VIEW TASK CARD
+==================================================*/
+
+.timeline-event.task-event {
+
+    background: #ECFDF5;
+
+    border-left-color: #16A36A;
+
+    --event-colour: #16A36A;
+
+}
+
+
+/*==================================================
+DAY VIEW ASSIGNMENT CARD
+==================================================*/
+
+.timeline-event.assignment-event {
+
+    background: #F3EEFF;
+
+    border-left-color: #6D28D9;
+
+    --event-colour: #6D28D9;
+
+}
+
+
+/*==================================================
+DAY VIEW ASSESSMENT CARD
+==================================================*/
+
+.timeline-event.assessment-event {
+
+    background: #FFF0F5;
+
+    border-left-color: #EC4899;
+
+    --event-colour: #EC4899;
+
+}
+
+
+/*==================================================
+DAY VIEW ACADEMIC EVENT CARD
+==================================================*/
+
+.timeline-event.academic-event,
+.timeline-event.academic-event-card {
+
+    background: #FFF6E8;
+
+    border-left-color: #F59E0B;
+
+    --event-colour: #F59E0B;
+
+}
+
+
+/*==================================================
+DAY VIEW ALL DAY EVENTS
+==================================================*/
+
+.timeline-all-day {
+
+    margin: 14px 12px;
+
+    padding: 12px 14px;
+
+    border-left: 4px solid var(--event-colour, #8B7FC7);
+
+    border-radius: 10px;
+
+    background: #F8F7FC;
+
+}
+
+
+.timeline-all-day strong {
+
+    display: block;
+
+    color: #4E466E;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.timeline-all-day span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #7B7590;
+
+    font-size: 11px;
+
+}
+
 
 /*==================================================
 MONTH VIEW
 ==================================================*/
 
+.month-title {
 
+    width: 100%;
 
+    max-width: 900px;
 
-.week-name{
+    margin: 0 auto 24px;
 
-    text-align:center;
+    color: #20242B;
 
-    font-size:13px;
+    font-size: 38px;
 
-    font-weight:700;
+    font-weight: 700;
 
-    color:#94A3B8;
+    line-height: 1.1;
 
-    text-transform:uppercase;
-
-}
-
-
-
-.month-day{
-
-    height:110px;
-
-    border:none;
-
-    background:#FFFFFF;
-
-    border-radius:18px;
-
-    padding:12px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:flex-start;
-
-    justify-content:flex-start;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    box-shadow:0 8px 22px rgba(0,0,0,.05);
-
-}
-
-.month-day:hover{
-
-    transform:translateY(-2px);
-
-}
-
-.active-day{
-
-    background:#3048C8;
-
-    color:#FFFFFF;
-
-}
-
-.date-number{
-
-    font-size:18px;
-
-    font-weight:700;
-
-}
-
-/*=========================================
-MONTH EVENTS
-=========================================*/
-
-.month-events{
-
-    width:100%;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:4px;
-
-    margin-top:8px;
-
-    overflow:hidden;
+    text-align: left;
 
 }
 
 
-/*=========================================
-MONTH EVENT
-=========================================*/
+.week-days {
 
-.month-event{
+    width: 100%;
 
-    width:100%;
+    max-width: 900px;
 
-    box-sizing:border-box;
+    display: grid;
 
-    padding:4px 6px;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
 
-    border-radius:6px;
+    gap: 10px;
 
-    font-size:10px;
-
-    font-weight:600;
-
-    line-height:1.3;
-
-    text-align:left;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
+    margin: 0 auto 8px;
 
 }
 
 
-/*=========================================
-CLASS
-=========================================*/
+.week-name {
 
-.month-event.class{
+    padding: 0 6px 8px;
 
-    background:#EEF4FF;
+    color: #8995A7;
 
-    color:#3154B8;
+    font-size: 12px;
 
-    border-left:3px solid #3154B8;
+    font-weight: 700;
 
-}
+    letter-spacing: 0.4px;
 
-
-/*=========================================
-TASK / ASSESSMENT
-=========================================*/
-
-.month-event.task{
-
-    background:#ECFDF5;
-
-    color:#15803D;
-
-    border-left:3px solid #22C55E;
+    text-align: center;
 
 }
 
 
-/*=========================================
-ACADEMIC EVENT
-=========================================*/
+.month-grid {
 
-.month-event.academic{
+    width: 100%;
 
-    background:#F3E8FF;
+    max-width: 900px;
 
-    color:#7E22CE;
+    display: grid;
 
-    border-left:3px solid #A855F7;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
 
-}
+    gap: 10px;
 
-
-/*=========================================
-STUDY SESSION
-=========================================*/
-
-.month-event.study{
-
-    background:#FFF7ED;
-
-    color:#C2410C;
-
-    border-left:3px solid #F97316;
+    margin: 0 auto;
 
 }
 
 
-/*=========================================
-MORE EVENTS
-=========================================*/
+.month-day {
 
-.month-more{
+    min-width: 0;
 
-    display:block;
+    min-height: 122px;
 
-    padding-left:4px;
+    padding: 12px;
 
-    color:#6B7280;
+    box-sizing: border-box;
 
-    font-size:10px;
+    overflow: hidden;
 
-    font-weight:600;
+    border: 1px solid #E9EDF3;
 
-}
+    border-radius: 16px;
 
-/*=========================================
-MONTH EVENT
-=========================================*/
+    background: #FFFFFF;
 
-.month-event{
+    color: #20242B;
 
-    width:100%;
+    font-family: inherit;
 
-    box-sizing:border-box;
+    text-align: left;
 
-    padding:5px 7px;
+    cursor: pointer;
 
-    border-radius:6px;
+    box-shadow: 0 5px 16px rgba(28, 39, 63, 0.035);
 
-    font-size:10px;
-
-    font-weight:600;
-
-    line-height:1.3;
-
-    text-align:left;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
+    transition: 0.2s ease;
 
 }
 
 
-/*=========================================
-CLASS
-=========================================*/
+.month-day:hover {
 
-.month-event.class{
+    border-color: #D5DCE7;
 
-    background:#EEF4FF;
-
-    color:#3154B8;
-
-    border-left:3px solid #3154B8;
+    box-shadow: 0 7px 20px rgba(28, 39, 63, 0.06);
 
 }
 
 
-/*=========================================
-TASK
-=========================================*/
+.month-day.active-day {
 
-.month-event.task{
+    border-color: #3048C8;
 
-    background:#ECFDF5;
-
-    color:#15803D;
-
-    border-left:3px solid #22C55E;
+    box-shadow: inset 0 0 0 1px #3048C8;
 
 }
 
 
-/*=========================================
-ACADEMIC EVENT
-=========================================*/
+.month-day.empty {
 
-.month-event.academic{
+    visibility: hidden;
 
-    background:#F3E8FF;
-
-    color:#7E22CE;
-
-    border-left:3px solid #A855F7;
+    pointer-events: none;
 
 }
 
 
-/*=========================================
-STUDY SESSION
-=========================================*/
+.date-number {
 
-.month-event.study{
+    display: block;
 
-    background:#FFF7ED;
+    width: 28px;
 
-    color:#C2410C;
+    height: 28px;
 
-    border-left:3px solid #F97316;
+    line-height: 28px;
 
-}
+    color: #2B313B;
 
+    font-size: 15px;
 
-/*=========================================
-MORE EVENTS
-=========================================*/
+    font-weight: 700;
 
-.month-more{
-
-    display:block;
-
-    padding-left:4px;
-
-    color:#6B7280;
-
-    font-size:10px;
-
-    font-weight:600;
+    text-align: center;
 
 }
 
 
-/*=========================================
-LECTURE EVENT
-=========================================*/
+.active-day .date-number {
 
-.month-event.lecture{
+    border-radius: 50%;
 
-    background:#F4F7FF;
+    background: #3048C8;
 
-}
-
-
-/*=========================================
-TASK EVENT
-=========================================*/
-
-.month-event.task{
-
-    background:#F4FAF6;
+    color: #FFFFFF;
 
 }
 
 
-/*=========================================
-TOPIC EVENT
-=========================================*/
+.month-events {
 
-.month-event.topic{
+    display: flex;
 
-    background:#F6F4FF;
+    flex-direction: column;
+
+    gap: 5px;
+
+    width: 100%;
+
+    margin-top: 8px;
+
+}
+
+
+.month-event {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 3px 0;
+
+    box-sizing: border-box;
+
+    color: #4E596A;
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    line-height: 1.3;
+
+    text-align: left;
 
 }
 
 
-/*=========================================
-MORE EVENTS
-=========================================*/
+.month-event-dot {
 
-.month-more{
+    width: 6px;
 
-    display:block;
+    height: 6px;
 
-    padding-left:7px;
+    flex-shrink: 0;
 
-    color:#6B7280;
-
-    font-size:10px;
-
-    font-weight:600;
+    border-radius: 50%;
 
 }
 
-/*=========================================
-TASK DOT
-=========================================*/
 
-.task-dot{
+.month-event-title {
 
-    width:8px;
+    min-width: 0;
 
-    height:8px;
+    overflow: hidden;
 
-    border-radius:2px;
+    text-overflow: ellipsis;
 
-    display:inline-block;
+    white-space: nowrap;
 
 }
 
-/*=========================================
-TOPIC DOT
-=========================================*/
 
-.topic-dot{
+.month-more {
 
-    width:8px;
+    display: block;
 
-    height:8px;
+    padding-left: 13px;
 
-    display:inline-block;
+    color: #8B95A5;
 
-    transform:rotate(45deg);
+    font-size: 10px;
 
-}
-
-/*=========================================
-ASSESSMENT DOT
-=========================================*/
-
-.assessment-dot{
-
-    width:0;
-
-    height:0;
-
-    border-left:5px solid transparent;
-
-    border-right:5px solid transparent;
-
-    border-bottom:8px solid #F59E0B;
-
-    display:inline-block;
+    font-weight: 600;
 
 }
 
-.empty{
-
-    visibility:hidden;
-
-}
 
 /*==================================================
-TABLET
+SCHEDULE ACTIONS
 ==================================================*/
 
+.schedule-actions {
 
+    width: 100%;
 
-@media (max-width:991px){
+    max-width: 900px;
 
-    .month-grid,
-    .week-days{
-
-        max-width:100%;
-
-    }
-
-     .month-day{
-
-        height:72px;
-
-    }
+    margin: 34px auto 0;
 
 }
 
 
-
 /*==================================================
-MOBILE
+ADD EVENT BUTTON
 ==================================================*/
 
-@media (max-width:768px){
+.add-event-btn {
 
-    .day-title{
+    width: 20%;
 
-        font-size:1.6rem;
+    height: 58px;
 
-        padding:22px 20px 8px;
+    display: flex;
 
-    }
+    align-items: center;
 
-    .day-summary{
+    justify-content: center;
 
-        padding:0 20px 18px;
+    gap: 10px;
 
-    }
+    box-sizing: border-box;
 
-    .time-label{
+    border: none;
 
-        width:65px;
+    border-radius: 16px;
 
-        padding:14px 10px;
+    background: #3048C8;
 
-        font-size:12px;
+    color: #FFFFFF;
 
-    }
+    font-family: inherit;
 
+    font-size: 16px;
 
-    .month-grid{
+    font-weight: 600;
 
-        gap:8px;
+    text-decoration: none;
 
-    }
+    cursor: pointer;
 
-    .month-day{
+    box-shadow: 0 10px 24px rgba(48, 72, 200, 0.16);
 
-        height:58px;
-
-        padding:6px;
-
-        border-radius:10px;
-
-    }
-
-
-
-    .lecture-event,
-
-    .task-event{
-
-        padding:10px;
-
-    }
-
-    .lecture-event strong,
-
-    .task-event strong{
-
-        font-size:13px;
-
-    }
-
-   
-
-
-    .date-number{
-
-        font-size:15px;
-
-    }
+    transition: 0.2s ease;
 
 }
+
+
+.add-event-btn:hover {
+
+    background: #263CB7;
+
+    transform: translateY(-1px);
+
+}
+
+
+.add-event-btn:active {
+
+    transform: translateY(0);
+
+}
+
+
+.add-event-btn i {
+
+    color: #FFFFFF;
+
+}
+
 
 /*==================================================
-DESKTOP
-==================================================*/
-
-@media (min-width:1100px){
-
-    .month-day{
-
-        min-height:140px;
-
-    }
-
-}
-
-/*==================================================
-                EMPTY STATES
-==================================================*/
-
-/*==============================
-NO LECTURES
-==============================*/
-
-.schedule-empty{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    text-align:center;
-
-    padding:70px 20px;
-
-}
-
-.schedule-image{
-
-    width:220px;
-
-    max-width:100%;
-
-    margin-bottom:28px;
-
-}
-
-.schedule-empty h2{
-
-    font-size:2rem;
-
-    font-weight:700;
-
-    color:#222;
-
-    margin-bottom:14px;
-
-}
-
-.schedule-empty p{
-
-    max-width:430px;
-
-    color:#6B7280;
-
-    line-height:1.7;
-
-    margin-bottom:35px;
-
-}
-
-/*==================================================
-ADD LECTURE FORM
-==================================================*/
-
-.form-card{
-
-    width:100%;
-
-    max-width:780px;
-
-    margin:0 auto;
-
-    background:#FFFFFF;
-
-    border-radius:28px;
-
-    padding:35px;
-
-    box-shadow:0 18px 40px rgba(0,0,0,.06);
-
-}
-
-.form-card h2{
-
-    font-size:2rem;
-
-    font-weight:700;
-
-    color:#222;
-
-    margin-bottom:30px;
-
-}
-
-/*==============================
-LABELS
-==============================*/
-
-.form-card label{
-
-    display:block;
-
-    margin-bottom:8px;
-
-    margin-top:20px;
-
-    font-size:15px;
-
-    font-weight:600;
-
-    color:#374151;
-
-}
-
-.form-card label:first-of-type{
-
-    margin-top:0;
-
-}
-
-/*==============================
-INPUTS
-==============================*/
-
-.form-card input,
-
-.form-card select{
-
-    width:100%;
-
-    height:58px;
-
-    border:1px solid #E2E8F0;
-
-    border-radius:16px;
-
-    padding:0 18px;
-
-    background:#FFFFFF;
-
-    font-family:inherit;
-
-    font-size:15px;
-
-    transition:.25s;
-
-}
-
-.form-card input:focus,
-
-.form-card select:focus{
-
-    outline:none;
-
-    border-color:#3048C8;
-
-    box-shadow:0 0 0 4px rgba(48,72,200,.12);
-
-}
-
-.form-card input::placeholder{
-
-    color:#9CA3AF;
-
-}
-
-/*==============================
-TIME ROW
-==============================*/
-
-.time-row{
-
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:18px;
-
-}
-
-/*==============================
-SAVE BUTTON
-==============================*/
-
-#saveLecture{
-
-    width:100%;
-
-    height:60px;
-
-    margin-top:35px;
-
-    border:none;
-
-    border-radius:18px;
-
-    background:#3048C8;
-
-    color:#FFFFFF;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    box-shadow:0 12px 28px rgba(48,72,200,.22);
-
-}
-
-#saveLecture:hover{
-
-    background:#243AB0;
-
-    transform:translateY(-2px);
-
-}
-
-#saveLecture:active{
-
-    transform:scale(.98);
-
-}
-
-/*==================================================
-SCROLLBAR
-==================================================*/
-
-::-webkit-scrollbar{
-
-    width:10px;
-
-    height:10px;
-
-}
-
-::-webkit-scrollbar-thumb{
-
-    background:#D5DBE8;
-
-    border-radius:999px;
-
-}
-
-::-webkit-scrollbar-track{
-
-    background:transparent;
-
-}
-
-/*==================================================
-ANIMATIONS
-==================================================*/
-
-@keyframes fadeUp{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(18px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
-}
-
-.week-day-card,
-
-.day-view,
-
-.month-grid,
-
-.calendar-header{
-
-    animation:fadeUp .35s ease;
-
-}
-
-/*==================================================
-FOCUS STATES
-==================================================*/
-
-button:focus-visible,
-
-select:focus-visible,
-
-input:focus-visible{
-
-    outline:3px solid rgba(48,72,200,.25);
-
-    outline-offset:3px;
-
-}
-
-/*==================================================
-TABLET
-==================================================*/
-
-@media (max-width:991px){
-
-    .form-card{
-
-        padding:28px;
-
-    }
-
-}
-
-/*==================================================
-MOBILE
-==================================================*/
-
-@media (max-width:768px){
-
-    .schedule-empty{
-
-        padding:55px 20px;
-
-    }
-
-    .schedule-image{
-
-        width:180px;
-
-    }
-
-    .schedule-empty h2{
-
-        font-size:1.7rem;
-
-    }
-
-    .form-card{
-
-        padding:22px;
-
-        border-radius:22px;
-
-    }
-
-    .form-card h2{
-
-        font-size:1.6rem;
-
-    }
-
-    .time-row{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .form-card input,
-
-    .form-card select{
-
-        height:54px;
-
-    }
-
-    #saveLecture{
-
-        height:56px;
-
-    }
-
-}
-
-/*==================================================
-DESKTOP
-==================================================*/
-
-@media (min-width:1100px){
-
-    .form-card{
-
-        max-width:860px;
-
-        padding:50px;
-
-    }
-
-    .schedule-header{
-
-        margin-bottom:40px;
-
-    }
-
-    .calendar-header{
-
-        margin-bottom:35px;
-
-    }
-
-}
-
-/*==================================================
-STUDY BREAK BANNER
+STUDY BREAK
 ==================================================*/
 
 .study-break-banner {
 
     width: 100%;
+
+    margin-bottom: 14px;
+
+    padding: 14px 18px;
+
     box-sizing: border-box;
 
-    margin-bottom: 16px;
+    border-left: 4px solid #8B7FC7;
 
-    padding: 16px 20px;
+    border-radius: 12px;
 
-    background: #EEF4FF;
-
-    border: 1px solid #D9E5FF;
-
-    border-left: 5px solid #3154B8;
-
-    border-radius: 14px;
+    background: #F8F7FC;
 
 }
+
 
 .study-break-content {
 
@@ -2201,25 +1429,285 @@ STUDY BREAK BANNER
 
     align-items: center;
 
-    gap: 10px;
+    gap: 9px;
 
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 
 }
+
 
 .study-break-content strong {
 
-    color: #3154B8;
+    color: #514A70;
 
-    font-size: 15px;
+    font-size: 13px;
 
-    font-weight: 700;
+    font-weight: 600;
 
 }
 
+
 .study-break-content span {
 
+    color: #8A849C;
+
+    font-size: 11px;
+
+}
+
+
+.study-break-banner p {
+
+    margin: 0;
+
+    color: #7B7590;
+
+    font-size: 11px;
+
+}
+
+
+/*==================================================
+FOCUS STATES
+==================================================*/
+
+button:focus-visible,
+select:focus-visible {
+
+    outline: 2px solid rgba(48, 72, 200, 0.3);
+
+    outline-offset: 2px;
+
+}
+
+
+
+/*==================================================
+SCHEDULE EVENT CARDS
+==================================================*/
+
+.week-lecture {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 96px;
+
+    display: flex;
+
+    align-items: stretch;
+
+    background: #FFFFFF;
+
+    border: 1px solid #E8EAF0;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    box-shadow: 0 4px 14px rgba(2, 16, 36, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+
+    cursor: pointer;
+
+}
+
+
+.week-lecture:hover {
+
+    transform: translateY(-2px);
+
+    border-color: #DDE2F2;
+
+    box-shadow:
+        0 10px 25px rgba(2, 16, 36, 0.08);
+
+}
+
+
+/*==================================================
+EVENT COLOUR STRIP
+==================================================*/
+
+.lecture-bar {
+
+    width: 5px;
+
+    flex-shrink: 0;
+
+    border-radius: 0;
+
+    opacity: 1;
+
+}
+
+
+/*==================================================
+EVENT CONTENT
+==================================================*/
+
+.lecture-main {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 24px;
+
+    padding: 18px 22px;
+
+}
+
+
+/*==================================================
+EVENT TIME
+==================================================*/
+
+.lecture-time {
+
+    width: 86px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+.lecture-time strong {
+
+    color: #1F2937;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    line-height: 1.3;
+
+}
+
+
+.lecture-time span {
+
+    color: #9AA3B2;
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    line-height: 1.3;
+
+}
+
+
+/*==================================================
+EVENT DETAILS
+==================================================*/
+
+.lecture-details {
+
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 3px;
+
+}
+
+
+/*==================================================
+EVENT TYPE
+==================================================*/
+
+.lecture-details .event-type {
+
+    margin: 0;
+
+    color: #3048C8;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+
+    text-transform: uppercase;
+
+    line-height: 1.3;
+
+}
+
+
+/*==================================================
+EVENT TITLE
+==================================================*/
+
+.lecture-details h3 {
+
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    max-width: 100%;
+
+}
+
+
+/*==================================================
+EVENT INFORMATION
+==================================================*/
+
+.lecture-details p {
+
+    margin: 0;
+
     color: #718096;
+
+    font-size: 12px;
+
+    font-weight: 400;
+
+    line-height: 1.5;
+
+}
+
+
+/*==================================================
+MODULE INFORMATION
+==================================================*/
+
+.lecture-details .event-module {
+
+    color: #64748B;
 
     font-size: 12px;
 
@@ -2227,14 +1715,3528 @@ STUDY BREAK BANNER
 
 }
 
-.study-break-banner p {
+
+/*==================================================
+TASK CARD
+==================================================*/
+
+.week-lecture.task-card-event {
+
+    background: #FFFFFF;
+
+}
+
+
+/*==================================================
+ACADEMIC EVENT
+==================================================*/
+
+.week-lecture.academic-event-card {
+
+    background: #FFFFFF;
+
+}
+
+
+/*==================================================
+DUE BADGE
+==================================================*/
+
+.event-due {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-top: 5px;
+
+    padding: 4px 9px;
+
+    border-radius: 999px;
+
+    background: #FDE8E8;
+
+    color: #DC2626;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    line-height: 1;
+
+}
+
+
+/*==================================================
+WEEK CARD BODY
+==================================================*/
+
+.week-card-body {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+
+/*==================================================
+EMPTY DAY
+==================================================*/
+
+.empty-week-day {
+
+    width: 100%;
+
+    padding: 34px 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px dashed #E2E5EA;
+
+    border-radius: 14px;
+
+    background: #FAFBFD;
+
+}
+
+
+.empty-week-day p {
 
     margin: 0;
 
-    color: #5F6F89;
+    color: #9AA3B2;
 
-    font-size: 12px;
+    font-size: 13px;
 
-    line-height: 1.5;
+    font-weight: 500;
 
 }
+
+
+/*==================================================
+DAY VIEW EVENT LIST
+==================================================*/
+
+/*
+These rules are intentionally kept separate from
+.timeline-event because your JavaScript may create
+lecture-event cards directly.
+
+The cards are normal flow elements.
+*/
+
+.lecture-event {
+
+    position: relative !important;
+
+    top: auto !important;
+
+    right: auto !important;
+
+    bottom: auto !important;
+
+    left: auto !important;
+
+    width: auto !important;
+
+    height: auto !important;
+
+    min-height: 76px;
+
+    margin: 0 10px;
+
+    padding: 12px 14px;
+
+    box-sizing: border-box;
+
+    border-radius: 16px;
+
+    border-left: 4px solid #2563EB;
+
+    background: #EEF4FF;
+
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+    overflow: hidden;
+
+    flex: 0 0 auto;
+
+    cursor: pointer;
+
+}
+
+
+/*==================================================
+DAY VIEW TASK EVENT
+==================================================*/
+
+.task-event {
+
+    position: relative !important;
+
+    top: auto !important;
+
+    right: auto !important;
+
+    bottom: auto !important;
+
+    left: auto !important;
+
+    width: auto !important;
+
+    height: auto !important;
+
+    min-height: 76px;
+
+    margin: 0 10px;
+
+    padding: 12px 14px;
+
+    box-sizing: border-box;
+
+    border-radius: 16px;
+
+    border-left: 4px solid #22a316;
+
+    background: #ECFDF5;
+
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+    overflow: hidden;
+
+    flex: 0 0 auto;
+
+    cursor: pointer;
+
+}
+
+
+/*==================================================
+DAY VIEW ASSIGNMENT EVENT
+==================================================*/
+
+.assignment-event {
+
+    position: relative !important;
+
+    top: auto !important;
+
+    right: auto !important;
+
+    bottom: auto !important;
+
+    left: auto !important;
+
+    width: auto !important;
+
+    height: auto !important;
+
+    min-height: 76px;
+
+    margin: 0 10px;
+
+    padding: 12px 14px;
+
+    box-sizing: border-box;
+
+    border-radius: 16px;
+
+    border-left: 4px solid #6D28D9;
+
+    background: #F3EEFF;
+
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+    overflow: hidden;
+
+    flex: 0 0 auto;
+
+    cursor: pointer;
+
+}
+
+
+/*==================================================
+DAY VIEW ACADEMIC EVENT
+==================================================*/
+
+.academic-event {
+
+    position: relative !important;
+
+    top: auto !important;
+
+    right: auto !important;
+
+    bottom: auto !important;
+
+    left: auto !important;
+
+    width: auto !important;
+
+    height: auto !important;
+
+    min-height: 76px;
+
+    margin: 0 10px;
+
+    padding: 12px 14px;
+
+    box-sizing: border-box;
+
+    border-radius: 16px;
+
+    border-left: 4px solid #F59E0B;
+
+    background: #FFF6E8;
+
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+    overflow: hidden;
+
+    flex: 0 0 auto;
+
+    cursor: pointer;
+
+}
+
+
+/*==================================================
+DAY VIEW TITLE
+==================================================*/
+
+.lecture-event strong,
+.task-event strong,
+.assignment-event strong,
+.academic-event strong {
+
+    display: block;
+
+    margin: 0 0 4px;
+
+    color: #111827;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/*==================================================
+DAY VIEW TYPE
+==================================================*/
+
+.lecture-event .event-type,
+.task-event .event-type,
+.assignment-event .event-type,
+.academic-event .event-type {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #3048C8;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+
+    text-transform: uppercase;
+
+}
+
+
+/*==================================================
+DAY VIEW TYPE COLOURS
+==================================================*/
+
+.lecture-event .event-type {
+
+    color: #2563EB;
+
+}
+
+
+.task-event .event-type {
+
+    color: #16A36A;
+
+}
+
+
+.assignment-event .event-type {
+
+    color: #6D28D9;
+
+}
+
+
+.academic-event .event-type {
+
+    color: #F59E0B;
+
+}
+
+
+/*==================================================
+DAY VIEW DETAILS
+==================================================*/
+
+.lecture-event small,
+.task-event small,
+.assignment-event small,
+.academic-event small {
+
+    display: block;
+
+    color: #718096;
+
+    font-size: 10px;
+
+    font-weight: 400;
+
+    line-height: 1.4;
+
+}
+
+
+/*==================================================
+DAY VIEW EVENT TEXT
+==================================================*/
+
+.lecture-event span,
+.task-event span,
+.assignment-event span,
+.academic-event span {
+
+    display: block;
+
+    color: #64748B;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+
+}
+
+
+/*==================================================
+DAY VIEW TIMELINE
+==================================================*/
+
+.timeline-event {
+
+    border-radius: 12px;
+
+}
+
+
+/*==================================================
+RESPONSIVE EVENT CARDS
+==================================================*/
+
+@media (max-width: 768px) {
+
+    .week-lecture {
+
+        min-height: 86px;
+
+    }
+
+    .lecture-main {
+
+        gap: 14px;
+
+        padding: 14px 16px;
+
+    }
+
+    .lecture-time {
+
+        width: 68px;
+
+    }
+
+    .lecture-time strong {
+
+        font-size: 12px;
+
+    }
+
+    .lecture-details h3 {
+
+        font-size: 14px;
+
+    }
+
+    .lecture-details p,
+    .lecture-details .event-module {
+
+        font-size: 11px;
+
+    }
+
+    .lecture-event,
+    .task-event,
+    .assignment-event,
+    .academic-event {
+
+        margin: 0 8px;
+
+        min-height: 70px;
+
+        padding: 10px;
+
+    }
+
+}
+
+/*=======motivation and notification card======*/
+/* =========================================================
+   ACADEMIC HERO CARD
+========================================================= */
+
+.academic-hero {
+    position: relative;
+    width: 100%;
+    min-height: 175px;
+    margin-bottom: 18px;
+    padding: 26px 30px;
+    border-radius: 20px;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+
+    border: 1px solid rgba(255,255,255,0.7);
+
+    box-shadow:
+        0 10px 30px rgba(40, 60, 120, 0.08);
+}
+
+/* soft modern backgrounds */
+
+.academic-hero.study-break {
+    background:
+        linear-gradient(
+            135deg,
+            #eef0ff 0%,
+            #e1e6ff 55%,
+            #d7dcff 100%
+        );
+}
+
+.academic-hero.research-break {
+    background:
+        linear-gradient(
+            135deg,
+            #f1edff 0%,
+            #e8e0ff 55%,
+            #ddd4ff 100%
+        );
+}
+
+.academic-hero.exam {
+    background:
+        linear-gradient(
+            135deg,
+            #fff1eb 0%,
+            #ffe5dc 55%,
+            #ffd9ce 100%
+        );
+}
+
+.academic-hero.test-week {
+    background:
+        linear-gradient(
+            135deg,
+            #fff8df 0%,
+            #fff0c5 55%,
+            #ffe8ad 100%
+        );
+}
+
+.academic-hero.vacation {
+    background:
+        linear-gradient(
+            135deg,
+            #eaf8f4 0%,
+            #d9f1e9 55%,
+            #cdebe2 100%
+        );
+}
+
+/* content */
+
+.academic-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 70%;
+}
+
+
+.academic-hero-label {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 11px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.72);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    margin-bottom: 10px;
+}
+
+.academic-hero.study-break
+.academic-hero-label {
+    color: #5965c8;
+}
+
+.academic-hero.research-break
+.academic-hero-label {
+    color: #7655c7;
+}
+
+.academic-hero.exam
+.academic-hero-label {
+    color: #d35b42;
+}
+
+.academic-hero.test-week
+.academic-hero-label {
+    color: #b77b12;
+}
+
+.academic-hero.vacation
+.academic-hero-label {
+    color: #27806c;
+}
+
+.academic-hero h2 {
+    margin: 0;
+
+    font-size: 23px;
+    line-height: 1.2;
+
+    color: #101828;
+}
+
+.academic-hero-dates {
+    display: block;
+
+    margin-top: 6px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    color: #5d6b89;
+}
+
+.academic-hero-message {
+    margin: 12px 0 0;
+
+    max-width: 570px;
+
+    font-size: 13px;
+    line-height: 1.6;
+
+    color: #43516f;
+}
+
+/* decorative background shape */
+
+.academic-hero-decoration {
+    position: absolute;
+
+    right: -40px;
+    bottom: -80px;
+
+    width: 260px;
+    height: 260px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.32);
+
+    z-index: 1;
+}
+
+.academic-hero-decoration::after {
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    top: -35px;
+    left: -45px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.25);
+}
+
+/* status */
+
+.academic-hero-status {
+    position: absolute;
+
+    top: 22px;
+    right: 24px;
+
+    z-index: 3;
+
+    padding: 7px 11px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.78);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    color: #344054;
+}
+
+/* CTA */
+
+.academic-hero-action {
+    display: inline-flex;
+
+    align-items: center;
+    gap: 7px;
+
+    margin-top: 15px;
+
+    padding: 9px 14px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.72);
+
+    color: #1f2937;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.academic-hero-action:hover {
+    background: rgba(255,255,255,0.95);
+}
+
+
+
+
+/*=======update banner=======*/
+
+
+
+/* =========================================================
+   PRODEMIC SCHEDULE - ACADEMIC PERIOD BANNER
+   ========================================================= */
+
+.academic-period-banner {
+    width: 100%;
+    box-sizing: border-box;
+
+    position: relative;
+
+    margin: 0 0 20px;
+    padding: 24px 28px;
+
+    border-radius: 20px;
+
+    border: 1px solid transparent;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 24px rgba(31, 48, 88, 0.06);
+
+    animation:
+        academicBannerFade 0.3s ease;
+}
+
+
+/* ---------------------------------------------------------
+   SOFT BACKGROUND DECORATION
+   --------------------------------------------------------- */
+
+.academic-period-banner::after {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    right: -70px;
+    bottom: -125px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.45);
+
+    pointer-events: none;
+}
+
+
+.academic-period-banner::before {
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    right: 55px;
+    top: -75px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.25);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   ACADEMIC PERIOD
+   ========================================================= */
+
+.academic-period-banner {
+
+    background:
+        linear-gradient(
+            135deg,
+            #DCEAFF 0%,
+            #C9DEFF 100%
+        );
+
+    border-color:
+        #B7D0F7;
+}
+
+/* =========================================================
+   BANNER CONTENT
+   ========================================================= */
+
+.academic-period-content {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 760px;
+}
+
+
+/* =========================================================
+   UPCOMING / HAPPENING NOW
+   ========================================================= */
+
+.academic-period-status-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    width: fit-content;
+
+    padding:
+        6px 11px;
+
+    margin-bottom: 9px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing:
+        0.04em;
+
+    line-height: 1;
+
+    text-transform:
+        uppercase;
+}
+
+
+/* Study break badge */
+
+.academic-period-banner.study-break
+.academic-period-status-badge {
+
+    color:
+        #3154B8;
+}
+
+
+/* Research break badge */
+
+.academic-period-banner.research-break
+.academic-period-status-badge {
+
+    color:
+        #6848C7;
+}
+
+
+/* Vacation badge */
+
+.academic-period-banner.vacation
+.academic-period-status-badge {
+
+    color:
+        #168A62;
+}
+
+
+/* Exam badge */
+
+.academic-period-banner.exam
+.academic-period-status-badge {
+
+    color:
+        #323dd6;
+}
+
+
+/* Test week badge */
+
+.academic-period-banner.test-week
+.academic-period-status-badge {
+
+    color:
+        #000ba4;
+}
+
+
+/* =========================================================
+   MAIN HEADING
+   ========================================================= */
+
+.academic-period-banner h2 {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin:
+        0 0 6px;
+
+    color:
+        #0C153D;
+
+    font-size:
+        clamp(
+            22px,
+            2vw,
+            30px
+        );
+
+    font-weight:
+        700;
+
+    line-height:
+        1.2;
+}
+
+
+/* =========================================================
+   DATES
+   ========================================================= */
+
+.academic-period-banner
+.academic-period-dates {
+
+    display:
+        block;
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    margin:
+        0 0 10px;
+
+    color:
+        #4B5D86;
+
+    font-size:
+        14px;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.4;
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.academic-period-banner
+.academic-period-message {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    max-width:
+        650px;
+
+    margin:
+        0;
+
+    color:
+        #314267;
+
+    font-size:
+        13px;
+
+    line-height:
+        1.6;
+}
+
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes academicBannerFade {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(-6px);
+
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   MONTHLY CALENDAR DOTS
+   ========================================================= */
+
+/*
+   These dots are ONLY for:
+   - Classes
+   - Tasks
+   - Assessments
+
+   Academic periods never reach this element.
+*/
+
+.month-dots {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    margin-top:
+        7px;
+
+    min-height:
+        7px;
+
+}
+
+
+.month-dot {
+
+    display:
+        block;
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    min-width:
+        7px;
+
+    border-radius:
+        50%;
+
+}
+
+
+/* =========================================================
+   MONTH + MORE
+   ========================================================= */
+
+.month-more {
+
+    display:
+        block;
+
+    margin-top:
+        5px;
+
+    color:
+        #718096;
+
+    font-size:
+        10px;
+
+    font-weight:
+        600;
+
+}
+
+
+/* =========================================================
+   WEEK DAY CARDS
+   ========================================================= */
+
+.week-day-card {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+}
+
+
+/*
+   Make sure the academic banner itself never gets
+   treated as a day card.
+*/
+
+.week-day-card
+.academic-period-banner {
+
+    display:
+        none !important;
+
+}
+
+
+/* =========================================================
+   NORMAL WEEK EVENTS
+   ========================================================= */
+
+.week-lecture {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+}
+
+
+/* =========================================================
+   TASK EVENT
+   ========================================================= */
+
+.task-card-event {
+
+    position:
+        relative;
+
+}
+
+
+/* =========================================================
+   ASSESSMENT EVENT
+   ========================================================= */
+
+.assessment-card-event {
+
+    position:
+        relative;
+
+}
+
+
+/* =========================================================
+   DAY VIEW
+   ========================================================= */
+
+/*
+   Academic periods sit above the timeline.
+   They are NOT timeline events.
+*/
+
+.day-view
+.academic-period-banner {
+
+    width:
+        100%;
+
+    margin-bottom:
+        18px;
+
+}
+
+
+/* =========================================================
+   DAY VIEW NORMAL EVENTS
+   ========================================================= */
+
+.lecture-event,
+.task-event,
+.assessment-event {
+
+    position:
+        relative;
+
+    left:
+        auto !important;
+
+    right:
+        auto !important;
+
+    top:
+        auto !important;
+
+    width:
+        auto !important;
+
+}
+
+
+/* =========================================================
+   MONTH VIEW
+   ========================================================= */
+
+/*
+   Academic events should never appear inside a month cell.
+*/
+
+.month-day
+.academic-period-banner {
+
+    display:
+        none !important;
+
+}
+
+
+
+/*=====week heading===*/
+
+/*==================================================
+WEEK DATE HEADING
+==================================================*/
+
+
+.week-date-heading span {
+    margin: 0;
+
+    color: #0b1338;
+
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+
+/*========CARD EDIT AND DELETE OPTIONS=======*/
+
+
+/*==================================================
+EVENT ACTION MENU
+==================================================*/
+
+.schedule-event-menu{
+
+    position:absolute;
+
+    z-index:9999;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-width:120px;
+
+    background:#ffffff;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:10px;
+
+    box-shadow:0 8px 24px rgba(0,0,0,0.12);
+
+    overflow:hidden;
+
+}
+
+
+.schedule-event-menu button{
+
+    border:none;
+
+    background:#ffffff;
+
+    padding:10px 16px;
+
+    text-align:left;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+}
+
+
+.schedule-event-menu button:hover{
+
+    background:#f5f5f5;
+
+}
+
+
+.schedule-event-menu .schedule-event-delete{
+
+    color:#d62b2b;
+
+}
+
+
+/*==================================================
+RESPONSIVE DESIGN
+SCHEDULE PAGE
+==================================================*/
+
+
+/*==================================================
+TABLET
+1100px AND BELOW
+==================================================*/
+
+@media (max-width:1100px){
+
+    #schedulePage{
+
+        width:100%;
+
+        max-width:100%;
+
+        margin:0;
+
+        padding:36px 28px 120px;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .schedule-header{
+
+        width:100%;
+
+        max-width:100%;
+
+        margin:0 0 28px;
+
+    }
+
+
+    .schedule-header h1{
+
+        font-size:38px;
+
+    }
+
+
+    .calendar-controls{
+
+        gap:10px;
+
+    }
+
+
+    .calendar-controls button{
+
+        width:50px;
+
+        height:50px;
+
+        font-size:24px;
+
+    }
+
+
+    .calendar-controls select{
+
+        min-width:140px;
+
+        height:50px;
+
+    }
+
+
+    .calendar-header{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-height:110px;
+
+        margin-bottom:30px;
+
+        padding:22px;
+
+        border-radius:22px;
+
+    }
+
+
+    .calendar-header h2{
+
+        font-size:25px;
+
+    }
+
+
+    .calendar-header p{
+
+        font-size:14px;
+
+    }
+
+
+    .add-event-btn{
+
+        width:auto;
+
+        min-width:110px;
+
+        height:50px;
+
+        padding:0 16px;
+
+        font-size:14px;
+
+    }
+
+
+    #calendar{
+
+        width:100%;
+
+        max-width:100%;
+
+    }
+
+
+    .week-strip{
+
+        gap:7px;
+
+    }
+
+
+    .week-strip-day{
+
+        min-height:70px;
+
+        padding:11px 8px;
+
+    }
+
+
+    .strip-day{
+
+        font-size:10px;
+
+    }
+
+
+    .strip-date{
+
+        font-size:20px;
+
+    }
+
+
+    #scheduleList{
+
+        width:100%;
+
+        max-width:100%;
+
+        grid-template-columns:repeat(2,minmax(0,1fr));
+
+        gap:14px;
+
+    }
+
+
+    .month-title{
+
+        width:100%;
+
+        max-width:100%;
+
+        font-size:34px;
+
+    }
+
+
+    .week-days{
+
+        width:100%;
+
+        max-width:100%;
+
+        gap:7px;
+
+    }
+
+
+    .month-grid{
+
+        width:100%;
+
+        max-width:100%;
+
+        gap:7px;
+
+    }
+
+
+    .month-day{
+
+        min-height:105px;
+
+        padding:10px;
+
+    }
+
+
+    .academic-period-banner{
+
+        padding:22px 24px;
+
+    }
+
+}
+
+
+/*==================================================
+TABLET / SMALL LAPTOP
+900px AND BELOW
+==================================================*/
+
+@media (max-width:900px){
+
+    #schedulePage{
+
+        padding-left:22px;
+
+        padding-right:22px;
+
+    }
+
+
+    .schedule-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+
+    .calendar-controls{
+
+        width:100%;
+
+        display:grid;
+
+        grid-template-columns:50px minmax(0,1fr) 50px;
+
+        gap:10px;
+
+    }
+
+
+    .calendar-controls button{
+
+        width:50px;
+
+    }
+
+
+    .calendar-controls select{
+
+        width:100%;
+
+        min-width:0;
+
+    }
+
+
+    .calendar-header{
+
+        gap:16px;
+
+    }
+
+
+    .calendar-header h2{
+
+        font-size:23px;
+
+    }
+
+
+    .calendar-header p{
+
+        font-size:13px;
+
+    }
+
+
+    .add-event-btn{
+
+        min-width:105px;
+
+    }
+
+
+    #scheduleList{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .academic-period-content{
+
+        max-width:80%;
+
+    }
+
+
+    .academic-hero-content{
+
+        max-width:75%;
+
+    }
+
+}
+
+
+/*==================================================
+MOBILE
+768px AND BELOW
+==================================================*/
+
+@media (max-width:768px){
+
+    /*------------------------------------------
+    PAGE
+    ------------------------------------------*/
+
+    #schedulePage{
+
+        width:100%;
+
+        max-width:none;
+
+        margin:0;
+
+        padding:22px 14px 120px;
+
+        box-sizing:border-box;
+
+    }
+
+
+    /*------------------------------------------
+    HEADER
+    ------------------------------------------*/
+
+    .schedule-header{
+
+        width:100%;
+
+        margin:0 0 18px;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        gap:14px;
+
+    }
+
+
+    .schedule-header h1{
+
+        margin:0 0 5px;
+
+        font-size:30px;
+
+        line-height:1.15;
+
+    }
+
+
+    .schedule-header p{
+
+        margin:0;
+
+        font-size:12px;
+
+        line-height:1.4;
+
+    }
+
+
+    /*------------------------------------------
+    CALENDAR CONTROLS
+    ------------------------------------------*/
+
+    .calendar-controls{
+
+        width:100%;
+
+        display:grid;
+
+        grid-template-columns:42px minmax(0,1fr) 42px;
+
+        gap:8px;
+
+        align-items:center;
+
+    }
+
+
+    .calendar-controls button{
+
+        width:42px;
+
+        height:42px;
+
+        padding:0;
+
+        border-radius:12px;
+
+        font-size:21px;
+
+    }
+
+
+    .calendar-controls select{
+
+        width:100%;
+
+        min-width:0;
+
+        height:42px;
+
+        padding:0 12px;
+
+        border-radius:12px;
+
+        font-size:12px;
+
+    }
+
+
+    /*------------------------------------------
+    CALENDAR HEADER
+    ------------------------------------------*/
+
+    .calendar-header{
+
+        width:100%;
+
+        max-width:none;
+
+        min-height:94px;
+
+        margin:0 0 22px;
+
+        padding:16px;
+
+        border-radius:17px;
+
+        gap:10px;
+
+    }
+
+
+    .calendar-header h2{
+
+        margin:0 0 4px;
+
+        font-size:20px;
+
+        line-height:1.2;
+
+    }
+
+
+    .calendar-header p{
+
+        max-width:180px;
+
+        margin:0;
+
+        font-size:10px;
+
+        line-height:1.4;
+
+    }
+
+
+    /*------------------------------------------
+    ADD EVENT BUTTON
+    ------------------------------------------*/
+
+    .calendar-header .add-event-btn{
+
+        width:72px;
+
+        min-width:72px;
+
+        height:50px;
+
+        flex:0 0 72px;
+
+        padding:0 7px;
+
+        gap:3px;
+
+        border-radius:13px;
+
+        font-size:10px;
+
+        line-height:1.1;
+
+        white-space:normal;
+
+        text-align:center;
+
+    }
+
+
+    .calendar-header .add-event-btn i{
+
+        font-size:14px;
+
+        flex-shrink:0;
+
+    }
+
+
+    /*------------------------------------------
+    CALENDAR
+    ------------------------------------------*/
+
+    #calendar{
+
+        width:100%;
+
+        max-width:none;
+
+        margin-bottom:22px;
+
+    }
+
+
+    /*------------------------------------------
+    WEEK STRIP
+    ------------------------------------------*/
+
+    .week-strip{
+
+        width:100%;
+
+        display:grid;
+
+        grid-template-columns:repeat(7,minmax(0,1fr));
+
+        gap:4px;
+
+        margin-bottom:16px;
+
+    }
+
+
+    .week-strip-day{
+
+        width:100%;
+
+        min-width:0;
+
+        min-height:60px;
+
+        padding:8px 3px;
+
+        border-radius:10px;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .strip-day{
+
+        margin-bottom:5px;
+
+        font-size:7px;
+
+        letter-spacing:0;
+
+    }
+
+
+    .strip-date{
+
+        font-size:16px;
+
+    }
+
+
+    /*------------------------------------------
+    WEEK SCHEDULE LIST
+    ------------------------------------------*/
+
+    #scheduleList{
+
+        width:100%;
+
+        max-width:none;
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:12px;
+
+    }
+
+
+    /*------------------------------------------
+    WEEK DAY CARD
+    ------------------------------------------*/
+
+    .week-day-card{
+
+        width:100%;
+
+        min-width:0;
+
+        border-radius:16px;
+
+    }
+
+
+    .week-card-header{
+
+        padding:14px;
+
+        gap:8px;
+
+    }
+
+
+    .week-card-header h2{
+
+        margin-bottom:3px;
+
+        font-size:15px;
+
+    }
+
+
+    .week-card-header span{
+
+        font-size:10px;
+
+    }
+
+
+    .day-item-count{
+
+        min-width:26px;
+
+        height:26px;
+
+        padding:0 6px;
+
+        font-size:10px !important;
+
+    }
+
+
+    .week-card-body{
+
+        width:100%;
+
+        padding:9px;
+
+        gap:8px;
+
+        box-sizing:border-box;
+
+    }
+
+
+    /*------------------------------------------
+    WEEK EVENT CARD
+    ------------------------------------------*/
+
+    .week-lecture{
+
+        width:100%;
+
+        min-width:0;
+
+        min-height:76px;
+
+        border-radius:13px;
+
+    }
+
+
+    .lecture-main{
+
+        width:100%;
+
+        min-width:0;
+
+        gap:9px;
+
+        padding:11px;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .lecture-time{
+
+        width:52px;
+
+        min-width:52px;
+
+    }
+
+
+    .lecture-time strong{
+
+        font-size:9px;
+
+    }
+
+
+    .lecture-time span{
+
+        font-size:8px;
+
+    }
+
+
+    .lecture-details{
+
+        min-width:0;
+
+        flex:1;
+
+    }
+
+
+    .lecture-details .event-type{
+
+        font-size:8px;
+
+    }
+
+
+    .lecture-details h3{
+
+        max-width:100%;
+
+        font-size:12px;
+
+        line-height:1.3;
+
+        white-space:normal;
+
+        overflow-wrap:anywhere;
+
+        text-overflow:clip;
+
+    }
+
+
+    .lecture-details p,
+
+    .lecture-details .event-module{
+
+        max-width:100%;
+
+        font-size:9px;
+
+        line-height:1.35;
+
+        white-space:normal;
+
+        overflow-wrap:anywhere;
+
+    }
+
+
+    .event-due{
+
+        margin-top:4px;
+
+        padding:3px 7px;
+
+        font-size:8px;
+
+    }
+
+
+    /*------------------------------------------
+    DAY VIEW
+    ------------------------------------------*/
+
+    .day-view{
+
+        width:100%;
+
+        max-width:none;
+
+        border-radius:17px;
+
+    }
+
+
+    .day-view-header{
+
+        padding:17px;
+
+    }
+
+
+    .day-view-header h2{
+
+        margin-bottom:4px;
+
+        font-size:20px;
+
+    }
+
+
+    .day-view-header p{
+
+        font-size:10px;
+
+    }
+
+
+    /*------------------------------------------
+    TIMELINE
+    ------------------------------------------*/
+
+    .time-slot{
+
+        min-height:72px;
+
+    }
+
+
+    .time-label{
+
+        width:48px;
+
+        flex:0 0 48px;
+
+        padding:12px 6px;
+
+        font-size:8px;
+
+    }
+
+
+    .events{
+
+        min-width:0;
+
+        min-height:72px;
+
+        gap:6px;
+
+        padding:6px 0;
+
+    }
+
+
+    /*------------------------------------------
+    DAY EVENTS
+    ------------------------------------------*/
+
+    .timeline-event,
+    .lecture-event,
+    .task-event,
+    .assignment-event,
+    .assessment-event,
+    .academic-event{
+
+        width:auto !important;
+
+        max-width:none;
+
+        min-width:0;
+
+        min-height:60px;
+
+        margin:0 5px;
+
+        padding:9px;
+
+        border-radius:10px;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .timeline-event strong,
+    .lecture-event strong,
+    .task-event strong,
+    .assignment-event strong,
+    .assessment-event strong,
+    .academic-event strong{
+
+        max-width:100%;
+
+        font-size:11px;
+
+        line-height:1.3;
+
+        white-space:normal;
+
+        overflow-wrap:anywhere;
+
+        text-overflow:clip;
+
+    }
+
+
+    .timeline-event .event-type,
+    .lecture-event .event-type,
+    .task-event .event-type,
+    .assignment-event .event-type,
+    .assessment-event .event-type,
+    .academic-event .event-type{
+
+        margin-bottom:4px;
+
+        font-size:7px;
+
+    }
+
+
+    .timeline-event span,
+    .lecture-event span,
+    .task-event span,
+    .assignment-event span,
+    .assessment-event span,
+    .academic-event span{
+
+        font-size:9px;
+
+        line-height:1.35;
+
+        overflow-wrap:anywhere;
+
+    }
+
+
+    .timeline-event small,
+    .lecture-event small,
+    .task-event small,
+    .assignment-event small,
+    .assessment-event small,
+    .academic-event small{
+
+        font-size:8px;
+
+        line-height:1.35;
+
+        white-space:normal;
+
+        overflow-wrap:anywhere;
+
+    }
+
+
+    /*------------------------------------------
+    ALL DAY EVENT
+    ------------------------------------------*/
+
+    .timeline-all-day{
+
+        margin:10px 6px;
+
+        padding:10px;
+
+        border-radius:9px;
+
+    }
+
+
+    .timeline-all-day strong{
+
+        font-size:11px;
+
+    }
+
+
+    .timeline-all-day span{
+
+        font-size:9px;
+
+    }
+
+
+    /*------------------------------------------
+    MONTH VIEW
+    ------------------------------------------*/
+
+    .month-title{
+
+        width:100%;
+
+        max-width:none;
+
+        margin:0 0 15px;
+
+        font-size:27px;
+
+        line-height:1.15;
+
+    }
+
+
+    .week-days{
+
+        width:100%;
+
+        max-width:none;
+
+        display:grid;
+
+        grid-template-columns:repeat(7,minmax(0,1fr));
+
+        gap:4px;
+
+        margin-bottom:5px;
+
+    }
+
+
+    .week-name{
+
+        padding:0 1px 6px;
+
+        font-size:7px;
+
+        letter-spacing:0;
+
+    }
+
+
+    .month-grid{
+
+        width:100%;
+
+        max-width:none;
+
+        display:grid;
+
+        grid-template-columns:repeat(7,minmax(0,1fr));
+
+        gap:4px;
+
+    }
+
+
+    .month-day{
+
+        width:100%;
+
+        min-width:0;
+
+        min-height:68px;
+
+        padding:6px;
+
+        border-radius:9px;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .date-number{
+
+        width:23px;
+
+        height:23px;
+
+        line-height:23px;
+
+        font-size:10px;
+
+    }
+
+
+    .month-events{
+
+        gap:2px;
+
+        margin-top:5px;
+
+    }
+
+
+    .month-event{
+
+        gap:3px;
+
+        padding:1px 0;
+
+        font-size:6px;
+
+        line-height:1.2;
+
+    }
+
+
+    .month-event-dot,
+    .month-dot{
+
+        width:5px;
+
+        height:5px;
+
+        min-width:5px;
+
+    }
+
+
+    .month-event-title{
+
+        min-width:0;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+        white-space:nowrap;
+
+    }
+
+
+    .month-more{
+
+        padding-left:8px;
+
+        font-size:7px;
+
+    }
+
+
+    /*------------------------------------------
+    ACADEMIC HERO
+    ------------------------------------------*/
+
+    .academic-hero{
+
+        width:100%;
+
+        min-height:135px;
+
+        margin-bottom:14px;
+
+        padding:18px;
+
+        border-radius:16px;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .academic-hero-content{
+
+        max-width:82%;
+
+    }
+
+
+    .academic-hero h2{
+
+        font-size:19px;
+
+    }
+
+
+    .academic-hero-dates{
+
+        font-size:10px;
+
+    }
+
+
+    .academic-hero-message{
+
+        max-width:100%;
+
+        margin-top:8px;
+
+        font-size:10px;
+
+        line-height:1.45;
+
+    }
+
+
+    .academic-hero-label{
+
+        padding:5px 8px;
+
+        font-size:8px;
+
+    }
+
+
+    .academic-hero-status{
+
+        top:14px;
+
+        right:14px;
+
+        padding:5px 8px;
+
+        font-size:8px;
+
+    }
+
+
+    .academic-hero-action{
+
+        margin-top:10px;
+
+        padding:7px 10px;
+
+        font-size:9px;
+
+    }
+
+
+    .academic-hero-decoration{
+
+        width:180px;
+
+        height:180px;
+
+        right:-70px;
+
+        bottom:-80px;
+
+    }
+
+
+    /*------------------------------------------
+    ACADEMIC PERIOD BANNER
+    ------------------------------------------*/
+
+    .academic-period-banner{
+
+        width:100%;
+
+        margin-bottom:14px;
+
+        padding:17px;
+
+        border-radius:16px;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .academic-period-content{
+
+        max-width:82%;
+
+    }
+
+
+    .academic-period-status-badge{
+
+        padding:5px 8px;
+
+        margin-bottom:7px;
+
+        font-size:8px;
+
+    }
+
+
+    .academic-period-banner h2{
+
+        font-size:20px;
+
+        line-height:1.2;
+
+    }
+
+
+    .academic-period-banner .academic-period-dates{
+
+        font-size:10px;
+
+    }
+
+
+    .academic-period-banner .academic-period-message{
+
+        max-width:100%;
+
+        font-size:10px;
+
+        line-height:1.45;
+
+    }
+
+
+    /*------------------------------------------
+    SCHEDULE ACTIONS
+    ------------------------------------------*/
+
+    .schedule-actions{
+
+        width:100%;
+
+        max-width:none;
+
+        margin-top:22px;
+
+    }
+
+
+    .schedule-actions .add-event-btn{
+
+        width:100%;
+
+        height:48px;
+
+        font-size:13px;
+
+        border-radius:13px;
+
+    }
+
+
+    /*------------------------------------------
+    EVENT ACTION MENU
+    ------------------------------------------*/
+
+    .schedule-event-menu{
+
+        min-width:105px;
+
+        border-radius:9px;
+
+    }
+
+
+    .schedule-event-menu button{
+
+        padding:9px 12px;
+
+        font-size:12px;
+
+    }
+
+
+}
+
+
+/*==================================================
+SMALL MOBILE
+600px AND BELOW
+==================================================*/
+
+@media (max-width:600px){
+
+    #schedulePage{
+
+        padding-left:12px;
+
+        padding-right:12px;
+
+    }
+
+
+    .schedule-header h1{
+
+        font-size:28px;
+
+    }
+
+
+    .schedule-header p{
+
+        font-size:11px;
+
+    }
+
+
+    .calendar-header{
+
+        min-height:90px;
+
+        padding:14px;
+
+    }
+
+
+    .calendar-header h2{
+
+        font-size:19px;
+
+    }
+
+
+    .calendar-header p{
+
+        max-width:165px;
+
+        font-size:9px;
+
+    }
+
+
+    .calendar-header .add-event-btn{
+
+        width:68px;
+
+        min-width:68px;
+
+        flex-basis:68px;
+
+        height:46px;
+
+        font-size:9px;
+
+    }
+
+
+    .week-strip{
+
+        gap:3px;
+
+    }
+
+
+    .week-strip-day{
+
+        min-height:56px;
+
+        padding:7px 2px;
+
+        border-radius:8px;
+
+    }
+
+
+    .strip-day{
+
+        font-size:6px;
+
+    }
+
+
+    .strip-date{
+
+        font-size:14px;
+
+    }
+
+
+    .month-title{
+
+        font-size:24px;
+
+    }
+
+
+    .week-name{
+
+        font-size:6px;
+
+    }
+
+
+    .month-grid{
+
+        gap:3px;
+
+    }
+
+
+    .month-day{
+
+        min-height:60px;
+
+        padding:5px;
+
+        border-radius:8px;
+
+    }
+
+
+    .date-number{
+
+        width:21px;
+
+        height:21px;
+
+        line-height:21px;
+
+        font-size:9px;
+
+    }
+
+
+    .month-event{
+
+        font-size:5px;
+
+    }
+
+
+    .month-event-dot,
+    .month-dot{
+
+        width:4px;
+
+        height:4px;
+
+        min-width:4px;
+
+    }
+
+
+    .month-more{
+
+        padding-left:6px;
+
+        font-size:6px;
+
+    }
+
+
+    .time-slot{
+
+        min-height:68px;
+
+    }
+
+
+    .time-label{
+
+        width:44px;
+
+        flex-basis:44px;
+
+        padding:10px 5px;
+
+        font-size:7px;
+
+    }
+
+
+    .events{
+
+        min-height:68px;
+
+    }
+
+
+    .lecture-time{
+
+        width:48px;
+
+        min-width:48px;
+
+    }
+
+
+    .lecture-time strong{
+
+        font-size:8px;
+
+    }
+
+
+    .lecture-time span{
+
+        font-size:7px;
+
+    }
+
+
+    .lecture-details h3{
+
+        font-size:11px;
+
+    }
+
+
+    .lecture-details p,
+    .lecture-details .event-module{
+
+        font-size:8px;
+
+    }
+
+
+}
+
+
+/*==================================================
+VERY SMALL PHONES
+360px AND BELOW
+==================================================*/
+
+@media (max-width:360px){
+
+    #schedulePage{
+
+        padding-left:9px;
+
+        padding-right:9px;
+
+        padding-bottom:120px;
+
+    }
+
+
+    .schedule-header h1{
+
+        font-size:25px;
+
+    }
+
+
+    .calendar-controls{
+
+        grid-template-columns:38px minmax(0,1fr) 38px;
+
+        gap:6px;
+
+    }
+
+
+    .calendar-controls button{
+
+        width:38px;
+
+        height:38px;
+
+        border-radius:10px;
+
+        font-size:18px;
+
+    }
+
+
+    .calendar-controls select{
+
+        height:38px;
+
+        font-size:11px;
+
+        padding:0 9px;
+
+    }
+
+
+    .calendar-header{
+
+        padding:12px;
+
+    }
+
+
+    .calendar-header h2{
+
+        font-size:17px;
+
+    }
+
+
+    .calendar-header p{
+
+        max-width:145px;
+
+        font-size:8px;
+
+    }
+
+
+    .calendar-header .add-event-btn{
+
+        width:62px;
+
+        min-width:62px;
+
+        flex-basis:62px;
+
+        height:43px;
+
+        font-size:8px;
+
+    }
+
+
+    .week-strip-day{
+
+        min-height:52px;
+
+    }
+
+
+    .strip-day{
+
+        font-size:5px;
+
+    }
+
+
+    .strip-date{
+
+        font-size:13px;
+
+    }
+
+
+    .month-title{
+
+        font-size:22px;
+
+    }
+
+
+    .month-day{
+
+        min-height:56px;
+
+        padding:4px;
+
+    }
+
+
+    .date-number{
+
+        width:19px;
+
+        height:19px;
+
+        line-height:19px;
+
+        font-size:8px;
+
+    }
+
+
+    .month-event{
+
+        font-size:4.5px;
+
+    }
+
+
+    .month-event-dot,
+    .month-dot{
+
+        width:4px;
+
+        height:4px;
+
+        min-width:4px;
+
+    }
+
+
+    .time-label{
+
+        width:40px;
+
+        flex-basis:40px;
+
+        font-size:6px;
+
+    }
+
+
+    .timeline-event,
+    .lecture-event,
+    .task-event,
+    .assignment-event,
+    .assessment-event,
+    .academic-event{
+
+        margin-left:4px;
+
+        margin-right:4px;
+
+        padding:7px;
+
+    }
+
+
+    .timeline-event strong,
+    .lecture-event strong,
+    .task-event strong,
+    .assignment-event strong,
+    .assessment-event strong,
+    .academic-event strong{
+
+        font-size:10px;
+
+    }
+
+
+    .timeline-event span,
+    .lecture-event span,
+    .task-event span,
+    .assignment-event span,
+    .assessment-event span,
+    .academic-event span{
+
+        font-size:8px;
+
+    }
+
+
+    .academic-period-content,
+    .academic-hero-content{
+
+        max-width:78%;
+
+    }
+
+
+    .academic-period-banner h2{
+
+        font-size:18px;
+
+    }
+
+
+    .academic-hero h2{
+
+        font-size:17px;
+
+    }
+
+}
+
+/*===tp overide add button===*/
+
+/*==================================================
+FINAL MOBILE ALIGNMENT
+==================================================*/
+
+@media (max-width:768px){
+
+    /*------------------------------------------
+    ADD EVENT BUTTON
+    ------------------------------------------*/
+
+    .calendar-header .add-event-btn{
+
+        width:58px;
+
+        min-width:58px;
+
+        flex:0 0 58px;
+
+        height:42px;
+
+        padding:0 5px;
+
+        gap:2px;
+
+        border-radius:11px;
+
+        font-size:8px;
+
+        line-height:1;
+
+        white-space:nowrap;
+
+    }
+
+    .calendar-header .add-event-btn i{
+
+        font-size:4px;
+
+    }
+
+
+    /*------------------------------------------
+    WEEK DATE HEADING
+    ------------------------------------------*/
+
+    .week-date-heading{
+
+        width:100%;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:flex-start;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+    }
+
+    .week-date-heading span{
+
+        display:block;
+
+        width:100%;
+
+        margin:0;
+
+        font-size:20px;
+
+        line-height:1.2;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+
+    /*------------------------------------------
+    DAY CARD HEADER
+    ------------------------------------------*/
+
+    .week-card-header{
+
+        width:100%;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        flex-wrap:nowrap;
+
+        gap:8px;
+
+        box-sizing:border-box;
+
+    }
+
+    .week-card-header > div{
+
+        min-width:0;
+
+        flex:1;
+
+    }
+
+    .week-card-header h2{
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+    .week-card-header span{
+
+        white-space:nowrap;
+
+        flex-shrink:0;
+
+    }
+
+
+    /*------------------------------------------
+    EVENT CARD
+    ------------------------------------------*/
+
+    .lecture-main{
+
+        display:flex;
+
+        align-items:center;
+
+        flex-wrap:nowrap;
+
+        min-width:0;
+
+    }
+
+    .lecture-time{
+
+        flex-shrink:0;
+
+    }
+
+    .lecture-details{
+
+        min-width:0;
+
+        flex:1;
+
+        overflow:hidden;
+
+    }
+
+    .lecture-details h3{
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+    .lecture-details p,
+
+    .lecture-details .event-module{
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+}
+
+
+/*==================================================
+SMALL MOBILE
+==================================================*/
+
+@media (max-width:480px){
+
+    /*------------------------------------------
+    ADD EVENT
+    ------------------------------------------*/
+
+    .calendar-header .add-event-btn{
+
+        width:56px;
+
+        min-width:56px;
+
+        flex:0 0 56px;
+
+        height:40px;
+
+        padding:0 4px;
+
+        border-radius:10px;
+
+        font-size:7px;
+
+    }
+
+    .calendar-header .add-event-btn i{
+
+        font-size:12px;
+
+    }
+
+
+    /*------------------------------------------
+    WEEK DATE
+    ------------------------------------------*/
+
+    .week-date-heading span{
+
+        font-size:18px;
+
+        white-space:nowrap;
+
+    }
+
+
+    /*------------------------------------------
+    DAY HEADER
+    ------------------------------------------*/
+
+    .week-card-header h2{
+
+        font-size:15px;
+
+        white-space:nowrap;
+
+    }
+
+    .week-card-header span{
+
+        font-size:10px;
+
+        white-space:nowrap;
+
+    }
+
+
+    /*------------------------------------------
+    EVENT
+    ------------------------------------------*/
+
+    .lecture-main{
+
+        gap:7px;
+
+        padding:10px;
+
+    }
+
+    .lecture-time{
+
+        width:45px;
+
+        min-width:45px;
+
+    }
+
+    .lecture-time strong{
+
+        font-size:8px;
+
+    }
+
+    .lecture-time span{
+
+        font-size:7px;
+
+    }
+
+    .lecture-details h3{
+
+        font-size:11px;
+
+        white-space:nowrap;
+
+    }
+
+    .lecture-details p,
+
+    .lecture-details .event-module{
+
+        font-size:8px;
+
+        white-space:nowrap;
+
+    }
+
+}
+
+
+
+

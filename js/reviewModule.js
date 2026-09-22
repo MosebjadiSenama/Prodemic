@@ -1,5 +1,6 @@
 import { supabase } from "./supabase.js";
 
+
 // ==================================================
 // GET MODULE ID FROM URL
 // ==================================================
@@ -8,12 +9,12 @@ const urlParams = new URLSearchParams(window.location.search);
 const moduleId = urlParams.get("id");
 
 
-
 if (!moduleId) {
     alert("No module was selected.");
     window.location.href = "08 modules.html";
     throw new Error("No module ID found.");
 }
+
 
 // ==================================================
 // GET HTML ELEMENTS
@@ -25,40 +26,52 @@ const summaryInput = document.getElementById("summary");
 
 const lecturerContainer = document.getElementById("lecturer");
 const tutorContainer = document.getElementById("tutor");
-const consultationContainer = document.getElementById("consultation");
 
 const lectureList = document.getElementById("lectureList");
 const assessmentList = document.getElementById("assessmentList");
-const academicEventsList = document.getElementById("academicEventsList");
+const academicEventsList =
+    document.getElementById("academicEventsList");
 
-const moduleColourInput = document.getElementById("moduleColour");
-const colourPreview = document.getElementById("colourPreview");
-const colourText = document.getElementById("colourText");
+const moduleColourInput =
+    document.getElementById("moduleColour");
 
-const saveButton = document.getElementById("saveModule");
-const backButton = document.getElementById("backBtn");
+const colourPreview =
+    document.getElementById("colourPreview");
+
+const colourText =
+    document.getElementById("colourText");
+
+const saveButton =
+    document.getElementById("saveModule");
+
+const backButton =
+    document.getElementById("backBtn");
+
 
 // ==================================================
 // STORE DATA
 // ==================================================
 
 let moduleData = null;
+
 let lectures = [];
 let assessments = [];
 let academicEvents = [];
 
-// These are kept so your existing page structure continues
-// to work even if the information is not stored yet.
 let lecturers = [];
 let tutors = [];
-let consultationHours = [];
+
 
 // ==================================================
 // SMALL HELPERS
 // ==================================================
 
 function safeText(value) {
-    if (value === null || value === undefined) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
         return "";
     }
 
@@ -69,12 +82,15 @@ function safeText(value) {
     return String(value);
 }
 
+
 function getFirstValue(object, keys) {
+
     if (!object) {
         return "";
     }
 
     for (const key of keys) {
+
         if (
             object[key] !== undefined &&
             object[key] !== null &&
@@ -86,6 +102,7 @@ function getFirstValue(object, keys) {
 
     return "";
 }
+
 
 // ==================================================
 // LOAD MODULE
@@ -110,6 +127,7 @@ async function loadModule() {
             .eq("id", moduleId)
             .single();
 
+
         if (moduleError) {
 
             console.error(
@@ -125,25 +143,32 @@ async function loadModule() {
             return;
         }
 
+
         if (!module) {
 
-            alert("Module could not be found.");
+            alert(
+                "Module could not be found."
+            );
 
             return;
         }
 
+
         moduleData = module;
+
 
         console.log(
             "MODULE FROM SUPABASE:",
             moduleData
         );
 
+
         // ==================================================
         // DISPLAY MAIN MODULE INFORMATION
         // ==================================================
 
         displayModuleInformation();
+
 
         // ==================================================
         // LOAD LECTURES
@@ -156,7 +181,10 @@ async function loadModule() {
             .from("lectures")
             .select("*")
             .eq("module_id", moduleId)
-            .order("id", { ascending: true });
+            .order("id", {
+                ascending: true
+            });
+
 
         if (lectureError) {
 
@@ -172,10 +200,12 @@ async function loadModule() {
             lectures = lectureData || [];
         }
 
+
         console.log(
             "LECTURES FROM SUPABASE:",
             lectures
         );
+
 
         // ==================================================
         // LOAD ASSESSMENTS
@@ -188,7 +218,10 @@ async function loadModule() {
             .from("assessments")
             .select("*")
             .eq("module_id", moduleId)
-            .order("id", { ascending: true });
+            .order("id", {
+                ascending: true
+            });
+
 
         if (assessmentError) {
 
@@ -204,18 +237,16 @@ async function loadModule() {
             assessments = assessmentData || [];
         }
 
+
         console.log(
             "ASSESSMENTS FROM SUPABASE:",
             assessments
         );
 
+
         // ==================================================
         // LOAD ACADEMIC EVENTS
         // ==================================================
-        //
-        // Your academic_events table currently does not exist.
-        // Therefore this is deliberately optional.
-        //
 
         if (academicEventsList) {
 
@@ -225,13 +256,17 @@ async function loadModule() {
             } = await supabase
                 .from("academic_events")
                 .select("*")
-                .eq("module_id", moduleId);
+                .eq("module_id", moduleId)
+                .order("id", {
+                    ascending: true
+                });
+
 
             if (eventError) {
 
                 console.warn(
-                    "Academic events are unavailable:",
-                    eventError.message
+                    "ACADEMIC EVENTS LOAD ERROR:",
+                    eventError
                 );
 
                 academicEvents = [];
@@ -241,64 +276,87 @@ async function loadModule() {
                 academicEvents = eventData || [];
             }
         }
-// ==================================================
-// LOAD LECTURERS
-// ==================================================
-
-const {
-    data: lecturerData,
-    error: lecturerError
-} = await supabase
-    .from("lecturers")
-    .select("*")
-    .eq("module_id", moduleId)
-    .order("id", { ascending: true });
-
-if (lecturerError) {
-    console.error(
-        "LECTURERS LOAD ERROR:",
-        lecturerError
-    );
-
-    lecturers = [];
-} else {
-    lecturers = lecturerData || [];
-}
-
-console.log(
-    "LECTURERS FROM SUPABASE:",
-    lecturers
-);
 
 
-// ==================================================
-// LOAD TUTORS
-// ==================================================
+        console.log(
+            "ACADEMIC EVENTS FROM SUPABASE:",
+            academicEvents
+        );
 
-const {
-    data: tutorData,
-    error: tutorError
-} = await supabase
-    .from("tutors")
-    .select("*")
-    .eq("module_id", moduleId)
-    .order("id", { ascending: true });
 
-if (tutorError) {
-    console.error(
-        "TUTORS LOAD ERROR:",
-        tutorError
-    );
+        // ==================================================
+        // LOAD LECTURERS
+        // ==================================================
 
-    tutors = [];
-} else {
-    tutors = tutorData || [];
-}
+        const {
+            data: lecturerData,
+            error: lecturerError
+        } = await supabase
+            .from("lecturers")
+            .select("*")
+            .eq("module_id", moduleId)
+            .order("id", {
+                ascending: true
+            });
 
-console.log(
-    "TUTORS FROM SUPABASE:",
-    tutors
-);
+
+        if (lecturerError) {
+
+            console.error(
+                "LECTURERS LOAD ERROR:",
+                lecturerError
+            );
+
+            lecturers = [];
+
+        } else {
+
+            lecturers = lecturerData || [];
+        }
+
+
+        console.log(
+            "LECTURERS FROM SUPABASE:",
+            lecturers
+        );
+
+
+        // ==================================================
+        // LOAD TUTORS
+        // ==================================================
+
+        const {
+            data: tutorData,
+            error: tutorError
+        } = await supabase
+            .from("tutors")
+            .select("*")
+            .eq("module_id", moduleId)
+            .order("id", {
+                ascending: true
+            });
+
+
+        if (tutorError) {
+
+            console.error(
+                "TUTORS LOAD ERROR:",
+                tutorError
+            );
+
+            tutors = [];
+
+        } else {
+
+            tutors = tutorData || [];
+        }
+
+
+        console.log(
+            "TUTORS FROM SUPABASE:",
+            tutors
+        );
+
 
         // ==================================================
         // DISPLAY EVERYTHING
@@ -310,8 +368,6 @@ console.log(
 
         displayTutors();
 
-        displayConsultationHours();
-
         displayLectures();
 
         displayAssessments();
@@ -320,9 +376,11 @@ console.log(
 
         setupColourPicker();
 
+
         console.log(
             "REVIEW PAGE LOADED SUCCESSFULLY"
         );
+
     }
 
     catch (error) {
@@ -339,52 +397,6 @@ console.log(
     }
 }
 
-// ==================================================
-// OPTIONAL INFORMATION
-// ==================================================
-
-function loadOptionalInformationFromModule() {
-
-    if (!moduleData) {
-        return;
-    }
-
-    // Lecturer
-    if (moduleData.lecturer) {
-
-        lecturers = [
-            {
-                name: moduleData.lecturer
-            }
-        ];
-    }
-
-    // Tutor
-    if (moduleData.tutor) {
-
-        tutors = [
-            {
-                name: moduleData.tutor
-            }
-        ];
-    }
-
-    // Consultation hours
-    if (moduleData.consultation_hours) {
-
-        if (Array.isArray(moduleData.consultation_hours)) {
-
-            consultationHours =
-                moduleData.consultation_hours;
-
-        } else {
-
-            consultationHours = [
-                moduleData.consultation_hours
-            ];
-        }
-    }
-}
 
 // ==================================================
 // DISPLAY MODULE INFORMATION
@@ -396,42 +408,58 @@ function displayModuleInformation() {
         return;
     }
 
+
     if (moduleNameInput) {
 
         moduleNameInput.value =
-            safeText(moduleData.module_name);
+            safeText(
+                moduleData.module_name
+            );
     }
+
 
     if (moduleCodeInput) {
 
         moduleCodeInput.value =
-            safeText(moduleData.module_code);
+            safeText(
+                moduleData.module_code
+            );
     }
+
 
     if (summaryInput) {
 
         summaryInput.value =
-            safeText(moduleData.summary);
+            safeText(
+                moduleData.summary
+            );
     }
+
 
     if (moduleColourInput) {
 
         moduleColourInput.value =
-            moduleData.colour || "#3154B8";
+            moduleData.colour ||
+            "#3154B8";
     }
+
 
     if (colourPreview) {
 
         colourPreview.style.backgroundColor =
-            moduleData.colour || "#3154B8";
+            moduleData.colour ||
+            "#3154B8";
     }
+
 
     if (colourText) {
 
         colourText.textContent =
-            moduleData.colour || "#3154B8";
+            moduleData.colour ||
+            "#3154B8";
     }
 }
+
 
 // ==================================================
 // DISPLAY LECTURERS
@@ -443,7 +471,9 @@ function displayLecturers() {
         return;
     }
 
+
     lecturerContainer.innerHTML = "";
+
 
     if (
         !lecturers ||
@@ -456,6 +486,7 @@ function displayLecturers() {
         return;
     }
 
+
     lecturers.forEach(function (lecturer) {
 
         const card =
@@ -464,16 +495,23 @@ function displayLecturers() {
         card.className =
             "review-person";
 
+
         const name =
             document.createElement("h3");
 
         name.textContent =
             getFirstValue(
                 lecturer,
-                ["name", "full_name", "lecturer"]
+                [
+                    "name",
+                    "full_name",
+                    "lecturer"
+                ]
             ) || "Lecturer";
 
+
         card.appendChild(name);
+
 
         if (lecturer.email) {
 
@@ -486,9 +524,11 @@ function displayLecturers() {
             card.appendChild(email);
         }
 
+
         lecturerContainer.appendChild(card);
     });
 }
+
 
 // ==================================================
 // DISPLAY TUTORS
@@ -500,7 +540,9 @@ function displayTutors() {
         return;
     }
 
+
     tutorContainer.innerHTML = "";
+
 
     if (
         !tutors ||
@@ -513,6 +555,7 @@ function displayTutors() {
         return;
     }
 
+
     tutors.forEach(function (tutor) {
 
         const card =
@@ -521,16 +564,23 @@ function displayTutors() {
         card.className =
             "review-person";
 
+
         const name =
             document.createElement("h3");
 
         name.textContent =
             getFirstValue(
                 tutor,
-                ["name", "full_name", "tutor"]
+                [
+                    "name",
+                    "full_name",
+                    "tutor"
+                ]
             ) || "Tutor";
 
+
         card.appendChild(name);
+
 
         if (tutor.email) {
 
@@ -543,99 +593,11 @@ function displayTutors() {
             card.appendChild(email);
         }
 
+
         tutorContainer.appendChild(card);
     });
 }
 
-// ==================================================
-// DISPLAY CONSULTATION HOURS
-// ==================================================
-
-function displayConsultationHours() {
-
-    if (!consultationContainer) {
-        return;
-    }
-
-    consultationContainer.innerHTML = "";
-
-    if (
-        !consultationHours ||
-        consultationHours.length === 0
-    ) {
-
-        consultationContainer.innerHTML =
-            "<p>No consultation hours listed.</p>";
-
-        return;
-    }
-
-    consultationHours.forEach(
-        function (item) {
-
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "review-card";
-
-            const person =
-                document.createElement("h3");
-
-            person.textContent =
-                getFirstValue(
-                    item,
-                    ["person", "name"]
-                );
-
-            card.appendChild(person);
-
-            const day =
-                document.createElement("p");
-
-            day.textContent =
-                getFirstValue(
-                    item,
-                    ["day"]
-                );
-
-            card.appendChild(day);
-
-            const time =
-                document.createElement("p");
-
-            const start =
-                getFirstValue(
-                    item,
-                    ["start_time", "startTime"]
-                );
-
-            const end =
-                getFirstValue(
-                    item,
-                    ["end_time", "endTime"]
-                );
-
-            time.textContent =
-                `${start} - ${end}`;
-
-            card.appendChild(time);
-
-            const location =
-                document.createElement("p");
-
-            location.textContent =
-                getFirstValue(
-                    item,
-                    ["location", "venue"]
-                );
-
-            card.appendChild(location);
-
-            consultationContainer.appendChild(card);
-        }
-    );
-}
 
 // ==================================================
 // DISPLAY LECTURES
@@ -647,7 +609,9 @@ function displayLectures() {
         return;
     }
 
+
     lectureList.innerHTML = "";
+
 
     if (
         !lectures ||
@@ -660,6 +624,7 @@ function displayLectures() {
         return;
     }
 
+
     lectures.forEach(
         function (lecture) {
 
@@ -668,6 +633,11 @@ function displayLectures() {
 
             card.className =
                 "review-card";
+
+
+            // ==================================================
+            // DAY
+            // ==================================================
 
             const dayGroup =
                 createInputField(
@@ -682,12 +652,20 @@ function displayLectures() {
                 dayGroup.container
             );
 
+
+            // ==================================================
+            // START TIME
+            // ==================================================
+
             const startGroup =
                 createInputField(
                     "Start Time",
                     getFirstValue(
                         lecture,
-                        ["start_time", "startTime"]
+                        [
+                            "start_time",
+                            "startTime"
+                        ]
                     )
                 );
 
@@ -695,12 +673,20 @@ function displayLectures() {
                 startGroup.container
             );
 
+
+            // ==================================================
+            // END TIME
+            // ==================================================
+
             const endGroup =
                 createInputField(
                     "End Time",
                     getFirstValue(
                         lecture,
-                        ["end_time", "endTime"]
+                        [
+                            "end_time",
+                            "endTime"
+                        ]
                     )
                 );
 
@@ -708,12 +694,20 @@ function displayLectures() {
                 endGroup.container
             );
 
+
+            // ==================================================
+            // VENUE
+            // ==================================================
+
             const venueGroup =
                 createInputField(
                     "Venue",
                     getFirstValue(
                         lecture,
-                        ["venue", "location"]
+                        [
+                            "venue",
+                            "location"
+                        ]
                     )
                 );
 
@@ -721,18 +715,10 @@ function displayLectures() {
                 venueGroup.container
             );
 
-            const descriptionGroup =
-                createInputField(
-                    "Description",
-                    getFirstValue(
-                        lecture,
-                        ["description"]
-                    )
-                );
 
-            card.appendChild(
-                descriptionGroup.container
-            );
+            // ==================================================
+            // STORE INPUTS FOR SAVING
+            // ==================================================
 
             lecture._dayInput =
                 dayGroup.input;
@@ -746,13 +732,12 @@ function displayLectures() {
             lecture._venueInput =
                 venueGroup.input;
 
-            lecture._descriptionInput =
-                descriptionGroup.input;
 
             lectureList.appendChild(card);
         }
     );
 }
+
 
 // ==================================================
 // DISPLAY ASSESSMENTS
@@ -764,7 +749,9 @@ function displayAssessments() {
         return;
     }
 
+
     assessmentList.innerHTML = "";
+
 
     if (
         !assessments ||
@@ -777,6 +764,7 @@ function displayAssessments() {
         return;
     }
 
+
     assessments.forEach(
         function (assessment) {
 
@@ -786,12 +774,20 @@ function displayAssessments() {
             card.className =
                 "review-card";
 
+
+            // ==================================================
+            // TITLE
+            // ==================================================
+
             const titleGroup =
                 createInputField(
                     "Title",
                     getFirstValue(
                         assessment,
-                        ["title", "name"]
+                        [
+                            "title",
+                            "name"
+                        ]
                     )
                 );
 
@@ -799,44 +795,31 @@ function displayAssessments() {
                 titleGroup.container
             );
 
-            const typeGroup =
-                createInputField(
-                    "Type",
-                    getFirstValue(
-                        assessment,
-                        ["type"]
-                    )
-                );
 
-            card.appendChild(
-                typeGroup.container
-            );
-
-            const descriptionGroup =
-                createInputField(
-                    "Description",
-                    getFirstValue(
-                        assessment,
-                        ["description"]
-                    )
-                );
-
-            card.appendChild(
-                descriptionGroup.container
-            );
+            // ==================================================
+            // DUE DATE
+            // ==================================================
 
             const dueDateGroup =
                 createInputField(
                     "Due Date",
                     getFirstValue(
                         assessment,
-                        ["due_date", "dueDate"]
+                        [
+                            "due_date",
+                            "dueDate"
+                        ]
                     )
                 );
 
             card.appendChild(
                 dueDateGroup.container
             );
+
+
+            // ==================================================
+            // WEIGHT
+            // ==================================================
 
             const weightGroup =
                 createInputField(
@@ -851,14 +834,13 @@ function displayAssessments() {
                 weightGroup.container
             );
 
+
+            // ==================================================
+            // STORE INPUTS FOR SAVING
+            // ==================================================
+
             assessment._titleInput =
                 titleGroup.input;
-
-            assessment._typeInput =
-                typeGroup.input;
-
-            assessment._descriptionInput =
-                descriptionGroup.input;
 
             assessment._dueDateInput =
                 dueDateGroup.input;
@@ -866,10 +848,12 @@ function displayAssessments() {
             assessment._weightInput =
                 weightGroup.input;
 
+
             assessmentList.appendChild(card);
         }
     );
 }
+
 
 // ==================================================
 // DISPLAY ACADEMIC EVENTS
@@ -881,7 +865,9 @@ function displayAcademicEvents() {
         return;
     }
 
+
     academicEventsList.innerHTML = "";
+
 
     if (
         !academicEvents ||
@@ -894,6 +880,7 @@ function displayAcademicEvents() {
         return;
     }
 
+
     academicEvents.forEach(
         function (event) {
 
@@ -903,18 +890,31 @@ function displayAcademicEvents() {
             card.className =
                 "review-card";
 
+
+            // ==================================================
+            // TITLE
+            // ==================================================
+
             const titleGroup =
                 createInputField(
                     "Title",
                     getFirstValue(
                         event,
-                        ["title", "name"]
+                        [
+                            "title",
+                            "name"
+                        ]
                     )
                 );
 
             card.appendChild(
                 titleGroup.container
             );
+
+
+            // ==================================================
+            // TYPE
+            // ==================================================
 
             const typeGroup =
                 createInputField(
@@ -929,12 +929,20 @@ function displayAcademicEvents() {
                 typeGroup.container
             );
 
+
+            // ==================================================
+            // START DATE
+            // ==================================================
+
             const startDateGroup =
                 createInputField(
                     "Start Date",
                     getFirstValue(
                         event,
-                        ["start_date", "startDate"]
+                        [
+                            "start_date",
+                            "startDate"
+                        ]
                     )
                 );
 
@@ -942,18 +950,31 @@ function displayAcademicEvents() {
                 startDateGroup.container
             );
 
+
+            // ==================================================
+            // END DATE
+            // ==================================================
+
             const endDateGroup =
                 createInputField(
                     "End Date",
                     getFirstValue(
                         event,
-                        ["end_date", "endDate"]
+                        [
+                            "end_date",
+                            "endDate"
+                        ]
                     )
                 );
 
             card.appendChild(
                 endDateGroup.container
             );
+
+
+            // ==================================================
+            // DESCRIPTION
+            // ==================================================
 
             const descriptionGroup =
                 createInputField(
@@ -967,6 +988,11 @@ function displayAcademicEvents() {
             card.appendChild(
                 descriptionGroup.container
             );
+
+
+            // ==================================================
+            // STORE INPUTS FOR SAVING
+            // ==================================================
 
             event._titleInput =
                 titleGroup.input;
@@ -983,16 +1009,21 @@ function displayAcademicEvents() {
             event._descriptionInput =
                 descriptionGroup.input;
 
+
             academicEventsList.appendChild(card);
         }
     );
 }
 
+
 // ==================================================
 // CREATE INPUT FIELD
 // ==================================================
 
-function createInputField(labelText, value) {
+function createInputField(
+    labelText,
+    value
+) {
 
     const container =
         document.createElement("div");
@@ -1000,28 +1031,35 @@ function createInputField(labelText, value) {
     container.className =
         "review-field";
 
+
     const label =
         document.createElement("label");
 
     label.textContent =
         labelText;
 
+
     const input =
         document.createElement("input");
 
-    input.type = "text";
+    input.type =
+        "text";
 
     input.value =
         safeText(value);
 
+
     container.appendChild(label);
+
     container.appendChild(input);
+
 
     return {
         container: container,
         input: input
     };
 }
+
 
 // ==================================================
 // COLOUR PICKER
@@ -1037,17 +1075,23 @@ function setupColourPicker() {
         return;
     }
 
+
     const currentColour =
-        moduleData.colour || "#3154B8";
+        moduleData.colour ||
+        "#3154B8";
+
 
     moduleColourInput.value =
         currentColour;
 
+
     colourPreview.style.backgroundColor =
         currentColour;
 
+
     colourText.textContent =
         currentColour;
+
 
     moduleColourInput.addEventListener(
         "input",
@@ -1056,14 +1100,17 @@ function setupColourPicker() {
             const colour =
                 moduleColourInput.value;
 
+
             colourPreview.style.backgroundColor =
                 colour;
+
 
             colourText.textContent =
                 colour;
         }
     );
 }
+
 
 // ==================================================
 // SAVE EVERYTHING
@@ -1077,20 +1124,24 @@ if (saveButton) {
     );
 }
 
+
 async function saveModule() {
 
     console.log(
         "Saving reviewed module..."
     );
 
+
     if (!saveButton) {
         return;
     }
+
 
     saveButton.disabled = true;
 
     saveButton.textContent =
         "Saving...";
+
 
     try {
 
@@ -1121,6 +1172,7 @@ async function saveModule() {
                     : moduleData.colour
         };
 
+
         // ==================================================
         // REQUIRED FIELDS
         // ==================================================
@@ -1137,6 +1189,7 @@ async function saveModule() {
             return;
         }
 
+
         // ==================================================
         // UPDATE MODULE
         // ==================================================
@@ -1150,6 +1203,7 @@ async function saveModule() {
             .eq("id", moduleId)
             .select()
             .single();
+
 
         if (moduleError) {
 
@@ -1166,10 +1220,12 @@ async function saveModule() {
             return;
         }
 
+
         console.log(
             "MODULE UPDATED:",
             updatedData
         );
+
 
         // ==================================================
         // UPDATE LECTURES
@@ -1184,19 +1240,22 @@ async function saveModule() {
                 continue;
             }
 
-          const lectureUpdate = {
-    day:
-        lecture._dayInput.value.trim(),
 
-    start_time:
-        lecture._startTimeInput.value.trim(),
+            const lectureUpdate = {
 
-    end_time:
-        lecture._endTimeInput.value.trim(),
+                day:
+                    lecture._dayInput.value.trim(),
 
-    venue:
-        lecture._venueInput.value.trim()
-};
+                start_time:
+                    lecture._startTimeInput.value.trim(),
+
+                end_time:
+                    lecture._endTimeInput.value.trim(),
+
+                venue:
+                    lecture._venueInput.value.trim()
+            };
+
 
             const {
                 error
@@ -1205,6 +1264,7 @@ async function saveModule() {
                 .update(lectureUpdate)
                 .eq("id", lecture.id)
                 .eq("module_id", moduleId);
+
 
             if (error) {
 
@@ -1216,6 +1276,7 @@ async function saveModule() {
                 throw error;
             }
         }
+
 
         // ==================================================
         // UPDATE ASSESSMENTS
@@ -1230,16 +1291,19 @@ async function saveModule() {
                 continue;
             }
 
-           const assessmentUpdate = {
-    title:
-        assessment._titleInput.value.trim(),
 
-    due_date:
-        assessment._dueDateInput.value.trim(),
+            const assessmentUpdate = {
 
-    weight:
-        assessment._weightInput.value.trim()
-};
+                title:
+                    assessment._titleInput.value.trim(),
+
+                due_date:
+                    assessment._dueDateInput.value.trim(),
+
+                weight:
+                    assessment._weightInput.value.trim()
+            };
+
 
             const {
                 error
@@ -1248,6 +1312,7 @@ async function saveModule() {
                 .update(assessmentUpdate)
                 .eq("id", assessment.id)
                 .eq("module_id", moduleId);
+
 
             if (error) {
 
@@ -1260,12 +1325,10 @@ async function saveModule() {
             }
         }
 
+
         // ==================================================
         // UPDATE ACADEMIC EVENTS
         // ==================================================
-        //
-        // Only attempt this if events actually exist.
-        //
 
         for (const event of academicEvents) {
 
@@ -1275,6 +1338,7 @@ async function saveModule() {
             ) {
                 continue;
             }
+
 
             const eventUpdate = {
 
@@ -1296,6 +1360,7 @@ async function saveModule() {
                     event._descriptionInput.value.trim()
             };
 
+
             const {
                 error
             } = await supabase
@@ -1303,6 +1368,7 @@ async function saveModule() {
                 .update(eventUpdate)
                 .eq("id", event.id)
                 .eq("module_id", moduleId);
+
 
             if (error) {
 
@@ -1313,6 +1379,7 @@ async function saveModule() {
             }
         }
 
+
         // ==================================================
         // SUCCESS
         // ==================================================
@@ -1322,9 +1389,6 @@ async function saveModule() {
             moduleId
         );
 
-        alert(
-            "Module saved successfully."
-        );
 
         // ==================================================
         // GO TO TRACK MODULE
@@ -1332,8 +1396,8 @@ async function saveModule() {
 
         window.location.href =
             `23 moduleTrack.html?id=${encodeURIComponent(moduleId)}`;
-
     }
+
 
     catch (error) {
 
@@ -1348,6 +1412,7 @@ async function saveModule() {
         );
     }
 
+
     finally {
 
         saveButton.disabled = false;
@@ -1356,6 +1421,7 @@ async function saveModule() {
             "Save Module";
     }
 }
+
 
 // ==================================================
 // BACK BUTTON
@@ -1372,6 +1438,7 @@ if (backButton) {
         }
     );
 }
+
 
 // ==================================================
 // START

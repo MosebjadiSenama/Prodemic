@@ -510,155 +510,158 @@ if (continueBtn) {
                     "No assessment information found."
                 );
             }
+// ==================================================
+// SAVE LECTURERS
+// ==================================================
 
-            // ==================================================
-            // SAVE LECTURERS
-            // ==================================================
+const lecturerData =
+    extractedData.lecturers ||
+    [];
 
-            const lecturerData =
-                extractedData.lecturers ||
-                [];
+if (
+    Array.isArray(lecturerData) &&
+    lecturerData.length > 0
+) {
 
-            if (
-                Array.isArray(lecturerData) &&
-                lecturerData.length > 0
-            ) {
+    const lecturersToSave =
+        lecturerData.map((lecturer) => {
 
-                const lecturersToSave =
-                    lecturerData.map((lecturer) => ({
-
-                        user_id: user.uid,
-
-                        module_id: newModuleId,
-
-                        name:
-                            lecturer.name ||
-                            lecturer.full_name ||
-                            lecturer.lecturer ||
-                            "Unknown Lecturer",
-
-                        email:
-                            lecturer.email ||
-                            null
-                    }));
-
-                console.log("=================================");
-                console.log("LECTURERS TO SAVE");
-                console.log("=================================");
-
-                console.log(lecturersToSave);
-
-                const {
-                    error: lecturersError
-                } = await supabase
-                    .from("lecturers")
-                    .insert(lecturersToSave);
-
-                if (lecturersError) {
-
-                    console.error(
-                        "LECTURERS SAVE ERROR:",
-                        lecturersError
-                    );
-
-                } else {
-
-                    console.log(
-                        "LECTURERS SAVED SUCCESSFULLY"
-                    );
-                }
-
-            } else {
-
-                console.log(
-                    "No lecturer information found."
-                );
+            // If AI returns just a name as a string
+            if (typeof lecturer === "string") {
+                return {
+                    user_id: user.uid,
+                    module_id: newModuleId,
+                    name: lecturer,
+                    email: null
+                };
             }
 
-            // ==================================================
-            // SAVE TUTORS
-            // ==================================================
+            // If AI returns an object
+            return {
+                user_id: user.uid,
+                module_id: newModuleId,
 
-            // Tutors use the same structure as lectures.
-            // There is NO consultation_hours table.
+                name:
+                    lecturer.name ||
+                    lecturer.full_name ||
+                    lecturer.lecturer ||
+                    "Unknown Lecturer",
 
-            const tutorData =
-                extractedData.tutors ||
-                [];
+                email:
+                    lecturer.email ||
+                    null
+            };
+        });
 
-            if (
-                Array.isArray(tutorData) &&
-                tutorData.length > 0
-            ) {
+    console.log("=================================");
+    console.log("LECTURERS TO SAVE");
+    console.log("=================================");
 
-                const tutorsToSave =
-                    tutorData.map((tutor) => ({
+    console.log(lecturersToSave);
 
-                        user_id: user.uid,
+    const {
+        error: lecturersError
+    } = await supabase
+        .from("lecturers")
+        .insert(lecturersToSave);
 
-                        module_id: newModuleId,
+    if (lecturersError) {
 
-                        day:
-                            tutor.day ||
-                            null,
+        console.error(
+            "LECTURERS SAVE ERROR:",
+            lecturersError
+        );
 
-                        start_time:
-                            tutor.start_time ||
-                            tutor.startTime ||
-                            null,
+    } else {
 
-                        end_time:
-                            tutor.end_time ||
-                            tutor.endTime ||
-                            null,
+        console.log(
+            "LECTURERS SAVED SUCCESSFULLY"
+        );
+    }
 
-                        venue:
-                            tutor.venue ||
-                            tutor.location ||
-                            null
-                    }));
+} else {
 
-                console.log("=================================");
-                console.log("TUTORS TO SAVE");
-                console.log("=================================");
+    console.log(
+        "No lecturer information found."
+    );
+}
+            
+// ==================================================
+// SAVE TUTORS
+// ==================================================
 
-                console.log(tutorsToSave);
+const tutorData =
+    extractedData.tutors ||
+    [];
 
-                const {
-                    error: tutorsError
-                } = await supabase
-                    .from("tutors")
-                    .insert(tutorsToSave);
+if (
+    Array.isArray(tutorData) &&
+    tutorData.length > 0
+) {
 
-                if (tutorsError) {
+    const tutorsToSave =
+        tutorData.map((tutor) => {
 
-                    console.error(
-                        "TUTORS SAVE ERROR:",
-                        tutorsError
-                    );
-
-                } else {
-
-                    console.log(
-                        "TUTORS SAVED SUCCESSFULLY"
-                    );
-                }
-
-            } else {
-
-                console.log(
-                    "No tutor information found."
-                );
+            // If AI returns just a name as a string
+            if (typeof tutor === "string") {
+                return {
+                    user_id: user.uid,
+                    module_id: newModuleId,
+                    name: tutor,
+                    email: null
+                };
             }
 
-            // ==================================================
-            // DO NOT SAVE CONSULTATION HOURS
-            // ==================================================
+            // If AI returns an object
+            return {
+                user_id: user.uid,
+                module_id: newModuleId,
 
-            console.log(
-                "Consultation hours save skipped."
-            );
+                name:
+                    tutor.name ||
+                    tutor.full_name ||
+                    tutor.tutor ||
+                    "Unknown Tutor",
 
+                email:
+                    tutor.email ||
+                    null
+            };
+        });
+
+    console.log("=================================");
+    console.log("TUTORS TO SAVE");
+    console.log("=================================");
+
+    console.log(tutorsToSave);
+
+    const {
+        error: tutorsError
+    } = await supabase
+        .from("tutors")
+        .insert(tutorsToSave);
+
+    if (tutorsError) {
+
+        console.error(
+            "TUTORS SAVE ERROR:",
+            tutorsError
+        );
+
+    } else {
+
+        console.log(
+            "TUTORS SAVED SUCCESSFULLY"
+        );
+    }
+
+} else {
+
+    console.log(
+        "No tutor information found."
+    );
+}
+    
             // ==================================================
             // SAVE ACADEMIC EVENTS
             // ==================================================
