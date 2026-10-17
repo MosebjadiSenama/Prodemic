@@ -159,13 +159,16 @@ if (continueBtn) {
             // SEND PDF TO BACKEND
             // ==================================================
 
-            const response = await fetch(
-                "http://localhost:3000/analyse-module",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
+             const API_BASE_URL = window.PRODEMIC_API_URL ||
+             "https://prodemic-backend.onrender.com/analyse-module"
+
+             const response = await fetch(
+             `${API_BASE_URL}/analyse-module`,
+             {
+              method: "POST",
+              body: formData
+              }
+             );
 
             // ==================================================
             // CHECK SERVER RESPONSE

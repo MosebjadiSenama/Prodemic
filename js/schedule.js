@@ -4310,7 +4310,6 @@ async function deleteScheduleEvent(
     updateCalendar();
 
 }
-
 //==================================================
 // CLOSE EVENT ACTION MENU
 //==================================================
