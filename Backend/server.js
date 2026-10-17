@@ -88,23 +88,61 @@ testOpenAI();
 app.post(
     "/analyse-module",
     upload.single("pdf"),
-    async function (req, res) {
-
+    async (req, res) => {
         try {
-
-            // Check that a PDF was uploaded
             if (!req.file) {
-
                 return res.status(400).json({
                     success: false,
                     message: "No PDF was uploaded."
                 });
-
             }
 
-            // Convert PDF to base64
             const pdfData = req.file.buffer.toString("base64");
 
+            const response = await ai.responses.create({
+                model: "gpt-4.1-mini",
+                input: [
+                    {
+                        role: "user",
+                        content: [
+                            {
+                                type: "input_text",
+                                text: prompt
+                            },
+                            {
+                                type: "input_file",
+                                filename: req.file.originalname,
+                                file_data: `data:application/pdf;base64,${pdfData}`
+                            }
+                        ]
+                    }
+                ]
+            });
+
+            const result = response.output_text;
+
+            const cleanedResponse = result
+                .replace(/```json/g, "")
+                .replace(/```/g, "")
+                .trim();
+
+            const moduleData = JSON.parse(cleanedResponse);
+
+            return res.json({
+                success: true,
+                data: moduleData
+            });
+
+        } catch (error) {
+            console.error("OPENAI ERROR:", error);
+
+            return res.status(500).json({
+                success: false,
+                message: error.message
+            });
+        }
+    }
+);
 
             // ==================================================
             // PROMPT
