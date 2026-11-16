@@ -28,7 +28,13 @@ const newTask = document.getElementById("newTask");
 const newLecture = document.getElementById("newLecture");
 const newAssessment = document.getElementById("newAssessment");
 
+// Active-user greeting
 const greetingText = document.getElementById("greetingText");
+const userName = document.getElementById("userName");
+
+// New-user greeting
+const setupGreetingText = document.getElementById("setupGreetingText");
+const setupUserName = document.getElementById("setupUserName");
 
 const profileBtn = document.getElementById("profileBtn");
 const profileMenu = document.getElementById("profileMenu");
@@ -36,8 +42,34 @@ const profileName = document.getElementById("profileName");
 const logoutBtn = document.getElementById("logoutBtn");
 
 const setupSection = document.getElementById("setupSection");
+
+const homeLoading = document.getElementById("homeLoading");
 const todaySection = document.getElementById("todaySection");
+const contentHome = document.querySelector(".contenthomep");
 const todayEvents = document.getElementById("todayEvents");
+
+// HOMEPAGE TODAY'S PROGRESS ELEMENTS
+
+const progressRing = document.getElementById("progressRing");
+const progressPercentage = document.getElementById("progressPercentage");
+const progressCount = document.getElementById("progressCount");
+const progressMessage = document.getElementById("progressMessage");
+
+
+// ACADEMIC OVERVIEW ELEMENTS
+
+const academicPeriodCard = document.getElementById("academicPeriodCard");
+const academicPeriodLabel = document.getElementById("academicPeriodLabel");
+const academicPeriodTitle = document.getElementById("academicPeriodTitle");
+const academicPeriodDates = document.getElementById("academicPeriodDates");
+const academicPeriodMessage = document.getElementById("academicPeriodMessage");
+
+const academicEventsToggle = document.getElementById("academicEventsToggle");
+const academicEventsDropdown = document.getElementById("academicEventsDropdown");
+const academicEventsList = document.getElementById("academicEventsList");
+//======
+
+
 
 const addModuleBtn = document.getElementById("addModuleBtn");
 const importModuleBtn = document.getElementById("importModuleBtn");
@@ -67,6 +99,39 @@ auth.onAuthStateChanged(async (user) => {
 
     }
 
+    // SHOW LOADING SCREEN
+    homeLoading.style.display = "flex";
+
+    // HIDE HOMEPAGE SECTIONS
+    setupSection.style.display = "none";
+    todaySection.style.display = "none";
+
+
+// New-user greeting
+
+const setupHour = new Date().getHours();
+
+let setupGreeting;
+
+if (setupHour >= 5 && setupHour < 12) {
+    setupGreeting = "Good morning,";
+} 
+else if (setupHour >= 12 && setupHour < 17) {
+    setupGreeting = "Good afternoon,";
+} 
+else {
+    setupGreeting = "Good evening,";
+}
+
+const setupName = user.displayName || "there";
+
+if (setupGreetingText) {
+    setupGreetingText.textContent = setupGreeting;
+}
+
+if (setupUserName) {
+    setupUserName.textContent = ` ${setupName}`;
+}
     //------------------------------------------
     // Greeting
     //------------------------------------------
@@ -103,47 +168,21 @@ auth.onAuthStateChanged(async (user) => {
 
 }
 
+
     //------------------------------------------
     // Home State
     //------------------------------------------
 
-    await loadHome(user.uid);
+     await loadHome(user.uid);
 
     await updateSetupCard();
 
-});
-
-//==================================================
-// PROFILE MENU
-//==================================================
-
-if(profileBtn){
-
-    profileBtn.addEventListener("click",(e)=>{
-
-        e.stopPropagation();
-
-        profileMenu.classList.toggle("show");
-
-    });
-
-}
-
-document.addEventListener("click",()=>{
-
-    profileMenu.classList.remove("show");
+    // HIDE LOADING SCREEN
+    homeLoading.style.display = "none";
 
 });
 
-if(profileMenu){
 
-    profileMenu.addEventListener("click",(e)=>{
-
-        e.stopPropagation();
-
-    });
-
-}
 
 //==================================================
 // LOGOUT
@@ -196,7 +235,7 @@ async function loadHome(uid){
         String(today.getDate()).padStart(2,"0");
 
 
-        //==================================================
+    //==================================================
     // LOAD HOME DATA
     //==================================================
 
@@ -341,104 +380,545 @@ async function loadHome(uid){
 
     }
 
+//==================================================
+// HOME STATE
+//==================================================
 
-    //==================================================
-    // HOME STATE
-    //==================================================
+const welcomeContent = document.querySelector(".welcome-content");
 
-    if(userModules.length === 0){
+// Check whether the user has added ANY content
+const hasAnyContent =
+    userModules.length > 0 ||
+    lectures.length > 0 ||
+    tasks.length > 0 ||
+    assessments.length > 0 ||
+    academicEvents.length > 0;
 
-        if(setupSection){
 
-            setupSection.style.display = "";
+// NEW USER: Nothing has been added
+if (!hasAnyContent) {
+    if (contentHome) {
+    contentHome.style.display = "none";
+}
 
-        }
+    setupSection.style.display = "block";
 
-        if(todaySection){
+    if (welcomeContent) {
+        welcomeContent.style.display = "none";
+    }
 
-            todaySection.style.display = "none";
+    todaySection.style.setProperty("display", "none", "important");
 
-        }
+    academicPeriodCard.style.display = "none";
 
+    return;
+}
+
+// ACTIVE USER: At least one item exists
+setupSection.style.display = "none";
+
+if (welcomeContent) {
+    welcomeContent.style.display = "flex";
+}
+todaySection.style.setProperty("display", "block", "important");
+
+renderTodayEvents(todayString);
+renderAcademicOverview(todayString);
+
+} 
+
+//==================================================
+// ACADEMIC OVERVIEW
+//==================================================
+
+function renderAcademicOverview(todayString) {
+
+    if (!academicPeriodCard) return;
+
+    // Only include calendar-level academic events.
+    const academicTypes = [
+        "academic_event",
+        "examination",
+        "exam",
+        "examination_period",
+        "test_week"
+    ];
+
+    const academicRecords = academicEvents.filter(event => {
+
+        const type = String(event.type || "")
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, "_");
+
+        return academicTypes.includes(type);
+    });
+
+    // Compare date-only strings to avoid timezone shifts.
+    const validEvents = academicRecords.filter(event => {
+
+        const start = String(event.start_date || "").slice(0, 10);
+        const end = String(event.end_date || event.start_date || "").slice(0, 10);
+
+        return start && end && end >= todayString;
+    });
+
+    if (validEvents.length === 0) {
+        academicPeriodCard.style.display = "none";
         return;
+    }
+
+    function getPriority(event) {
+
+        const type = String(event.type || "")
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, "_");
+
+        if (
+            type === "examination_period" ||
+            type === "examination" ||
+            type === "exam"
+        ) {
+            return 1;
+        }
+
+        if (type === "test_week") {
+            return 2;
+        }
+
+        return 3;
+    }
+
+    function isActive(event) {
+
+        const start = String(event.start_date || "").slice(0, 10);
+        const end = String(event.end_date || event.start_date || "").slice(0, 10);
+
+        return start <= todayString && end >= todayString;
+    }
+
+    // Active events take priority over future events.
+    const activeEvents = validEvents
+        .filter(isActive)
+        .sort((a, b) => getPriority(a) - getPriority(b));
+
+    const upcomingEvents = validEvents
+        .filter(event => !isActive(event))
+        .sort((a, b) => {
+            return String(a.start_date).localeCompare(String(b.start_date));
+        });
+
+    const featuredEvent = activeEvents.length > 0
+        ? activeEvents[0]
+        : upcomingEvents[0];
+
+    const otherEvents = validEvents
+        .filter(event => event.id !== featuredEvent.id)
+        .sort((a, b) => {
+
+            const priorityDifference = getPriority(a) - getPriority(b);
+
+            if (priorityDifference !== 0) {
+                return priorityDifference;
+            }
+
+            return String(a.start_date).localeCompare(
+                String(b.start_date)
+            );
+        });
+
+    function formatDate(dateString) {
+
+        if (!dateString) return "";
+
+        const [year, month, day] = dateString.slice(0, 10)
+            .split("-")
+            .map(Number);
+
+        const date = new Date(year, month - 1, day);
+
+        return date.toLocaleDateString("en-ZA", {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        });
+    }
+
+    function formatDateRange(event) {
+
+        const start = String(event.start_date || "").slice(0, 10);
+        const end = String(event.end_date || event.start_date || "").slice(0, 10);
+
+        if (start === end) {
+            return formatDate(start);
+        }
+
+        return `${formatDate(start)} – ${formatDate(end)}`;
+    }
+
+    // Display the featured event.
+    academicPeriodCard.style.display = "block";
+
+    academicPeriodTitle.textContent =
+        featuredEvent.title || featuredEvent.name || "Academic Event";
+
+    academicPeriodDates.textContent = formatDateRange(featuredEvent);
+
+    if (isActive(featuredEvent)) {
+
+        academicPeriodLabel.textContent = "HAPPENING NOW";
+
+        academicPeriodMessage.textContent =
+            "Stay focused and keep working towards your academic goals.";
+
+    } else {
+
+        academicPeriodLabel.textContent = "UPCOMING";
+
+        academicPeriodMessage.textContent =
+            "Prepare ahead and stay on top of your academic goals.";
+    }
+
+    // Populate the remaining events dropdown.
+    academicEventsList.innerHTML = "";
+
+    otherEvents.forEach(event => {
+
+        const item = document.createElement("div");
+        item.className = "academic-event-option";
+
+        const title = document.createElement("h3");
+        title.textContent =
+            event.title || event.name || "Academic Event";
+
+        const dates = document.createElement("p");
+        dates.textContent = formatDateRange(event);
+
+        const status = document.createElement("span");
+        status.textContent = isActive(event)
+            ? "Happening now"
+            : "Upcoming";
+
+        item.appendChild(title);
+        item.appendChild(dates);
+        item.appendChild(status);
+
+        academicEventsList.appendChild(item);
+    });
+
+    // Only show the dropdown when other events exist.
+    academicEventsToggle.hidden = otherEvents.length === 0;
+    academicEventsDropdown.hidden = true;
+
+    academicEventsToggle.setAttribute("aria-expanded", "false");
+
+    academicEventsToggle.innerHTML = `
+        View other academic events
+        <i class="fa-solid fa-chevron-down"></i>
+    `;
+}
+
+// Dropdown interaction.
+if (academicEventsToggle) {
+
+    academicEventsToggle.addEventListener("click", () => {
+
+        const isExpanded =
+            academicEventsToggle.getAttribute("aria-expanded") === "true";
+
+        academicEventsToggle.setAttribute(
+            "aria-expanded",
+            String(!isExpanded)
+        );
+
+        academicEventsDropdown.hidden = isExpanded;
+
+        academicEventsToggle.innerHTML = isExpanded
+            ? 'View other academic events <i class="fa-solid fa-chevron-down"></i>'
+            : 'Hide other academic events <i class="fa-solid fa-chevron-down"></i>';
+    });
+}
+//==================================================
+// SAVE HOMEPAGE EVENT COMPLETION
+//==================================================
+
+async function saveHomeEventCompletion(event, completed) {
+
+    const userId = auth.currentUser?.uid;
+
+    const allowedTables = [
+        "lectures",
+        "tasks",
+        "assessments",
+        "academic_events"
+    ];
+
+    if (
+        !userId ||
+        !event.table ||
+        !allowedTables.includes(event.table) ||
+        event.recordId == null
+    ) {
+
+        console.error(
+            "Missing or invalid event information:",
+            event
+        );
+
+        return false;
 
     }
 
+    const { error } = await supabase
 
-   if(setupSection){
+        .from(event.table)
 
-    setupSection.style.display = "none";
+        .update({
+            completed: completed
+        })
+
+        .eq("id", event.recordId)
+
+        .eq("user_id", userId);
+
+
+    if (error) {
+
+        console.error(
+            "Could not save homepage completion:",
+            error
+        );
+
+        return false;
+
+    }
+
+    event.completed = completed;
+
+    return true;
 
 }
 
-if(todaySection){
+//==================================================
+// UPDATE HOMEPAGE TODAY'S PROGRESS
+//==================================================
 
-    todaySection.style.display = "block";
+function updateTodayProgress(events) {
+
+    if (
+        !progressRing ||
+        !progressPercentage ||
+        !progressCount ||
+        !progressMessage
+    ) {
+        return;
+    }
+
+    const totalEvents = events.length;
+
+    const completedEvents = events.filter(
+        event => event.completed === true
+    ).length;
+
+    const percentage = totalEvents === 0
+        ? 0
+        : Math.round((completedEvents / totalEvents) * 100);
+
+
+    // UPDATE CIRCULAR PROGRESS
+
+    progressRing.style.setProperty(
+        "--progress",
+        `${percentage}%`
+    );
+
+
+    // UPDATE PERCENTAGE
+
+    progressPercentage.textContent = `${percentage}%`;
+
+
+    // UPDATE COMPLETION COUNT
+
+    progressCount.textContent =
+        `${completedEvents} of ${totalEvents} tasks`;
+
+
+    // UPDATE MESSAGE
+
+    if (totalEvents === 0) {
+
+        progressMessage.textContent =
+            "Nothing scheduled for today. Enjoy your day!";
+
+    }
+
+    else if (percentage === 100) {
+
+        progressMessage.textContent =
+            "Amazing! You've completed everything for today.";
+
+    }
+
+    else if (percentage >= 75) {
+
+        progressMessage.textContent =
+            "Almost there! Keep up the great work.";
+
+    }
+
+    else if (percentage >= 50) {
+
+        progressMessage.textContent =
+            "You're making great progress. Keep going!";
+
+    }
+
+    else if (percentage > 0) {
+
+        progressMessage.textContent =
+            "Good start! Keep working towards your goals.";
+
+    }
+
+    else {
+
+        progressMessage.textContent =
+            "Let's make today productive!";
+
+    }
 
 }
-
-renderTodayEvents(todayString);
-
-}
-
  //==================================================
 // TODAY'S EVENTS
 //==================================================
 
-function renderTodayEvents(todayString){
+function renderTodayEvents(todayString) {
 
-    if(!todayEvents){
-
+    if (!todayEvents) {
         return;
-
     }
-
 
     const events = [];
 
-
     //==================================================
-    // LECTURES
+    // CLASSES
     //==================================================
 
-    const todayLectures =
-        getTodayLectures();
-
+    const todayLectures = getTodayLectures();
 
     todayLectures.forEach(lecture => {
 
         events.push({
 
-            title:
-                lecture.title ||
-                lecture.lecture_name ||
-                getModuleName(
-                    lecture.module_id
-                ) ||
-                "Class",
+            title: lecture.title || "Class",
 
-            module:
-                getModuleName(
-                    lecture.module_id
-                ),
+            table: "lectures",
 
-            type:
-                "Class",
+            recordId: lecture.id,
 
-            start:
-                lecture.start_time ||
-                "",
+            completed: lecture.completed === true,
 
-            end:
-                lecture.end_time ||
-                "",
+            module: getModuleName(lecture.module_id),
 
-            colour:
-                "#2862D9"
+            type: "Class",
+
+            start: lecture.start_time || "",
+
+            end: lecture.end_time || "",
+
+            colour: getModuleColour(lecture.module_id),
+
+            priority: lecture.priority === true
 
         });
 
     });
+
+
+    //==================================================
+    // STUDY SESSIONS AND OTHER EVENTS
+    //==================================================
+
+    academicEvents
+
+        .filter(event => {
+            
+
+            const startDate = String(
+                event.start_date || ""
+            ).slice(0, 10);
+
+            const endDate = String(
+                event.end_date || event.start_date || ""
+            ).slice(0, 10);
+
+            const eventType = String(
+                event.type || ""
+            ).toLowerCase().trim().replace(/\s+/g, "_");
+
+// Exclude academic periods from the homepage task list
+const eventTitle = String(event.title || "")
+    .toLowerCase()
+    .trim();
+
+const excludedTypes = [
+    "academic_event",
+    "academic",
+    "examination",
+    "exam",
+    "examination_period",
+    "exam_period",
+    "test_week"
+];
+
+if (
+    excludedTypes.includes(eventType) ||
+    eventTitle.includes("examination period") ||
+    eventTitle.includes("academic event") ||
+    eventTitle.includes("test week")
+) {
+    return false;
+}
+
+            // Include events taking place today
+            return (
+                startDate &&
+                startDate <= todayString &&
+                endDate >= todayString
+            );
+
+        })
+
+        .forEach(event => {
+
+            events.push({
+
+                title: event.title || "Other",
+
+                table: "academic_events",
+
+                recordId: event.id,
+
+                completed: event.completed === true,
+
+                module: getModuleName(event.module_id),
+
+                type: event.type || "Other",
+
+                start: event.start_time || "",
+
+                end: event.end_time || "",
+
+            
+                colour: getModuleColour(event.module_id),
+
+                priority: event.priority === true
+
+            });
+
+        });
 
 
     //==================================================
@@ -449,16 +929,13 @@ function renderTodayEvents(todayString){
 
         .filter(task => {
 
-            if(!task.due_date){
-
+            if (!task.due_date) {
                 return false;
-
             }
-
 
             return String(
                 task.due_date
-            ).slice(0,10) === todayString;
+            ).slice(0, 10) === todayString;
 
         })
 
@@ -471,23 +948,23 @@ function renderTodayEvents(todayString){
                     task.task_name ||
                     "Task",
 
-                module:
-                    getModuleName(
-                        task.module_id
-                    ),
+                table: "tasks",
 
-                type:
-                    "Task",
+                recordId: task.id,
 
-                start:
-                    task.due_time ||
-                    "",
+                completed: task.completed === true,
 
-                end:
-                    "",
+                module: getModuleName(task.module_id),
 
-                colour:
-                    "#9B35D1"
+                type: "Task",
+
+                start: task.due_time || "",
+
+                end: "",
+
+                colour: getModuleColour(task.module_id),
+
+                priority: task.priority === true
 
             });
 
@@ -498,11 +975,7 @@ function renderTodayEvents(todayString){
     // ASSESSMENTS
     //==================================================
 
-    const todayAssessments =
-        getTodayAssessments(
-            todayString
-        );
-
+    const todayAssessments = getTodayAssessments(todayString);
 
     todayAssessments.forEach(assessment => {
 
@@ -513,191 +986,212 @@ function renderTodayEvents(todayString){
                 assessment.name ||
                 "Assessment",
 
-            module:
-                getModuleName(
-                    assessment.module_id
-                ),
+            table: "assessments",
 
-            type:
-                "Assessment",
+            recordId: assessment.id,
+
+            completed: assessment.completed === true,
+
+            module: getModuleName(assessment.module_id),
+
+            type: "Assessment",
 
             start:
                 assessment.due_time ||
                 assessment.start_time ||
                 "",
 
-            end:
-                assessment.end_time ||
-                "",
+            end: assessment.end_time || "",
 
-            colour:
-                "#D62B8A"
+            colour: getModuleColour(assessment.module_id),
+
+            priority: assessment.priority === true
 
         });
 
     });
 
 
-
-
     //==================================================
     // SORT EVENTS
     //==================================================
 
-    events.sort((a,b) => {
+    events.sort((a, b) => {
 
-        return String(
-            a.start ||
-            "99:99"
-        ).localeCompare(
-            String(
-                b.start ||
-                "99:99"
-            )
-        );
+    // Priority items first
+    if (a.priority !== b.priority) {
+        return Number(b.priority) - Number(a.priority);
+    }
 
-    });
+    // Then sort by time
+    return String(a.start || "99:99").localeCompare(
+        String(b.start || "99:99")
+    );
+
+});
 
 
     //==================================================
     // NO EVENTS
     //==================================================
 
-    if(events.length === 0){
+   if (events.length === 0) {
 
-        todayEvents.innerHTML = `
+    todayEvents.innerHTML = `
+        <p class="today-empty">
+            Nothing scheduled for today.
+        </p>
+    `;
 
-            <p class="today-empty">
+    updateTodayProgress([]);
 
-                Nothing scheduled for today.
-
-            </p>
-
-        `;
-
-        return;
-
-    }
-
+    return;
+}
 
     //==================================================
-    // SHOW EVENTS
+    // DISPLAY EVENTS
     //==================================================
 
-    todayEvents.innerHTML = "";
+   todayEvents.innerHTML = "";
 
+// Calculate progress using ALL activities scheduled for today
+updateTodayProgress(events);
 
-    events
-        .slice(0,3)
-        .forEach(event => {
+// Only limit how many activities are displayed on the homepage
+const visibleEvents = events.slice(0, 3);
 
-            const item =
-                document.createElement("div");
+visibleEvents.forEach(event => {
 
-            item.className =
-                "today-item";
+            const item = document.createElement("div");
 
+            item.className = "today-item";
+            item.style.setProperty(
+             "--event-colour",
+              event.colour || "#3048C8"
+              );
 
-            const check =
-                document.createElement("div");
-
-            check.className =
-                "today-check";
-
-
-            const marker =
-                document.createElement("div");
-
-            marker.className =
-                "today-marker";
-
-            marker.style.background =
-                event.colour;
-
-
-            const content =
-                document.createElement("div");
-
-            content.className =
-                "today-item-content";
-
-
-            const title =
-                document.createElement("div");
-
-            title.className =
-                "today-item-title";
-
-            title.textContent =
-                event.title;
-
-
-            const meta =
-                document.createElement("div");
-
-            meta.className =
-                "today-item-meta";
-
-
-            let metaText =
-                event.type;
-
-
-            if(event.module){
-
-                metaText +=
-                    " · " +
-                    event.module;
-
+            if (event.completed) {
+                item.classList.add("completed");
             }
 
 
-            meta.textContent =
-                metaText;
+            // CHECKBOX
 
+            const check = document.createElement("input");
 
-            content.appendChild(
-                title
-            );
+            check.type = "checkbox";
 
-            content.appendChild(
-                meta
-            );
+            check.className = "today-check";
 
+            check.checked = event.completed;
 
-            const time =
-                document.createElement("div");
-
-            time.className =
-                "today-item-time";
-
-            time.textContent =
-                formatTimeRange(
-                    event.start,
-                    event.end
-                );
-
-
-            item.appendChild(
-                check
-            );
-
-            item.appendChild(
-                marker
-            );
-
-            item.appendChild(
-                content
-            );
-
-            item.appendChild(
-                time
+            check.setAttribute(
+                "aria-label",
+                `Mark ${event.title} as completed`
             );
 
 
-            todayEvents.appendChild(
-                item
+            // CONTENT
+            const content = document.createElement("div");
+            content.className = "today-item-content";
+
+            const title = document.createElement("div");
+             title.className = "today-item-title";
+
+          const titleText = document.createElement("span");
+          titleText.textContent = event.title;
+
+          title.appendChild(titleText);
+
+          if (event.priority) {
+
+    const priorityLabel = document.createElement("span");
+
+    priorityLabel.className = "today-item-priority";
+
+    priorityLabel.innerHTML = `
+        <i class="fa-solid fa-star"></i>
+        Priority
+    `;
+
+    title.appendChild(priorityLabel);
+
+}
+
+            if (event.completed) {
+                title.classList.add("is-completed");
+            }
+
+            // META
+            const meta = document.createElement("div");
+            meta.className = "today-item-meta";
+
+            let metaText = event.type;
+
+            if (event.module) {
+                metaText += " · " + event.module;
+            }
+
+            meta.textContent = metaText;
+
+            // TIME
+            const time = document.createElement("div");
+            time.className = "today-item-time";
+            time.textContent = formatTimeRange(
+                event.start,
+                event.end
             );
+
+            content.appendChild(title);
+            content.appendChild(meta);
+            content.appendChild(time);
+
+            
+// APPEND CONTENT FIRST, CHECKBOX LAST
+item.appendChild(content);
+item.appendChild(check);
+
+// SAVE COMPLETION WHEN HOMEPAGE CHECKBOX IS CLICKED
+check.addEventListener("change", async () => {
+    const newCompletedStatus = check.checked;
+
+    // Update the card immediately
+    item.classList.toggle("completed", newCompletedStatus);
+    title.classList.toggle("is-completed", newCompletedStatus);
+
+    // Prevent repeated clicks while saving
+    check.disabled = true;
+
+    const saved = await saveHomeEventCompletion(
+        event,
+        newCompletedStatus
+    );
+
+    check.disabled = false;
+
+    // Restore the previous state if saving fails
+    if (!saved) {
+        check.checked = !newCompletedStatus;
+
+        item.classList.toggle(
+            "completed",
+            !newCompletedStatus
+        );
+
+        title.classList.toggle(
+            "is-completed",
+            !newCompletedStatus
+        );
+
+        return;
+    }
+
+    // Refresh the homepage progress
+    updateTodayProgress(events);
+});
+
+todayEvents.appendChild(item);
+
 
         });
 
@@ -708,25 +1202,18 @@ function renderTodayEvents(todayString){
 // GET MODULE NAME
 //==================================================
 
-function getModuleName(moduleId){
+function getModuleName(moduleId) {
 
-    if(!moduleId){
-
+    if (!moduleId) {
         return "";
-
     }
 
-    const module =
-        userModules.find(
-            item =>
-                String(item.id) ===
-                String(moduleId)
-        );
+    const module = userModules.find(
+        item => String(item.id) === String(moduleId)
+    );
 
-    if(!module){
-
+    if (!module) {
         return "";
-
     }
 
     return (
@@ -735,6 +1222,25 @@ function getModuleName(moduleId){
         module.code ||
         ""
     );
+
+}
+
+
+//==================================================
+// GET MODULE COLOUR
+//==================================================
+
+function getModuleColour(moduleId) {
+
+    if (!moduleId) {
+        return "#3048C8";
+    }
+
+    const module = userModules.find(
+        item => String(item.id) === String(moduleId)
+    );
+
+    return module?.colour || "#3048C8";
 
 }
 

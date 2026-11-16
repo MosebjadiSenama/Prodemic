@@ -1,209 +1,139 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prodemic</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="css/onboarding.css">
-<script type="module" src="js/script.js"></script>
+    <title>Prodemic | Sign In</title>
 
-<!--GOOGLE FONTS-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Anton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
 
+    <!-- stylesheets -->
+   
+    <link rel="stylesheet" href="css/onboarding.css">
+   
+
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- javascript -->
+    <script type="module" src="js/script.js"></script>
 </head>
 
-<body>
+<body class="auth-page">
 
 <div class="app-container">
 
-    <!--==================================================
-                    WELCOME SECTION
-    ==================================================-->
+<main class="signup-page auth-layout">
 
-   <div class="auth-header" id="welcomeSection">
+        <!-- LEFT BRANDING PANEL -->
+        <aside class="auth-branding">
 
-        <!--================ IMAGE ================-->
+            <div class="auth-brand-content">
 
-        <div class="auth-image-container">
+                <img src="assets/images/logo.png"
+                     class="auth-logo"
+                     alt="Prodemic logo">
 
-            <img
-                src="assets/images/1.png"
-                alt="Prodemic"
-                class="auth-image"
-                id="onboarding-img">
+                <h2>Prodemic</h2>
 
-        </div>
+                <p>
+                    Designed to help you think less and do more</p>
 
-        <!--================ WELCOME TEXT ================-->
+                <span class="brand-accent"></span>
 
-        <div class="auth-content">
+            </div>
 
-            <span
-                class="welcome-to"
-                id="welcome-to">
+        </aside>
 
-                Welcome to
-
-            </span>
-
-            <h1
-                class="bold"
-                id="title">
-
-                Prodemic
-
-            </h1>
-
-            <p
-                class="onboarding-description"
-                id="description">
-
-                Your all-in-one space to study smarter,
-                stay organised and achieve your academic goals
-                with personalised AI assistance.
-
-            </p>
-
-        </div>
-
-        <!--================ GET STARTED ================-->
-
-        <div class="onboarding-buttons">
-
-           <button
-            class="next-btn"
-            id="getStartedBtn">
-
-                Get Started
-
-            </button>
-
-        </div>
-
-    </div>
+<!--RIGHT SIDE FORM-->
 
 
+        <!-- sign in form -->
+        <section class="forgot-passoword-page" id="signinSection">
+            
 
-    <!--==================================================
-                    SIGN IN FORM
-    ==================================================-->
+            <div class="form">
+                <!-- back button -->
+        <a href="02%20onboarding.html" class="auth-back-button">
+            &larr; Back
+        </a>
 
-    <div class="forgot-passoword-page" id="signinSection">
+                <h1>Sign In</h1>
 
-        <section class="form">
+                <p class="form-description">
+                    Log in by entering your email address and password.
+                </p>
 
-            <h1>SIGN IN</h1>
+                <div class="fill-in">
 
-            <p>
-                Log in by entering your email address and password.
-            </p>
+                    <!-- email -->
+                    <div class="form-1">
+                        <label for="email">Email address</label>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email address"
+                            autocomplete="email">
 
-            <div class="fill-in">
+                             <p id="email-error" class="error-message"></p>
+                    </div>
 
-                <!--================ EMAIL ================-->
+                    <!-- password -->
+                    <div class="form-1">
+                        <label for="enter-password">Password</label>
+                        <div class="password-input-wrapper">
+       <input
+        type="password"
+        id="enter-password"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+        class="password-input"
+    >
 
-                <div class="form-1">
+    <button
+        type="button"
+        class="toggle-password"
+        aria-label="Show password"
+        aria-pressed="false"
+    >
+        <i class="fa-regular fa-eye"></i>
+    </button>
+</div>
 
-                    <label for="email">
+                        <a href="06 forgotpassword.html" class="forgot-password">
+                            Forgot Password?
+                        </a>
+                         <p id="signin-error" style="color: #d93025; font-size: 13px; margin-top: 6px;"></p>
+                    </div>
 
-                        EMAIL
+                    <!-- sign in button -->
+                    <div class="form-1">
+                        <button type="button" class="signin-btn">
+                            Sign In
+                        </button>
+                    </div>
 
-                    </label>
+                    <!-- divider -->
+                    <div class="line-div">
+                        <div class="line"></div>
+                        <p>or</p>
+                        <div class="line"></div>
+                    </div>
 
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Enter your email address">
-
-                </div>
-
-
-
-                <!--================ PASSWORD ================-->
-
-                <div class="form-1">
-
-                    <label for="enter-password">
-
-                        PASSWORD
-
-                    </label>
-
-                    <input
-                        type="password"
-                        id="enter-password"
-                        placeholder="Enter your password">
-
-                    <a
-                        href="06 forgotpassword.html"
-                        class="forgot-password">
-
-                        Forgot Password?
-
+                    <!-- create account -->
+                    <a href="05 Signup.html" class="create-account-btn2">
+                        Create Account
                     </a>
 
                 </div>
-
-
-
-                <!--================ SIGN IN BUTTON ================-->
-
-                <div class="form-1">
-
-                    <button
-                        class="signin-btn">
-
-                        Sign In
-
-                    </button>
-
-                </div>
-
-
-
-                <!--================ DIVIDER ================-->
-
-                <div class="line-div">
-
-                    <div class="line"></div>
-
-                    <p>or</p>
-
-                    <div class="line"></div>
-
-                </div>
-
-
-
-                <!--================ CREATE ACCOUNT ================-->
-
-                <a
-                    href="05 Signup.html"
-                    class="create-account-btn2">
-
-                    Create Account
-
-                </a>
 
             </div>
 
         </section>
 
-    </div>
+    </main>
 
-</div>
-
-</body>
-</div>
 </body>
 </html>

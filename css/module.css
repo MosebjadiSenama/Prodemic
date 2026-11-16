@@ -148,54 +148,102 @@ FILTER CARD
 EMPTY STATE
 ==============================*/
 
-.module-empty{
+.module-empty {
+    width: 100%;
+    max-width: 680px;
+    margin: 5px auto 0;
+    padding: 20px 24px;
 
-    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-    display:flex;
+    text-align: center;
 
-    flex-direction:column;
+    background: #ffffff;
+    border: 1px solid #e8edf7;
+    border-radius: 24px;
 
-    align-items:center;
-
-    justify-content:center;
-
-    text-align:center;
-
-    padding:90px 20px;
-
+    box-shadow: 0 12px 35px rgba(21, 48, 100, 0.05);
 }
 
-.module-empty-img{
-
-    width:320px;
-
-    max-width:100%;
-
-    margin-bottom:30px;
-
+.module-empty-img {
+    width: 170px;
+    max-width: 80%;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 5px;
 }
 
-.module-empty h2{
+.module-empty h2 {
+    margin: 5px 0 10px;
 
-    font-size:2.3rem;
-
-    color:#222;
-
-    margin-bottom:12px;
-
+    color: #102653;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
 }
 
-.module-empty p{
+.module-empty p {
+    max-width: 430px;
+    margin: 0 auto;
 
-    max-width:520px;
+    color: #71809b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+/* =====================================
+   EMPTY STATE TIP
+===================================== */
 
-    color:#6d6d6d;
+.module-empty-tip {
+    width: 100%;
+    max-width: 480px;
+    margin-top: 16px;
+    padding: 12px 16px;
 
-    line-height:1.7;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 
-    font-size:17px;
+    text-align: left;
 
+    background: #f3f7ff;
+    border: 1px solid #e2ebff;
+    border-radius: 16px;
+}
+
+.module-empty-tip-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e2ecff;
+    color: #2e4aac;
+
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+.module-empty-tip-text strong {
+    display: block;
+    margin-bottom: 4px;
+
+    color: #17356f;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.module-empty-tip-text p {
+    margin: 0;
+    color: #627493;
+    font-size: 12px;
+    line-height: 1.6;
 }
 
 
@@ -1376,28 +1424,24 @@ DELETE MODAL
 
 }
 
-.delete-icon{
+.delete-icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #FDEBEC;
 
-    width:70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    height:70px;
+    margin: 0 auto 20px;
+}
 
-    margin:0 auto 20px;
-
-    border-radius:50%;
-
-    background:#FDECEC;
-
-    color:#E53935;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    font-size:28px;
-
+.delete-icon {
+    color: #E53935;
+    font-size: 23px;
+    line-height: 1;
+    display: block;
 }
 
 .delete-modal h2{
@@ -1944,7 +1988,14 @@ DELETE MODAL
 
 }
 
-
+.areyousure{
+    color: red;
+    font-weight: bold;
+    display: block;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    
+}
 /*=========================================================
                     OUTLINE CARD
 =========================================================*/
@@ -2726,17 +2777,20 @@ DELETE MODAL
     MODULE ACTIONS
     ==============================*/
 
-    .module-actions{
+    
+.module-actions{
 
-        width:40px;
+    width:auto;
 
-        min-width:40px;
+    min-width:max-content;
 
-        flex-shrink:0;
+    flex-shrink:0;
 
-        gap:6px;
+    align-items:flex-end;
 
-    }
+    gap:6px;
+
+}
 
     .more-btn,
 
@@ -2755,15 +2809,29 @@ DELETE MODAL
     TRACK PROGRESS
     ==============================*/
 
-    .track-progress-btn{
+   
+.track-progress-btn{
 
-        font-size:11px;
+    display:inline-flex;
 
-        padding:6px 1px;
+    align-items:center;
 
-        gap:4px;
+    justify-content:center;
 
-    }
+    white-space:nowrap;
+
+    width:max-content;
+
+    font-size:10px;
+
+    padding:6px 0;
+
+    gap:4px;
+
+    flex-shrink:0;
+    margin-top: 20px;
+
+}
 
 
     /*==============================

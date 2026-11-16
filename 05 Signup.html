@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prodemic</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/onboarding.css">
 <script type="module" src="js/script.js"></script>
 
-<!--GOOGLE FONTS-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,42 +22,138 @@
 <body>
 <div class="app-container">
 
+<main class="signup-page auth-layout">
 
-<div class="signup-page">
-<section class="form2">
+        <!-- LEFT BRANDING PANEL -->
+        <aside class="auth-branding">
 
-    <h1>CREATE ACCOUNT</h1>
+            <div class="auth-brand-content">
+
+                <img src="assets/images/logo.png"
+                     class="auth-logo"
+                     alt="Prodemic logo">
+
+                <h2>Prodemic</h2>
+
+                <p>
+                    Designed to help you think less and do more</p>
+
+                <span class="brand-accent"></span>
+
+            </div>
+
+        </aside>
+
+<!--RIGHT SIDE FORM-->
+
+<section class="form2 auth-form-panel">
+
+  <h1>Create account</h1>
     <p class="signup-text">Join Prodemic and start simplifying your academic life.</p>
 <div class="fill-in">
 
-<div class="signup-page">
     <div class="form-1">
     <label>NAME</label>
-    <input placeholder="Enter your full name" type="Email"  id="name" >
+    <input placeholder="Enter your full name" type="text" id="name">
+    <span class="field-error" id="name-error"></span>
     </div>
 
 
     <div class="form-1">
     <label>EMAIL</label>
     <input placeholder="Enter your email address" type="email"  id="email">
+    <span class="field-error" id="email-error"></span>
     </div>
 
     <div class="form-1">
     <label>PASSWORD</label>
-    <input placeholder="Enter your password" type="password" id="enter-password">
+    <div class="password-input-wrapper">
+    <input
+        placeholder="Enter your password"
+        type="password"
+        id="enter-password"
+        class="password-input"
+        autocomplete="new-password"
+    >
+   
+    <button
+        type="button"
+        class="toggle-password"
+        aria-label="Show password"
+        aria-pressed="false"
+    >
+        <i class="fa-regular fa-eye"></i>
+    </button>
+</div>
+    <span class="characters">At least 8 characters must be used</span>
+    <span class="field-error" id="password-error"></span>
     </div>
 
     <div class="form-1">
     <label>CONFIRM PASSWORD</label>
-    <input placeholder="Confirm your password" type="password" id="confirm-password">
-    </div>
-<p id="error-message"></p>
-<button class="create-account-btn2">Create Account</button>
-<p>Already have an account? <a class="sign-in-link"> <a href="03 Authentication.html?signin=true"class="sign-up-link">Sign in</a></p>
-
+    <div class="password-input-wrapper">
+    <input
+        placeholder="Confirm your password"
+        type="password"
+        id="confirm-password"
+        class="password-input"
+        autocomplete="new-password"
+    >
+    <span class="field-error" id="confirm-password-error"></span>
+    <button
+        type="button"
+        class="toggle-password"
+        aria-label="Show password"
+        aria-pressed="false"
+    >
+        <i class="fa-regular fa-eye"></i>
+    </button>
 </div>
+    </div>
+<p class="field-error" id="signup-status"></p>
+<button class="create-account-btn2">Create Account</button>
+<p class="auth-switch">
+    Already have an account?
+    <a href="03 Authentication.html?signin=true"
+       class="sign-in-link">Sign in</a>
+</p>
 </div>
 </section>
+</main>
+
+
+</main>
+
+
+</div>
+<!-- ACCOUNT CREATED POPUP -->
+<div class="popup-overlay" id="popupOverlay">
+
+    <div class="popup-card">
+
+        <button type="button" class="popup-close" id="popupClose">
+            &times;
+        </button>
+
+        <div class="popup-icon" id="popupIcon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <h2 id="popupTitle"></h2>
+
+        <p id="popupMessage"></p>
+
+        <button type="button" class="popup-button" id="popupButton">
+            Okay
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+</body>
+</html>
 </div>
 </body>
 </html>

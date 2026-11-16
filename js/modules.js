@@ -270,7 +270,7 @@ class="more-btn">
     aria-label="View module progress">
 
     <span>
-        View Progress
+        Track module
     </span>
 
     <i class="fa-solid fa-arrow-right"></i>
@@ -708,6 +708,8 @@ saveModule.addEventListener("click", async()=>{
 
 });
 
+
+
 //==================================================
 // DELETE MODULE
 //==================================================
@@ -720,37 +722,71 @@ cancelDelete.addEventListener("click",()=>{
 
 });
 
-confirmDelete.addEventListener("click", async()=>{
 
-    if(!moduleToDelete) return;
+confirmDelete.addEventListener("click", async () => {
 
-    const { error } = await supabase
+    if (!moduleToDelete || !auth.currentUser) return;
 
-    .from("modules")
+    const userId = auth.currentUser.uid;
+    const deletingModuleId = moduleToDelete;
 
-    .delete()
+    confirmDelete.disabled = true;
 
-    .eq("id", moduleToDelete)
+    try {
 
-    .eq("user_id", auth.currentUser.uid);
+ // DELETE RECORDS LINKED TO THIS MODULE
+    const relatedTables = [
+    "lectures",
+    "tasks",
+    "assessments",
+    "academic_events",
+    "weekly_topics"
+];
 
-    if(error){
+        for (const table of relatedTables) {
 
+            const { error } = await supabase
+                .from(table)
+                .delete()
+                .eq("module_id", deletingModuleId)
+                .eq("user_id", userId);
+
+            if (error) {
+                throw new Error(
+                    `Could not delete related ${table}: ${error.message}`
+                );
+            }
+        }
+
+        // DELETE THE MODULE
+        const { error: moduleError } = await supabase
+            .from("modules")
+            .delete()
+            .eq("id", deletingModuleId)
+            .eq("user_id", userId);
+
+        if (moduleError) throw moduleError;
+
+        deleteOverlay.style.display = "none";
+        moduleToDelete = null;
+
+        showToast("Module and associated records deleted.");
+
+        await loadModules();
+
+    } catch (error) {
+
+        console.error("MODULE DELETION ERROR:", error);
         showToast(error.message);
 
-        return;
+    } finally {
+
+        confirmDelete.disabled = false;
 
     }
 
-    deleteOverlay.style.display = "none";
-
-    moduleToDelete = null;
-
-    showToast("Module deleted.");
-
-    await loadModules();
-
 });
+
 
 //==================================================
 // NAV BAR OVERLAY
@@ -827,16 +863,22 @@ auth.onAuthStateChanged(async(user)=>{
 
   try{
 
-    await loadModules();
+   
+   await loadModules();
 
-    const params =
-        new URLSearchParams(window.location.search);
+const params =
+    new URLSearchParams(window.location.search);
 
-    const editId =
-        params.get("edit");
+const editId =
+    params.get("edit");
 
-    if(editId){
+if(params.get("newModule") === "true"){
 
+    resetForm();
+    showModuleForm();
+
+}
+else if(editId){
         const module =
             modules.find(
                 item =>
@@ -937,13 +979,6 @@ if(colourPreview){
 
 resetForm();
 
-const params = new URLSearchParams(window.location.search);
-
-if (params.get("newModule") === "true") {
-
-    showModuleForm();
-
-}
 
 async function loadSubmissions(moduleId){
 

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prodemic|Support and suggestions</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/support.css">
+
+     <!-- JavaScript -->
+    <script src="js/support.js" defer></script>
+</head>
+<body>
+ <body>
+
+    <div class="support-page">
+
+        <!-- MAIN CONTENT -->
+        <main class="support-container">
+
+            
+
+            <!-- PAGE INTRO -->
+            <section class="support-intro">
+                <a href="07 home.html">
+                   
+	              &#8592; Back to Dashboard
+                </a>
+
+                <div class="support-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+
+                <h1>Support & Suggestions</h1>
+
+                <p>
+                    We're always looking to improve Prodemic.
+                    Share your ideas, report problems or let us
+                    know how we can make your experience better.
+                </p>
+
+            </section>
+
+
+            <!-- FEEDBACK FORM -->
+            <section class="feedback-card">
+
+                <div class="feedback-heading">
+
+                    <h2>Send us your feedback</h2>
+
+                    <p>
+                        Your feedback helps us make Prodemic better.
+                    </p>
+
+                </div>
+
+
+                <form id="feedbackForm">
+
+                    <!-- FEEDBACK TYPE -->
+                    <div class="form-group">
+
+                        <label for="feedbackType">
+                            What would you like to tell us?
+                        </label>
+
+                        <select id="feedbackType" name="feedbackType" required>
+
+                            <option value="" disabled selected>
+                                Select feedback type
+                            </option>
+
+                            <option value="Suggestion">
+                                Feature Suggestion
+                            </option>
+
+                            <option value="Bug Report">
+                                Report a Problem
+                            </option>
+
+                            <option value="Technical Support">
+                                Technical Support
+                            </option>
+
+                            <option value="General Enquiry">
+                                General Enquiry
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SUBJECT -->
+                    <div class="form-group">
+
+                        <label for="feedbackSubject">
+                            Subject
+                        </label>
+
+                        <input
+                            type="text"
+                            id="feedbackSubject"
+                            name="subject"
+                            placeholder="e.g. Suggestion for the Learning Hub"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+                 <!-- EMAIL -->
+                  <div class="form-group">
+
+                     <label for="feedbackEmail">Your email address</label>
+
+                     <input
+                      type="email"
+                      id="feedbackEmail"
+                      name="email"
+                      placeholder="prodemicsupport@gmail.com"
+                      required
+                    >
+
+                    </div>
+                    <!-- MESSAGE -->
+                    <div class="form-group">
+
+                        <label for="feedbackMessage">
+                            Your message
+                        </label>
+
+                        <textarea
+                            id="feedbackMessage"
+                            name="message"
+                            rows="6"
+                            maxlength="1000"
+                            placeholder="Tell us more about your suggestion, issue or enquiry..."
+                            required
+                        ></textarea>
+
+                        <div class="character-count">
+                            <span id="characterCount">0</span>/1000
+                        </div>
+
+                    </div>
+
+                   <div id="formStatus" role="status" aria-live="polite"></div>
+                    <!-- SUBMIT -->
+                    <button type="submit" class="submit-feedback-btn">
+
+                        <i class="fas fa-paper-plane"></i>
+
+                        Submit Feedback
+
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- WHATSAPP SUPPORT -->
+            <section class="whatsapp-support">
+
+                <div class="whatsapp-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+
+                <div class="whatsapp-content">
+
+                    <h3>Need direct assistance?</h3>
+
+                    <p>
+                        Prefer speaking to someone?
+                        Get in touch with our support team.
+                    </p>
+
+                </div>
+
+                <a
+                  href="https://wa.me/27659009353?text=Hello%20Prodemic%20Support%2C%20I%20need%20assistance."
+                  class="whatsapp-button"
+                  id="whatsappSupport"
+                  target="_blank"
+                  rel="noopener noreferrer"
+>
+                    <i class="fab fa-whatsapp"></i>
+
+                    Chat on WhatsApp
+
+                    <i class="fas fa-external-link-alt"></i>
+
+                </a>
+
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer class="support-footer">
+
+                <p>
+                    Made to help students think less and do more.
+                </p>
+
+                
+
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>   
+</body>
+</html>

@@ -6,9 +6,11 @@ import { auth } from "../firebase.js";
 import { supabase } from "./supabase.js";
 
 
-//==================================================
-// ELEMENTS
-//==================================================
+const taskTypeInput = document.getElementById("taskType");
+const moduleGroup = document.getElementById("moduleGroup");
+const taskPriority = document.getElementById("taskPriority");
+const taskNotes = document.getElementById("taskNotes");
+const taskError = document.getElementById("taskError");
 
 //-------------
 // Tasks Page
@@ -56,6 +58,8 @@ document.querySelector(".primary-btn");
 const aiButton =
 document.querySelector(".secondary-btn");
 
+const priorityToggle = document.getElementById("priorityToggle");
+
 
 //-------------
 // Add Task Page
@@ -91,6 +95,9 @@ document.getElementById("countdownPreview");
 const taskTypeButtons =
 document.querySelectorAll(".task-type-btn");
 
+const priorityButtons =
+document.querySelectorAll(".priority-btn");
+
 const otherTaskGroup =
 document.getElementById("otherTaskGroup");
 
@@ -108,12 +115,11 @@ let modules = [];
 
 let currentFilter = "All";
 
-let selectedTaskType = "Assignment";
+let selectedTaskType = "academic";
 
 let editingTask = null;
 
 let tasksLoaded = false;
-
 
 //==================================================
 // EDIT TASK ID
@@ -187,12 +193,16 @@ async function loadTasks(){
 
         return {
 
-            ...task,
+            ...task, 
 
             module:
-            task.module_name ||
-            module?.module_name ||
-            "General",
+String(task.type || "").toLowerCase() === "personal"
+    ? "Personal"
+    : (
+        task.module_name ||
+        module?.module_name ||
+        "General"
+    ),
 
             moduleColour:
             module?.colour ||
@@ -432,30 +442,45 @@ function getPriority(task){
     return "Low";
 
 }
+//========================================
+// PRIORITY TOAST NOTIFICATION
+//========================================
 
+function showPriorityToast(message, isPriority) {
+    let toast = document.getElementById("priorityToast");
+
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "priorityToast";
+        toast.className = "priority-toast";
+
+        document.body.appendChild(toast);
+    }
+
+    toast.innerHTML = `
+    <span>${message}</span>
+`;
+
+    toast.classList.toggle("removed", !isPriority);
+
+    toast.classList.remove("show");
+
+    requestAnimationFrame(() => {
+        toast.classList.add("show");
+    });
+
+    clearTimeout(toast.hideTimer);
+
+    toast.hideTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2500);
+}
 
 function renderTasks(){
-//------------------------------------------
-// ONLY RUN ON TASK PAGE
-//------------------------------------------
-
-
-    if(
-        !taskList ||
-        !emptyState
-    ){
-
-        return;
-
-    }
-
-
-    if(!tasksLoaded){
-
-        return;
-
-    }
-
+//========================================
+if (!tasksLoaded) {
+    return;
+}
 
     //------------------------------------------
     // CLEAR LIST
@@ -468,122 +493,55 @@ function renderTasks(){
     // FILTER TASKS
     //------------------------------------------
 
-    let filteredTasks =
-    [...tasks];
+let filteredTasks = [...tasks];
 
+switch (currentFilter) {
+    case "All":
+        filteredTasks = filteredTasks.filter(task => !task.completed);
+        break;
 
-    switch(currentFilter){
+    case "Completed":
+        filteredTasks = filteredTasks.filter(task => task.completed);
+        break;
 
-        case "Due Soon":
+    case "Personal":
+    filteredTasks = filteredTasks.filter(task =>
+        String(task.type || "").toLowerCase() === "personal" &&
+        !task.completed
+    );
+    break;
 
-            const today =
-            new Date();
+    case "Priority":
+    case "Priorities":
+    case "High Priority":
+        filteredTasks = filteredTasks.filter(task =>
+            (task.priority === true || task.priority === "true") &&
+            !task.completed
+        );
+        break;
 
+    case "Due Soon": {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-            today.setHours(
-                0,
-                0,
-                0,
-                0
-            );
+        const sevenDays = new Date(today);
+        sevenDays.setDate(today.getDate() + 7);
 
+        filteredTasks = filteredTasks.filter(task => {
+            if (task.completed || !task.date) return false;
 
-            const sevenDays =
-            new Date();
+            const due = new Date(task.date);
+            due.setHours(0, 0, 0, 0);
 
-
-            sevenDays.setHours(
-                0,
-                0,
-                0,
-                0
-            );
-
-
-            sevenDays.setDate(
-                today.getDate() + 7
-            );
-
-
-            filteredTasks =
-            filteredTasks.filter(task => {
-
-                if(
-                    task.completed ||
-                    !task.date
-                ){
-
-                    return false;
-
-                }
-
-
-                const due =
-                new Date(
-                    task.date
-                );
-
-
-                due.setHours(
-                    0,
-                    0,
-                    0,
-                    0
-                );
-
-
-                return (
-                    due >= today &&
-                    due <= sevenDays
-                );
-
-            });
-
-            break;
-
-
-        case "Priority":
-
-        case "High Priority":
-
-            filteredTasks =
-            filteredTasks.filter(task => {
-
-                return (
-                    !task.completed &&
-                    getPriority(task) ===
-                    "High"
-                );
-
-            });
-
-            break;
-
-
-        case "Completed":
-
-            filteredTasks =
-            filteredTasks.filter(
-                task =>
-                task.completed
-            );
-
-            break;
-
-
-        default:
-
-            filteredTasks =
-            filteredTasks.filter(
-                task =>
-                !task.completed
-            );
-
-            break;
-
+            return due >= today && due <= sevenDays;
+        });
+        break;
     }
 
-
+    default:
+        filteredTasks = filteredTasks.filter(task => !task.completed);
+        break;
+}
     //------------------------------------------
     // SORT TASKS
     //------------------------------------------
@@ -685,7 +643,7 @@ function renderTasks(){
                 "No Tasks Yet";
 
                 text.textContent =
-                "Create your first task to stay organised throughout the semester.";
+                "Create your first personal task to stay organised";
 
                 break;
 
@@ -767,12 +725,18 @@ function renderTasks(){
                     <div class="task-details">
 
                         <div class="task-title-row">
+                           <h3>${task.title}</h3>
 
-                            <h3>
-                                ${task.title}
-                            </h3>
-
-                        </div>
+                                 <button
+                                   type="button"
+                                      class="task-priority-toggle ${task.priority === true || task.priority === "true" ? "active" : ""}"
+                             aria-label="${task.priority === true || task.priority === "true" ? "Remove priority" : "Mark as priority"}"
+                      aria-pressed="${task.priority === true || task.priority === "true"}"
+                       title="${task.priority === true || task.priority === "true" ? "Remove priority" : "Mark as priority"}"
+                         >
+                      <i class="${task.priority === true || task.priority === "true" ? "fa-solid" : "fa-regular"} fa-star"></i>
+                         </button>
+                          </div>
 
 
                         <h4 class="task-module">
@@ -838,7 +802,51 @@ function renderTasks(){
 
         `;
 
+      //--------------------------------------
+// TOGGLE TASK PRIORITY
+//--------------------------------------
 
+const priorityButton = card.querySelector(".task-priority-toggle");
+
+priorityButton.addEventListener("click", async (event) => {
+    event.stopPropagation();
+
+    const previousPriority =
+        task.priority === true || task.priority === "true";
+
+    const newPriority = !previousPriority;
+
+    priorityButton.disabled = true;
+
+    const { error } = await supabase
+        .from("tasks")
+        .update({
+            priority: newPriority
+        })
+        .eq("id", task.id)
+        .eq("user_id", auth.currentUser.uid);
+
+    if (error) {
+        console.error("Could not update task priority:", error);
+
+        priorityButton.disabled = false;
+
+        alert("Could not update priority. Please try again.");
+        return;
+    }
+
+    //popup for marking and unmarking task as priority
+    task.priority = newPriority;
+
+showPriorityToast(
+    newPriority
+        ? " Priority added — this task is now a priority."
+        : "Priority removed — this task is no longer prioritised."
+);
+
+await loadTasks();
+renderTasks();
+});
         //--------------------------------------
         // COMPLETE TASK
         //--------------------------------------
@@ -1151,45 +1159,23 @@ document.addEventListener(
 // FILTER BUTTONS
 //==================================================
 
-if(filterButtons.length){
 
-    filterButtons.forEach(
-        button => {
+if (filterButtons.length) {
+    filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
 
-            button.addEventListener(
-                "click",
-                () => {
+            filterButtons.forEach(btn => {
+                btn.classList.remove("active");
+            });
 
-                    filterButtons.forEach(
-                        btn => {
+            button.classList.add("active");
 
-                            btn.classList.remove(
-                                "active"
-                            );
+            currentFilter = button.textContent.trim();
 
-                        }
-                    );
-
-
-                    button.classList.add(
-                        "active"
-                    );
-
-
-                    currentFilter =
-                    button.textContent.trim();
-
-
-                    renderTasks();
-
-                }
-            );
-
-        }
-    );
-
+            renderTasks();
+        });
+    });
 }
-
 
 //==================================================
 // ADD TASK BUTTON
@@ -1318,148 +1304,52 @@ function loadTaskIntoForm(){
         "Never";
 
     }
-
-
-    //------------------------------------------
-    // TASK TYPE
-    //------------------------------------------
-
-    selectedTaskType =
-    editingTask.type ||
-    "Assignment";
-
-
-    taskTypeButtons.forEach(
-        button => {
-
-            button.classList.remove(
-                "active"
-            );
-
-
-            if(
-                button.dataset.type ===
-                selectedTaskType
-            ){
-
-                button.classList.add(
-                    "active"
-                );
-
-            }
-
-        }
-    );
-
-
-    //------------------------------------------
-    // OTHER TASK
-    //------------------------------------------
-
-    if(
-        selectedTaskType ===
-        "Other"
-    ){
-
-        if(otherTaskGroup){
-
-            otherTaskGroup.style.display =
-            "block";
-
-        }
-
-
-        if(otherTaskType){
-
-            otherTaskType.value =
-            editingTask.type ||
-            "";
-
-        }
-
-    }
-
-
-    //------------------------------------------
+//------------------------------------------
     // COUNTDOWN
-    //------------------------------------------
+//------------------------------------------
 
     updateCountdownPreview();
 
 }
 
-
-//==================================================
 // TASK TYPE BUTTONS
-//==================================================
 
-taskTypeButtons.forEach(
-    button => {
+taskTypeButtons.forEach(button => {
+    button.addEventListener("click", () => {
 
-        button.addEventListener(
-            "click",
-            () => {
+        selectedTaskType = button.dataset.type;
 
-                taskTypeButtons.forEach(
-                    btn => {
+        taskTypeButtons.forEach(btn => {
+            btn.classList.remove("active");
+        });
 
-                        btn.classList.remove(
-                            "active"
-                        );
+        button.classList.add("active");
 
-                    }
-                );
+        if (moduleGroup) {
+            moduleGroup.hidden = selectedTaskType !== "academic";
+        }
 
+        if (selectedTaskType === "personal" && taskModule) {
+            taskModule.value = "";
+        }
+    });
+});
 
-                button.classList.add(
-                    "active"
-                );
+//PRIORITY BADGE======================
+if (priorityToggle && taskPriority) {
+    priorityToggle.addEventListener("click", () => {
+        const isPriority = taskPriority.value !== "true";
 
+        taskPriority.value = String(isPriority);
 
-                selectedTaskType =
-                button.dataset.type;
+        priorityToggle.classList.toggle("active", isPriority);
+        priorityToggle.setAttribute("aria-pressed", String(isPriority));
 
-
-                if(
-                    selectedTaskType ===
-                    "Other"
-                ){
-
-                    if(otherTaskGroup){
-
-                        otherTaskGroup.style.display =
-                        "block";
-
-                    }
-
-                }
-
-                else{
-
-                    if(otherTaskGroup){
-
-                        otherTaskGroup.style.display =
-                        "none";
-
-                    }
-
-
-                    if(otherTaskType){
-
-                        otherTaskType.value =
-                        "";
-
-                    }
-
-                }
-
-            }
-        );
-
-    }
-);
-
-
+        priorityToggle.innerHTML = isPriority
+            ? '<i class="fa-solid fa-star"></i><span>Priority selected</span>'
+            : '<i class="fa-regular fa-star"></i><span>Mark as priority</span>';
+    });
+}
 //==================================================
 // COUNTDOWN PREVIEW
 //==================================================
@@ -1589,32 +1479,18 @@ if(taskForm){
 
             }
 
-
-            if(
-                !taskModule ||
-                taskModule.value === ""
-            ){
-
-                alert(
-                    "Please choose a module."
-                );
-
-
-                return;
-
-            }
+            
 
 
             //------------------------------------------
             // SELECTED MODULE
             //------------------------------------------
 
-            const selectedModule =
-            modules.find(
-                module =>
-                String(module.id) ===
-                String(taskModule.value)
-            );
+            const selectedModule = taskModule
+            ? modules.find(
+             module => String(module.id) === String(taskModule.value)
+             )
+             : null;
 
 
             //------------------------------------------
@@ -1641,25 +1517,19 @@ if(taskForm){
             //------------------------------------------
             // PRIORITY
             //------------------------------------------
-
-            const priority =
-            getPriority({
-
-                date:
-                taskDate?.value ||
-                ""
-
-            });
-
+const priority = taskPriority?.value === "true";
 
             //------------------------------------------
             // TASK DATA
             //------------------------------------------
 
             const taskData = {
+                
 
                 user_id:
                 user.uid,
+                type: finalTaskType,
+                
 
 
                 module_id:
@@ -1667,11 +1537,10 @@ if(taskForm){
                 null,
 
 
-                module_name:
-                selectedModule
-                    ? `${selectedModule.module_code} - ${selectedModule.module_name}`
-                    : "General",
-
+                 module_name:
+    selectedModule
+        ? `${selectedModule.module_code} - ${selectedModule.module_name}`
+        : "General",
 
                 title:
                 taskTitle.value.trim(),
@@ -2075,17 +1944,64 @@ auth.onAuthStateChanged(
         }
 
 
-        //------------------------------------------
-        // LOAD DATA
-        //------------------------------------------
+//------------------------------------------
+// LOAD DATA
+//------------------------------------------
 
-        tasksLoaded = false;
+    
 
-        await loadModules();
+tasksLoaded = false;
 
-        await loadTasks();
+// Show loading screen before fetching data
+if (taskList) {
+    taskList.style.display = "none";
+}
 
-        tasksLoaded = true;
+if (emptyState) {
+    emptyState.style.display = "none";
+}
+
+let loadingState = document.getElementById("tasksLoading");
+
+if (!loadingState && taskList?.parentElement) {
+    loadingState = document.createElement("div");
+
+    loadingState.id = "tasksLoading";
+    loadingState.className = "tasks-loading";
+
+    loadingState.innerHTML = `
+        <div class="loading-spinner"></div>
+        <p>Loading your tasks...</p>
+        
+    `;
+
+    taskList.parentElement.appendChild(loadingState);
+}
+
+if (loadingState) {
+    loadingState.style.display = "flex";
+}
+
+try {
+    await loadModules();
+    await loadTasks();
+} catch (error) {
+    console.error("Error loading task data:", error);
+} finally {
+    tasksLoaded = true;
+
+    if (loadingState) {
+        loadingState.style.display = "none";
+    }
+
+    if (taskList) {
+        taskList.style.display = "";
+    }
+
+    if (emptyState) {
+        emptyState.style.display = "";
+    }
+}
 
 
         //------------------------------------------

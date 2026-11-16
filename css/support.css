@@ -1,0 +1,515 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ========================================
+   GLOBAL STYLES
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fc;
+    color: #1e293b;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ========================================
+   HEADER
+======================================== */
+
+.support-header {
+    height: 65px;
+    background: #ffffff;
+    border-bottom: 1px solid #e8edf5;
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+    justify-content: space-between;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.back-button:hover {
+    color: #2563eb;
+}
+
+.support-brand {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2563eb;
+    letter-spacing: -0.5px;
+}
+
+/* ========================================
+   MAIN CONTAINER
+======================================== */
+
+.support-container {
+    width: 100%;
+    max-width: 760px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+}
+
+/* ========================================
+   INTRODUCTION
+======================================== */
+.support-intro a{
+    
+    color: #2563eb;
+    font-weight: 500;
+    display: flex;
+}
+
+.support-intro {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.support-icon {
+    width: 48px;
+    height: 48px;
+    background: #e8f0ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    border-radius: 15px;
+    font-size: 21px;
+}
+
+.support-intro h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #172554;
+    margin-bottom: 5px;
+}
+
+.support-intro p {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+/* ========================================
+   FEEDBACK CARD
+======================================== */
+
+.feedback-card {
+    background: #ffffff;
+    padding: 22px 26px;
+    border-radius: 17px;
+    border: 1px solid #e8edf5;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.04);
+}
+
+.feedback-heading {
+    margin-bottom: 16px;
+}
+
+.feedback-heading h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #172554;
+    margin-bottom: 3px;
+}
+
+.feedback-heading p {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+/* ========================================
+   FORM ELEMENTS
+======================================== */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-radius: 9px;
+    padding: 9px 13px;
+    font-size: 12px;
+    color: #334155;
+    outline: none;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input,
+.form-group select {
+    height: 42px;
+}
+
+.form-group textarea {
+    height: 75px;
+    min-height: 75px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #a0aec0;
+}
+
+/* Character counter */
+
+.character-count {
+    text-align: right;
+    color: #94a3b8;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+/* ========================================
+   SUBMIT BUTTON
+======================================== */
+
+.submit-feedback-btn {
+    width: 100%;
+    height: 43px;
+    border: none;
+    border-radius: 9px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    transition: 0.2s ease;
+}
+
+.submit-feedback-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.submit-feedback-btn:active {
+    transform: translateY(0);
+}
+/* Form submission status */
+
+#formStatus {
+    font-size: 12px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.submit-feedback-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+/* ========================================
+   WHATSAPP SUPPORT
+======================================== */
+
+.whatsapp-support {
+    margin-top: 13px;
+    padding: 13px 18px;
+    background: #ffffff;
+    border: 1px solid #e8edf5;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.whatsapp-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: #e8f9ef;
+    color: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+}
+
+.whatsapp-content {
+    flex: 1;
+}
+
+.whatsapp-content h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #172554;
+    margin-bottom: 2px;
+}
+
+.whatsapp-content p {
+    font-size: 10px;
+    color: #64748b;
+}
+
+.whatsapp-button {
+    background: #25d366;
+    color: #ffffff;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: 0.2s ease;
+}
+
+.whatsapp-button:hover {
+    background: #1da851;
+}
+
+/* ========================================
+   FOOTER
+======================================== */
+
+.support-footer {
+    text-align: center;
+    margin-top: 12px;
+    padding: 10px 0;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+
+
+.support-footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* ========================================
+   SHORT DESKTOP SCREENS
+======================================== */
+
+@media (min-width: 769px) and (max-height: 800px) {
+
+    .support-header {
+        height: 55px;
+    }
+
+    .support-container {
+        margin-top: 10px;
+    }
+
+    .support-intro {
+        margin-bottom: 10px;
+    }
+
+    .support-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        margin-bottom: 7px;
+    }
+
+    .support-intro h1 {
+        font-size: 21px;
+    }
+
+    .feedback-card {
+        padding: 16px 24px;
+    }
+
+    .feedback-heading {
+        margin-bottom: 11px;
+    }
+
+    .form-group {
+        margin-bottom: 9px;
+    }
+
+    .form-group textarea {
+        height: 60px;
+        min-height: 60px;
+    }
+
+    .whatsapp-support {
+        margin-top: 9px;
+        padding: 10px 16px;
+    }
+
+    .support-footer {
+        margin-top: 7px;
+        padding: 6px 0;
+    }
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 768px) {
+
+    body {
+        overflow-y: auto;
+    }
+
+    .support-header {
+        height: 60px;
+        padding: 0 20px;
+    }
+
+    .support-container {
+        max-width: 600px;
+        margin: 25px auto;
+        padding: 0 18px;
+    }
+
+    .support-intro h1 {
+        font-size: 23px;
+    }
+
+    .feedback-card {
+        padding: 22px;
+    }
+
+    .whatsapp-support {
+        flex-wrap: wrap;
+    }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 480px) {
+
+    .support-header {
+        height: 58px;
+        padding: 0 16px;
+    }
+
+    .support-brand {
+        font-size: 18px;
+    }
+
+    .back-button {
+        font-size: 12px;
+    }
+
+    .support-container {
+        margin: 22px auto;
+        padding: 0 15px;
+    }
+
+    .support-intro {
+        margin-bottom: 20px;
+    }
+
+    .support-intro h1 {
+        font-size: 21px;
+    }
+
+    .support-intro p {
+        font-size: 11px;
+    }
+
+    .feedback-card {
+        padding: 19px 16px;
+    }
+
+    .feedback-heading h2 {
+        font-size: 16px;
+    }
+
+    .form-group input,
+    .form-group select {
+        height: 44px;
+    }
+
+    .form-group textarea {
+        height: 90px;
+        min-height: 90px;
+    }
+
+    .submit-feedback-btn {
+        height: 45px;
+    }
+
+    .whatsapp-support {
+        padding: 13px;
+        gap: 10px;
+    }
+
+    .whatsapp-icon {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        font-size: 19px;
+    }
+
+    .whatsapp-content {
+        min-width: 130px;
+    }
+
+    .whatsapp-button {
+        width: 100%;
+        margin-top: 5px;
+        padding: 11px;
+    }
+
+    .support-footer {
+        margin-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
+
+.support{
+    text-decoration: none;
+}

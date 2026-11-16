@@ -332,8 +332,90 @@ button {
     font-weight: 600;
     margin: 0 3px;
 }
+/*===task type*/
+.task-type-options {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px;
+    width: 100%;
+}
+
+.task-type-options .task-type-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100% !important;
+    min-width: 0;
+    height: 48px;
+    padding: 10px 6px;
+    margin: 0;
+    background: #ffffff;
+    color: #526b99;
+    border: 1px solid #d5e2f3;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.task-type-options .task-type-btn.active {
+    background: #eaf2ff;
+    border-color: #0a48c4;
+    color: #1764ff;
+}
 
 
+#moduleGroup[hidden] {
+    display: none !important;
+}
+
+.priority-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    width: 180px;
+    height: 40px;
+    padding: 14px 18px;
+    background: #fff;
+    color: #526b99;
+    border: 1px solid #d5e2f3;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    transition: 0.2s ease;
+}
+
+.priority-toggle i {
+    font-size: 12px;
+}
+
+.priority-toggle.active {
+    background: #fff0f2;
+    color: #e11d48;
+    border-color: #fda4af;
+}
+
+.link-module{
+    color: grey;
+    margin-left: 10px;
+}
+#moduleGroup[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 380px) {
+    .task-type-options {
+        gap: 8px;
+    }
+
+    .task-type-options .task-type-btn {
+        padding: 10px 6px;
+        font-size: 12px;
+    }
+}
 /* =========================================================
    SAVE BUTTON
 ========================================================= */

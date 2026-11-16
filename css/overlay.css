@@ -1128,76 +1128,64 @@ body {
     }
 
 
-    /* Navigation items */
+  
+/* Mobile navigation items */
 
-    .sidebar-navigation .sidebar-item{
+.sidebar-navigation .sidebar-item {
+    flex: 1;
+    min-width: 0;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px !important;
+    padding: 5px 2px;
+    margin: 0 2px;
+    border: none;
+    border-radius: 13px;
+    background: transparent;
+    color: #718096;
+    text-decoration: none;
+    transition: none;
+    -webkit-tap-highlight-color: transparent;
+}
 
-        flex:1;
+/* Navigation icons */
+.sidebar-navigation .sidebar-item i {
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+}
 
-        width:auto;
+/* Navigation labels */
+.sidebar-navigation .sidebar-item span {
+    display: block !important;
+    font-size: 8px;
+    font-weight: 200;
+    line-height: 1.2;
+    white-space: nowrap;
+    visibility: visible;
+    opacity: 1;
+}
 
-        min-width:0;
+/* Active navigation item */
+.sidebar-navigation .sidebar-item.active,
+.sidebar-navigation .sidebar-item.active:hover {
+    background: #EAF1FF !important;
+    color: #2456C6 !important;
+}
 
-        height:60px;
+.sidebar-navigation .sidebar-item.active i,
+.sidebar-navigation .sidebar-item.active span {
+    color: #2456C6 !important;
+}
 
-        display:flex;
-
-        flex-direction:column;
-
-        align-items:center;
-
-        justify-content:center;
-
-        gap:4px;
-
-        padding:4px;
-
-        margin:0;
-
-        border:none;
-
-        border-radius:10px;
-
-        background:transparent;
-
-        color:#64748B;
-
-    }
-
-
-    .sidebar-navigation .sidebar-item i{
-
-        width:auto;
-
-        min-width:0;
-
-        margin:0;
-
-        font-size:1rem;
-
-    }
-
-
-    .sidebar-navigation .sidebar-item span{
-
-        display:block;
-
-        font-size:.62rem;
-
-        line-height:1;
-
-        white-space:nowrap;
-
-    }
-
-
-    .sidebar-navigation .sidebar-item.active{
-
-        background:transparent;
-
-        color:#2E4AAC;
-
-    }
+.sidebar-navigation .sidebar-item.active span {
+    font-weight: 600;
+}
 
 
     /* Add button */
@@ -1366,3 +1354,98 @@ body {
     }
 
 }
+
+
+/* ========================================
+   SUPPORT & SUGGESTIONS BUTTON
+======================================== */
+
+.support {
+    display: inline;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 15px;
+
+    background: #ffffff;
+    color: #475569;
+
+    border: none;
+    border-radius: 10px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.support i {
+    font-size: 17px;
+    color: #3154B8;
+    width: 20px;
+    text-align: center;
+}
+
+.support span {
+    flex: 1;
+    text-align: left;
+}
+
+.support:hover {
+    background: #eef3ff;
+    color: #3154B8;
+}
+
+.support:hover i {
+    color: #3154B8;
+}
+
+/* Keyboard accessibility */
+.support:focus-visible {
+    outline: 2px solid #3154B8;
+    outline-offset: 2px;
+}
+
+
+/* =========================================
+   MOBILE NAVIGATION - DISABLE HOVER EFFECTS
+========================================= */
+
+@media (max-width: 768px) {
+
+    /* Prevent hover backgrounds on mobile */
+    .sidebar-navigation .sidebar-item:hover {
+        background: transparent !important;
+        color: #64748B;
+    }
+
+    /* Keep the active page indicator consistent */
+   .sidebar-navigation .sidebar-item.active,
+   .sidebar-navigation .sidebar-item.active:hover {
+    background: #EAF1FF !important;
+    color: #2456C6 !important;
+}
+
+    /* Keep active icon blue */
+    .sidebar-navigation .sidebar-item.active i,
+    .sidebar-navigation .sidebar-item.active:hover i {
+        color: #2E4AAC !important;
+    }
+
+    /* Prevent mobile navigation tooltips */
+    .sidebar-navigation .sidebar-item::after {
+        display: none !important;
+    }
+
+    /* Remove hover transitions on mobile */
+    .sidebar-navigation .sidebar-item {
+        transition: none !important;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+

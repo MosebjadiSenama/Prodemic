@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prodemic | Onboarding</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/onboarding.css">
+    <script src="js/onboarding.js" defer></script>
+</head>
+<body>
+
+    <main class="onboarding-container">
+
+        <header class="onboarding-header">
+            <span></span>
+            <button class="skip-button" id="skipButton">Skip</button>
+        </header>
+
+        <!-- screen 1 -->
+        <section class="onboarding-screen active">
+
+            <div class="onboarding-image">
+                <img src="assets/images/welcome-img.png" alt="Student greeting cartoon">
+            </div>
+
+            <div class="onboarding-content">
+                <p class="welcome-text">Welcome to Prodemic</p>
+                <h1>Your academic life, <span>organised.</span></h1>
+                <p>Your space to manage your academic work, plan your study time and stay on top of your university responsibilities.</p>
+            </div>
+
+        </section>
+
+        <!-- screen 2 -->
+        <section class="onboarding-screen" hidden>
+
+            <div class="preview-card">
+                <p>Upcoming deadlines</p>
+
+                <div class="deadline-preview">
+
+                    <div class="deadline-item">
+                        <span class="deadline-dot"></span>
+                        <div>
+                            <h3>Research Project</h3>
+                            <p>Assignment submission</p>
+                        </div>
+                        <span class="deadline-date">24 Oct</span>
+                    </div>
+
+                    <div class="deadline-item">
+                        <span class="deadline-dot"></span>
+                        <div>
+                            <h3>Creative Project</h3>
+                            <p>Final submission</p>
+                        </div>
+                        <span class="deadline-date">16 Nov</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="preview-card calendar-preview">
+                <p>Your academic calendar</p>
+
+                <div class="calendar-days">
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                    <span>Sun</span>
+                </div>
+
+                <div class="calendar-dates">
+                    <span>19</span>
+                    <span>20</span>
+                    <span>21</span>
+                    <span>22</span>
+                    <span class="highlight-date">24</span>
+                    <span>25</span>
+                    <span>26</span>
+                </div>
+            </div>
+
+            <div class="onboarding-content">
+                <h1>Never lose track of a <span>deadline.</span></h1>
+                <p>Keep your assignments, tests, projects and submission dates organised in one place.</p>
+            </div>
+
+        </section>
+
+        <!-- screen 3 -->
+        <section class="onboarding-screen" hidden>
+
+            <div class="preview-card">
+                <div class="plan-heading">
+                    <div>
+                        
+                    </div>
+                </div>
+
+                <div class="study-plan-preview">
+
+                    <div class="study-session">
+                        <span class="session-time">09:00</span>
+                        <div class="session-details">
+                            <h3>Research Project</h3>
+                            <p>Literature review</p>
+                        </div>
+                    </div>
+
+                    <div class="study-session">
+                        <span class="session-time">11:00</span>
+                        <div class="session-details">
+                            <h3>Interactive Media</h3>
+                            <p>Practical work</p>
+                        </div>
+                    </div>
+
+                    <div class="study-session">
+                        <span class="session-time">14:00</span>
+                        <div class="session-details">
+                            <h3>Creative Project</h3>
+                            <p>Project development</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="planning-features">
+                <span>Upload Module Outline</span>
+                <span>Plan Study Time</span>
+                <span>Edit Schedule</span>
+            </div>
+
+            <div class="onboarding-content">
+                <h1>Turn your workload into a <span>study plan.</span></h1>
+                <p>Organise your modules, plan your study sessions and build a schedule around your deadlines.</p>
+            </div>
+
+        </section>
+
+        <!-- screen 4 -->
+        <section class="onboarding-screen" hidden>
+
+            <div class="feature-preview">
+
+                <div class="feature-card">
+                    <div class="feature-icon">01</div>
+                    <h3>Track Modules</h3>
+                    <p>Manage modules and monitor your progress.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">02</div>
+                    <h3>Plan Tasks</h3>
+                    <p>Keep assignments and deadlines organised.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">03</div>
+                    <h3>Study Schedule</h3>
+                    <p>Plan study time around your timetable.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">04</div>
+                    <h3>Goals & Habits</h3>
+                    <p>Build routines and track your progress.</p>
+                </div>
+
+            </div>
+
+            <div class="onboarding-content">
+                <h1>Build habits. Reach your <span>goals.</span></h1>
+                <p>Manage your modules, organise your workload, plan study sessions and keep track of your academic progress.</p>
+            </div>
+
+        </section>
+
+        <!-- navigation -->
+        <footer class="onboarding-footer">
+
+            <div class="progress-dots">
+                <button class="progress-dot active" data-go="0" aria-label="Go to screen 1"></button>
+                <button class="progress-dot" data-go="1" aria-label="Go to screen 2"></button>
+                <button class="progress-dot" data-go="2" aria-label="Go to screen 3"></button>
+                <button class="progress-dot" data-go="3" aria-label="Go to screen 4"></button>
+            </div>
+
+            <p id="progressText">1 of 4</p>
+
+            <div class="onboarding-navigation">
+                <button id="backButton" hidden>
+                    &larr; Back
+                </button>
+
+                <button id="nextButton">
+                    Next &rarr;
+                </button>
+
+                <div id="finalAuthButtons" hidden>
+                    <a href="03 Authentication.html" class="sign-in-button">Sign In</a>
+                    <a href="05 Signup.html" class="sign-up-button">Create Account</a>
+                </div>
+            </div>
+
+        </footer>
+
+    </main>
+
+</body>
+</html>

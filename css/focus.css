@@ -1,0 +1,716 @@
+
+/* ================================
+   FOCUS PAGE
+================================ */
+
+:root {
+    --dark-navy: #021024;
+    --deep-blue: #052659;
+    --medium-blue: #5483B3;
+    --soft-blue: #7DA0CA;
+    --light-blue: #C1E8FF;
+    --white: #ffffff;
+    --page-bg: #ffffff;
+    --text-color: #102653;
+    --muted-text: #526b99;
+    --border-color: #d5e6fb;
+}
+
+.focus-main {
+    height: auto;
+    min-height: 140vh;
+    margin-left: 0;
+    padding: 55px 20px 40px;
+    justify-content: flex-start;
+    gap: 14px;
+    overflow: visible;
+    margin-top: 20px;
+}
+
+.focus-page *,
+.focus-page *::before,
+.focus-page *::after {
+    box-sizing: border-box;
+}
+
+.focus-page .app-layout {
+    display: flex;
+    height: 100%;
+    min-height: 0;
+    overflow: visible;
+}
+
+/* ================================
+   MAIN LAYOUT
+================================ */
+
+.focus-main {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    margin-left: 76px;
+    padding: 22px 30px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    overflow: visible;
+}
+
+/* ================================
+   PAGE HEADER
+================================ */
+
+.focus-header {
+    width: 100%;
+    max-width: 850px;
+    flex-shrink: 0;
+    margin-bottom: 0;
+}
+
+.focus-header h1 {
+    margin: 0 0 5px;
+    color: var(--dark-navy);
+    font-size: clamp(22px, 2vw, 30px);
+    font-weight: 700;
+    letter-spacing: -0.8px;
+}
+
+.focus-header p {
+    max-width: 650px;
+    margin: 0;
+    color: var(--muted-text);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* ================================
+   SHARED CARDS
+================================ */
+
+.timer-card,
+.session-card,
+.task-card,
+.streak-card {
+    width: 100%;
+    max-width: 850px;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(2, 16, 36, 0.04);
+}
+
+.timer-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    flex: 1;
+    min-height: 0;
+    padding: 14px 20px;
+}
+
+.timer-card h2,
+.session-card h2 {
+    margin: 0;
+    color: var(--dark-navy);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* ================================
+   TIMER
+================================ */
+
+.timer-circle {
+    width: clamp(180px, 30vh, 240px);
+    height: clamp(180px, 30vh, 240px);
+    flex-shrink: 0;
+    margin: 8px 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: conic-gradient(
+        var(--medium-blue) 100%,
+        #e9f2fc 0
+    );
+    position: relative;
+}
+
+.timer-circle::before {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    border-radius: 50%;
+    background: var(--white);
+}
+
+.timer-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#timerDisplay {
+    margin: 0;
+    color: var(--dark-navy);
+    font-size: clamp(38px, 5vw, 52px);
+    
+    
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -1px;
+}
+
+#timerStatus {
+    margin-top: 4px;
+    color: var(--muted-text);
+    font-size: 11px;
+}
+
+/* ================================
+   TIMER CONTROLS
+================================ */
+
+.timer-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.primary-btn,
+.secondary-btn {
+    min-width: 115px;
+    width: 230px;
+    height: 48px;
+    min-height: 48px;
+    margin: 0 !important;
+    padding: 9px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    transform: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+.primary-btn {
+
+    background: var(--medium-blue);
+    color: var(--white);
+}
+
+/* Pause button hover */
+.focus-page .timer-controls .primary-btn:hover {
+    background-color: var(--deep-blue);
+    color: var(--white);
+    transform: none;
+    box-shadow: none;
+}
+
+.secondary-btn {
+    border: 1px solid var(--border-color);
+    background: var(--white);
+    color: var(--deep-blue);
+}
+
+/* Reset button hover */
+.focus-page .timer-controls .secondary-btn:hover {
+    background-color: var(--page-bg);
+    border: 1px solid #021024;
+    color: var(--medium-blue);
+    transform: none;
+    box-shadow: none;
+}
+.primary-btn i,
+.secondary-btn i {
+    margin-right: 7px;
+}
+
+/* ================================
+   SESSION LENGTH
+================================ */
+
+.session-card {
+    flex-shrink: 0;
+    padding: 16px;
+}
+
+.session-card h2 {
+    margin-bottom: 12px;
+}
+
+.session-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.session-option {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--white);
+    color: var(--muted-text);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.session-option:hover {
+    border-color: var(--medium-blue);
+    color: var(--deep-blue);
+}
+
+.session-option.active {
+    border-color: var(--deep-blue);
+    background: #edf5ff;
+    color: var(--deep-blue);
+    font-weight: 600;
+}
+
+/* ================================
+   CUSTOM DURATION
+================================ */
+
+.custom-duration {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.custom-duration[hidden] {
+    display: none;
+}
+
+.custom-duration label {
+    width: 100%;
+    color: var(--text-color);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.custom-duration input {
+    width: 120px;
+    min-height: 38px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    outline: none;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.custom-duration input:focus {
+    border-color: var(--medium-blue);
+    box-shadow: 0 0 0 3px rgba(84, 131, 179, 0.12);
+}
+
+#applyCustomBtn {
+    min-height: 38px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 10px;
+    background: var(--deep-blue);
+    color: var(--white);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#applyCustomBtn:hover {
+    background: var(--dark-navy);
+}
+
+/* ================================
+   TASK SELECTOR
+================================ */
+
+.task-card {
+    padding: 18px;
+}
+
+.task-card label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--dark-navy);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#focusTask {
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    outline: none;
+    background: var(--white);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+#focusTask:focus {
+    border-color: var(--medium-blue);
+    box-shadow: 0 0 0 3px rgba(84, 131, 179, 0.12);
+}
+
+.helper-text {
+    margin: 8px 0 0;
+    color: var(--muted-text);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* ================================
+   STUDY STREAK
+================================ */
+
+.streak-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+}
+
+.streak-card > i {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #fff3e8;
+    color: #e58b43;
+    font-size: 21px;
+}
+
+.streak-card h2 {
+    margin: 0 0 4px;
+    color: var(--dark-navy);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.streak-card p {
+    margin: 0;
+    color: var(--muted-text);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* ================================
+   FOCUS STATES
+================================ */
+
+.focus-page button:focus-visible,
+.focus-page a:focus-visible {
+    outline: 3px solid var(--soft-blue);
+    outline-offset: 3px;
+}
+
+.focus-page button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 900px) {
+    .focus-main {
+        padding: 18px 20px;
+        gap: 12px;
+    }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    .focus-main {
+        margin-left: 0;
+        padding: 12px 14px 80px;
+        gap: 10px;
+    }
+
+    .focus-header h1 {
+        font-size: 21px;
+    }
+
+    .focus-header p {
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+    .timer-card {
+        padding: 10px;
+    }
+
+    .timer-card h2,
+    .session-card h2 {
+        font-size: 14px;
+    }
+
+    .timer-circle {
+        width: clamp(110px, 20vh, 145px);
+        height: clamp(110px, 20vh, 145px);
+    }
+
+    .timer-circle::before {
+        inset: 7px;
+    }
+
+    #timerDisplay {
+        font-size: 30px;
+    }
+
+    #timerStatus {
+        font-size: 10px;
+    }
+
+    .timer-controls {
+        width: 100%;
+        gap: 8px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+    flex: 1;
+    width: 50%;
+    min-width: 0;
+    height: 48px;
+    min-height: 48px;
+    padding: 8px;
+    font-size: 12px;
+}
+
+    .session-card {
+        padding: 12px;
+    }
+
+    .session-card h2 {
+        margin-bottom: 9px;
+    }
+
+    .session-options {
+        gap: 8px;
+    }
+
+    .session-option {
+        min-width: 0;
+        padding: 9px 5px;
+        font-size: 11px;
+    }
+
+    .custom-duration {
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .custom-duration input {
+        width: 100px;
+        min-height: 36px;
+    }
+
+    #applyCustomBtn {
+        min-height: 36px;
+        padding: 8px 10px;
+    }
+}
+
+/* ================================
+   SHORT SCREENS
+================================ */
+
+@media (max-height: 650px) {
+    .focus-main {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        gap: 8px;
+    }
+
+    .timer-circle {
+        width: 220px;
+        height: 220px;
+        margin: 4px 0;
+    }
+
+    .timer-card {
+        padding: 8px;
+    }
+
+    .session-card {
+        padding: 10px;
+    }
+}
+
+/* ================================
+   REDUCED MOTION
+================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .focus-page *,
+    .focus-page *::before,
+    .focus-page *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+
+
+/* =========================================
+   FOCUS SESSION COMPLETION POPUP
+========================================= */
+
+.focus-page .focus-completion-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(2, 16, 36, 0.55);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.focus-page .focus-completion-modal {
+    width: 100%;
+    max-width: 420px;
+    padding: 32px 28px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(2, 16, 36, 0.18);
+    text-align: center;
+    animation: completionPopupIn 0.25s ease-out;
+}
+
+.focus-page .completion-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #edf5ff;
+    color: var(--medium-blue);
+    font-size: 28px;
+}
+
+.focus-page .focus-completion-modal h2 {
+    margin: 0 0 10px;
+    color: var(--dark-navy);
+    font-family: "Poppins", sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.focus-page .focus-completion-modal p {
+    margin: 0 0 24px;
+    color: var(--muted-text);
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.focus-page .completion-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.focus-page .completion-actions button {
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 16px;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.focus-page .completion-primary {
+    border: 1px solid var(--medium-blue);
+    background: var(--medium-blue);
+    color: #ffffff;
+}
+
+.focus-page .completion-primary:hover {
+    background: var(--deep-blue);
+}
+
+.focus-page .completion-secondary {
+    border: 1px solid var(--border-color);
+    background: #ffffff;
+    color: var(--deep-blue);
+}
+
+.focus-page .completion-secondary:hover {
+    background: #edf5ff;
+}
+
+@keyframes completionPopupIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .focus-page .focus-completion-modal {
+        max-width: 340px;
+        padding: 26px 20px;
+        border-radius: 16px;
+    }
+
+    .focus-page .focus-completion-modal h2 {
+        font-size: 18px;
+    }
+
+    .focus-page .focus-completion-modal p {
+        font-size: 12px;
+    }
+}

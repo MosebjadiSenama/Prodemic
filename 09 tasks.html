@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/tasks.css">
 
     <link rel="stylesheet" href="css/overlay.css">
+    
 
 
     <!--==================================================
@@ -128,44 +129,17 @@
              FILTERS
         ==================================================-->
 
-        <div class="task-filters">
+       <div class="task-filters">
+    <button type="button" class="filter-btn active">All</button>
 
-            <button
-                class="filter-btn active"
-            >
+    <button type="button" class="filter-btn">
+         Priorities
+    </button>
 
-                All
+    <button type="button" class="filter-btn">Personal</button>
 
-            </button>
-
-
-            <button
-                class="filter-btn"
-            >
-
-                Due soon
-
-            </button>
-
-
-            <button
-                class="filter-btn"
-            >
-
-                Priority
-
-            </button>
-
-
-            <button
-                class="filter-btn"
-            >
-
-                Completed
-
-            </button>
-
-        </div>
+    <button type="button" class="filter-btn">Completed</button>
+</div>
 
 
         <!--==================================================
@@ -291,23 +265,16 @@
             </a>
 
 
-            <!-- Add -->
+                <!-- Focus -->
+    <a href="25 focus.html"
+       class="sidebar-item"
 
-            <button
-                class="sidebar-add nav-add"
-                type="button"
-                data-tooltip="Add"
-            >
 
-                <i class="fa-solid fa-plus"></i>
-
-                <span>
-
-                    Add
-
-                </span>
-
-            </button>
+       
+       data-tooltip="Focus">
+        <i class="fa-solid fa-stopwatch"></i>
+        <span>Focus</span>
+    </a>
 
 
             <!-- Schedule -->
@@ -349,110 +316,6 @@
 
 
         </nav>
-<!--==================================================
-                CREATE MENU
-==================================================-->
-
-<div
-    class="create-overlay"
-    id="createOverlay"
->
-
-
-    <div class="create-sheet">
-
-
-        <div class="sheet-handle"></div>
-
-
-        <h2>
-            Create New
-        </h2>
-
-
-        <!--==================================================
-                    NEW TASK
-        ==================================================-->
-
-        <div
-            class="create-option"
-            id="newTask"
-        >
-
-            <div class="option-text">
-
-                <h3>
-                    New Task
-                </h3>
-
-                <p>
-                    Add a task
-                </p>
-
-            </div>
-
-
-            <span>
-
-                <i class="fa-solid fa-chevron-right"></i>
-
-            </span>
-
-        </div>
-
-
-
-        <!--==================================================
-                    ADD EVENT
-        ==================================================-->
-
-        <div
-            class="create-option"
-            id="newLecture"
-        >
-
-            <div class="option-text">
-
-                <h3>
-                    Add Event
-                </h3>
-
-                <p>
-                    Add a lecture, assessment or academic event
-                </p>
-
-            </div>
-
-
-            <span>
-
-                <i class="fa-solid fa-chevron-right"></i>
-
-            </span>
-
-        </div>
-
-
-
-        <!--==================================================
-                    CLOSE
-        ==================================================-->
-
-        <button
-            type="button"
-            id="closeSheet"
-            class="cancel-btn"
-        >
-
-            Cancel
-
-        </button>
-
-
-    </div>
-
-
-</div>
 
         <!--==================================================
              SIDEBAR BOTTOM
@@ -550,6 +413,27 @@
             </span>
 
         </button>
+
+         <!--support and suggestions-->
+
+
+        
+        <a  href="26 support.html"
+            class="support"
+            id="supportbtn"
+            type="button"
+        >
+
+          <i class="fa-solid fa-comment-dots"></i>
+           
+
+           <span>
+
+                Support & suggestions
+
+            </span>
+
+        </a>
 
 
     </div>

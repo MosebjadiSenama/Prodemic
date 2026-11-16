@@ -6,8 +6,9 @@ SCHEDULE PAGE
 
     width: 100%;
     max-width: 1100px;
-    margin: 0 auto;
-    padding: 42px 40px 100px;
+    margin: 0 auto 14px;
+    gap: 20px;
+    padding: 24px 30px 40px;
     box-sizing: border-box;
 
 }
@@ -87,7 +88,11 @@ CALENDAR CONTROLS
 
     border-radius: 16px;
 
-    background: #FFFFFF;
+    background: color-mix(
+    in srgb,
+    var(--event-colour, #3048C8) 12%,
+    #FFFFFF
+    );
 
     color: #3048C8;
 
@@ -166,13 +171,13 @@ CALENDAR HEADER
 
     gap: 24px;
 
-    min-height: 126px;
+    min-height: 78px;
 
-    padding: 26px;
+    padding: 14px 20px;
 
-    box-sizing: border-box;
+    margin: 0 auto 12px;
 
-    border-radius: 26px;
+    border-radius: 18px;
 
     background: #FFFFFF;
 
@@ -694,6 +699,44 @@ TIMELINE
 
 }
 
+/* DAY VIEW EVENT POSITIONING */
+
+.timeline-events-layer {
+    position: absolute;
+    top: 0;
+    left: 76px;
+    right: 0;
+    height: 1920px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* POSITION EVENTS AT THEIR ACTUAL TIMES */
+
+.timeline-events-layer .lecture-event,
+.timeline-events-layer .task-event,
+.timeline-events-layer .assessment-event {
+    position: absolute !important;
+
+    top: var(--event-top) !important;
+    left: 12px !important;
+    right: 12px !important;
+
+    width: auto !important;
+    height: var(--event-height) !important;
+    min-height: 76px !important;
+
+    margin: 0 !important;
+    padding: 14px 16px;
+
+    box-sizing: border-box;
+    overflow: hidden;
+
+    border-radius: 12px;
+    gap: 20px;
+
+    pointer-events: auto;
+}
 
 /*==================================================
 TIME SLOT
@@ -704,17 +747,13 @@ Events inside the hour are allowed to grow naturally.
 ==================================================*/
 
 .time-slot {
-
     display: flex;
-
     position: relative;
-
+    height: 80px;
     min-height: 80px;
-
-    height: auto;
-
-    border-bottom: 1px solid #F0F2F5;
-
+    flex: 0 0 80px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #E8EDF5;
 }
 
 
@@ -941,127 +980,6 @@ DAY VIEW EVENT SMALL INFORMATION
 
 }
 
-
-/*==================================================
-DAY VIEW CLASS CARD
-==================================================*/
-
-.timeline-event.class-event,
-.timeline-event.lecture-event {
-
-    background: #EEF4FF;
-
-    border-left-color: #2563EB;
-
-    --event-colour: #2563EB;
-
-}
-
-
-/*==================================================
-DAY VIEW TASK CARD
-==================================================*/
-
-.timeline-event.task-event {
-
-    background: #ECFDF5;
-
-    border-left-color: #16A36A;
-
-    --event-colour: #16A36A;
-
-}
-
-
-/*==================================================
-DAY VIEW ASSIGNMENT CARD
-==================================================*/
-
-.timeline-event.assignment-event {
-
-    background: #F3EEFF;
-
-    border-left-color: #6D28D9;
-
-    --event-colour: #6D28D9;
-
-}
-
-
-/*==================================================
-DAY VIEW ASSESSMENT CARD
-==================================================*/
-
-.timeline-event.assessment-event {
-
-    background: #FFF0F5;
-
-    border-left-color: #EC4899;
-
-    --event-colour: #EC4899;
-
-}
-
-
-/*==================================================
-DAY VIEW ACADEMIC EVENT CARD
-==================================================*/
-
-.timeline-event.academic-event,
-.timeline-event.academic-event-card {
-
-    background: #FFF6E8;
-
-    border-left-color: #F59E0B;
-
-    --event-colour: #F59E0B;
-
-}
-
-
-/*==================================================
-DAY VIEW ALL DAY EVENTS
-==================================================*/
-
-.timeline-all-day {
-
-    margin: 14px 12px;
-
-    padding: 12px 14px;
-
-    border-left: 4px solid var(--event-colour, #8B7FC7);
-
-    border-radius: 10px;
-
-    background: #F8F7FC;
-
-}
-
-
-.timeline-all-day strong {
-
-    display: block;
-
-    color: #4E466E;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-}
-
-
-.timeline-all-day span {
-
-    display: block;
-
-    margin-top: 3px;
-
-    color: #7B7590;
-
-    font-size: 11px;
-
-}
 
 
 /*==================================================
@@ -1481,262 +1399,202 @@ select:focus-visible {
 }
 
 
-
 /*==================================================
-SCHEDULE EVENT CARDS
+WEEK VIEW — EVENT CARDS
 ==================================================*/
 
 .week-lecture {
-
     position: relative;
-
     width: 100%;
-
-    min-height: 96px;
-
+    min-height: 104px;
     display: flex;
-
     align-items: stretch;
+    box-sizing: border-box;
 
-    background: #FFFFFF;
+    background: color-mix(
+        in srgb,
+        var(--event-colour, #5483B3) 15%,
+        #FFFFFF
+    );
 
-    border: 1px solid #E8EAF0;
+    border: 1px solid color-mix(
+        in srgb,
+        var(--event-colour, #5483B3) 18%,
+        #FFFFFF
+    );
 
-    border-radius: 16px;
-
+    border-left: 4px solid var(--event-colour, #5483B3);
+    border-radius: 14px;
     overflow: hidden;
 
-    box-shadow: 0 4px 14px rgba(2, 16, 36, 0.04);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        border-color 0.2s ease;
-
+    box-shadow: 0 3px 12px rgba(2, 16, 36, 0.045);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
-
 }
-
 
 .week-lecture:hover {
-
     transform: translateY(-2px);
-
-    border-color: #DDE2F2;
-
-    box-shadow:
-        0 10px 25px rgba(2, 16, 36, 0.08);
-
+    box-shadow: 0 7px 18px rgba(2, 16, 36, 0.08);
 }
 
-
-/*==================================================
-EVENT COLOUR STRIP
-==================================================*/
-
-.lecture-bar {
-
-    width: 5px;
-
-    flex-shrink: 0;
-
-    border-radius: 0;
-
-    opacity: 1;
-
+/* Module colour strip is now represented by the card border */
+.week-lecture .lecture-bar {
+    display: none;
 }
 
-
-/*==================================================
-EVENT CONTENT
-==================================================*/
-
-.lecture-main {
-
+/* Card content */
+.week-lecture .lecture-main {
     width: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 24px;
-
-    padding: 18px 22px;
-
-}
-
-
-/*==================================================
-EVENT TIME
-==================================================*/
-
-.lecture-time {
-
-    width: 86px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 3px;
-
-}
-
-
-.lecture-time strong {
-
-    color: #1F2937;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    line-height: 1.3;
-
-}
-
-
-.lecture-time span {
-
-    color: #9AA3B2;
-
-    font-size: 11px;
-
-    font-weight: 500;
-
-    line-height: 1.3;
-
-}
-
-
-/*==================================================
-EVENT DETAILS
-==================================================*/
-
-.lecture-details {
-
-    flex: 1;
-
     min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 44px 14px 14px;
+    box-sizing: border-box;
+}
+
+/* Time */
+.week-lecture .lecture-time {
+    width: 58px;
+    flex: 0 0 58px;
+    padding-right: 10px;
+    border-right: 1px solid color-mix(
+        in srgb,
+        var(--event-colour, #5483B3) 20%,
+        #FFFFFF
+    );
 
     display: flex;
-
     flex-direction: column;
-
-    align-items: flex-start;
-
     gap: 3px;
-
 }
 
+.week-lecture .lecture-time strong {
+    color: #263247;
+    font-size: 12px;
+    font-weight: 700;
+}
 
-/*==================================================
-EVENT TYPE
-==================================================*/
-
-.lecture-details .event-type {
-
-    margin: 0;
-
-    color: #3048C8;
-
+.week-lecture .lecture-time span {
+    color: #7B8798;
     font-size: 10px;
+}
 
+/* Details */
+.week-lecture .lecture-details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+/* Event category */
+.week-lecture .lecture-details .event-type {
+    margin: 0;
+    color: var(--event-colour, #5483B3) !important;
+    font-size: 9px;
     font-weight: 700;
-
-    letter-spacing: 0.06em;
-
+    letter-spacing: 0.07em;
     text-transform: uppercase;
-
-    line-height: 1.3;
-
 }
 
-
-/*==================================================
-EVENT TITLE
-==================================================*/
-
-.lecture-details h3 {
-
-    margin: 0;
-
-    color: #111827;
-
-    font-size: 16px;
-
-    font-weight: 700;
-
-    line-height: 1.4;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
-
+/* Titles */
+.week-lecture .lecture-details h3 {
     max-width: 100%;
-
-}
-
-
-/*==================================================
-EVENT INFORMATION
-==================================================*/
-
-.lecture-details p {
-
     margin: 0;
-
-    color: #718096;
-
-    font-size: 12px;
-
-    font-weight: 400;
-
-    line-height: 1.5;
-
+    color: #202B3C;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
-
-/*==================================================
-MODULE INFORMATION
-==================================================*/
-
-.lecture-details .event-module {
-
-    color: #64748B;
-
-    font-size: 12px;
-
-    font-weight: 500;
-
+/* Supporting information */
+.week-lecture .lecture-details p:not(.event-type),
+.week-lecture .lecture-details .event-module {
+    margin: 0;
+    color: #68778C;
+    font-size: 10px;
+    line-height: 1.4;
 }
 
-
-/*==================================================
-TASK CARD
-==================================================*/
-
-.week-lecture.task-card-event {
-
-    background: #FFFFFF;
-
+/* Checkbox */
+.week-lecture .lecture-main > .schedule-event-checkbox {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    margin: 0 !important;
+    background: #F1F3F5 !important;
+    z-index: 6;
 }
 
-
-/*==================================================
-ACADEMIC EVENT
-==================================================*/
-
-.week-lecture.academic-event-card {
-
-    background: #FFFFFF;
-
+/* Priority star */
+.week-lecture .schedule-task-title-row {
+    display: block;
+    width: 100%;
+    min-width: 0;
 }
 
+.week-lecture .task-priority-toggle {
+    position: absolute !important;
+    top: 34px !important;
+    right: 5px !important;
+    width: 28px;
+    height: 28px;
+    margin: 0 !important;
+    padding: 0;
+    z-index: 6;
+    background: transparent;
+    color: #A0A7B4;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.week-lecture .task-priority-toggle:hover,
+.week-lecture .task-priority-toggle.active {
+    color: #DC2626;
+}
+
+/* Completed cards */
+.week-lecture.completed {
+    background: #E9EAED !important;
+    border-color: #D9DCE2;
+    border-left-color: #B8BEC8;
+}
+
+.week-lecture.completed .lecture-details h3 {
+    color: #9298A5;
+    text-decoration: line-through;
+}
+
+.week-lecture.completed .lecture-details p {
+    opacity: 0.65;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .week-lecture {
+        min-height: 96px;
+    }
+
+    .week-lecture .lecture-main {
+        gap: 10px;
+        padding: 12px 40px 12px 10px;
+    }
+
+    .week-lecture .lecture-time {
+        width: 48px;
+        flex-basis: 48px;
+        padding-right: 7px;
+    }
+
+    .week-lecture .lecture-details h3 {
+        font-size: 12px;
+    }
+}
 
 /*==================================================
 DUE BADGE
@@ -1828,14 +1686,6 @@ EMPTY DAY
 DAY VIEW EVENT LIST
 ==================================================*/
 
-/*
-These rules are intentionally kept separate from
-.timeline-event because your JavaScript may create
-lecture-event cards directly.
-
-The cards are normal flow elements.
-*/
-
 .lecture-event {
 
     position: relative !important;
@@ -1862,9 +1712,12 @@ The cards are normal flow elements.
 
     border-radius: 16px;
 
-    border-left: 4px solid #2563EB;
-
-    background: #EEF4FF;
+    border-left: 4px solid var(--event-colour, #3048C8);
+     background: color-mix(
+    in srgb,
+    var(--event-colour, #3048C8) 12%,
+    #FFFFFF
+     );
 
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 
@@ -1907,9 +1760,13 @@ DAY VIEW TASK EVENT
 
     border-radius: 16px;
 
-    border-left: 4px solid #22a316;
+    border-left: 4px solid var(--event-colour, #3048C8);
 
-    background: #ECFDF5;
+    background: color-mix(
+        in srgb,
+        var(--event-colour, #3048C8) 12%,
+        #FFFFFF
+    );
 
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 
@@ -1950,11 +1807,14 @@ DAY VIEW ASSIGNMENT EVENT
 
     box-sizing: border-box;
 
-    border-radius: 16px;
+    border-left: 4px solid var(--event-colour, #3048C8);
 
-    border-left: 4px solid #6D28D9;
+    background: color-mix(
+        in srgb,
+        var(--event-colour, #3048C8) 12%,
+        #FFFFFF
+    );
 
-    background: #F3EEFF;
 
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 
@@ -1997,9 +1857,12 @@ DAY VIEW ACADEMIC EVENT
 
     border-radius: 16px;
 
-    border-left: 4px solid #F59E0B;
-
-    background: #FFF6E8;
+    border-left: 4px solid var(--event-colour, #3048C8);
+    background: color-mix(
+    in srgb,
+    var(--event-colour, #3048C8) 12%,
+    #FFFFFF
+     );
 
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 
@@ -2458,11 +2321,6 @@ RESPONSIVE EVENT CARDS
 .academic-hero-action:hover {
     background: rgba(255,255,255,0.95);
 }
-
-
-
-
-/*=======update banner=======*/
 
 
 
@@ -3012,9 +2870,11 @@ EVENT ACTION MENU
 
 .schedule-event-menu{
 
-    position:absolute;
+    position:fixed !important;
 
-    z-index:9999;
+    z-index:99999 !important;
+
+    isolation: isolate;
 
     display:flex;
 
@@ -4146,9 +4006,11 @@ MOBILE
 
         min-width:0;
 
-        min-height:68px;
+        min-height:0;
 
         padding:6px;
+
+        aspect-ratio: 1 / 1;
 
         border-radius:9px;
 
@@ -5238,5 +5100,1673 @@ SMALL MOBILE
 }
 
 
+/*===other inout field on the schedule page(add event)===*/
+#otherEventType {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#otherEventType:focus {
+    border-color: #5483B3;
+}
 
 
+/* ==========================================
+   ACADEMIC EVENTS PANEL
+========================================== */
+
+.academic-events-panel {
+    width: 100%;
+    margin: 8px 0 14px;
+    padding: 14px 16px;
+    box-sizing: border-box;
+
+    background: #F8F7FF;
+    border: 1px solid #E8E5FA;
+    border-radius: 17px;
+
+    box-shadow: 0 5px 18px rgba(92, 92, 180, 0.05);
+}
+
+/* HEADER */
+
+.academic-events-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 0 6px 10px;
+}
+
+.academic-events-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+    background: #E8E5FF;
+    color: #6257BD;
+
+    font-size: 19px;
+}
+
+.academic-events-heading {
+    flex: 1;
+    min-width: 0;
+}
+
+.academic-events-heading h3 {
+    margin: 0 0 3px;
+    color: #25234D;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.academic-events-heading p {
+    margin: 0;
+    color: #8581A8;
+    font-size: 12px;
+}
+
+.academic-events-toggle {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #E5E1F7;
+    border-radius: 10px;
+
+    background: #FFFFFF;
+    color: #6257BD;
+
+    font-size: 14px;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.academic-events-toggle:hover {
+    background: #EDEAFF;
+}
+
+/* EVENT LIST */
+
+.academic-events-list {
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid #EAE7F7;
+    border-radius: 14px;
+
+    background: #FFFFFF;
+    padding: 5px 18px;
+}
+
+/* INDIVIDUAL EVENT */
+
+.academic-event-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    min-height: 0;
+    padding: 9px 4px;
+
+    border-bottom: 1px solid rgba(92, 92, 180, 0.13);
+}
+
+.academic-event-row:last-child {
+    border-bottom: none;
+}
+
+/* DATE BADGE */
+
+.academic-event-date {
+    width: 112px;
+    min-width: 112px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    padding: 7px 9px;
+    box-sizing: border-box;
+
+    border-radius: 30px;
+    background: #E5E2FF;
+    color: #2525B8;
+
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.academic-event-date i {
+    font-size: 13px;
+}
+
+/* VERTICAL DIVIDER */
+
+.academic-event-divider {
+    width: 2px;
+    align-self: stretch;
+    flex-shrink: 0;
+
+    background: #C9C5FF;
+}
+
+/* EVENT DETAILS */
+
+.academic-event-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.academic-event-details h4 {
+    margin: 0 0 3px;
+
+    color: #101943;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.academic-event-details p {
+    margin: 0;
+
+    color: #46558F;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* COLLAPSED STATE */
+
+.academic-events-panel.collapsed .academic-events-list {
+    display: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .academic-events-panel {
+        padding: 12px;
+        border-radius: 18px;
+    }
+
+    .academic-events-header {
+        gap: 12px;
+    }
+
+    .academic-events-list {
+        padding: 6px 12px;
+    }
+
+    .academic-event-row {
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .academic-event-date {
+        width: 95px;
+        min-width: 95px;
+        padding: 8px;
+        font-size: 11px;
+        gap: 5px;
+    }
+
+    .academic-event-details h4 {
+        font-size: 13px;
+    }
+
+    .academic-event-details p {
+        font-size: 11px;
+    }
+}
+
+
+/* COLLAPSED STATE */
+
+.academic-events-panel.collapsed .academic-events-list {
+    display: none;
+}
+
+
+/* =========================================
+   ACADEMIC EVENTS — MOBILE DESIGN
+========================================= */
+
+@media (max-width: 600px) {
+
+    .academic-events-panel {
+        width: 100%;
+        padding: 16px 12px;
+        margin: 8px 0 14px;
+        border-radius: 20px;
+        background: #F8F7FF;
+    }
+
+    /* PANEL HEADER */
+
+    .academic-events-header {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 0 2px 14px;
+    }
+
+    .academic-events-icon {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+        border-radius: 14px;
+        font-size: 20px;
+    }
+
+    .academic-events-heading {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .academic-events-heading h3 {
+        font-size: 17px;
+        margin-bottom: 3px;
+    }
+
+    .academic-events-heading p {
+        font-size: 11px;
+    }
+
+    .academic-events-toggle {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        border-radius: 10px;
+    }
+
+    /* EVENT LIST */
+
+    .academic-events-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 0;
+        border: none;
+        background: transparent;
+    }
+
+    /* INDIVIDUAL EVENT CARD */
+
+    .academic-event-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto;
+        align-items: center;
+        gap: 12px 8px;
+
+        width: 100%;
+        min-width: 0;
+        padding: 15px;
+        box-sizing: border-box;
+
+        background: #FFFFFF;
+        border: 1px solid #E7E2FA;
+        border-radius: 17px;
+        box-shadow: 0 3px 12px rgba(92, 92, 180, 0.04);
+    }
+
+    .academic-event-row:last-child {
+        border-bottom: 1px solid #E7E2FA;
+    }
+
+    /* DATE BADGE */
+
+    .academic-event-date {
+        grid-column: 1;
+        grid-row: 1;
+
+        width: fit-content;
+        min-width: 0;
+        max-width: 100%;
+
+        display: inline-flex;
+        justify-content: flex-start;
+        gap: 6px;
+
+        padding: 8px 11px;
+        border-radius: 30px;
+
+        background: #E8E4FF;
+        color: #4035B8;
+
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    /* EDIT AND DELETE */
+
+    .academic-event-actions {
+        grid-column: 2;
+        grid-row: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 7px;
+
+        margin: 0;
+        opacity: 1;
+    }
+
+    .academic-event-actions button {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0;
+        border-radius: 10px;
+        background: #F7F6FF;
+        border: 1px solid #ECE9FA;
+
+        font-size: 15px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .academic-event-edit {
+        color: #6658C8;
+    }
+
+    .academic-event-delete {
+        color: #E05252;
+    }
+
+    /* REMOVE DESKTOP DIVIDER */
+
+    .academic-event-divider {
+        display: none;
+    }
+
+    /* EVENT DETAILS */
+
+    .academic-event-details {
+        grid-column: 1 / -1;
+        grid-row: 2;
+
+        width: 100%;
+        min-width: 0;
+        padding-top: 2px;
+    }
+
+    .academic-event-details h4 {
+        margin: 0 0 5px;
+        color: #25234D;
+        font-size: 15px;
+        font-weight: 750;
+        line-height: 1.35;
+    }
+
+    .academic-event-details p {
+        margin: 0;
+        color: #74728F;
+        font-size: 12px;
+        line-height: 1.55;
+        overflow-wrap: anywhere;
+    }
+}
+
+/*===edit and delete academic events*/
+/* ACADEMIC EVENT ACTIONS */
+
+.academic-event-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    flex-shrink: 0;
+
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.academic-event-row:hover .academic-event-actions {
+    opacity: 1;
+}
+
+.academic-event-actions button {
+    background: transparent;
+    border: none;
+    padding: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+/* EDIT */
+.academic-event-edit {
+    color: #7773bd;
+}
+
+.academic-event-edit:hover {
+    color: #5145cd;
+}
+
+/* DELETE */
+.academic-event-delete {
+    color: #c7a0a0;
+}
+
+.academic-event-delete:hover {
+    color: #dc4545;
+}
+
+/* MOBILE: ALWAYS SHOW ACTIONS */
+@media (max-width: 600px) {
+    .academic-event-actions {
+        opacity: 1;
+        gap: 5px;
+    }
+
+    .academic-event-actions button {
+        font-size: 12px;
+    }
+}
+
+
+/* DAY / WEEK / MONTH FILTER */
+
+.calendar-view-switcher {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    background: #f4f2fa;
+    border-radius: 12px;
+}
+
+.view-option {
+    border: none;
+    background: transparent;
+    color: #77758d;
+    padding: 10px 20px;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.view-option:hover:not(.active) {
+    background: #eae6f7;
+    color: #5145cd;
+}
+
+.view-option.active {
+    background: #ffffff;
+    color: #5145cd;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+
+
+/*==================================================
+CALENDAR DATE NAVIGATION
+CENTRE DAY / WEEK / MONTH HEADINGS
+==================================================*/
+
+.calendar-navigation {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 16px;
+
+    margin: 15px auto;
+
+    text-align: center;
+
+}
+
+
+/*==================================================
+DATE HEADING
+==================================================*/
+
+.calendar-nav-date {
+
+    min-width: 260px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+}
+
+.calendar-nav-date h3 {
+
+    width: 100%;
+
+    margin: 0;
+
+    color: #021024;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    text-align: center;
+
+}
+
+.calendar-nav-date span {
+
+    text-align: center;
+
+}
+
+
+/*==================================================
+PREVIOUS / NEXT BUTTONS
+==================================================*/
+
+.calendar-nav-btn {
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #FFFFFF;
+
+    color: #052659;
+
+    border: none;
+
+    border-radius: 50%;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 3px 12px rgba(5, 38, 89, 0.08);
+
+    transition: 0.2s ease;
+
+}
+
+.calendar-nav-btn:hover {
+
+    background: #7DA0CA;
+
+    color: #FFFFFF;
+
+}
+.calendar-nav-btn {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    color: #052659;
+
+    border: none;
+    border-radius: 50%;
+
+    font-size: 16px;
+    cursor: pointer;
+
+    box-shadow: 0 3px 12px rgba(5, 38, 89, 0.08);
+
+    transition: 0.2s ease;
+}
+
+.calendar-nav-btn:hover {
+    background: #7DA0CA;
+    color: #ffffff;
+}
+
+
+/* =========================================
+   MONTH EVENTS POPOVER
+========================================= */
+
+.month-events-popover {
+    position: fixed;
+    z-index: 10000;
+
+    width: 300px;
+    max-width: calc(100vw - 24px);
+    max-height: 360px;
+    overflow-y: auto;
+
+    padding: 18px;
+
+    box-sizing: border-box;
+
+    background: #FFFFFF;
+    border: 1px solid #E5EDF6;
+    border-radius: 18px;
+
+    box-shadow: 0 14px 40px rgba(2, 16, 36, 0.16);
+
+    animation: monthPopoverFade 0.18s ease;
+}
+
+/* Header */
+
+.month-popover-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding-bottom: 14px;
+    margin-bottom: 10px;
+
+    border-bottom: 1px solid #EDF2F7;
+}
+
+.month-popover-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.month-popover-heading span {
+    color: #7DA0CA;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.month-popover-heading h3 {
+    margin: 0;
+    color: #052659;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Close button */
+
+.month-popover-close {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #F1F6FC;
+    color: #5483B3;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.month-popover-close:hover {
+    background: #DCEAFF;
+    color: #052659;
+}
+
+/* Event list */
+
+.month-popover-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+/* Individual event */
+
+.month-popover-event {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    padding: 11px 10px;
+
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    background: #F7FAFE;
+    font-family: inherit;
+    text-align: left;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.month-popover-event:hover {
+    background: #EDF4FD;
+    border-color: #D5E5F7;
+    transform: translateX(2px);
+}
+
+/* Event colour dot */
+
+.month-popover-dot {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+
+    border-radius: 50%;
+}
+
+/* Event details */
+
+.month-popover-details {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.month-popover-details strong {
+    overflow: hidden;
+
+    color: #24364B;
+    font-size: 12px;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.month-popover-details small {
+    color: #8292A7;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+/* Animation */
+
+@keyframes monthPopoverFade {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+    .month-events-popover {
+        width: 280px;
+        padding: 15px;
+    }
+}
+/* Compact month events popover */
+.month-events-popover {
+    position: fixed;
+    z-index: 10000;
+
+    width: 260px;
+    max-width: calc(100vw - 20px);
+    max-height: 240px;
+
+    padding: 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    background: #ffffff;
+    border: 1px solid #e4eaf2;
+    border-radius: 12px;
+    box-shadow: 0 6px 22px rgba(2, 16, 36, 0.14);
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+
+.calendar-view-switcher{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.month-events-popover::-webkit-scrollbar {
+    display: none;
+    width: 0;
+}
+
+.month-popover-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #edf1f6;
+}
+
+.month-popover-heading {
+    min-width: 0;
+}
+
+.month-popover-heading span {
+    font-size: 10px;
+    color: #7DA0CA;
+}
+
+.month-popover-heading h3 {
+    font-size: 13px;
+    margin: 3px 0 0;
+    color: #052659;
+}
+
+.month-popover-close {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.month-popover-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.month-popover-event {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+    padding: 9px;
+    border: none;
+    border-radius: 8px;
+    background: #f5f8fc;
+    text-align: left;
+    cursor: pointer;
+}
+
+.month-popover-event:hover {
+    background: #edf4fc;
+}
+
+.month-popover-dot {
+    width: 7px;
+    height: 7px;
+    min-width: 7px;
+    border-radius: 50%;
+    margin-top: 4px;
+}
+
+.month-popover-details {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.month-popover-details strong {
+    font-size: 11px;
+    color: #052659;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.month-popover-details small {
+    font-size: 9px;
+    color: #7b8da5;
+}
+/* MONTH CALENDAR DATE NUMBER */
+.month-day .date-number {
+    appearance: none;
+    -webkit-appearance: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+
+    color: #052659;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.month-day .date-number:hover {
+    background: #eaf2ff;
+    color: #3159d9;
+}
+
+/* TODAY */
+.month-day.today .date-number,
+.month-day.active-day .date-number {
+    background: #3159d9;
+    color: #ffffff;
+}
+
+
+.month-day:hover {
+    border-color: #c1d5f3;
+    box-shadow: 0 3px 12px rgba(5, 38, 89, 0.06);
+}
+
+/* EVENT DOTS */
+.month-dots {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 7px;
+    padding-left: 3px;
+}
+
+.month-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* MORE EVENTS BUTTON */
+.month-day .month-more {
+    appearance: none;
+    -webkit-appearance: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 5px;
+    padding: 3px 8px;
+
+    border: none;
+    border-radius: 5px;
+    background: #edf3fc;
+
+    color: #5483B3;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.month-day .month-more:hover {
+    background: #dceaff;
+    color: #052659;
+}
+/*optional form label*/  
+.optional-label {
+    font-size: 12px;
+    font-weight: 400;
+    color: #8294a8;
+    margin-left: 5px;
+}
+
+.form-hint {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #8294a8;
+    line-height: 1.5;
+}
+
+/* ==========================================
+   DAY VIEW CARDS
+========================================== */
+
+.schedule-day-event {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+
+    padding: 14px 16px;
+    border-radius: 14px;
+
+    background: #ffffff;
+    border: 1px solid #e8ebf2;
+
+    transition: background 0.25s ease;
+}
+
+.schedule-day-event .schedule-event-checkbox {
+    order: -1;
+}
+
+.schedule-day-event.completed {
+    background: #f0f1f4 !important;
+    border-color: #e2e4e9 !important;
+    border-left-color: #b0b5bf !important;
+}
+
+.schedule-day-event.completed .event-type,
+.schedule-day-event.completed small {
+    color: #9298a5 !important;
+}
+
+.schedule-day-event.completed strong,
+.schedule-day-event.completed .schedule-event-title {
+    color: #9298a5 !important;
+    text-decoration: line-through;
+}
+
+/* =========================================
+   COMPLETED EVENT CARD
+========================================= */
+
+/* Keep the card white and clean */
+.week-lecture.completed,
+.lecture-event.completed,
+.task-event.completed {
+    background: #e4e3e3 !important;
+    border: 1px solid #e5e7eb !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
+}
+
+/* Keep inner sections white */
+.week-lecture.completed .lecture-main,
+.week-lecture.completed .lecture-details {
+    background: transparent !important;
+}
+
+/* Turn the coloured side bar grey */
+.week-lecture.completed .lecture-bar {
+    background: #d1d5db !important;
+}
+
+/* Grey out all text inside completed cards */
+.week-lecture.completed *,
+.lecture-event.completed *,
+.task-event.completed * {
+    color: #a1a1aa !important;
+}
+
+/* Strike through completed titles */
+.week-lecture.completed .lecture-details h3,
+.week-lecture.completed .lecture-details h4,
+.lecture-event.completed strong,
+.task-event.completed strong {
+    color: #a1a1aa !important;
+    text-decoration: line-through !important;
+}
+
+
+/* =========================================
+   COMPLETION CHECKBOX - SINGLE GREY TICK
+========================================= */
+
+/* Checkbox appearance */
+.schedule-event-checkbox {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    accent-color: transparent !important;
+
+    width: 19px;
+    height: 19px;
+    min-width: 19px;
+    min-height: 19px;
+
+    background: #ffffff !important;
+    border: 1.8px solid #b8c5d8;
+    border-radius: 6px;
+
+    display: inline-grid;
+    place-items: center;
+
+    cursor: pointer;
+    margin: 0 12px 0 0;
+}
+
+/* Hover */
+.schedule-event-checkbox:hover {
+    border-color: #a1a1aa;
+    background: #747272 !important;
+}
+
+/* Checked checkbox */
+.schedule-event-checkbox:checked {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    accent-color: transparent !important;
+
+    background: #F1F3F5 !important;
+    border: 1.8px solid #a1a1aa !important;
+}
+
+/* ONE custom grey tick */
+.schedule-event-checkbox:checked::after {
+    content: "✓";
+    color: #a1a1aa !important;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+
+/* =========================================
+   CHECKBOX POSITION
+========================================= */
+
+/* Day view event cards */
+.lecture-event,
+.task-event,
+.assessment-event,
+.academic-event {
+    display: block !important;
+    padding-left: 14px !important;
+    padding-right: 42px !important;
+}
+
+/* Desktop timeline positioning */
+.timeline-events-layer .lecture-event,
+.timeline-events-layer .task-event,
+.timeline-events-layer .assessment-event,
+.timeline-events-layer .academic-event {
+    position: absolute !important;
+    top: var(--event-top) !important;
+    left: var(--event-left, 12px) !important;
+    right: auto !important;
+    width: var(--event-width, calc(100% - 24px)) !important;
+    height: var(--event-height) !important;
+}
+
+/* Day view checkbox */
+.lecture-event > .schedule-event-checkbox,
+.task-event > .schedule-event-checkbox,
+.assessment-event > .schedule-event-checkbox,
+.academic-event > .schedule-event-checkbox {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    z-index: 5;
+}
+
+/* Week view cards */
+.week-lecture {
+    position: relative;
+}
+
+.week-lecture .lecture-main > .schedule-event-checkbox {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    z-index: 5;
+}
+
+/* checkbox */
+.schedule-event-checkbox {
+    border-radius: 5px !important;
+    width: 19px !important;
+    height: 19px !important;
+    min-width: 19px !important;
+    min-height: 19px !important;
+    margin: 0 !important;
+    
+}
+
+/* Checked state */
+.schedule-event-checkbox:checked {
+    background: #e0e0e0 !important;
+    border: 1.8px solid #b1b2b3 !important;
+}
+
+.schedule-event-checkbox:checked::after {
+    content: "✓";
+    color: #9f9fa0 !important;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Academic event date range */
+
+#dateRangeGroup {
+    display: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+#dateRangeGroup .form-group {
+    width: 100%;
+    min-width: 0;
+}
+
+#dateRangeGroup input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Side-by-side cards when events start at the same time */
+.timeline-events-layer .lecture-event,
+.timeline-events-layer .task-event,
+.timeline-events-layer .assessment-event {
+    left: var(--event-left, 12px) !important;
+    width: var(--event-width, calc(100% - 24px)) !important;
+    right: auto !important;
+    box-sizing: border-box;
+}
+
+/* Keep cards readable on smaller screens */
+@media (max-width: 600px) {
+    .timeline-events-layer .lecture-event,
+    .timeline-events-layer .task-event,
+    .timeline-events-layer .assessment-event {
+        min-width: 0;
+        padding: 8px;
+    }
+}
+
+/* =========================================
+   DAY VIEW — SIDE-BY-SIDE EVENT CARDS
+========================================= */
+
+.timeline-events-layer .lecture-event,
+.timeline-events-layer .task-event,
+.timeline-events-layer .assessment-event,
+.timeline-events-layer .academic-event {
+
+    position: absolute !important;
+
+    left: var(--event-left, 12px) !important;
+    width: var(--event-width, calc(100% - 24px)) !important;
+
+    right: auto !important;
+
+    box-sizing: border-box !important;
+    min-width: 0;
+}
+
+/* MOBILE MONTH CALENDAR INFORMATION  */
+@media (max-width: 768px) {
+
+   .month-grid .month-day {
+    overflow: visible !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    padding: 8px 6px !important;
+}
+
+    .month-grid .month-day .date-number {
+        width: 22px !important;
+        height: 22px !important;
+        font-size: 10px !important;
+    }
+
+   .month-grid .month-day .month-more {
+    display: inline-flex !important;
+    margin-top: 4px !important;
+    padding: 2px 4px !important;
+    font-size: 8px !important;
+}
+
+.month-grid .month-day .month-event-title {
+    display: none !important;
+}}
+
+/*==================================================
+ASSESSMENT CARD COLOUR
+==================================================*/
+
+.assessment-event {
+    background: color-mix(
+        in srgb,
+        var(--event-colour, #3048C8) 12%,
+        #FFFFFF
+    );
+
+    border-left-color: var(--event-colour, #3048C8);
+}
+
+.assessment-event .event-type {
+    color: var(--event-colour, #3048C8);
+}
+
+
+/* =========================================
+   DAY VIEW - ALL DAY TASKS AND ASSESSMENTS
+========================================= */
+
+.timeline-all-day-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 16px;
+    box-sizing: border-box;
+}
+
+.timeline-all-day-list:empty {
+    display: none;
+}
+
+.timeline-all-day-list .timeline-event {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+
+    width: 100% !important;
+    height: auto !important;
+    min-height: 76px;
+
+    margin: 0 !important;
+    padding: 14px 42px 14px 16px !important;
+
+    box-sizing: border-box;
+    flex: 0 0 auto;
+}
+/* Remove homepage gradient from Modules page */
+body .home-content::before {
+    display: none !important;
+}
+
+body .home-content {
+    background: #F4F6FA;
+}
+
+/* =========================================
+   DAY VIEW — MOBILE EVENT STACKING
+========================================= */
+
+@media (max-width: 768px) {
+
+    /* Mobile does not use the desktop overlay */
+    .timeline-events-layer {
+        display: none !important;
+    }
+
+    /* Allow each hour row to grow when it has multiple cards */
+    .day-view .time-slot {
+        height: auto !important;
+        min-height: 72px;
+        flex: 0 0 auto !important;
+        align-items: stretch;
+    }
+
+    /* Keep cards in normal vertical flow */
+    .day-view .events {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        gap: 8px;
+        min-height: 72px;
+        height: auto !important;
+        padding: 8px 0;
+        overflow: visible;
+    }
+
+    /* Never allow mobile cards to overlap */
+    .day-view .events .timeline-event {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        width: auto !important;
+        height: auto !important;
+        min-height: 70px;
+        flex: 0 0 auto !important;
+        margin: 0 8px !important;
+        box-sizing: border-box;
+    }
+
+    /* All-day cards remain above the hourly timeline */
+    .day-view .timeline-all-day-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .day-view .timeline-all-day-list .timeline-event {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 70px;
+        margin: 0 !important;
+    }
+}
+
+/*==priority star===*/
+/*==================================================
+SCHEDULE PRIORITY STAR
+==================================================*/
+
+.schedule-task-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+}
+
+.schedule-task-title-row h3 {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+}
+
+.task-priority-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #A0A7B4;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.task-priority-toggle:hover {
+    background: #F3F4F6;
+    color: #DC2626;
+}
+
+.task-priority-toggle.active {
+    color: #DC2626;
+}
+
+.task-priority-toggle:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+.task-priority-toggle:focus-visible {
+    outline: 2px solid #5483B3;
+    outline-offset: 2px;
+}
+
+/* DAY VIEW — CHECKBOX AND PRIORITY STAR ALIGNMENT */
+
+.timeline-event {
+    min-height: 90px !important;
+    padding: 14px 48px 14px 14px !important;
+    overflow: visible !important;
+}
+
+/* Keep the checkbox at the top */
+.timeline-event > .schedule-event-checkbox {
+    top: 10px !important;
+    right: 12px !important;
+}
+
+/* Put the star directly underneath the checkbox */
+.timeline-event > .task-priority-toggle {
+    position: absolute !important;
+    top: 36px !important;
+    right: 7px !important;
+    width: 28px;
+    height: 28px;
+    margin: 0 !important;
+    z-index: 5;
+}
+
+/* Keep the title and information away from the controls */
+.timeline-event .schedule-task-title-row {
+    display: block;
+    width: 100%;
+    padding-right: 0;
+    box-sizing: border-box;
+}
+
+.timeline-event .schedule-task-title-row strong {
+    display: block;
+    margin: 0 0 5px;
+}
+
+/* Mobile card spacing */
+@media (max-width: 768px) {
+    .day-view .events .timeline-event,
+    .day-view .timeline-all-day-list .timeline-event {
+        min-height: 84px !important;
+        padding: 13px 48px 13px 12px !important;
+    }
+
+    .timeline-event > .task-priority-toggle {
+        top: 35px !important;
+    }
+}
+
+/*===ppriotity popup*/
+
+.priority-toast {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    z-index: 99999;
+    width: min(360px, calc(100vw - 32px));
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 14px 16px;
+    background: #F0F5FF;
+    border: 1px solid #DCE7FF;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(2, 16, 36, .12);
+    font-family: "Poppins", sans-serif;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, -8px);
+    transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+}
+
+.priority-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+.priority-toast.removed .priority-toast-icon {
+    background: #F1F3F5;
+    color: #64748B;
+}
+
+.priority-toast-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #DCE7FF;
+    color: #3048C8;
+    font-size: 16px;
+}
+
+.priority-toast-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.priority-toast-copy strong {
+    color: #052659;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.priority-toast-copy small {
+    color: #64748B;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+    .priority-toast {
+        top: 85px;
+    }
+}

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Focus | Prodemic</title>
+
+    <link rel="stylesheet" href="css/overlay.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/focus.css">
+   
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <script src="js/focus.js" defer></script>
+     <script
+        type="module"
+        src="js/script.js"
+        defer
+    >
+    </script>
+   
+</head>
+
+<body class="focus-page">
+
+    <!--==================================================
+         DESKTOP SIDEBAR
+    ==================================================-->
+
+    <aside
+        class="sidebar collapsed"
+        id="sidebar"
+    >
+
+
+        <!--==================================================
+             SIDEBAR LOGO
+        ==================================================-->
+
+        <div class="sidebar-logo">
+
+            <img
+                src="assets/images/logo.png"
+                alt="Logo"
+                class="sidebar-logo-image"
+            >
+
+            <h1>
+
+                Prodemic
+
+            </h1>
+
+        </div>
+
+
+        <!--==================================================
+             SIDEBAR NAVIGATION
+        ==================================================-->
+
+        <nav class="sidebar-navigation">
+
+
+            <!-- Home -->
+
+            <a
+                href="07 home.html"
+                class="sidebar-item"
+                data-tooltip="Home"
+            >
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>
+
+                    Home
+
+                </span>
+
+            </a>
+
+
+            <!-- Tasks -->
+
+            <a
+                href="09 tasks.html"
+                class="sidebar-item "
+                data-tooltip="Tasks"
+            >
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <span>
+
+                    Tasks
+
+                </span>
+
+            </a>
+
+
+                <!-- Focus -->
+    <a href="25 focus.html"
+       class="sidebar-item active"
+
+
+       
+       data-tooltip="Focus">
+        <i class="fa-solid fa-stopwatch"></i>
+        <span>Focus</span>
+    </a>
+
+
+            <!-- Schedule -->
+
+            <a
+                href="11 schedule.html"
+                class="sidebar-item"
+                data-tooltip="Schedule"
+            >
+
+                <i class="fa-solid fa-calendar"></i>
+
+                <span>
+
+                    Schedule
+
+                </span>
+
+            </a>
+
+
+            <!-- Modules -->
+
+            <a
+                href="08 modules.html"
+                class="sidebar-item"
+                data-tooltip="Modules"
+            >
+
+                <i class="fa-solid fa-book"></i>
+
+                <span>
+
+                    Modules
+
+                </span>
+
+            </a>
+
+
+        </nav>
+
+        <!--==================================================
+             SIDEBAR BOTTOM
+        ==================================================-->
+
+        <div class="sidebar-bottom">
+
+
+            <!-- Profile -->
+
+            <button
+                class="sidebar-item"
+                id="profileBtn"
+                type="button"
+                data-tooltip="Profile"
+            >
+
+                <i class="fa-solid fa-circle-user"></i>
+
+                <span>
+
+                    Profile
+
+                </span>
+
+            </button>
+
+
+        </div>
+
+
+        <!--==================================================
+             SIDEBAR TOGGLE
+        ==================================================-->
+
+        <button
+            class="sidebar-toggle"
+            id="sidebarToggle"
+            type="button"
+            aria-label="Open navbar"
+        >
+
+            <i class="fa-solid fa-angles-right"></i>
+
+        </button>
+
+
+    </aside>
+
+
+    <!--==================================================
+         PROFILE MENU
+    ==================================================-->
+
+    <div
+        class="profile-menu"
+        id="profileMenu"
+    >
+
+
+        <div class="profile-menu-header">
+
+            <div class="profile-menu-icon">
+
+                <i class="fa-solid fa-circle-user"></i>
+
+            </div>
+
+
+            <div class="profile-menu-user">
+
+                <strong id="profileName">
+
+                    Profile
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="profile-option logout-btn"
+            id="logoutBtn"
+            type="button"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+
+                Logout
+
+            </span>
+
+        </button>
+
+         <!--support and suggestions-->
+
+
+        
+        <a  href="26 support.html"
+            class="support"
+            id="supportbtn"
+            type="button"
+        >
+
+          <i class="fa-solid fa-comment-dots"></i>
+           
+
+           <span>
+
+                Support & suggestions
+
+            </span>
+
+        </a>
+
+
+</div>
+
+<div class="app-layout">
+
+        
+
+        <main class="focus-main">
+
+            <header class="focus-header">
+                <div>
+                    <h1>Focus Study Session</h1>
+                    <p>
+                        Make time for focused work, minimise distractions,
+                        and take your studies one session at a time.
+                    </p>
+                </div>
+            </header>
+
+            <section class="timer-card" aria-labelledby="timerHeading">
+
+                <h2 id="timerHeading">Focus Timer</h2>
+
+                <div class="timer-circle" id="timerCircle">
+
+                    <div class="timer-content">
+                        <p id="timerDisplay" role="timer" aria-live="off">
+                            25:00
+                        </p>
+
+                        <span id="timerStatus">Ready to focus</span>
+                    </div>
+
+                </div>
+
+                <div class="timer-controls">
+
+                    <button type="button"
+                        id="startBtn"
+                        class="primary-btn">
+                        <i class="fa-solid fa-play"></i>
+                        Start
+                    </button>
+
+                    <button type="button"
+                        id="resetBtn"
+                        class="secondary-btn">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        Reset
+                    </button>
+
+                </div>
+
+            </section>
+
+            <section class="session-card" aria-labelledby="sessionHeading">
+
+                <h2 id="sessionHeading">Choose your session length</h2>
+
+                <div class="session-options">
+
+                    <button type="button"
+                        class="session-option active"
+                        data-minutes="25"
+                        aria-pressed="true">
+                        25 min
+                    </button>
+
+                    <button type="button"
+                        class="session-option"
+                        data-minutes="50"
+                        aria-pressed="false">
+                        50 min
+                    </button>
+
+                    <button type="button"
+                        class="session-option"
+                        id="customBtn"
+                        aria-pressed="false">
+                        Custom
+                    </button>
+
+                </div>
+
+                <div class="custom-duration" id="customDuration" hidden>
+
+                    <label for="customMinutes">Duration in minutes</label>
+
+                    <input type="number"
+                        id="customMinutes"
+                        min="1"
+                        max="180"
+                        value="30">
+
+                    <button type="button" id="applyCustomBtn">
+                        Set duration
+                    </button>
+
+                </div>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

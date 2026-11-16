@@ -2,19 +2,20 @@ import { supabase } from "./supabase.js";
 
 
 // ==================================================
-// GET MODULE ID FROM URL
+// GET TEMPORARY MODULE DRAFT
 // ==================================================
 
-const urlParams = new URLSearchParams(window.location.search);
-const moduleId = urlParams.get("id");
+const draftText = sessionStorage.getItem("prodemicModuleDraft");
 
-
-if (!moduleId) {
-    alert("No module was selected.");
+if (!draftText) {
+    alert("No module draft was found. Please import your module again.");
     window.location.href = "08 modules.html";
-    throw new Error("No module ID found.");
+    throw new Error("No module draft found.");
 }
 
+const moduleDraft = JSON.parse(draftText);
+
+const extractedData = moduleDraft.extractedData;
 
 // ==================================================
 // GET HTML ELEMENTS
@@ -103,292 +104,206 @@ function getFirstValue(object, keys) {
     return "";
 }
 
-
 // ==================================================
-// LOAD MODULE
+// NORMALISE IMPORTED DATES
 // ==================================================
 
+function normalizeReviewDate(value) {
+
+    if (!value) return null;
+
+    const dateString = String(value)
+        .trim()
+        .replace(/(\d+)(st|nd|rd|th)/gi, "$1")
+        .replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+/i, "")
+        .replace(/\s+/g, " ");
+
+    if (/^(TBA|TBC|N\/A|NA|NONE|UNKNOWN|-|TO BE ANNOUNCED|TO BE CONFIRMED)$/i.test(dateString)) {
+        return null;
+    }
+
+    function formatDate(year, month, day) {
+
+        const date = new Date(year, month - 1, day);
+
+        if (
+            date.getFullYear() !== year ||
+            date.getMonth() + 1 !== month ||
+            date.getDate() !== day
+        ) {
+            return null;
+        }
+
+        return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    }
+
+    let match = dateString.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/);
+
+    if (match) {
+        return formatDate(
+            Number(match[1]),
+            Number(match[2]),
+            Number(match[3])
+        );
+    }
+
+    match = dateString.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+
+    if (match) {
+        return formatDate(
+            Number(match[3]),
+            Number(match[2]),
+            Number(match[1])
+        );
+    }
+
+    const months = {
+        jan: 1, january: 1,
+        feb: 2, february: 2,
+        mar: 3, march: 3,
+        apr: 4, april: 4,
+        may: 5,
+        jun: 6, june: 6,
+        jul: 7, july: 7,
+        aug: 8, august: 8,
+        sep: 9, sept: 9, september: 9,
+        oct: 10, october: 10,
+        nov: 11, november: 11,
+        dec: 12, december: 12
+    };
+
+    match = dateString.match(/^(\d{1,2})\s+([a-z]+),?\s+(\d{4})$/i);
+
+    if (match && months[match[2].toLowerCase()]) {
+        return formatDate(
+            Number(match[3]),
+            months[match[2].toLowerCase()],
+            Number(match[1])
+        );
+    }
+
+    match = dateString.match(/^([a-z]+)\s+(\d{1,2}),?\s+(\d{4})$/i);
+
+    if (match && months[match[1].toLowerCase()]) {
+        return formatDate(
+            Number(match[3]),
+            months[match[1].toLowerCase()],
+            Number(match[2])
+        );
+    }
+
+    console.warn("Unrecognised imported date:", value);
+
+    return null;
+}
+// ==================================================
+// LOAD MODULE INFORMATION
+// ==================================================
 async function loadModule() {
 
-    console.log("Loading module from Supabase...");
+    console.log("Loading temporary module draft...");
 
     try {
 
-        // ==================================================
-        // LOAD MAIN MODULE
-        // ==================================================
+        // LOAD MODULE INFORMATION
+        moduleData = moduleDraft.module;
 
-        const {
-            data: module,
-            error: moduleError
-        } = await supabase
-            .from("modules")
-            .select("*")
-            .eq("id", moduleId)
-            .single();
-
-
-        if (moduleError) {
-
-            console.error(
-                "MODULE LOAD ERROR:",
-                moduleError
-            );
-
-            alert(
-                "Could not load the module.\n\n" +
-                moduleError.message
-            );
-
-            return;
-        }
-
-
-        if (!module) {
-
-            alert(
-                "Module could not be found."
-            );
-
-            return;
-        }
-
-
-        moduleData = module;
-
-
-        console.log(
-            "MODULE FROM SUPABASE:",
-            moduleData
-        );
-
-
-        // ==================================================
-        // DISPLAY MAIN MODULE INFORMATION
-        // ==================================================
-
-        displayModuleInformation();
-
-
-        // ==================================================
         // LOAD LECTURES
-        // ==================================================
+        const lectureData =
+            Array.isArray(extractedData.lectures) &&
+            extractedData.lectures.length > 0
+                ? extractedData.lectures
+                : Array.isArray(extractedData.lectureTimes)
+                    ? extractedData.lectureTimes
+                    : [];
 
-        const {
-            data: lectureData,
-            error: lectureError
-        } = await supabase
-            .from("lectures")
-            .select("*")
-            .eq("module_id", moduleId)
-            .order("id", {
-                ascending: true
-            });
+        lectures = lectureData.map(lecture => ({
+            day: lecture.day || "",
+            start_time: lecture.start_time || lecture.startTime || "",
+            end_time: lecture.end_time || lecture.endTime || "",
+            venue: lecture.venue || lecture.location || ""
+        }));
 
-
-        if (lectureError) {
-
-            console.warn(
-                "LECTURES LOAD ERROR:",
-                lectureError
-            );
-
-            lectures = [];
-
-        } else {
-
-            lectures = lectureData || [];
-        }
-
-
-        console.log(
-            "LECTURES FROM SUPABASE:",
-            lectures
-        );
-
-
-        // ==================================================
         // LOAD ASSESSMENTS
-        // ==================================================
+        const assessmentData = Array.isArray(extractedData.assessments)
+            ? extractedData.assessments
+            : [];
 
-        const {
-            data: assessmentData,
-            error: assessmentError
-        } = await supabase
-            .from("assessments")
-            .select("*")
-            .eq("module_id", moduleId)
-            .order("id", {
-                ascending: true
-            });
+        assessments = assessmentData.map(assessment => {
 
+            const rawDueDate =
+                assessment.dueDate ||
+                assessment.due_date ||
+                assessment.date ||
+                assessment.deadline ||
+                assessment.submissionDate ||
+                assessment.assessmentDate ||
+                "";
 
-        if (assessmentError) {
+            return {
+                title: assessment.title || assessment.name || "Untitled Assessment",
+                weight: assessment.weight ?? "",
+                due_date: rawDueDate,
+                due_time: assessment.dueTime || assessment.due_time || "",
+                completed: false
+            };
+        });
 
-            console.warn(
-                "ASSESSMENTS LOAD ERROR:",
-                assessmentError
-            );
-
-            assessments = [];
-
-        } else {
-
-            assessments = assessmentData || [];
-        }
-
-
-        console.log(
-            "ASSESSMENTS FROM SUPABASE:",
-            assessments
-        );
-
-
-        // ==================================================
-        // LOAD ACADEMIC EVENTS
-        // ==================================================
-
-        if (academicEventsList) {
-
-            const {
-                data: eventData,
-                error: eventError
-            } = await supabase
-                .from("academic_events")
-                .select("*")
-                .eq("module_id", moduleId)
-                .order("id", {
-                    ascending: true
-                });
-
-
-            if (eventError) {
-
-                console.warn(
-                    "ACADEMIC EVENTS LOAD ERROR:",
-                    eventError
-                );
-
-                academicEvents = [];
-
-            } else {
-
-                academicEvents = eventData || [];
-            }
-        }
-
-
-        console.log(
-            "ACADEMIC EVENTS FROM SUPABASE:",
-            academicEvents
-        );
-
-
-        // ==================================================
         // LOAD LECTURERS
-        // ==================================================
+        const lecturerData = Array.isArray(extractedData.lecturers)
+            ? extractedData.lecturers
+            : [];
 
-        const {
-            data: lecturerData,
-            error: lecturerError
-        } = await supabase
-            .from("lecturers")
-            .select("*")
-            .eq("module_id", moduleId)
-            .order("id", {
-                ascending: true
-            });
+        lecturers = lecturerData.map(lecturer => ({
+            name: typeof lecturer === "string"
+                ? lecturer.trim()
+                : lecturer.name || lecturer.full_name || lecturer.lecturer || "",
+            email: typeof lecturer === "object" && lecturer !== null
+                ? lecturer.email || ""
+                : ""
+        })).filter(lecturer => lecturer.name);
 
-
-        if (lecturerError) {
-
-            console.error(
-                "LECTURERS LOAD ERROR:",
-                lecturerError
-            );
-
-            lecturers = [];
-
-        } else {
-
-            lecturers = lecturerData || [];
-        }
-
-
-        console.log(
-            "LECTURERS FROM SUPABASE:",
-            lecturers
-        );
-
-
-        // ==================================================
         // LOAD TUTORS
-        // ==================================================
+        const tutorData = Array.isArray(extractedData.tutors)
+            ? extractedData.tutors
+            : [];
 
-        const {
-            data: tutorData,
-            error: tutorError
-        } = await supabase
-            .from("tutors")
-            .select("*")
-            .eq("module_id", moduleId)
-            .order("id", {
-                ascending: true
-            });
+        tutors = tutorData.map(tutor => ({
+            name: typeof tutor === "string"
+                ? tutor.trim()
+                : tutor.name || tutor.full_name || tutor.tutor || "",
+            email: typeof tutor === "object" && tutor !== null
+                ? tutor.email || ""
+                : ""
+        })).filter(tutor => tutor.name);
 
+        // LOAD ACADEMIC EVENTS
+        const eventData = Array.isArray(extractedData.academicEvents)
+            ? extractedData.academicEvents
+            : [];
 
-        if (tutorError) {
+        academicEvents = eventData.map(event => ({
+            title: event.title || event.name || "Academic Event",
+            type: event.type || "",
+            start_date: event.start_date || event.startDate || "",
+            end_date: event.end_date || event.endDate || "",
+            description: event.description || ""
+        }));
 
-            console.error(
-                "TUTORS LOAD ERROR:",
-                tutorError
-            );
-
-            tutors = [];
-
-        } else {
-
-            tutors = tutorData || [];
-        }
-
-
-        console.log(
-            "TUTORS FROM SUPABASE:",
-            tutors
-        );
-
-
-        // ==================================================
         // DISPLAY EVERYTHING
-        // ==================================================
-
         displayModuleInformation();
-
         displayLecturers();
-
         displayTutors();
-
         displayLectures();
-
         displayAssessments();
-
         displayAcademicEvents();
-
         setupColourPicker();
 
+        console.log("TEMPORARY MODULE DRAFT LOADED SUCCESSFULLY");
 
-        console.log(
-            "REVIEW PAGE LOADED SUCCESSFULLY"
-        );
+    } catch (error) {
 
-    }
-
-    catch (error) {
-
-        console.error(
-            "LOAD MODULE ERROR:",
-            error
-        );
+        console.error("LOAD MODULE ERROR:", error);
 
         alert(
             "Something went wrong while loading the module.\n\n" +
@@ -1140,10 +1055,11 @@ async function saveModule() {
     saveButton.disabled = true;
 
     saveButton.textContent =
-        "Saving...";
+    "Saving...";
 
+   let savedModuleId = null;
 
-    try {
+   try {
 
         // ==================================================
         // GET EDITED MODULE
@@ -1189,217 +1105,202 @@ async function saveModule() {
             return;
         }
 
+// ==================================================
+// INSERT NEW MODULE
+// ==================================================
 
-        // ==================================================
-        // UPDATE MODULE
-        // ==================================================
+const {
+    data: savedModule,
+    error: moduleError
+} = await supabase
+    .from("modules")
+    .insert([{
+        ...moduleData,
+        ...updatedModule
+    }])
+    .select()
+    .single();
 
-        const {
-            data: updatedData,
-            error: moduleError
-        } = await supabase
-            .from("modules")
-            .update(updatedModule)
-            .eq("id", moduleId)
-            .select()
-            .single();
+if (moduleError) {
+    throw moduleError;
+}
 
+savedModuleId = savedModule.id;
 
-        if (moduleError) {
-
-            console.error(
-                "MODULE UPDATE ERROR:",
-                moduleError
-            );
-
-            alert(
-                "The module could not be saved.\n\n" +
-                moduleError.message
-            );
-
-            return;
-        }
+console.log("NEW MODULE INSERTED:", savedModule);
 
 
-        console.log(
-            "MODULE UPDATED:",
-            updatedData
-        );
+// ==================================================
+// INSERT LECTURES
+// ==================================================
 
+const lectureRecords = lectures
+    .filter(lecture => lecture._dayInput)
+    .map(lecture => ({
+        user_id: moduleData.user_id,
+        module_id: savedModuleId,
+        day: lecture._dayInput.value.trim(),
+        start_time: lecture._startTimeInput.value.trim(),
+        end_time: lecture._endTimeInput.value.trim(),
+        venue: lecture._venueInput.value.trim()
+    }))
+    .filter(lecture =>
+        lecture.day ||
+        lecture.start_time ||
+        lecture.end_time ||
+        lecture.venue
+    );
 
-        // ==================================================
-        // UPDATE LECTURES
-        // ==================================================
+if (lectureRecords.length > 0) {
 
-        for (const lecture of lectures) {
+    const { error: lectureError } = await supabase
+        .from("lectures")
+        .insert(lectureRecords);
 
-            if (
-                !lecture.id ||
-                !lecture._dayInput
-            ) {
-                continue;
-            }
-
-
-            const lectureUpdate = {
-
-                day:
-                    lecture._dayInput.value.trim(),
-
-                start_time:
-                    lecture._startTimeInput.value.trim(),
-
-                end_time:
-                    lecture._endTimeInput.value.trim(),
-
-                venue:
-                    lecture._venueInput.value.trim()
-            };
-
-
-            const {
-                error
-            } = await supabase
-                .from("lectures")
-                .update(lectureUpdate)
-                .eq("id", lecture.id)
-                .eq("module_id", moduleId);
-
-
-            if (error) {
-
-                console.error(
-                    "LECTURE UPDATE ERROR:",
-                    error
-                );
-
-                throw error;
-            }
-        }
-
-
-        // ==================================================
-        // UPDATE ASSESSMENTS
-        // ==================================================
-
-        for (const assessment of assessments) {
-
-            if (
-                !assessment.id ||
-                !assessment._titleInput
-            ) {
-                continue;
-            }
-
-
-            const assessmentUpdate = {
-
-                title:
-                    assessment._titleInput.value.trim(),
-
-                due_date:
-                    assessment._dueDateInput.value.trim(),
-
-                weight:
-                    assessment._weightInput.value.trim()
-            };
-
-
-            const {
-                error
-            } = await supabase
-                .from("assessments")
-                .update(assessmentUpdate)
-                .eq("id", assessment.id)
-                .eq("module_id", moduleId);
-
-
-            if (error) {
-
-                console.error(
-                    "ASSESSMENT UPDATE ERROR:",
-                    error
-                );
-
-                throw error;
-            }
-        }
-
-
-        // ==================================================
-        // UPDATE ACADEMIC EVENTS
-        // ==================================================
-
-        for (const event of academicEvents) {
-
-            if (
-                !event.id ||
-                !event._titleInput
-            ) {
-                continue;
-            }
-
-
-            const eventUpdate = {
-
-                title:
-                    event._titleInput.value.trim(),
-
-                type:
-                    event._typeInput.value.trim(),
-
-                start_date:
-                    event._startDateInput.value.trim() ||
-                    null,
-
-                end_date:
-                    event._endDateInput.value.trim() ||
-                    null,
-
-                description:
-                    event._descriptionInput.value.trim()
-            };
-
-
-            const {
-                error
-            } = await supabase
-                .from("academic_events")
-                .update(eventUpdate)
-                .eq("id", event.id)
-                .eq("module_id", moduleId);
-
-
-            if (error) {
-
-                console.warn(
-                    "ACADEMIC EVENT UPDATE SKIPPED:",
-                    error
-                );
-            }
-        }
-
-
-        // ==================================================
-        // SUCCESS
-        // ==================================================
-
-        console.log(
-            "COMPLETE MODULE SAVED:",
-            moduleId
-        );
-
-
-        // ==================================================
-        // GO TO TRACK MODULE
-        // ==================================================
-
-        window.location.href =
-            `23 moduleTrack.html?id=${encodeURIComponent(moduleId)}`;
+    if (lectureError) {
+        throw lectureError;
     }
 
+    console.log("LECTURES INSERTED:", lectureRecords);
+}
 
-    catch (error) {
+// ==================================================
+// INSERT ASSESSMENTS
+// ==================================================
+
+const assessmentRecords = assessments
+    .filter(assessment => assessment._titleInput)
+    .map(assessment => ({
+        user_id: moduleData.user_id,
+        module_id: savedModuleId,
+        title: assessment._titleInput.value.trim(),
+        due_date: normalizeReviewDate(
+        assessment._dueDateInput.value),
+        due_time: assessment.due_time || null,
+        weight: assessment._weightInput.value.trim() || null,
+        completed: false
+    }))
+    .filter(assessment => assessment.title);
+
+if (assessmentRecords.length > 0) {
+
+    const { error: assessmentError } = await supabase
+        .from("assessments")
+        .insert(assessmentRecords);
+
+    if (assessmentError) {
+        throw assessmentError;
+    }
+
+    console.log("ASSESSMENTS INSERTED:", assessmentRecords);
+}
+   
+
+// ==================================================
+// INSERT ACADEMIC EVENTS
+// ==================================================
+
+const academicEventRecords = academicEvents
+    .filter(event => event._titleInput)
+    .map(event => ({
+        user_id: moduleData.user_id,
+        module_id: savedModuleId,
+        title: event._titleInput.value.trim(),
+        type: event._typeInput.value.trim(),
+        start_date: normalizeReviewDate(
+        event._startDateInput.value
+        ),
+
+       end_date: normalizeReviewDate(
+        event._endDateInput.value
+       ),
+        description: event._descriptionInput.value.trim()
+    }))
+    .filter(event => event.title);
+
+if (academicEventRecords.length > 0) {
+
+    const { error: academicEventError } = await supabase
+        .from("academic_events")
+        .insert(academicEventRecords);
+
+    if (academicEventError) {
+        throw academicEventError;
+    }
+
+    console.log("ACADEMIC EVENTS INSERTED:", academicEventRecords);
+}
+
+
+// ==================================================
+// INSERT LECTURERS
+// ==================================================
+
+const lecturerRecords = lecturers
+    .filter(lecturer => lecturer.name)
+    .map(lecturer => ({
+        module_id: savedModuleId,
+        name: lecturer.name,
+        email: lecturer.email || ""
+    }));
+
+if (lecturerRecords.length > 0) {
+
+    const { error: lecturerError } = await supabase
+        .from("lecturers")
+        .insert(lecturerRecords);
+
+    if (lecturerError) {
+        throw lecturerError;
+    }
+
+    console.log("LECTURERS INSERTED:", lecturerRecords);
+}
+
+
+// ==================================================
+// INSERT TUTORS
+// ==================================================
+
+const tutorRecords = tutors
+    .filter(tutor => tutor.name)
+    .map(tutor => ({
+        module_id: savedModuleId,
+        name: tutor.name,
+        email: tutor.email || ""
+    }));
+
+if (tutorRecords.length > 0) {
+
+    const { error: tutorError } = await supabase
+        .from("tutors")
+        .insert(tutorRecords);
+
+    if (tutorError) {
+        throw tutorError;
+    }
+
+    console.log("TUTORS INSERTED:", tutorRecords);
+}
+// ==================================================
+// SUCCESS
+// ==================================================
+
+    console.log(
+    "COMPLETE MODULE SAVED:",
+    savedModuleId
+);
+
+// ==================================================
+// GO TO TRACK MODULE
+// ==================================================
+
+sessionStorage.removeItem("prodemicModuleDraft");
+
+window.location.href =
+    `23 moduleTrack.html?id=${encodeURIComponent(savedModuleId)}`;
+
+} catch (error) {
 
         console.error(
             "SAVE MODULE ERROR:",
@@ -1433,12 +1334,13 @@ if (backButton) {
         "click",
         function () {
 
+            sessionStorage.removeItem("prodemicModuleDraft");
+
             window.location.href =
                 "08 modules.html";
         }
     );
 }
-
 
 // ==================================================
 // START

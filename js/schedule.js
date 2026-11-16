@@ -17,6 +17,7 @@ const newTask = document.getElementById("newTask");
 const newLecture = document.getElementById("newLecture");
 const newAssessment = document.getElementById("newAssessment");
 
+
 const addLectureBtn =
     document.getElementById("addLectureBtn");
 
@@ -47,6 +48,12 @@ const calendarPrevBtn =
 const calendarNextBtn =
     document.getElementById("nextBtn");
 
+
+
+
+
+
+
 //==================================================
 // DATA
 //==================================================
@@ -73,24 +80,15 @@ const scheduleParams =
 const requestedView =
     scheduleParams.get("view");
 
-//==================================================
-// SIDEBAR
-//==================================================
+// DEFAULT SCHEDULE VIEW
+const allowedViews = ["day", "week", "month"];
 
-if (sidebar && sidebarToggle) {
-
-    sidebarToggle.addEventListener(
-        "click",
-        () => {
-
-            sidebar.classList.toggle(
-                "collapsed"
-            );
-
-        }
-    );
-
+if (view) {
+    view.value = allowedViews.includes(requestedView)
+        ? requestedView
+        : "day";
 }
+
 
 //==================================================
 // AUTH
@@ -761,24 +759,18 @@ function isRestPeriod(
 // MAJOR ACADEMIC PERIOD
 //==================================================
 
-function isMajorAcademicPeriod(
-    event
-) {
+function isMajorAcademicPeriod(event) {
 
-    const start =
-        getEventStartDate(
-            event
-        );
+    const kind = getAcademicEventKind(event);
 
-    const end =
-        getEventEndDate(
-            event
-        );
+    return [
+        "study-break",
+        "research-break",
+        "vacation",
+        "exam",
+        "test-week",
 
-    return (
-        !!start &&
-        !!end
-    );
+    ].includes(kind);
 
 }
 //==================================================
@@ -944,64 +936,66 @@ function getAcademicEventMessage(
 
 }
 
+// REMOVE DUPLICATE ACADEMIC EVENTS
+function removeDuplicateAcademicEvents(events) {
+    const seen = new Set();
+
+    return events.filter(event => {
+        const start = getEventStartDate(event);
+        const end = getEventEndDate(event);
+
+        if (!start || !end) return true;
+
+        const startDate = getDateString(start);
+        const endDate = getDateString(end);
+
+        let key;
+
+        if (isMajorAcademicPeriod(event)) {
+            // Treat shared periods as one event across all modules
+            key = `${getAcademicEventKind(event)}-${startDate}-${endDate}`;
+        } else {
+            // Prevent identical imported events from appearing repeatedly
+            key = [
+                String(event.title || "").trim().toLowerCase(),
+                String(event.type || "").trim().toLowerCase(),
+                startDate,
+                endDate,
+                event.start_time || "",
+                event.end_time || ""
+            ].join("-");
+        }
+
+        if (seen.has(key)) return false;
+
+        seen.add(key);
+        return true;
+    });
+}
+
 ///==================================================
 // FIND ACADEMIC PERIODS
 //==================================================
 
-function getAcademicPeriodsForRange(
-    rangeStart,
-    rangeEnd
-) {
+function getAcademicPeriodsForRange(rangeStart, rangeEnd) {
+    const start = startOfDay(rangeStart);
+    const end = endOfDay(rangeEnd);
 
-    const start =
-        startOfDay(
-            rangeStart
+    const matchingEvents = academicEvents.filter(event => {
+        if (!isMajorAcademicPeriod(event)) return false;
+
+        const eventStart = getEventStartDate(event);
+        const eventEnd = getEventEndDate(event);
+
+        return (
+            eventStart &&
+            eventEnd &&
+            eventStart <= end &&
+            eventEnd >= start
         );
+    });
 
-    const end =
-        endOfDay(
-            rangeEnd
-        );
-
-    return academicEvents
-        .filter(
-            isMajorAcademicPeriod
-        )
-        .filter(
-            event => {
-
-                const eventStart =
-                    getEventStartDate(
-                        event
-                    );
-
-                const eventEnd =
-                    getEventEndDate(
-                        event
-                    );
-
-                if (
-                    !eventStart ||
-                    !eventEnd
-                ) {
-
-                    return false;
-
-                }
-
-                return (
-                    eventStart <= end &&
-                    eventEnd >= start
-                );
-
-            }
-        )
-        .sort(
-            (a, b) =>
-                getEventStartDate(a) -
-                getEventStartDate(b)
-        );
-
+    return removeDuplicateAcademicEvents(matchingEvents);
 }
 
 //==================================================
@@ -1230,6 +1224,181 @@ function renderAcademicPeriodBanner(
 
 }
 
+// ==========================================
+// GROUPED ACADEMIC EVENTS PANEL
+// ==========================================
+
+
+function renderAcademicEventsPanel(
+    container,
+    events,
+    referenceDate
+) {
+
+    if (!container || !events || events.length === 0) {
+        return;
+    }
+
+    const panel = document.createElement("section");
+     panel.className = "academic-events-panel";
+    const monthName = referenceDate.toLocaleDateString(
+        "en-GB",
+        {
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+    panel.innerHTML = `
+        <div class="academic-events-header">
+
+            <div class="academic-events-icon">
+                <i class="fa-regular fa-calendar-days"></i>
+            </div>
+
+            <div class="academic-events-heading">
+                <h3>Academic Events</h3>
+                <p>${events.length} upcoming events</p>
+            </div>
+
+            <button
+             class="academic-events-toggle"
+            type="button"
+            aria-label="Expand academic events"
+           >
+            <i class="fa-solid fa-chevron-down"></i>
+           </button>
+
+        </div>
+
+        <div class="academic-events-list"></div>
+    `;
+
+    const eventList = panel.querySelector(
+        ".academic-events-list"
+    );
+
+    events.forEach(event => {
+
+        const start = getEventStartDate(event);
+        const end = getEventEndDate(event);
+
+        if (!start || !end) return;
+
+        const startText = start.toLocaleDateString(
+            "en-GB",
+            {
+                day: "numeric",
+                month: "short"
+            }
+        );
+
+        const endText = end.toLocaleDateString(
+            "en-GB",
+            {
+                day: "numeric",
+                month: "short"
+            }
+        );
+
+        const dateText =
+            start.toDateString() === end.toDateString()
+                ? startText
+                : `${start.getDate()} – ${endText}`;
+
+        const row = document.createElement("div");
+        row.className = "academic-event-row";
+
+        const dateBadge = document.createElement("div");
+        dateBadge.className = "academic-event-date";
+
+        dateBadge.innerHTML = `
+            <i class="fa-regular fa-calendar"></i>
+            <span>${dateText}</span>
+        `;
+
+        const divider = document.createElement("div");
+        divider.className = "academic-event-divider";
+
+        const details = document.createElement("div");
+        details.className = "academic-event-details";
+
+        const title = document.createElement("h4");
+        title.textContent = event.title || "Academic Event";
+
+        const description = document.createElement("p");
+        description.textContent = getAcademicEventMessage(
+            event,
+            referenceDate
+        );
+
+details.appendChild(title);
+details.appendChild(description);
+
+// ACTION BUTTONS
+const actions = document.createElement("div");
+actions.className = "academic-event-actions";
+
+const editBtn = document.createElement("button");
+editBtn.className = "academic-event-edit";
+editBtn.type = "button";
+editBtn.title = "Edit academic event";
+editBtn.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
+
+const deleteBtn = document.createElement("button");
+deleteBtn.className = "academic-event-delete";
+deleteBtn.type = "button";
+deleteBtn.title = "Delete academic event";
+deleteBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
+
+// EDIT EVENT
+editBtn.addEventListener("click", () => {
+    editScheduleEvent(event, "academic_event");
+});
+
+// DELETE EVENT
+deleteBtn.addEventListener("click", () => {
+    deleteScheduleEvent(event, "academic_event");
+});
+
+actions.appendChild(editBtn);
+actions.appendChild(deleteBtn);
+
+row.appendChild(dateBadge);
+row.appendChild(divider);
+row.appendChild(details);
+row.appendChild(actions);
+
+eventList.appendChild(row);
+
+    });
+
+    // Collapse / expand functionality
+
+    const toggle = panel.querySelector(
+        ".academic-events-toggle"
+    );
+
+    toggle.addEventListener("click", () => {
+
+        const collapsed = panel.classList.toggle("collapsed");
+
+        toggle.innerHTML = collapsed
+            ? '<i class="fa-solid fa-chevron-down"></i>'
+            : '<i class="fa-solid fa-chevron-up"></i>';
+
+        toggle.setAttribute(
+            "aria-label",
+            collapsed
+                ? "Expand academic events"
+                : "Collapse academic events"
+        );
+
+    });
+
+    container.appendChild(panel);
+
+}
 //==================================================
 // WEEK HELPERS
 //==================================================
@@ -1283,73 +1452,106 @@ function getWeekDates(date) {
     );
 
 }
+
+//==================================================
+
+function isLectureOnDate(lecture, date) {
+
+    const selected = getDateString(date);
+
+    // If the lecture has a start date, use the existing
+    // date and repetition rules.
+    if (lecture.start_date) {
+
+        const start = String(lecture.start_date).slice(0, 10);
+        const repeat = lecture.repeat_type || "none";
+
+        const until = lecture.repeat_until
+            ? String(lecture.repeat_until).slice(0, 10)
+            : null;
+
+        if (selected < start) return false;
+        if (until && selected > until) return false;
+
+        if (repeat === "none") {
+            return selected === start;
+        }
+
+        const startDate = new Date(start + "T00:00:00Z");
+        const selectedDate = new Date(selected + "T00:00:00Z");
+
+        const difference = Math.round(
+            (selectedDate - startDate) / 86400000
+        );
+
+        if (repeat === "daily") return true;
+        if (repeat === "weekly") return difference % 7 === 0;
+        if (repeat === "biweekly") return difference % 14 === 0;
+
+        if (repeat === "custom") {
+            const interval = Math.max(
+                1,
+                Number(lecture.repeat_interval) || 1
+            );
+
+            return difference % interval === 0;
+        }
+
+        return false;
+    }
+
+    // Imported classes without start_date:
+    // match their saved weekday against the selected date.
+    if (lecture.day) {
+
+        const days = [
+            "sunday",
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday"
+        ];
+
+        const savedDay = String(lecture.day)
+            .trim()
+            .toLowerCase();
+
+        const selectedDay = days[date.getDay()];
+
+        return (
+            savedDay === selectedDay ||
+            savedDay === selectedDay.slice(0, 3)
+        );
+    }
+
+    return false;
+}
+
 //==================================================
 // GET LECTURES FOR DATE
 //==================================================
 
-function getLecturesForDate(
-    date
-) {
+function getLecturesForDate(date) {
 
-    const dayName =
-        date.toLocaleDateString(
-            "en-GB",
-            {
-                weekday: "long"
-            }
-        );
+    const rest = academicEvents.some(event =>
+        isRestPeriod(event) &&
+        eventOverlapsDate(event, date)
+    );
 
-
-    //==================================================
-    // ACADEMIC BREAK
-    //==================================================
-
-    const rest =
-        academicEvents.some(
-            event =>
-                isRestPeriod(event) &&
-                eventOverlapsDate(
-                    event,
-                    date
-                )
-        );
-
-    if (
-        rest
-    ) {
-
-        return [];
-
-    }
-
-
-    //==================================================
-    // GET CLASSES
-    //==================================================
+    if (rest) return [];
 
     return lectures
-        .filter(
-            lecture =>
-                String(
-                    lecture.day ||
-                    ""
-                ).trim().toLowerCase() ===
-                dayName.toLowerCase()
-        )
-        .sort(
-            (a, b) =>
-                String(
-                    a.start_time ||
-                    ""
-                ).localeCompare(
-                    String(
-                        b.start_time ||
-                        ""
-                    )
-                )
+        .filter(lecture => isLectureOnDate(lecture, date))
+        .sort((a, b) =>
+            String(a.start_time || "").localeCompare(
+                String(b.start_time || "")
+            )
         );
-
 }
+
+
 
 //==================================================
 // GET TASKS FOR DATE
@@ -1579,29 +1781,19 @@ function getTopicsForDate(
 // ACADEMIC EVENTS FOR DATE
 //==================================================
 
-function getAcademicEventsForDate(
-    date
-) {
-
+function getAcademicEventsForDate(date) {
     return academicEvents
-        .filter(
-            event =>
-                eventOverlapsDate(
-                    event,
-                    date
-                )
-        )
-        .sort(
-            (a, b) =>
-                String(
-                    a.start_time || ""
-                ).localeCompare(
-                    String(
-                        b.start_time || ""
-                    )
-                )
-        );
+        .filter(event => {
+            // Multi-day academic periods belong in the top banners only.
+            if (isMajorAcademicPeriod(event)) return false;
 
+            return eventOverlapsDate(event, date);
+        })
+        .sort((a, b) =>
+            String(a.start_time || "").localeCompare(
+                String(b.start_time || "")
+            )
+        );
 }
 //==================================================
 // MONTH EVENTS
@@ -1672,7 +1864,7 @@ function getEventsForDate(
 
                 time:
                     task.due_time ||
-                    "23:59",
+                    "00:00",
 
                 data:
                     task
@@ -1701,7 +1893,7 @@ function getEventsForDate(
 
                 time:
                     assessment.due_time ||
-                    "23:59",
+                    "00:00",
 
                 data:
                     assessment
@@ -1711,6 +1903,20 @@ function getEventsForDate(
         }
     );
 
+        // ACADEMIC EVENTS
+    getAcademicEventsForDate(date).forEach(event => {
+
+        const module = getModule(event.module_id);
+
+        result.push({
+            type: "academic_event",
+            title: event.title || "Academic Event",
+            colour: module?.colour || "#3048C8",
+            time: event.start_time || "00:00",
+            data: event
+        });
+
+    });
     return result.sort(
         (a, b) =>
             String(
@@ -1765,6 +1971,281 @@ function formatDueLabel(
 
 }
 
+
+//==================================================
+// SAVE EVENT COMPLETION
+//==================================================
+
+async function saveScheduleEventCompletion(item, type, completed) {
+
+    const userId = auth.currentUser?.uid;
+
+    const tables = {
+        lecture: "lectures",
+        task: "tasks",
+        assessment: "assessments",
+        academic_event: "academic_events",
+        weekly_topic: "weekly_topics"
+    };
+
+    const table = tables[type];
+
+    if (!userId || !table || !item?.id) {
+        console.error("Missing event information:", {
+            type,
+            item
+        });
+
+        return false;
+    }
+
+    const { error } = await supabase
+        .from(table)
+        .update({
+            completed: completed
+        })
+        .eq("id", item.id)
+        .eq("user_id", userId);
+
+    if (error) {
+        console.error("EVENT COMPLETION ERROR:", error);
+        return false;
+    }
+
+    item.completed = completed;
+
+    return true;
+}
+
+//==================================================
+// ADD EVENT COMPLETION CHECKBOX
+//==================================================
+function addEventCompletionCheckbox(
+    card,
+    item,
+    type,
+    insertInto = null
+) {
+    const checkbox = document.createElement("input");
+
+    card.style.setProperty(
+        "--event-colour",
+        getModuleColour(item.module_id)
+    );
+
+    checkbox.type = "checkbox";
+    checkbox.className = "schedule-event-checkbox";
+    checkbox.checked = item.completed === true;
+
+    checkbox.setAttribute(
+        "aria-label",
+        "Mark event as completed"
+    );
+
+    const applyCompletion = (completed) => {
+        card.classList.toggle("completed", completed);
+
+
+           const title = card.querySelector(
+    ".lecture-details h3, .lecture-details h4, .schedule-event-title, .lecture-event strong, .task-event strong"
+);
+
+        if (title) {
+            title.classList.toggle("is-completed", completed);
+        }
+
+        const status = card.querySelector(".schedule-task-status");
+
+        if (status && type === "task") {
+            status.textContent = completed
+                ? "Completed"
+                : formatDueLabel(
+                    new Date(
+                        `${String(item.due_date).slice(0, 10)}T00:00:00`
+                    )
+                );
+        }
+    };
+
+    applyCompletion(checkbox.checked);
+
+    checkbox.addEventListener("click", event => {
+        event.stopPropagation();
+    });
+
+    checkbox.addEventListener("change", async event => {
+        event.stopPropagation();
+
+        const completed = checkbox.checked;
+
+        applyCompletion(completed);
+        checkbox.disabled = true;
+
+        const saved = await saveScheduleEventCompletion(
+            item,
+            type,
+            completed
+        );
+
+        if (!saved) {
+            checkbox.checked = !completed;
+            applyCompletion(!completed);
+        }
+
+        checkbox.disabled = false;
+    });
+
+    const target =
+        insertInto ||
+        card.querySelector(".lecture-main") ||
+        card;
+
+    target.prepend(checkbox);
+}
+
+//==================================================
+// PRIORITY TOAST NOTIFICATION
+//==================================================
+
+
+function showPriorityToast(message, isPriority) {
+    let toast = document.getElementById("priorityToast");
+
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "priorityToast";
+        toast.className = "priority-toast";
+        document.body.appendChild(toast);
+    }
+
+    toast.innerHTML = `
+        <div class="priority-toast-icon">
+            <i class="fa-solid fa-star"></i>
+        </div>
+
+        <div class="priority-toast-copy">
+            <strong>${isPriority ? "Added to priorities" : "Priority removed"}</strong>
+            <small>${message}</small>
+        </div>
+    `;
+
+    toast.classList.toggle("removed", !isPriority);
+    toast.classList.remove("show");
+
+    requestAnimationFrame(() => {
+        toast.classList.add("show");
+    });
+
+    clearTimeout(toast.hideTimer);
+
+    toast.hideTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2500);
+}
+
+//==================================================
+// SCHEDULE EVENT PRIORITY
+//==================================================
+
+function addSchedulePriorityToggle(card, item, table) {
+
+    const isPriority =
+        item.priority === true ||
+        item.priority === "true";
+
+    const title = card.querySelector(
+    ".schedule-event-title, .timeline-event strong"
+     );
+
+    if (!title) return;
+
+    const titleRow = document.createElement("div");
+    titleRow.className = "schedule-task-title-row";
+
+    title.parentNode.insertBefore(titleRow, title);
+    titleRow.appendChild(title);
+
+    const priorityButton = document.createElement("button");
+
+    priorityButton.type = "button";
+    priorityButton.className =
+        `task-priority-toggle ${isPriority ? "active" : ""}`;
+
+    priorityButton.setAttribute(
+        "aria-label",
+        isPriority ? "Remove priority" : "Mark as priority"
+    );
+
+    priorityButton.setAttribute("aria-pressed", String(isPriority));
+    priorityButton.title = isPriority ? "Remove priority" : "Mark as priority";
+
+    priorityButton.innerHTML = `
+        <i class="${isPriority ? "fa-solid" : "fa-regular"} fa-star"></i>
+    `;
+// Day view: place the star directly inside the event card.
+
+if (card.classList.contains("timeline-event")) {
+    card.appendChild(priorityButton);
+} else {
+    titleRow.appendChild(priorityButton);
+}
+
+    priorityButton.addEventListener("click", async event => {
+
+        event.stopPropagation();
+
+        const newPriority = !(
+            item.priority === true ||
+            item.priority === "true"
+        );
+
+        const userId = auth.currentUser?.uid;
+
+        if (!userId) return;
+
+        priorityButton.disabled = true;
+
+        const { error } = await supabase
+            .from(table)
+            .update({ priority: newPriority })
+            .eq("id", item.id)
+            .eq("user_id", userId);
+
+        if (error) {
+            console.error("Could not update event priority:", error);
+            priorityButton.disabled = false;
+            return;
+        }
+
+       item.priority = newPriority;
+
+        showPriorityToast(
+         newPriority
+        ? "Priority added — this event is now a priority."
+        : "Priority removed — this event is no longer prioritised.",
+    newPriority
+     );
+
+     priorityButton.classList.toggle("active", newPriority);
+
+        priorityButton.innerHTML = `
+            <i class="${newPriority ? "fa-solid" : "fa-regular"} fa-star"></i>
+        `;
+
+        priorityButton.setAttribute("aria-pressed", String(newPriority));
+
+        priorityButton.setAttribute(
+            "aria-label",
+            newPriority ? "Remove priority" : "Mark as priority"
+        );
+
+        priorityButton.title =
+            newPriority ? "Remove priority" : "Mark as priority";
+
+        priorityButton.disabled = false;
+
+    });
+}
 //==================================================
 // LECTURE CARD
 //==================================================
@@ -1820,10 +2301,9 @@ function createLectureCard(
                     Class
                 </p>
 
-                <h3>
-                    ${module?.module_name || "Unknown Module"}
-                </h3>
-
+                  <h3 class="schedule-event-title">
+                         ${module?.module_name || "Unknown Module"}
+                  </h3>
                 <p class="event-module">
                     ${lecture.venue || "No venue"}
                 </p>
@@ -1835,66 +2315,101 @@ function createLectureCard(
     `;
 
 
-    //==================================================
-    // EVENT ACTION MENU
-    //==================================================
+//==================================================
+// EVENT ACTION MENU
+ //==================================================
 
-    card.addEventListener(
-        "click",
-        event => {
+    addEventCompletionCheckbox(
+    card,
+    lecture,
+    "lecture"
+);
+addSchedulePriorityToggle(card, lecture, "lectures");
 
-            event.stopPropagation();
+card.addEventListener(
+    "click",
+    event => {
 
-            openEventActionMenu(
-                lecture,
-                "lecture",
-                card
-            );
-
+        if (event.target.closest(".schedule-event-checkbox")) {
+            return;
         }
+
+        event.stopPropagation();
+
+        openEventActionMenu(
+            lecture,
+            "lecture",
+            card
+        );
+
+    }
+);
+
+return card;}
+
+//==================================================
+// UPDATE TASK COMPLETION
+//==================================================
+
+async function saveScheduleTaskCompletion(task, completed) {
+
+    const userId = auth.currentUser?.uid;
+
+    if (!userId) {
+        console.error("No authenticated user found.");
+        return false;
+    }
+
+    const { error } = await supabase
+        .from("tasks")
+        .update({
+            completed: completed
+        })
+        .eq("id", task.id)
+        .eq("user_id", userId);
+
+    if (error) {
+        console.error("TASK COMPLETION UPDATE ERROR:", error);
+        return false;
+    }
+
+    task.completed = completed;
+
+    const matchingTask = tasks.find(
+        item => String(item.id) === String(task.id)
     );
 
+    if (matchingTask) {
+        matchingTask.completed = completed;
+    }
 
-    return card;
-
+    return true;
 }
 //==================================================
 // TASK CARD
 //==================================================
+function createTaskCard(task) {
 
-function createTaskCard(
-    task
-) {
-
-    const colour =
-        getModuleColour(
-            task.module_id
-        );
+    const colour = getModuleColour(task.module_id);
 
     const moduleName =
         task.module_name ||
-        getModule(
-            task.module_id
-        )?.module_name ||
-        "General";
+        getModule(task.module_id)?.module_name ||
+        "";
 
-    const dueDate =
-        new Date(
-            `${String(
-                task.due_date
-            ).slice(
-                0,
-                10
-            )}T00:00:00`
-        );
+    const dueDate = new Date(
+        `${String(task.due_date).slice(0, 10)}T00:00:00`
+    );
 
-    const card =
-        document.createElement(
-            "div"
-        );
+    const isCompleted = task.completed === true;
 
-    card.className =
-        "week-lecture task-card-event";
+    const isPriority =
+        task.priority === true ||
+        task.priority === "true";
+
+    const card = document.createElement("div");
+
+    card.className = `week-lecture task-card-event ${isCompleted ? "completed" : ""}`;
 
     card.innerHTML = `
 
@@ -1907,76 +2422,132 @@ function createTaskCard(
 
             <div class="lecture-time">
 
-                <strong>
-                    ${task.due_time || "--:--"}
-                </strong>
+                <strong>${task.due_time || "--:--"}</strong>
 
-                <span>
-                    Due
-                </span>
+                <span>Due</span>
 
             </div>
 
             <div class="lecture-details">
 
-                <p
-                    class="event-type"
-                    style="color:${colour}"
-                >
+                <p class="event-type" style="color:${colour}">
                     Task
                 </p>
 
-                <h3>
-                    ${task.title || "Task"}
-                </h3>
+               <div class="schedule-task-title-row">
 
-                <p class="event-module">
-                    ${moduleName}
-                </p>
+    <h3 class="schedule-task-title ${isCompleted ? "is-completed" : ""}">
+        ${task.title || "Task"}
+    </h3>
 
-                <span class="event-due">
-                    ${formatDueLabel(
-                        dueDate
-                    )}
+    <button
+        type="button"
+        class="task-priority-toggle ${isPriority ? "active" : ""}"
+        aria-label="${isPriority ? "Remove priority" : "Mark as priority"}"
+        aria-pressed="${isPriority}"
+        title="${isPriority ? "Remove priority" : "Mark as priority"}"
+    >
+        <i class="${isPriority ? "fa-solid" : "fa-regular"} fa-star"></i>
+    </button>
+
+</div>
+
+                ${moduleName ? `
+                    <p class="event-module">${moduleName}</p>
+                ` : ""}
+
+                <span class="event-due schedule-task-status">
+                    ${isCompleted ? "Completed" : formatDueLabel(dueDate)}
                 </span>
+
+        
 
             </div>
 
-               </div>
-
+        </div>
     `;
 
+   
+addEventCompletionCheckbox(card, task, "task");
 
-    //==================================================
-    // EVENT ACTION MENU
-    //==================================================
 
-    card.addEventListener(
-        "click",
-        event => {
+// TOGGLE TASK PRIORITY
+const priorityButton = card.querySelector(".task-priority-toggle");
 
-            event.stopPropagation();
+priorityButton.addEventListener("click", async event => {
+    event.stopPropagation();
 
-            openEventActionMenu(
-                task,
-                "task",
-                card
-            );
+    const previousPriority =
+        task.priority === true || task.priority === "true";
 
-        }
+    const newPriority = !previousPriority;
+    const userId = auth.currentUser?.uid;
+
+    if (!userId) return;
+
+    priorityButton.disabled = true;
+
+    const { error } = await supabase
+        .from("tasks")
+        .update({ priority: newPriority })
+        .eq("id", task.id)
+        .eq("user_id", userId);
+
+    if (error) {
+        console.error("Could not update task priority:", error);
+        priorityButton.disabled = false;
+        return;
+    }
+
+    task.priority = newPriority;
+    //popup
+
+    showPriorityToast(
+    newPriority
+        ? "Priority added — this task is now a priority."
+        : "Priority removed — this task is no longer prioritised.",
+    newPriority
+);
+
+    priorityButton.classList.toggle("active", newPriority);
+
+    priorityButton.innerHTML = `
+        <i class="${newPriority ? "fa-solid" : "fa-regular"} fa-star"></i>
+    `;
+
+    priorityButton.setAttribute("aria-pressed", String(newPriority));
+    priorityButton.setAttribute(
+        "aria-label",
+        newPriority ? "Remove priority" : "Mark as priority"
     );
 
+    priorityButton.title =
+        newPriority ? "Remove priority" : "Mark as priority";
+
+    priorityButton.disabled = false;
+});
+    card.addEventListener("click", event => {
+
+        if (event.target.closest(".schedule-event-checkbox")) {
+            return;
+        }
+
+        event.stopPropagation();
+
+        openEventActionMenu(task, "task", card);
+
+    });
 
     return card;
-
-}
-//==================================================
+}//==================================================
 // ASSESSMENT CARD
 //==================================================
 
 function createAssessmentCard(
     assessment
 ) {
+    //get module colour
+const colour = getModuleColour(assessment.module_id);
 
     const card =
         document.createElement(
@@ -1990,7 +2561,7 @@ function createAssessmentCard(
 
         <div
             class="lecture-bar"
-            style="background:#7C3AED"
+            style="background:${colour}"
         ></div>
 
         <div class="lecture-main">
@@ -2011,14 +2582,14 @@ function createAssessmentCard(
 
                 <p
                     class="event-type"
-                    style="color:#7C3AED"
+                    style="color:${colour}"
                 >
                     Assessment
                 </p>
 
-                <h3>
-                    ${assessment.title || "Assessment"}
-                </h3>
+                    <h3 class="schedule-event-title">
+                         ${assessment.title || "Assessment"}
+                    </h3>
 
                 <p class="event-module">
                     ${
@@ -2035,25 +2606,37 @@ function createAssessmentCard(
 
     `;
 
+    // ADD COMPLETION CHECKBOX
+    addEventCompletionCheckbox(
+        card,
+        assessment,
+        "assessment"
+    );
 
+    addSchedulePriorityToggle(card, assessment, "assessments");
     //==================================================
     // EVENT ACTION MENU
     //==================================================
 
     card.addEventListener(
-        "click",
-        event => {
+    "click",
+    event => {
 
-            event.stopPropagation();
-
-            openEventActionMenu(
-                assessment,
-                "assessment",
-                card
-            );
-
+        // Do not open the edit/delete menu when ticking the checkbox
+        if (event.target.closest(".schedule-event-checkbox")) {
+            return;
         }
-    );
+
+        event.stopPropagation();
+
+        openEventActionMenu(
+            assessment,
+            "assessment",
+            card
+        );
+
+    }
+);
 
 
     return card;
@@ -2116,9 +2699,9 @@ function createAcademicEventCard(
                     ${event.type || "Event"}
                 </p>
 
-                <h3>
-                    ${event.title || "Event"}
-                </h3>
+                <h3 class="schedule-event-title">
+                   ${event.title || "Event"}
+                  </h3>
 
                 <p class="event-module">
 
@@ -2146,25 +2729,37 @@ function createAcademicEventCard(
 
     `;
 
+        // ADD COMPLETION CHECKBOX
+    addEventCompletionCheckbox(
+        card,
+        event,
+        "academic_event"
+    );
+    addSchedulePriorityToggle(card, event, "academic_events");
 
     //==================================================
     // EVENT ACTION MENU
     //==================================================
 
     card.addEventListener(
-        "click",
-        clickEvent => {
+    "click",
+    clickEvent => {
 
-            clickEvent.stopPropagation();
-
-            openEventActionMenu(
-                event,
-                "academic_event",
-                card
-            );
-
+        // Do not open the edit/delete menu when ticking the checkbox
+        if (clickEvent.target.closest(".schedule-event-checkbox")) {
+            return;
         }
-    );
+
+        clickEvent.stopPropagation();
+
+        openEventActionMenu(
+            event,
+            "academic_event",
+            card
+        );
+
+    }
+);
 
 
     return card;
@@ -2222,6 +2817,13 @@ function createTopicCard(
 
     `;
 
+    // ADD COMPLETION CHECKBOX
+    addEventCompletionCheckbox(
+        card,
+        topic,
+        "weekly_topic"
+    );
+
     return card;
 
 }
@@ -2255,72 +2857,6 @@ function renderWeek() {
     const weekEnd =
         dates[6];
 
-//==================================================
-// ACADEMIC PERIOD BANNER
-//==================================================
-
-const academicPeriods =
-    getAcademicPeriodsForRange(
-        weekStart,
-        weekEnd
-    );
-
-academicPeriods.forEach(
-    event => {
-
-        renderAcademicPeriodBanner(
-            calendar,
-            event,
-            currentDate
-        );
-
-    }
-);        
-
-  //==================================================
-// WEEK DATE RANGE
-//==================================================
-
-const weekStartText =
-    weekStart.toLocaleDateString(
-        "en-GB",
-        {
-            day: "numeric",
-            month: "short"
-        }
-    );
-
-const weekEndText =
-    weekEnd.toLocaleDateString(
-        "en-GB",
-        {
-            day: "numeric",
-            month: "short"
-        }
-    );
-
-const weekYear =
-    weekEnd.getFullYear();
-
-    const weekDateHeading =
-        document.createElement(
-            "div"
-        );
-
-    weekDateHeading.className =
-        "week-date-heading";
-
-   weekDateHeading.innerHTML = `
-     <span>
-        ${weekStartText} – ${weekEndText} ${weekYear}
-    </span>
-`;
-
-   
-
-    calendar.appendChild(
-        weekDateHeading
-    );
 
     //==================================================
     // WEEK STRIP
@@ -2505,15 +3041,27 @@ const weekYear =
 
                     <div class="lecture-count">
 
-                        ${dayLectures.length}
+    ${
+        dayLectures.length +
+        dayTasks.length +
+        dayAssessments.length +
+        dayAcademicEvents.length +
+        dayTopics.length
+    }
 
-                        ${
-                            dayLectures.length === 1
-                                ? "Lecture"
-                                : "Lectures"
-                        }
+    ${
+        (
+            dayLectures.length +
+            dayTasks.length +
+            dayAssessments.length +
+            dayAcademicEvents.length +
+            dayTopics.length
+        ) === 1
+            ? "Activity"
+            : "Activities"
+    }
 
-                    </div>
+</div>
 
                 </div>
 
@@ -2667,76 +3215,49 @@ function renderDay() {
 
     dayView.innerHTML = `
 
-        <h2 class="day-title">
+    <div
+        class="day-summary"
+        id="daySummary"
+    ></div>
 
-            ${
-                currentDate.toLocaleDateString(
-                    "en-GB",
-                    {
-                        weekday:
-                            "long",
+    <!-- ALL-DAY TASKS AND ASSESSMENTS -->
+    <div
+        class="timeline-all-day-list"
+        id="allDayEvents"
+    ></div>
 
-                        day:
-                            "2-digit",
+    <div class="timeline">
 
-                        month:
-                            "long",
+    ${
+        Array.from(
+            {
+                length: 24
+            },
+            (_, hour) => `
 
-                        year:
-                            "numeric"
-                    }
-                )
-            }
+                <div
+                    class="time-slot"
+                    id="hour-${hour}"
+                >
 
-        </h2>
+                    <div class="time-label">
+                        ${String(hour).padStart(2, "0")}:00
+                    </div>
 
-        <div
-            class="day-summary"
-            id="daySummary"
-        ></div>
+                    <div
+                        class="events"
+                        data-hour="${hour}"
+                    ></div>
 
-        <div class="timeline">
+                </div>
 
-            ${
-                Array.from(
-                    {
-                        length: 24
-                    },
-                    (
-                        _,
-                        hour
-                    ) => `
+            `
+        ).join("")
+    }
 
-                        <div
-                            class="time-slot"
-                            id="hour-${hour}"
-                        >
+    <div class="timeline-events-layer"></div>
 
-                            <div class="time-label">
-
-                                ${
-                                    String(
-                                        hour
-                                    ).padStart(
-                                        2,
-                                        "0"
-                                    )
-                                }:00
-
-                            </div>
-
-                            <div
-                                class="events"
-                                data-hour="${hour}"
-                            ></div>
-
-                        </div>
-
-                    `
-                ).join("")
-            }
-
-        </div>
+</div>
 
     `;
 
@@ -2744,167 +3265,288 @@ function renderDay() {
         dayView
     );
 
+
 //==================================================
-// ACADEMIC PERIOD BANNERS
+// ACADEMIC EVENTS FOR SELECTED DAY ONLY
 //==================================================
 
-const academicPeriods =
-    getAcademicPeriodsForRange(
-        currentDate,
-        currentDate
-    );
+const academicPeriods = getAcademicPeriodsForRange(
+    currentDate,
+    currentDate
+);
 
-academicPeriods.forEach(
-    event => {
+renderAcademicEventsPanel(
+    dayView.querySelector("#daySummary"),
+    academicPeriods,
+    currentDate
+);
+//==================================================
+ // NORMAL EVENTS ONLY
+ //==================================================
 
-        renderAcademicPeriodBanner(
-            dayView.querySelector(
-                "#daySummary"
-            ),
-            event,
-            currentDate
+const dayItems = [];
+
+// LECTURES
+getLecturesForDate(currentDate).forEach(lecture => {
+    dayItems.push({
+        type: "lecture",
+        data: lecture,
+        time: lecture.start_time || null,
+        isAllDay: !lecture.start_time
+    });
+});
+
+// TASKS
+getTasksForDate(currentDate).forEach(task => {
+    dayItems.push({
+        type: "task",
+        data: task,
+        time: task.due_time || null,
+        isAllDay: !task.due_time
+    });
+});
+
+// ASSESSMENTS
+getAssessmentsForDate(currentDate).forEach(assessment => {
+    dayItems.push({
+        type: "assessment",
+        data: assessment,
+        time: assessment.due_time || null,
+        isAllDay: !assessment.due_time
+    });
+});
+
+// OTHER ACADEMIC EVENTS
+getAcademicEventsForDate(currentDate).forEach(event => {
+    dayItems.push({
+        type: "academic_event",
+        data: event,
+        time: event.start_time || null,
+        isAllDay: !event.start_time
+    });
+});
+
+//==================================================
+// GROUP EVENTS THAT OVERLAP IN TIME
+//==================================================
+
+const eventLayouts = new Map();
+
+const getMinutes = (time) => {
+    const [hours, minutes] = String(time || "00:00")
+        .slice(0, 5)
+        .split(":")
+        .map(Number);
+
+    return (hours * 60) + (minutes || 0);
+};
+
+// Prepare each event's start and end time
+const timedItems = dayItems
+    .filter(item => !item.isAllDay)
+    .map(item => {
+
+    const start = getMinutes(item.time);
+
+    let endTime = item.data.end_time || "";
+
+    if (
+        item.type === "task" ||
+        item.type === "assessment"
+    ) {
+        endTime = "";
+    }
+
+    const end = endTime
+        ? getMinutes(endTime)
+        : start + 60;
+
+    return {
+        item,
+        start,
+        end: Math.max(start + 60, end)
+    };
+
+});
+
+// Sort events by their start time
+timedItems.sort((a, b) => a.start - b.start);
+
+// Group events into overlapping clusters
+const overlapGroups = [];
+let currentGroup = [];
+let groupEnd = -1;
+
+timedItems.forEach(entry => {
+
+    if (
+        currentGroup.length === 0 ||
+        entry.start < groupEnd
+    ) {
+        currentGroup.push(entry);
+        groupEnd = Math.max(groupEnd, entry.end);
+    } else {
+        overlapGroups.push(currentGroup);
+        currentGroup = [entry];
+        groupEnd = entry.end;
+    }
+
+});
+
+if (currentGroup.length > 0) {
+    overlapGroups.push(currentGroup);
+}
+
+// Assign each event its horizontal lane
+overlapGroups.forEach(group => {
+
+    const laneEnds = [];
+
+    group.forEach(entry => {
+
+        let laneIndex = laneEnds.findIndex(
+            laneEnd => laneEnd <= entry.start
         );
 
-    }
-);
-    //==================================================
-    // NORMAL EVENTS ONLY
-    //==================================================
-
-    const dayItems = [];
-
-    getLecturesForDate(
-        currentDate
-    ).forEach(
-        lecture => {
-
-            dayItems.push({
-
-                type:
-                    "lecture",
-
-                data:
-                    lecture,
-
-                time:
-                    lecture.start_time ||
-                    "00:00"
-
-            });
-
+        if (laneIndex === -1) {
+            laneIndex = laneEnds.length;
+            laneEnds.push(entry.end);
+        } else {
+            laneEnds[laneIndex] = entry.end;
         }
-    );
 
-    getTasksForDate(
-        currentDate
-    ).forEach(
-        task => {
+        eventLayouts.set(entry.item, {
+            laneIndex,
+            laneCount: 0
+        });
 
-            dayItems.push({
+    });
 
-                type:
-                    "task",
+    // Every event in this overlapping group
+    // uses the same number of horizontal columns
+    group.forEach(entry => {
 
-                data:
-                    task,
+        const layout = eventLayouts.get(entry.item);
 
-                time:
-                    task.due_time ||
-                    "23:59"
+        layout.laneCount = laneEnds.length;
 
-            });
+    });
 
-        }
-    );
+});
 
-    getAssessmentsForDate(
-        currentDate
-    ).forEach(
-        assessment => {
+//==================================================
+// PLACE EVENTS IN THE CORRECT TIMELINE LOCATION
+//==================================================
 
-            dayItems.push({
+const isMobileLayout = window.matchMedia(
+    "(max-width: 768px)"
+).matches;
 
-                type:
-                    "assessment",
+dayItems.forEach(item => {
 
-                data:
-                    assessment,
-
-                time:
-                    assessment.due_time ||
-                    "23:59"
-
-            });
-
-        }
-    );
-    getAcademicEventsForDate(
-        currentDate
-    ).forEach(
-        event => {
-
-            dayItems.push({
-
-                type:
-                    "academic_event",
-
-                data:
-                    event,
-
-                time:
-                    event.start_time ||
-                    "00:00"
-
-            });
-
-        }
-    );
-
-    dayItems.sort(
-        (a, b) =>
-            String(
-                a.time
-            ).localeCompare(
-                String(
-                    b.time
-                )
+    // Events without an allocated time go at the top
+    const container = item.isAllDay
+        ? dayView.querySelector("#allDayEvents")
+        : isMobileLayout
+            ? dayView.querySelector(
+                `.events[data-hour="${parseInt(item.time.split(":")[0], 10)}"]`
             )
+            : dayView.querySelector(".timeline-events-layer");
+
+    if (!container) return;
+
+    const event = document.createElement("div");
+
+    //==================================================
+    // EVENT TIME AND DURATION
+    //==================================================
+
+    const [startHour, startMinute] =
+        item.isAllDay
+            ? [0, 0]
+            : item.time.split(":").map(Number);
+
+    let endTime = item.data.end_time || "";
+
+    if (
+        item.type === "task" ||
+        item.type === "assessment"
+    ) {
+        endTime = "";
+    }
+
+    const [endHour, endMinute] = endTime
+        ? endTime.split(":").map(Number)
+        : [startHour + 1, startMinute];
+
+    const hourHeight =
+        dayView.querySelector(".time-slot")
+            .getBoundingClientRect().height;
+
+    const startPosition =
+        (startHour * 60 + startMinute) / 60 * hourHeight;
+
+    const duration = Math.max(
+        30,
+        (endHour * 60 + endMinute) -
+        (startHour * 60 + startMinute)
     );
 
-    dayItems.forEach(
-        item => {
+    const eventHeight = Math.max(
+        76,
+        duration / 60 * hourHeight - 10
+    );
 
-            const hour =
-                Math.min(
-                    23,
-                    Math.max(
-                        0,
-                        parseInt(
-                            String(
-                                item.time
-                            ).split(":")[0],
-                            10
-                        ) || 0
-                    )
-                );
+    //==================================================
+    // DESKTOP POSITIONING
+    //==================================================
 
-            const container =
-                dayView.querySelector(
-                    `.events[data-hour="${hour}"]`
-                );
+    if (!item.isAllDay && !isMobileLayout) {
 
-            if (!container) {
-                return;
-            }
+        const layout = eventLayouts.get(item);
 
-            const event =
-                document.createElement(
-                    "div"
-                );
+        const groupIndex = layout?.laneIndex ?? 0;
+        const groupCount = layout?.laneCount ?? 1;
+        const cardWidth = 100 / groupCount;
 
-            //==================================================
-            // LECTURE
-            //==================================================
+        event.style.position = "absolute";
+
+        event.style.setProperty(
+            "--event-top",
+            `${startPosition + 10}px`
+        );
+
+        event.style.setProperty(
+            "--event-height",
+            `${eventHeight}px`
+        );
+
+        event.style.setProperty(
+            "--event-left",
+            `calc(${groupIndex * cardWidth}% + 6px)`
+        );
+
+        event.style.setProperty(
+            "--event-width",
+            `calc(${cardWidth}% - 12px)`
+        );
+
+        container.style.height =
+            `${hourHeight * 24}px`;
+
+    } else {
+
+        // Mobile and all-day cards remain in normal flow
+        event.style.position = "relative";
+        event.style.top = "auto";
+        event.style.left = "auto";
+        event.style.right = "auto";
+        event.style.width = "auto";
+        event.style.height = "auto";
+    }
+//==================================================
+// LECTURE
+//==================================================
 
             if (
                 item.type ===
@@ -2926,8 +3568,10 @@ academicPeriods.forEach(
                 event.className =
                     "lecture-event";
 
-                event.style.borderLeft =
-                    `6px solid ${colour}`;
+                event.style.setProperty(
+                   "--event-colour",
+                   colour
+                  );
 
                 event.innerHTML = `
 
@@ -2938,12 +3582,7 @@ academicPeriods.forEach(
                         Class
                     </span>
 
-                    <strong>
-                        ${
-                            module?.module_name ||
-                            "Unknown Module"
-                        }
-                    </strong>
+                    
 
                     <small>
                         ${
@@ -2989,17 +3628,20 @@ academicPeriods.forEach(
                     );
 
                 const moduleName =
-                    task.module_name ||
-                    getModule(
-                        task.module_id
-                    )?.module_name ||
-                    "General";
+                task.module_name ||
+                 getModule(task.module_id)?.module_name ||
+                 "";
 
                 event.className =
-                    "task-event";
+                 "task-event";
 
                 event.style.borderLeft =
-                    `6px solid ${colour}`;
+                `6px solid ${colour}`;
+
+               event.style.setProperty(
+               "--event-colour",
+                colour
+                 );
 
                 event.innerHTML = `
 
@@ -3021,7 +3663,7 @@ academicPeriods.forEach(
 
                         ${
                             task.due_time ||
-                            "23:59"
+                            "All day"
                         }
 
                         ·
@@ -3044,19 +3686,30 @@ academicPeriods.forEach(
             ) {
 
                 const assessment =
-                    item.data;
+               item.data;
 
-                event.className =
-                    "task-event assessment-event";
+                const colour =
+                   getModuleColour(assessment.module_id);
 
-                event.style.borderLeft =
-                    "6px solid #7C3AED";
+
+                   event.className =
+                   "task-event assessment-event";
+
+               event.style.borderLeft =
+                      `6px solid ${colour}`;
+
+                 event.style.setProperty(
+    "--event-colour",
+    colour
+                     );
+
+                 
 
                 event.innerHTML = `
 
                     <span
                         class="event-type"
-                        style="color:#7C3AED"
+                        style="color:${colour}"
                     >
                         Assessment
                     </span>
@@ -3072,7 +3725,7 @@ academicPeriods.forEach(
 
                         ${
                             assessment.due_time ||
-                            "23:59"
+                            "00:00"
                         }
 
                         ·
@@ -3111,10 +3764,15 @@ if (
         "#3048C8";
 
     event.className =
-        "lecture-event";
+    "lecture-event";
 
-    event.style.borderLeft =
-        `6px solid ${colour}`;
+     event.style.borderLeft =
+    `6px solid ${colour}`;
+
+   event.style.setProperty(
+    "--event-colour",
+    colour
+);
 
     event.innerHTML = `
 
@@ -3156,25 +3814,59 @@ if (
     `;
 
 }
-                       event.addEventListener(
-                "click",
-                clickEvent => {
-
-                    clickEvent.stopPropagation();
-
-                    openEventActionMenu(
-                        item.data,
-                        item.type,
-                        event
-                    );
-
-                }
-            );
 
 
-            container.appendChild(
+// ADD COMPLETION CHECKBOX TO EVERY DAY VIEW EVENT
+addEventCompletionCheckbox(
+    event,
+    item.data,
+    item.type
+);
+
+// ADD PRIORITY STAR TO DAY VIEW EVENTS
+
+const priorityTables = {
+    lecture: "lectures",
+    task: "tasks",
+    assessment: "assessments",
+    academic_event: "academic_events"
+};
+
+event.classList.add("timeline-event");
+
+addSchedulePriorityToggle(
+    event,
+    item.data,
+    priorityTables[item.type]
+);
+
+// OPEN EDIT / DELETE MENU
+event.addEventListener(
+    "click",
+    clickEvent => {
+
+        // Prevent checkbox clicks from opening the action menu
+        if (clickEvent.target.closest(".schedule-event-checkbox")) {
+            return;
+        }
+
+        clickEvent.stopPropagation();
+
+        openEventActionMenu(
+            item.data,
+            item.type,
+            event
+        );
+
+    }
+);
+
+
+            event.classList.add("timeline-event");
+
+               container.appendChild(
                 event
-            );
+             );
 
         }
     );
@@ -3202,9 +3894,416 @@ if (
 
     }
 
-    setTimeout(
-        scrollToRelevantHour,
-        100
+    // Scroll only when the selected day has events
+const firstTimedItem = dayItems.find(
+    item => !item.isAllDay
+);
+
+if (firstTimedItem) {
+    setTimeout(() => {
+        scrollToRelevantHour(firstTimedItem.time);
+    }, 100);
+}}
+
+//==================================================
+// CLOSE MONTH EVENTS POPOVER
+//==================================================
+
+function closeMonthEventsPopover() {
+
+    const existingPopover =
+        document.querySelector(
+            ".month-events-popover"
+        );
+
+    if (existingPopover) {
+
+        existingPopover._cleanup?.();
+
+        existingPopover.remove();
+
+    }
+
+}
+
+
+//==================================================
+// OPEN MONTH EVENTS POPOVER
+// Display all events for the selected date
+//==================================================
+
+function openMonthEventsPopover(
+    date,
+    events,
+    trigger
+) {
+
+    // Close any previously opened popover
+
+    closeMonthEventsPopover();
+
+
+    //==================================================
+    // CREATE POPOVER
+    //==================================================
+
+    const popover =
+        document.createElement("div");
+
+    popover.className =
+        "month-events-popover";
+
+
+    //==================================================
+    // FORMAT SELECTED DATE
+    //==================================================
+
+    const dateHeading =
+        date.toLocaleDateString(
+            "en-GB",
+            {
+                weekday: "long",
+                day: "numeric",
+                month: "long"
+            }
+        );
+
+
+    //==================================================
+    // POPOVER HEADER
+    //==================================================
+
+    const header =
+        document.createElement("div");
+
+    header.className =
+        "month-popover-header";
+
+
+    const heading =
+        document.createElement("div");
+
+    heading.className =
+        "month-popover-heading";
+
+
+    const weekday =
+        document.createElement("span");
+
+    weekday.textContent =
+        date.toLocaleDateString(
+            "en-GB",
+            {
+                weekday: "short"
+            }
+        );
+
+
+    const dateTitle =
+        document.createElement("h3");
+
+    dateTitle.textContent =
+        dateHeading;
+
+
+    heading.append(
+        weekday,
+        dateTitle
+    );
+
+
+    //==================================================
+    // CLOSE BUTTON
+    //==================================================
+
+    const closeButton =
+        document.createElement("button");
+
+    closeButton.type =
+        "button";
+
+    closeButton.className =
+        "month-popover-close";
+
+    closeButton.setAttribute(
+        "aria-label",
+        "Close events"
+    );
+
+    closeButton.innerHTML =
+        '<i class="fa-solid fa-xmark"></i>';
+
+    closeButton.addEventListener(
+        "click",
+        closeMonthEventsPopover
+    );
+
+
+    header.append(
+        heading,
+        closeButton
+    );
+
+    popover.appendChild(
+        header
+    );
+
+
+    //==================================================
+    // EVENT LIST
+    // Display every event for this date
+    //==================================================
+
+    const eventList =
+        document.createElement("div");
+
+    eventList.className =
+        "month-popover-list";
+
+
+    events.forEach(item => {
+
+        const eventButton =
+            document.createElement("button");
+
+        eventButton.type =
+            "button";
+
+        eventButton.className =
+            "month-popover-event";
+
+
+        // Event colour indicator
+
+        const dot =
+            document.createElement("span");
+
+        dot.className =
+            "month-popover-dot";
+
+        dot.style.background =
+            item.colour || "#5483B3";
+
+
+        // Event information
+
+        const details =
+            document.createElement("span");
+
+        details.className =
+            "month-popover-details";
+
+
+        const eventTitle =
+            document.createElement("strong");
+
+        eventTitle.textContent =
+            item.title || "Untitled event";
+
+
+        const eventMeta =
+            document.createElement("small");
+
+
+        const eventType =
+            item.type === "class"
+                ? "Class"
+                : item.type === "academic_event"
+                    ? "Academic event"
+                    : item.type === "assessment"
+                        ? "Assessment"
+                        : "Task";
+
+
+        eventMeta.textContent =
+            `${eventType} · ${item.time || "All day"}`;
+
+
+        details.append(
+            eventTitle,
+            eventMeta
+        );
+
+
+        eventButton.append(
+            dot,
+            details
+        );
+
+
+        //==================================================
+        // OPEN EXISTING EDIT / DELETE MENU
+        //==================================================
+
+        eventButton.addEventListener(
+            "click",
+            clickEvent => {
+
+                clickEvent.stopPropagation();
+
+                const actionType =
+                    item.type === "class"
+                        ? "lecture"
+                        : item.type;
+
+                openEventActionMenu(
+                    item.data,
+                    actionType,
+                    eventButton
+                );
+
+
+            }
+        );
+
+
+        eventList.appendChild(
+            eventButton
+        );
+
+    });
+
+
+    popover.appendChild(
+        eventList
+    );
+
+
+    //==================================================
+    // ADD POPOVER TO PAGE
+    //==================================================
+
+    document.body.appendChild(
+        popover
+    );
+
+
+    //==================================================
+    // POSITION POPOVER
+    // Keep it inside the screen
+    //==================================================
+
+    const triggerRect =
+        trigger.getBoundingClientRect();
+
+    const popoverRect =
+        popover.getBoundingClientRect();
+
+    const spacing = 8;
+
+    const left =
+        Math.max(
+            12,
+            Math.min(
+                triggerRect.left,
+                window.innerWidth -
+                    popoverRect.width -
+                    12
+            )
+        );
+
+    let top =
+        triggerRect.bottom + spacing;
+
+    if (
+        top + popoverRect.height >
+        window.innerHeight - 12
+    ) {
+
+        top =
+            triggerRect.top -
+            popoverRect.height -
+            spacing;
+
+    }
+
+    top =
+        Math.max(
+            12,
+            top
+        );
+
+    popover.style.left =
+        `${left}px`;
+
+    popover.style.top =
+        `${top}px`;
+
+
+    //==================================================
+    // CLOSE POPOVER WHEN CLICKING OUTSIDE
+    //==================================================
+
+    const handleOutsideClick = clickEvent => {
+
+    const actionMenu = document.querySelector(
+        ".schedule-event-menu"
+    );
+
+    if (
+        !popover.contains(clickEvent.target) &&
+        !trigger.contains(clickEvent.target) &&
+        !actionMenu?.contains(clickEvent.target)
+    ) {
+        closeMonthEventsPopover();
+    }
+
+};
+
+    //==================================================
+    // CLOSE POPOVER WITH ESCAPE
+    //==================================================
+
+    const handleEscape =
+        keyboardEvent => {
+
+            if (
+                keyboardEvent.key === "Escape"
+            ) {
+
+                closeMonthEventsPopover();
+
+            }
+
+        };
+
+
+    document.addEventListener(
+        "pointerdown",
+        handleOutsideClick
+    );
+
+    document.addEventListener(
+        "keydown",
+        handleEscape
+    );
+
+
+    // Remove listeners when the popover closes
+
+    popover._cleanup = () => {
+
+        document.removeEventListener(
+            "pointerdown",
+            handleOutsideClick
+        );
+
+        document.removeEventListener(
+            "keydown",
+            handleEscape
+        );
+
+        trigger.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    };
+
+
+    trigger.setAttribute(
+        "aria-expanded",
+        "true"
     );
 
 }
@@ -3240,55 +4339,22 @@ function renderMonth() {
             0
         );
 
-   //==================================================
-// ACADEMIC PERIOD BANNERS
+//==================================================
+// GROUPED ACADEMIC EVENTS
 //==================================================
 
-const academicPeriods =
-    getAcademicPeriodsForRange(
-        firstDay,
-        lastDay
-    );
-
-academicPeriods.forEach(
-    event => {
-
-        renderAcademicPeriodBanner(
-            calendar,
-            event,
-            currentDate
-        );
-
-    }
+const academicPeriods = getAcademicPeriodsForRange(
+    firstDay,
+    lastDay
 );
 
-    //==================================================
-    // MONTH TITLE
-    //==================================================
+renderAcademicEventsPanel(
+    calendar,
+    academicPeriods,
+    currentDate
+);
 
-    const title =
-        document.createElement(
-            "h2"
-        );
 
-    title.className =
-        "month-title";
-
-    title.textContent =
-        currentDate.toLocaleString(
-            "default",
-            {
-                month:
-                    "long",
-
-                year:
-                    "numeric"
-            }
-        );
-
-    calendar.appendChild(
-        title
-    );
 
     //==================================================
     // WEEK DAYS
@@ -3387,119 +4453,142 @@ academicPeriods.forEach(
                 currentDate.getMonth(),
                 day
             );
+        //==================================================
+        // MONTH DAY CELL
+        //==================================================
 
-        const button =
-            document.createElement(
-                "button"
-            );
+        const dayCell =
+            document.createElement("div");
 
-        button.type =
-            "button";
+        dayCell.className = "month-day";
 
-        button.className =
-            "month-day";
+        //when user clicks on card it goes to day view
+        dayCell.setAttribute("role", "button");
+        dayCell.setAttribute("tabindex", "0");
+        dayCell.setAttribute("aria-label", `View schedule for ${date.toDateString()}`);
 
-// IMPORTANT:
-// getEventsForDate returns
-// classes/tasks/assessments
-// and normal academic events.========================================================================================================================================
-// Major academic periods are
-// still shown in the banner.
+function openSelectedDay() {
+    currentDate = new Date(date);
+
+    if (view) {
+        view.value = "day";
+    }
+
+    updateCalendar();
+}
+
+dayCell.addEventListener("click", openSelectedDay);
+
+dayCell.addEventListener("keydown", (event) => {
+    if (event.target !== dayCell) return;
+
+    if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openSelectedDay();
+    }
+});
+
+        // GET EVENTS FOR THIS DATE
 
         const monthEvents =
-            getEventsForDate(
-                date
-            );
+            getEventsForDate(date);
+
+        // SHOW ONLY TWO EVENT DOTS
 
         const visibleEvents =
-            monthEvents.slice(
-                0,
-                2
-            );
+            monthEvents.slice(0, 2);
 
         const remaining =
             Math.max(
-                monthEvents.length -
-                visibleEvents.length,
+                monthEvents.length - visibleEvents.length,
                 0
             );
 
-        button.innerHTML = `
+        // DATE NUMBER BUTTON
 
-            <span class="date-number">
-                ${day}
-            </span>
+        const dateButton =
+            document.createElement("button");
 
-            <div class="month-dots">
+        dateButton.type = "button";
+        dateButton.className = "date-number";
+        dateButton.textContent = day;
 
-                ${
-                    visibleEvents
-                        .map(
-                            event => `
+        dateButton.addEventListener("click", () => {
 
-                                <span
-                                    class="month-dot"
-                                    style="
-                                        background:${event.colour}
-                                    "
-                                    title="${event.title}"
-                                ></span>
+            currentDate = new Date(date);
 
-                            `
-                        )
-                        .join("")
-                }
-
-            </div>
-
-            ${
-                remaining
-                    ? `
-                        <span class="month-more">
-                            +${remaining}
-                        </span>
-                    `
-                    : ""
+            if (view) {
+                view.value = "day";
             }
 
-        `;
+            updateCalendar();
 
-        const today =
-            new Date();
+        });
 
-        if (
-            isSameDate(
-                date,
-                today
-            )
-        ) {
+        dayCell.appendChild(dateButton);
 
-            button.classList.add(
-                "active-day"
-            );
+        // EVENT DOTS
+
+        const dots =
+            document.createElement("div");
+
+        dots.className = "month-dots";
+
+        visibleEvents.forEach(event => {
+
+            const dot =
+                document.createElement("span");
+
+            dot.className = "month-dot";
+            dot.style.background = event.colour;
+            dot.title = event.title;
+
+            dots.appendChild(dot);
+
+        });
+
+        dayCell.appendChild(dots);
+
+        // SHOW MORE BUTTON
+
+        if (remaining > 0) {
+
+            const moreButton =
+                document.createElement("button");
+
+            moreButton.type = "button";
+            moreButton.className = "month-more";
+            moreButton.textContent = `+${remaining} more`;
+
+            moreButton.addEventListener("click", event => {
+
+                event.stopPropagation();
+
+                openMonthEventsPopover(
+                    date,
+                    monthEvents,
+                    moreButton
+                );
+
+            });
+
+            dayCell.appendChild(moreButton);
 
         }
 
-        button.addEventListener(
-            "click",
-            () => {
+        // HIGHLIGHT TODAY
 
-                currentDate =
-                    new Date(date);
+        const today = new Date();
 
-                if (view) {
-                    view.value =
-                        "day";
-                }
+        if (isSameDate(date, today)) {
 
-                updateCalendar();
+            dayCell.classList.add("active-day");
 
-            }
-        );
+        }
 
-        grid.appendChild(
-            button
-        );
+        // ADD DAY TO MONTH GRID
+
+        grid.appendChild(dayCell);
 
     }
 
@@ -3508,11 +4597,16 @@ academicPeriods.forEach(
     );
 
 }
- //==================================================
-// UPDATE CALENDAR HEADER
+
+//==================================================
+// UPDATE CALENDAR HEADER AND DATE NAVIGATION
 //==================================================
 
 function updateCalendarHeader() {
+
+    //==================================================
+    // CHECK REQUIRED ELEMENTS
+    //==================================================
 
     if (
         !view ||
@@ -3524,29 +4618,120 @@ function updateCalendarHeader() {
 
     }
 
+    //==================================================
+    // CALENDAR NAVIGATION ELEMENTS
+    //==================================================
+
+    const navLabel =
+        document.getElementById("calendarNavLabel");
+
+    const weekNumber =
+        document.getElementById("calendarWeekNumber");
+
+
+    //==================================================
+    // DATE FORMATTING FUNCTION
+    //==================================================
+
+    const formatDate = (date, options) => {
+
+        return date.toLocaleDateString(
+            "en-GB",
+            options
+        );
+
+    };
+
+
+    //==================================================
+    // DAY VIEW
+    // Display the selected date
+    //==================================================
+
     if (
-        view.value ===
-        "day"
+        view.value === "day"
     ) {
+
+        const dateText =
+            formatDate(
+                currentDate,
+                {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric"
+                }
+            );
+
+        // Update calendar heading
 
         calendarTitle.textContent =
             "Today";
 
         calendarSubtitle.textContent =
-            "Organise your schedule for the day.";
+            dateText;
 
-    } else if (
-        view.value ===
-        "month"
+
+        // Update date navigation label
+
+        if (navLabel) {
+
+            navLabel.textContent =
+                formatDate(
+                    currentDate,
+                    {
+                        weekday: "long",
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric"
+                    }
+                );
+
+        }
+
+    }
+
+
+    //==================================================
+    // WEEK VIEW
+    // Display the current week's date range
+    //==================================================
+
+    else if (
+        view.value === "week"
     ) {
 
-        calendarTitle.textContent =
-            "This Month";
+        // Get all seven days of the selected week
 
-        calendarSubtitle.textContent =
-            "Organise your schedule for the month.";
+        const dates =
+            getWeekDates(
+                currentDate
+            );
 
-    } else {
+
+        // Get the first and last dates of the week
+
+        const startText =
+            formatDate(
+                dates[0],
+                {
+                    day: "numeric",
+                    month: "short"
+                }
+            );
+
+        const endText =
+            formatDate(
+                dates[6],
+                {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+
+        // Update calendar heading
 
         calendarTitle.textContent =
             "This Week";
@@ -3554,9 +4739,73 @@ function updateCalendarHeader() {
         calendarSubtitle.textContent =
             "Organise your schedule for the week.";
 
+
+        // Update date navigation label
+
+        if (navLabel) {
+
+            navLabel.textContent =
+                `${startText} – ${endText}`;
+
+        }
+
+    }
+
+
+    //==================================================
+    // MONTH VIEW
+    // Display the selected month and year
+    //==================================================
+
+    else if (
+        view.value === "month"
+    ) {
+
+        // Get the selected month and year
+
+        const monthText =
+            formatDate(
+                currentDate,
+                {
+                    month: "long",
+                    year: "numeric"
+                }
+            );
+
+
+        // Update calendar heading
+
+        calendarTitle.textContent =
+         monthText;
+
+        calendarSubtitle.textContent =
+            "View and manage your monthly schedule.";
+
+
+        // Update date navigation label
+
+        if (navLabel) {
+
+            navLabel.textContent =
+                monthText;
+
+        }
+
+    }
+
+
+    //==================================================
+    // CLEAR WEEK NUMBER
+    //==================================================
+
+    if (weekNumber) {
+
+        weekNumber.textContent = "";
+
     }
 
 }
+
 //==================================================
 // UPDATE CALENDAR
 //==================================================
@@ -3575,9 +4824,7 @@ function updateCalendar() {
 
     updateCalendarHeader();
 
-    if(
-        requestedView === "day"
-    ){}
+    updateViewButtons();
     //==================================================
     // CLEAR WEEK CARDS WHEN LEAVING WEEK VIEW
     //==================================================
@@ -3631,6 +4878,47 @@ if (view) {
     );
 
 }
+
+//==================================================
+// DAY / WEEK / MONTH SELECTOR
+//==================================================
+
+const viewButtons = document.querySelectorAll(".view-option");
+
+function updateViewButtons() {
+
+    viewButtons.forEach(button => {
+
+        const isSelected = button.dataset.view === view.value;
+
+        button.classList.toggle("active", isSelected);
+
+        button.setAttribute(
+            "aria-pressed",
+            isSelected
+        );
+
+    });
+
+}
+
+// Listen for button clicks
+viewButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const selectedView = button.dataset.view;
+
+        view.value = selectedView;
+
+        updateCalendar();
+
+    });
+
+});
+
+// Set selected state on page load
+updateViewButtons();
 
 //==================================================
 // PREVIOUS
@@ -3764,44 +5052,39 @@ function updateScheduleLayout() {
 }
 
 //==================================================
-// AUTO SCROLL
+// AUTO SCROLL TO FIRST EVENT
 //==================================================
 
-function scrollToRelevantHour() {
+function scrollToRelevantHour(firstEventTime) {
 
-    const now =
-        new Date();
+    // No event time means no automatic scrolling
+    if (!firstEventTime) {
+        return;
+    }
 
-    const isToday =
-        isSameDate(
-            currentDate,
-            now
-        );
+    const hour = parseInt(
+        String(firstEventTime).split(":")[0],
+        10
+    );
 
-    const hour =
-        isToday
-            ? now.getHours()
-            : 8;
+    if (isNaN(hour)) {
+        return;
+    }
 
-    const slot =
-        document.getElementById(
-            `hour-${hour}`
-        );
+    const slot = document.getElementById(
+        `hour-${hour}`
+    );
 
     if (slot) {
 
         slot.scrollIntoView({
-            behavior:
-                "smooth",
-
-            block:
-                "center"
+            behavior: "smooth",
+            block: "center"
         });
 
     }
 
 }
-
 //==================================================
 // CREATE OVERLAY
 //==================================================
@@ -4005,17 +5288,65 @@ function openEventActionMenu(
     document.body.appendChild(menu);
 
 
-    // POSITION MENU
+//==================================================
+// POSITION EDIT / DELETE MENU
+// KEEP MENU ABOVE ALL SCHEDULE CARDS
+//==================================================
 
-    const rect =
-        card.getBoundingClientRect();
+// Force menu above other page elements
+menu.style.setProperty("position", "fixed", "important");
+menu.style.setProperty("z-index", "2147483647", "important");
+menu.style.setProperty("display", "flex", "important");
+menu.style.setProperty("visibility", "visible", "important");
 
-    menu.style.top =
-        `${rect.bottom + window.scrollY + 6}px`;
+// Get clicked card position
+const rect = card.getBoundingClientRect();
 
-    menu.style.left =
-        `${rect.left + window.scrollX}px`;
+// Measure menu
+const menuHeight = menu.offsetHeight;
+const menuWidth = menu.offsetWidth;
 
+const spacing = 10;
+
+// Available screen space
+const viewportHeight = window.innerHeight;
+const viewportWidth = window.innerWidth;
+
+// Position menu below the card initially
+let top = rect.bottom + spacing;
+
+// If there is not enough space below,
+// move the menu above the card.
+if (top + menuHeight > viewportHeight - spacing) {
+
+    top = rect.top - menuHeight - spacing;
+
+}
+
+// Prevent menu from going outside the screen
+top = Math.max(
+    spacing,
+    Math.min(
+        top,
+        viewportHeight - menuHeight - spacing
+    )
+);
+
+// Align menu with the clicked card
+let left = rect.left;
+
+// Prevent horizontal overflow
+left = Math.max(
+    spacing,
+    Math.min(
+        left,
+        viewportWidth - menuWidth - spacing
+    )
+);
+
+// Apply final position
+menu.style.setProperty("top", `${top}px`, "important");
+menu.style.setProperty("left", `${left}px`, "important");
 
     // EDIT BUTTON
 
@@ -4097,60 +5428,57 @@ menu.addEventListener(
 // EDIT SCHEDULE EVENT
 //==================================================
 
-function editScheduleEvent(
-    event,
-    type
-){
 
-    if(!event || !event.id){
+function editScheduleEvent(event, type) {
 
-        alert(
-            "Could not edit this item."
-        );
+    if (!event || !event.id) {
 
+        alert("Could not edit this item.");
         return;
+
     }
 
-
-    if(type === "task"){
+    // TASK
+    if (type === "task") {
 
         window.location.href =
-            `21 addevent.html?edit=${event.id}`;
+            `21 addtask.html?edit=${event.id}`;
 
         return;
+
     }
 
-
-    if(type === "assessment"){
+    // ASSESSMENT
+    if (type === "assessment") {
 
         window.location.href =
-            `21 addevent.html?edit=${event.id}`;
+            `21 addevent.html?edit=${event.id}&type=assessment`;
 
         return;
+
     }
 
-
-    if(type === "academic_event"){
+    // ACADEMIC EVENT
+    if (type === "academic_event") {
 
         window.location.href =
-            `21 addevent.html?edit=${event.id}`;
+            `21 addevent.html?edit=${event.id}&type=academic_event`;
 
         return;
+
     }
 
-
-    if(type === "lecture"){
+    // LECTURE
+    if (type === "lecture") {
 
         window.location.href =
-            `21 addevent.html?edit=${event.id}`;
+            `21 addevent.html?edit=${event.id}&type=lecture`;
 
         return;
+
     }
 
-
-    alert(
-        "Could not identify this item."
-    );
+    alert("Could not identify this item.");
 
 }
 

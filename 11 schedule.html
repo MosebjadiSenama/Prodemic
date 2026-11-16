@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/schedule.css">
     <link rel="stylesheet" href="css/overlay.css">
+    
+    <link rel="stylesheet" href="css/home.css">
 
 
     <!--==================================================
@@ -56,42 +58,27 @@
         defer>
     </script>
 
+     <script
+        type="module"
+        src="js/script.js"
+        defer
+    >
+    </script>
+
+     <script
+        type="module"
+        src="js/overlay.js"
+        defer
+    >
+    </script>
+
+
 </head>
 
 
 <body>
 
 
-   
-
-
-        <!--==================================================
-                        SIDEBAR
-        ==================================================-->
-
-        <aside
-            class="sidebar collapsed"
-            id="sidebar"
-        >
-
-
-            <!--==================================================
-                            SIDEBAR LOGO
-            ==================================================-->
-
-            <div class="sidebar-logo">
-
-                <img
-                    src="assets/images/logo.png"
-                    alt="Prodemic Logo"
-                    class="sidebar-logo-image"
-                >
-
-                <h1>
-                    Prodemic
-                </h1>
-
-            </div>
 
 <!--==================================================
                 SIDEBAR
@@ -159,19 +146,13 @@
         </a>
 
 
-        <button
-            class="sidebar-add nav-add"
-            type="button"
-            data-tooltip="Add"
-        >
-
-            <i class="fa-solid fa-plus"></i>
-
-            <span>
-                Add
-            </span>
-
-        </button>
+             <!-- Focus -->
+    <a href="25 focus.html"
+       class="sidebar-item"
+       data-tooltip="Focus">
+        <i class="fa-solid fa-stopwatch"></i>
+        <span>Focus</span>
+    </a>
 
 
         <a
@@ -254,28 +235,82 @@
 
 </aside>
 
-            <!--==================================================
-                        SIDEBAR TOGGLE
-            ==================================================-->
 
-            <button
-                class="sidebar-toggle"
-                id="sidebarToggle"
-                type="button"
-                aria-label="Open navbar"
-                title="Open navbar"
-            >
+    <!--==================================================
+         PROFILE MENU
+    ==================================================-->
 
-                <i class="fa-solid fa-angles-right"></i>
-
-            </button>
+    <div
+        class="profile-menu"
+        id="profileMenu"
+    >
 
 
-        </aside>
+        <div class="profile-menu-header">
+
+            <div class="profile-menu-icon">
+
+                <i class="fa-solid fa-circle-user"></i>
+
+            </div>
 
 
+            <div class="profile-menu-user">
 
-        <!--==================================================
+                <strong id="profileName">
+
+                    Profile
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="profile-option logout-btn"
+            id="logoutBtn"
+            type="button"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+
+                Logout
+
+            </span>
+
+        </button>
+
+         <!--support and suggestions-->
+
+
+        
+        <a  href="26 support.html"
+            class="support"
+            id="supportbtn"
+            type="button"
+        >
+
+          <i class="fa-solid fa-comment-dots"></i>
+           
+
+           <span>
+
+                Support & suggestions
+
+            </span>
+
+        </a>
+
+
+    </div>
+
+
+</div>
+     <!--==================================================
                         MAIN CONTENT
         ==================================================-->
 
@@ -309,234 +344,132 @@
                     </div>
 
 
-                    <!--==================================================
+<!--==================================================
                         CALENDAR CONTROLS
-                    ==================================================-->
+==================================================-->
+<div class="calendar-view-switcher">
 
-                    <div class="calendar-controls">
+    <button
+        type="button"
+        class="view-option"
+        data-view="day"
+    >
+        Day
+    </button>
 
+    <button
+        type="button"
+        class="view-option active"
+        data-view="week"
+    >
+        Week
+    </button>
 
-                        <button
-                            type="button"
-                            id="prevBtn"
-                            aria-label="Previous"
-                        >
+    <button
+        type="button"
+        class="view-option"
+        data-view="month"
+    >
+        Month
+    </button>
 
-                            <i class="fa-solid fa-chevron-left"></i>
+</div>
 
-                        </button>
-
-
-                        <select
-                            id="calendarView"
-                            aria-label="Calendar view"
-                        >
-
-                            <option value="day">
-                                Day
-                            </option>
-
-                            <option
-                                value="week"
-                                selected
-                            >
-                                Week
-                            </option>
-
-                            <option value="month">
-                                Month
-                            </option>
-
-                        </select>
-
-
-                        <button
-                            type="button"
-                            id="nextBtn"
-                            aria-label="Next"
-                        >
-
-                            <i class="fa-solid fa-chevron-right"></i>
-
-                        </button>
-
-
-                    </div>
+<!-- Keep this hidden select for the existing JavaScript -->
+<select id="calendarView" hidden>
+    <option value="day">Day</option>
+    <option value="week" selected>Week</option>
+    <option value="month">Month</option>
+</select>
 
 
                 </header>
 
 
-
-                <!--==================================================
+ <!--==================================================
                         CALENDAR HEADER
-                ==================================================-->
+ ==================================================-->
 
-                <div class="calendar-header">
+        
 
+<div class="calendar-header">
 
-                    <div class="calendar-header-content">
+    <div class="calendar-header-content">
 
-                        <h2 id="calendarTitle">
-                            This Week
-                        </h2>
+        <h2 id="calendarTitle">This Week</h2>
 
-                        <p id="calendarSubtitle">
-                            Organise your schedule for the week.
-                        </p>
+        <p id="calendarSubtitle">
+            Organise your schedule for the week.
+        </p>
 
-                    </div>
+    </div>
 
+    <a
+        href="21 addevent.html"
+        class="add-event-btn"
+        id="addLectureBtn"
+        aria-label="Add event"
+        title="Add event"
+    >
+        <i class="fa-solid fa-plus"></i>
+        <span>Add event</span>
+    </a>
 
-                    <!--==================================================
-                            ADD EVENT
-                    ==================================================-->
-
-                    <a
-                        href="21 addevent.html"
-                        class="add-event-btn"
-                        id="addLectureBtn"
-                        aria-label="Add event"
-                        title="Add event"
-                    >
-
-                        <span>
-                            Add event
-                        </span>
-
-                        <i class="fa-solid fa-plus"></i>
-
-                    </a>
+</div>
 
 
-                </div>
+<!-- =========================================
+     CALENDAR DATE NAVIGATION
+========================================= -->
+
+<div class="calendar-navigation">
+
+    <button
+        type="button"
+        id="prevBtn"
+        class="calendar-nav-btn"
+        aria-label="Previous"
+    >
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <div class="calendar-nav-date">
+
+        <h3 id="calendarNavLabel">
+            This Week
+        </h3>
+
+        <span id="calendarWeekNumber"></span>
+
+    </div>
+
+    <button
+        type="button"
+        id="nextBtn"
+        class="calendar-nav-btn"
+        aria-label="Next"
+    >
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+</div>
 
 
 
-                <!--==================================================
-                            CALENDAR
-                ==================================================-->
+<!--==================================================
+                    CALENDAR
+==================================================-->
 
-                <div id="calendar"></div>
+<div id="calendar"></div>
 
 
                 <!--==================================================
                         SCHEDULE LIST
                 ==================================================-->
 
-                <div id="scheduleList"></div>
+           <div id="scheduleList"></div>
 
-
-<!--==================================================
-                CREATE MENU
-==================================================-->
-
-<div
-    class="create-overlay"
-    id="createOverlay"
->
-
-
-    <div class="create-sheet">
-
-
-        <div class="sheet-handle"></div>
-
-
-        <h2>
-            Create New
-        </h2>
-
-
-        <!--==================================================
-                    NEW TASK
-        ==================================================-->
-
-        <div
-            class="create-option"
-            id="newTask"
-        >
-
-            <div class="option-text">
-
-                <h3>
-                    New Task
-                </h3>
-
-                <p>
-                    Add a task
-                </p>
-
-            </div>
-
-
-            <span>
-
-                <i class="fa-solid fa-chevron-right"></i>
-
-            </span>
-
-        </div>
-
-
-
-        <!--==================================================
-                    ADD EVENT
-        ==================================================-->
-
-        <div
-            class="create-option"
-            id="newLecture"
-        >
-
-            <div class="option-text">
-
-                <h3>
-                    Add Event
-                </h3>
-
-                <p>
-                    Add a lecture, assessment or academic event
-                </p>
-
-            </div>
-
-
-            <span>
-
-                <i class="fa-solid fa-chevron-right"></i>
-
-            </span>
-
-        </div>
-
-
-
-        <!--==================================================
-                    CLOSE
-        ==================================================-->
-
-        <button
-            type="button"
-            id="closeSheet"
-            class="cancel-btn"
-        >
-
-            Cancel
-
-        </button>
-
-
-    </div>
-
-
-</div>
-
-
-                </div>
-
-
-            </section>
+</section>
 
 
         </main>

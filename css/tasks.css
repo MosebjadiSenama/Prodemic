@@ -132,6 +132,123 @@ ADD TASK BUTTON
 
 }
 
+/*====task priority===*/
+
+.task-priority-toggle {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #9CA3AF;
+    font-size: 17px;
+    cursor: pointer;
+    transition: color .2s ease, transform .2s ease;
+}
+
+.task-priority-toggle:hover {
+    color: #DC4545;
+    transform: scale(1.1);
+}
+
+.task-priority-toggle.active {
+    color: #DC4545;
+}
+
+.task-priority-toggle:focus-visible {
+    outline: 2px solid #DC4545;
+    outline-offset: 2px;
+}
+
+.task-priority-toggle:disabled {
+    opacity: .5;
+    cursor: wait;
+}
+
+/*task priority popup*/
+
+
+.priority-toast {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: 99999;
+
+    width: min(360px, calc(100vw - 32px));
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 14px 16px;
+
+    background: #F0F5FF;
+    border: 1px solid #DCE7FF;
+    border-radius: 15px;
+
+    box-shadow: 0 10px 30px rgba(2, 16, 36, .12);
+
+    font-family: "Poppins", sans-serif;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translate(-50%, -8px);
+
+    transition:
+        opacity .22s ease,
+        transform .22s ease,
+        visibility .22s ease;
+}
+
+.priority-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+.priority-toast-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #DCE7FF;
+    color: #3048C8;
+
+    font-size: 16px;
+}
+
+.priority-toast-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.priority-toast-copy strong {
+    color: #052659;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.priority-toast-copy small {
+    color: #64748B;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.5;
+}
 
 /*==================================================
 FILTERS
@@ -237,66 +354,51 @@ TASK LIST
 TASK CARD
 ==================================================*/
 
-.task-card{
 
-    position:relative;
+.task-card {
+    position: relative;
+    width: 100%;
+    padding: 18px 20px 18px 25px;
 
-    width:100%;
+    background: color-mix(
+        in srgb,
+        var(--module-colour, #3048C8) 5%,
+        #FFFFFF
+    );
 
-    padding:18px 20px 18px 25px;
+    border: 1px solid color-mix(
+        in srgb,
+        var(--module-colour, #3048C8) 18%,
+        #FFFFFF
+    );
 
-    background:#FFFFFF;
-
-    border:1px solid #E5E7EB;
-
-    border-radius:18px;
-
-    box-shadow:0 4px 14px rgba(0,0,0,.045);
-
-    overflow:visible;
-
-    transition:.2s ease;
-
-    z-index:1;
-
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(2, 16, 36, 0.045);
+    overflow: visible;
+    transition: 0.2s ease;
+    z-index: 1;
 }
 
-.task-card:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:0 8px 22px rgba(0,0,0,.07);
-
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 24px rgba(2, 16, 36, 0.075);
 }
-
 
 /*==================================================
 MODULE COLOUR STRIP
 ==================================================*/
 
-.task-card::before{
+.task-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    border-radius: 18px 0 0 18px;
 
-    content:"";
-
-    position:absolute;
-
-    left:13px;
-
-    top:18px;
-
-    bottom:18px;
-
-    width:5px;
-
-    border-radius:20px;
-
-    background:var(
-        --module-colour,
-        #3048C8
-    );
-
+    background: var(--module-colour, #3048C8);
 }
-
 
 /*==================================================
 OPEN MENU CARD
@@ -501,42 +603,9 @@ PRIORITY BADGE
 }
 
 
-/*==================================================
-HIGH PRIORITY
-==================================================*/
-
-.priority-badge.high{
-
-    background:#FEE2E2;
-
-    color:#DC2626;
-
-}
-
-
-/*==================================================
-MEDIUM PRIORITY
-==================================================*/
-
-.priority-badge.medium{
-
-    background:#FEF3C7;
-
-    color:#D97706;
-
-}
-
-
-/*==================================================
-LOW PRIORITY
-==================================================*/
-
-.priority-badge.low{
-
-    background:#DBEAFE;
-
-    color:#2563EB;
-
+.priority-badge.high {
+    background: #FEE2E2;
+    color: #DC2626;
 }
 
 
@@ -1388,16 +1457,14 @@ ADD TASK
 
     }
 
-    .task-card::before{
+    .task-card::before {
+    left: 0;
 
-        left:9px;
+    top: 0;
 
-        top:15px;
+    bottom: 0;
 
-        bottom:15px;
-
-        width:4px;
-
+    width: 4px;
     }
 
     .task-card-content{
@@ -1612,6 +1679,8 @@ ADD TASK
     }
 
 }
+
+
 
 
 /*==================================================
@@ -1962,4 +2031,64 @@ VERY SMALL MOBILE
 
     }
 
+}
+
+
+/* =====================================
+   TASKS LOADING STATE
+===================================== */
+
+.tasks-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 280px;
+    padding: 40px 20px;
+    color: #3048C8;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.tasks-loading .loading-spinner {
+    width: 38px;
+    height: 38px;
+    border: 4px solid #DCE5FF;
+    border-top-color: #3048C8;
+    border-radius: 50%;
+    animation: tasksSpin 0.8s linear infinite;
+    box-sizing: border-box;
+}
+
+.tasks-loading p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #102653;
+}
+
+.tasks-loading small {
+    display: block;
+    margin: 0;
+    color: #64748B;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+@keyframes tasksSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tasks-loading .loading-spinner {
+        animation-duration: 2s;
+    }
 }

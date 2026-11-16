@@ -84,29 +84,42 @@ FORM
 
 
 <!--==================================================
-MODULE
+TASK TYPE
 ===================================================-->
 
 <div class="input-group">
+    <label>Task Type</label>
 
-<label>
-Module
-</label>
+    <div class="task-type-options">
+        <button
+            type="button"
+            class="task-type-btn active"
+            data-type="academic"
+        >
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Academic</span>
+        </button>
 
-<select id="taskModule">
-
-<option value="">
-Select Module
-</option>
-
-<option value="General">
-General Task
-</option>
-
-</select>
-
+        <button
+            type="button"
+            class="task-type-btn"
+            data-type="personal"
+        >
+            <i class="fa-solid fa-user"></i>
+            <span>Personal</span>
+        </button>
+    </div>
 </div>
 
+<div class="input-group" id="moduleGroup">
+    <label for="taskModule">Module <span>(optional)</span></label>
+
+    <select id="taskModule">
+        <option value="">Select a module</option>
+    </select>
+
+    <small class="link-module">Link a module to organise this task by colour and track your progress.</small>
+</div>
 
 <!--==================================================
 TASK NAME
@@ -163,31 +176,53 @@ Time
 
 </div>
 
+<!---Priority-->
+<div class="input-group">
+    <label>Priority</label>
 
+    <button
+        type="button"
+        id="priorityToggle"
+        class="priority-toggle"
+        aria-pressed="false"
+    >
+        <i class="fa-solid fa-star"></i>
+        <span>Mark as priority</span>
+    </button>
+
+    <input type="hidden" id="taskPriority" value="false">
+</div>
 
 <!--==================================================
 COUNTDOWN
 ===================================================-->
+<!-- COUNTDOWN -->
 
 <div class="input-group">
 
-<label>
-Countdown
-</label>
+    <label>Countdown</label>
 
-<div
-    id="countdownPreview"
-    class="countdown-preview"
->
+    <div id="countdownPreview" class="countdown-preview">
 
-No due date selected
+        <div class="countdown-heading">
+            <i class="fa-regular fa-clock"></i>
+            <strong>Countdown preview</strong>
+        </div>
+
+        <p id="countdownText">No due date selected</p>
+
+        <small id="countdownHint">
+            The countdown will appear once you choose a date.
+        </small>
+
+    </div>
 
 </div>
 
-</div>
 
+<!-- ERROR MESSAGE -->
 
-
+<p id="taskError" role="alert"></p>
 
 <!--==================================================
 SAVE BUTTON

@@ -1,5 +1,5 @@
 import { auth } from "../firebase.js";
-import { supabase } from "./supabase.js";
+
 
 // ==================================================
 // GET HTML ELEMENTS
@@ -14,6 +14,105 @@ const continueBtn = document.getElementById("continue-btn");
 
 const loadingSpinner = document.getElementById("loading-spinner");
 const continueText = document.getElementById("continue-text");
+// ==================================================
+// MODULE PROCESSING SCREEN
+// ==================================================
+
+const processingPage = document.getElementById("processingPage");
+
+const processingText = document.getElementById("processingText");
+
+const progressFill = document.getElementById("progressFill");
+
+const progressPercent = document.getElementById("progressPercent");
+
+const processingStages = [
+    "Uploading Module Outline",
+    "AI Analysing Module",
+    "Checking Extracted Information",
+    "Preparing Your Module",
+    "Complete"
+];
+
+const processingMessages = [
+    "Uploading your PDF...",
+    "AI is analysing your module outline. This may take a moment...",
+    "Checking the information extracted from your PDF...",
+    "Preparing your module for review...",
+    "Your module is ready!"
+];
+
+function updateProcessingProgress(stageNumber) {
+    const stageIndex = stageNumber - 1;
+
+    const progress = [0, 20, 45, 70, 100][stageIndex];
+
+
+    if (progressFill) {
+        progressFill.style.width = `${progress}%`;
+    }
+
+    //animation
+        const progressBar = document.querySelector(".progress-bar");
+
+    if (progressBar) {
+        progressBar.classList.toggle("loading", stageNumber === 2);
+    }
+
+    if (progressPercent) {
+        progressPercent.textContent = `${progress}%`;
+    }
+
+    if (processingText) {
+        processingText.textContent = processingMessages[stageIndex];
+    }
+
+    processingStages.forEach((stage, index) => {
+        const stepElement = document.getElementById(`step${index + 1}`);
+
+        if (!stepElement) return;
+
+        stepElement.classList.remove("active", "completed");
+
+        if (index < stageIndex) {
+            stepElement.classList.add("completed");
+        } else if (index === stageIndex) {
+            stepElement.classList.add("active");
+        }
+    });
+}
+
+function startProcessing() {
+    const importElements = Array.from(document.body.children)
+        .filter(element => element.id !== "processingPage");
+
+    importElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (processingPage) {
+        processingPage.style.display = "flex";
+    }
+
+    updateProcessingProgress(1);
+}
+
+function finishProcessing() {
+    updateProcessingProgress(5);
+
+    processingStages.forEach((stage, index) => {
+        const stepElement = document.getElementById(`step${index + 1}`);
+
+        if (stepElement) {
+            stepElement.classList.remove("active");
+            stepElement.classList.add("completed");
+        }
+    });
+
+    if (processingText) {
+        processingText.textContent = "Your module is ready!";
+    }
+}
 
 // ==================================================
 // STORE SELECTED FILE
@@ -152,6 +251,7 @@ if (continueBtn) {
         const formData = new FormData();
 
         formData.append("pdf", selectedFile);
+        startProcessing();
 
         try {
 
@@ -161,16 +261,37 @@ if (continueBtn) {
 
              
             const API_BASE_URL = "https://prodemic-backend.onrender.com";
+            updateProcessingProgress(2);
+           const controller = new AbortController();
 
-            const response = await fetch(
-            `${API_BASE_URL}/analyse-module`,
-          {
-         method: "POST",
-         body: formData
-          }
-          );
+const timeout = setTimeout(() => {
+    controller.abort();
+}, 90000);
 
+let response;
 
+try {
+    response = await fetch(
+        `${API_BASE_URL}/analyse-module`,
+        {
+            method: "POST",
+            body: formData,
+            signal: controller.signal
+        }
+    );
+} catch (error) {
+
+    if (error.name === "AbortError") {
+        throw new Error(
+            "The analysis is taking too long. Please try again."
+        );
+    }
+
+    throw error;
+
+} finally {
+    clearTimeout(timeout);
+}
             // ==================================================
             // CHECK SERVER RESPONSE
             // ==================================================
@@ -202,19 +323,20 @@ if (continueBtn) {
                 );
             }
 
-            // ==================================================
-            // GET EXTRACTED MODULE DATA
-            // ==================================================
+// ==================================================
+// GET EXTRACTED MODULE DATA
+// ==================================================
+const extractedData = data.data;
 
-            const extractedData = data.data;
+if (!extractedData) {
 
-            if (!extractedData) {
+    throw new Error(
+        "No module data was returned from the backend."
+    );
 
-                throw new Error(
-                    "No module data was returned from the backend."
-                );
-            }
+}
 
+updateProcessingProgress(3);
             console.log("=================================");
             console.log("EXTRACTED MODULE DATA");
             console.log("=================================");
@@ -320,429 +442,23 @@ if (continueBtn) {
             console.log("=================================");
 
             console.log(moduleToSave);
-
-            // ==================================================
-            // SAVE MODULE
-            // ==================================================
-
-            const {
-                data: savedModule,
-                error: moduleError
-            } = await supabase
-                .from("modules")
-                .insert([moduleToSave])
-                .select()
-                .single();
-
-            if (moduleError) {
-
-                console.error(
-                    "MODULE SAVE ERROR:",
-                    moduleError
-                );
-
-                throw new Error(
-                    moduleError.message ||
-                    "The module could not be saved."
-                );
-            }
-
-            // ==================================================
-            // MODULE SAVED
-            // ==================================================
-
-            console.log("=================================");
-            console.log("MODULE SAVED SUCCESSFULLY");
-            console.log("=================================");
-
-            console.log(savedModule);
-
-            const newModuleId = savedModule.id;
-
-            console.log(
-                "NEW MODULE ID:",
-                newModuleId
-            );
-
-            // ==================================================
-            // SAVE LECTURES
-            // ==================================================
-
-            const lectureData =
-                extractedData.lectures ||
-                extractedData.lectureTimes ||
-                [];
-
-            if (
-                Array.isArray(lectureData) &&
-                lectureData.length > 0
-            ) {
-
-                const lecturesToSave =
-                    lectureData.map((lecture) => ({
-
-                        user_id: user.uid,
-
-                        module_id: newModuleId,
-
-                        day:
-                            lecture.day ||
-                            null,
-
-                        start_time:
-                            lecture.start_time ||
-                            lecture.startTime ||
-                            null,
-
-                        end_time:
-                            lecture.end_time ||
-                            lecture.endTime ||
-                            null,
-
-                        venue:
-                            lecture.venue ||
-                            lecture.location ||
-                            null
-                    }));
-
-                console.log("=================================");
-                console.log("LECTURES TO SAVE");
-                console.log("=================================");
-
-                console.log(lecturesToSave);
-
-                const {
-                    error: lecturesError
-                } = await supabase
-                    .from("lectures")
-                    .insert(lecturesToSave);
-
-                if (lecturesError) {
-
-                    console.error(
-                        "LECTURES SAVE ERROR:",
-                        lecturesError
-                    );
-
-                } else {
-
-                    console.log(
-                        "LECTURES SAVED SUCCESSFULLY"
-                    );
-                }
-
-            } else {
-
-                console.log(
-                    "No lecture information found."
-                );
-            }
-
-            // ==================================================
-            // SAVE ASSESSMENTS
-            // ==================================================
-
-            const assessmentData =
-                extractedData.assessments ||
-                [];
-
-            if (
-                Array.isArray(assessmentData) &&
-                assessmentData.length > 0
-            ) {
-
-                const assessmentsToSave =
-                    assessmentData.map((assessment) => ({
-
-                        user_id: user.uid,
-
-                        // modules.id is int8,
-                        // so assessments.module_id is also int8
-                        module_id: newModuleId,
-
-                        title:
-                            assessment.title ||
-                            assessment.name ||
-                            "Untitled Assessment",
-
-                        weight:
-                            assessment.weight ||
-                            null,
-
-                        due_date:
-                            assessment.due_date ||
-                            assessment.dueDate ||
-                            null,
-
-                        due_time:
-                            assessment.due_time ||
-                            assessment.dueTime ||
-                            null,
-
-                        completed: false
-                    }));
-
-                console.log("=================================");
-                console.log("ASSESSMENTS TO SAVE");
-                console.log("=================================");
-
-                console.log(assessmentsToSave);
-
-                const {
-                    error: assessmentsError
-                } = await supabase
-                    .from("assessments")
-                    .insert(assessmentsToSave);
-
-                if (assessmentsError) {
-
-                    console.error(
-                        "ASSESSMENTS SAVE ERROR:",
-                        assessmentsError
-                    );
-
-                } else {
-
-                    console.log(
-                        "ASSESSMENTS SAVED SUCCESSFULLY"
-                    );
-                }
-
-            } else {
-
-                console.log(
-                    "No assessment information found."
-                );
-            }
 // ==================================================
-// SAVE LECTURERS
+// STORE MODULE AS TEMPORARY DRAFT
 // ==================================================
 
-const lecturerData =
-    extractedData.lecturers ||
-    [];
+const moduleDraft = {
+    module: moduleToSave,
+    extractedData: extractedData
+};
 
-if (
-    Array.isArray(lecturerData) &&
-    lecturerData.length > 0
-) {
+sessionStorage.setItem(
+    "prodemicModuleDraft",
+    JSON.stringify(moduleDraft)
+);
 
-    const lecturersToSave =
-        lecturerData.map((lecturer) => {
-
-            // If AI returns just a name as a string
-            if (typeof lecturer === "string") {
-                return {
-                    user_id: user.uid,
-                    module_id: newModuleId,
-                    name: lecturer,
-                    email: null
-                };
-            }
-
-            // If AI returns an object
-            return {
-                user_id: user.uid,
-                module_id: newModuleId,
-
-                name:
-                    lecturer.name ||
-                    lecturer.full_name ||
-                    lecturer.lecturer ||
-                    "Unknown Lecturer",
-
-                email:
-                    lecturer.email ||
-                    null
-            };
-        });
-
-    console.log("=================================");
-    console.log("LECTURERS TO SAVE");
-    console.log("=================================");
-
-    console.log(lecturersToSave);
-
-    const {
-        error: lecturersError
-    } = await supabase
-        .from("lecturers")
-        .insert(lecturersToSave);
-
-    if (lecturersError) {
-
-        console.error(
-            "LECTURERS SAVE ERROR:",
-            lecturersError
-        );
-
-    } else {
-
-        console.log(
-            "LECTURERS SAVED SUCCESSFULLY"
-        );
-    }
-
-} else {
-
-    console.log(
-        "No lecturer information found."
-    );
-}
-            
-// ==================================================
-// SAVE TUTORS
-// ==================================================
-
-const tutorData =
-    extractedData.tutors ||
-    [];
-
-if (
-    Array.isArray(tutorData) &&
-    tutorData.length > 0
-) {
-
-    const tutorsToSave =
-        tutorData.map((tutor) => {
-
-            // If AI returns just a name as a string
-            if (typeof tutor === "string") {
-                return {
-                    user_id: user.uid,
-                    module_id: newModuleId,
-                    name: tutor,
-                    email: null
-                };
-            }
-
-            // If AI returns an object
-            return {
-                user_id: user.uid,
-                module_id: newModuleId,
-
-                name:
-                    tutor.name ||
-                    tutor.full_name ||
-                    tutor.tutor ||
-                    "Unknown Tutor",
-
-                email:
-                    tutor.email ||
-                    null
-            };
-        });
-
-    console.log("=================================");
-    console.log("TUTORS TO SAVE");
-    console.log("=================================");
-
-    console.log(tutorsToSave);
-
-    const {
-        error: tutorsError
-    } = await supabase
-        .from("tutors")
-        .insert(tutorsToSave);
-
-    if (tutorsError) {
-
-        console.error(
-            "TUTORS SAVE ERROR:",
-            tutorsError
-        );
-
-    } else {
-
-        console.log(
-            "TUTORS SAVED SUCCESSFULLY"
-        );
-    }
-
-} else {
-
-    console.log(
-        "No tutor information found."
-    );
-}
-    
-            // ==================================================
-            // SAVE ACADEMIC EVENTS
-            // ==================================================
-
-            const eventData =
-                extractedData.academicEvents ||
-                [];
-
-            if (
-                Array.isArray(eventData) &&
-                eventData.length > 0
-            ) {
-
-                const eventsToSave =
-                    eventData.map((event) => ({
-
-                        user_id: user.uid,
-
-                        module_id: newModuleId,
-
-                        title:
-                            event.title ||
-                            event.name ||
-                            "Academic Event",
-
-                        type:
-                            event.type ||
-                            null,
-
-                        start_date:
-                            event.start_date ||
-                            event.startDate ||
-                            null,
-
-                        end_date:
-                            event.end_date ||
-                            event.endDate ||
-                            null,
-
-                        description:
-                            event.description ||
-                            null
-                    }));
-
-                console.log("=================================");
-                console.log("ACADEMIC EVENTS TO SAVE");
-                console.log("=================================");
-
-                console.log(eventsToSave);
-
-                const {
-                    error: eventsError
-                } = await supabase
-                    .from("academic_events")
-                    .insert(eventsToSave);
-
-                if (eventsError) {
-
-                    console.error(
-                        "ACADEMIC EVENTS SAVE ERROR:",
-                        eventsError
-                    );
-
-                } else {
-
-                    console.log(
-                        "ACADEMIC EVENTS SAVED SUCCESSFULLY"
-                    );
-                }
-
-            } else {
-
-                console.log(
-                    "No academic event information found."
-                );
-            }
-
+console.log("MODULE STORED AS TEMPORARY DRAFT");
+updateProcessingProgress(4);
+finishProcessing();
             // ==================================================
             // ALL DONE
             // ==================================================
@@ -751,26 +467,40 @@ if (
             console.log("MODULE IMPORT COMPLETE");
             console.log("=================================");
 
-            console.log(
-                "Module ID:",
-                newModuleId
-            );
+            
 
             // ==================================================
             // GO TO REVIEW MODULE
             // ==================================================
+             window.location.href = "15%20reviewModule.html";
 
-            window.location.href =
-                `15%20reviewModule.html?id=${encodeURIComponent(newModuleId)}`;
+        
+} catch (error) {
 
-        } catch (error) {
+    console.error("MODULE IMPORT ERROR:", error);
 
-            console.error(
-                "MODULE IMPORT ERROR:",
-                error
-            );
 
-        } finally {
+    // Hide the processing screen
+    if (processingPage) {
+        processingPage.style.display = "none";
+    }
+
+    // Restore the import page
+    Array.from(document.body.children).forEach(element => {
+
+        if (element.id !== "processingPage") {
+            element.style.display = "";
+        }
+
+    });
+
+    alert(
+        "Module import failed.\n\n" +
+        (error.message || "An unexpected error occurred.")
+    );
+
+} finally {
+
 
             continueBtn.disabled = false;
 
@@ -812,3 +542,5 @@ function formatFileSize(bytes) {
         ) / 100
     ) + " " + sizes[i];
 }
+
+

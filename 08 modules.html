@@ -28,6 +28,11 @@
         src="js/script.js">
     </script>
 
+     <script
+        type="module"
+        src="js/overlay.js"
+        defer>
+    </script>
 
     <!--=========================================================
                             ICONS
@@ -38,11 +43,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 
-    <script
-        type="module"
-        src="js/overlay.js"
-        defer>
-    </script>
+   
 
 
     <!--=========================================================
@@ -198,44 +199,7 @@
 
 
 
-            <!--=================================================
-                            EMPTY STATE BUTTONS
-            ==================================================-->
-
-            <div class="module-empty-buttons">
-
-
-                <button
-                    type="button"
-                    class="empty-add-module"
-                    onclick="document.getElementById('addModuleBtn').click();">
-
-
-                    <i class="fa-solid fa-plus"></i>
-
-
-                    Add Module
-
-
-                </button>
-
-
-
-                <a
-                    href="22 moduleImport.html"
-                    class="empty-upload-module">
-
-
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-
-
-                    Upload Outline
-
-
-                </a>
-
-
-            </div>
+    
 
 
 
@@ -437,113 +401,6 @@
         </div>
 
 
-<!--==================================================
-                CREATE MENU
-==================================================-->
-
-<div
-    class="create-overlay"
-    id="createOverlay"
->
-
-
-    <div class="create-sheet">
-
-
-        <div class="sheet-handle"></div>
-
-
-        <h2>
-            Create New
-        </h2>
-
-
-        <!--==================================================
-                    NEW TASK
-        ==================================================-->
-
-        <div
-            class="create-option"
-            id="newTask"
-        >
-
-            <div class="option-text">
-
-                <h3>
-                    New Task
-                </h3>
-
-                <p>
-                    Add a task
-                </p>
-
-            </div>
-
-
-            <span>
-
-                <i class="fa-solid fa-chevron-right"></i>
-
-            </span>
-
-        </div>
-
-
-
-        <!--==================================================
-                    ADD EVENT
-        ==================================================-->
-
-        <div
-            class="create-option"
-            id="newLecture"
-        >
-
-            <div class="option-text">
-
-                <h3>
-                    Add Event
-                </h3>
-
-                <p>
-                    Add a lecture, assessment or academic event
-                </p>
-
-            </div>
-
-
-            <span>
-
-                <i class="fa-solid fa-chevron-right"></i>
-
-            </span>
-
-        </div>
-
-
-
-        <!--==================================================
-                    CLOSE
-        ==================================================-->
-
-        <button
-            type="button"
-            id="closeSheet"
-            class="cancel-btn"
-        >
-
-            Cancel
-
-        </button>
-
-
-    </div>
-
-
-</div>
-
-
-
         <!--=========================================================
                         DELETE MODULE MODAL
         ==========================================================-->
@@ -556,7 +413,9 @@
             <div class="delete-modal">
 
 
-                <i class="fa-solid fa-trash delete-icon"></i>
+                <div class="delete-icon-circle">
+                  <i class="fa-solid fa-trash delete-icon"></i>
+                </div>
 
 
                 <h2>
@@ -568,9 +427,9 @@
 
                 <p>
 
-                    This will permanently delete this module
-                    and cannot be undone.
+                    <span class="areyousure">Are you sure you want to delete this module?</span>
 
+                    This will permanently delete the module and its classes, assessments and related Schedule information. This cannot be undone.
                 </p>
 
 
@@ -606,34 +465,7 @@
         ================================================== -->
 
 
-        <aside
-            class="sidebar collapsed"
-            id="sidebar">
-
-
-            <!--=================================================
-                                LOGO
-            ==================================================-->
-
-            <div class="sidebar-logo">
-
-
-                <img
-                    src="assets/images/logo.png"
-                    alt="Logo"
-                    class="sidebar-logo-image">
-
-
-                <h1>
-                    Prodemic
-                </h1>
-
-
-            </div>
-
-
-
-          <!--==================================================
+<!--==================================================
                 SIDEBAR
 ==================================================-->
 
@@ -699,19 +531,13 @@
         </a>
 
 
-        <button
-            class="sidebar-add nav-add"
-            type="button"
-            data-tooltip="Add"
-        >
-
-            <i class="fa-solid fa-plus"></i>
-
-            <span>
-                Add
-            </span>
-
-        </button>
+             <!-- Focus -->
+    <a href="25 focus.html"
+       class="sidebar-item"
+       data-tooltip="Focus">
+        <i class="fa-solid fa-stopwatch"></i>
+        <span>Focus</span>
+    </a>
 
 
         <a
@@ -771,8 +597,11 @@
 
         </button>
 
+        
+
 
     </div>
+    
 
 
     <!--==================================================
@@ -794,28 +623,76 @@
 
 </aside>
 
-            <!--=================================================
-                        SIDEBAR TOGGLE
-            ==================================================-->
-
-            <button
-                class="sidebar-toggle"
-                id="sidebarToggle"
-                type="button"
-                aria-label="Open navbar">
 
 
-                <i class="fa-solid fa-angles-right"></i>
+    <!--==================================================
+         PROFILE MENU
+    ==================================================-->
+
+    <div
+        class="profile-menu"
+        id="profileMenu"
+    >
 
 
-            </button>
+        <div class="profile-menu-header">
+
+            <div class="profile-menu-icon">
+
+                <i class="fa-solid fa-circle-user"></i>
+
+            </div>
 
 
-        </aside>
+            <div class="profile-menu-user">
+
+                <strong id="profileName">
+
+                    Profile
+
+                </strong>
+
+            </div>
+
+        </div>
 
 
-    </div>
+        <button
+            class="profile-option logout-btn"
+            id="logoutBtn"
+            type="button"
+        >
 
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+
+                Logout
+
+            </span>
+
+        </button>
+
+         <!--support and suggestions-->
+
+
+        
+        <a  href="26 support.html"
+            class="support"
+            id="supportbtn"
+            type="button"
+        >
+
+          <i class="fa-solid fa-comment-dots"></i>
+           
+
+           <span>
+
+                Support & suggestions
+
+            </span>
+
+        </a>
 
 
     <!--=========================================================

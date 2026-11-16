@@ -52,6 +52,9 @@ const peopleList =
 const academicEventsList =
     document.getElementById("academicEventsList");
 
+const moduleLoadingBar =
+    document.getElementById("moduleLoadingBar");
+
 
 // ============================================================
 // MODULE TABS
@@ -213,20 +216,24 @@ async function loadModule() {
     }
 
 
-    // ========================================================
-    // MODULE COLOUR
-    // ========================================================
+// ========================================================
+// MODULE COLOUR
+// ========================================================
 
-    if (
-        moduleHeader &&
-        module.colour
-    ) {
+if (module.colour) {
 
-        moduleHeader.style.backgroundColor =
-            module.colour;
-
+    // Apply the selected module colour to the module header
+    if (moduleHeader) {
+        moduleHeader.style.backgroundColor = module.colour;
     }
 
+    // Apply the same colour to the fixed top bar
+    document.documentElement.style.setProperty(
+        "--module-color",
+        module.colour
+    );
+
+}
 
     // ========================================================
     // LOAD ALL MODULE INFORMATION
@@ -1338,99 +1345,95 @@ async function loadAssessments(
             );
 
 
-            // ====================================================
-            // CHECKBOX UPDATE
-            // ====================================================
+// ====================================================
+// CHECKBOX UPDATE
+// ====================================================
 
-            checkbox.addEventListener(
-                "change",
-                async function () {
+checkbox.addEventListener(
+    "change",
+    async function () {
 
-                    const completed =
-                        checkbox.checked;
+        const completed = checkbox.checked;
 
+        checkbox.disabled = true;
 
-                    // --------------------------------------------
-                    // UPDATE VISUAL STATE
-                    // --------------------------------------------
+        item.classList.toggle(
+            "completed",
+            completed
+        );
 
-                    item.classList.toggle(
-                        "completed",
-                        completed
-                    );
+        try {
 
+            // SAVE THE CHANGE
+            const {
+                error: updateError
+            } = await supabase
+                .from("assessments")
+                .update({
+                    completed: completed
+                })
+                .eq(
+                    "id",
+                    assessment.id
+                );
 
-                    // --------------------------------------------
-                    // SAVE TO SUPABASE
-                    // --------------------------------------------
+            if (updateError) {
+                throw updateError;
+            }
 
-                    const {
-                        error: updateError
-                    } = await supabase
+            // UPDATE LOCAL DATA
+            assessment.completed = completed;
 
-                        .from("assessments")
+            // CALCULATE NEW PERCENTAGE
+            const total = assessments.length;
 
-                        .update({
-
-                            completed:
-                                completed
-
-                        })
-
-                        .eq(
-                            "id",
-                            assessment.id
-                        );
-
-
-                    // --------------------------------------------
-                    // HANDLE ERROR
-                    // --------------------------------------------
-
-                    if (updateError) {
-
-                        console.error(
-                            "Could not update assessment:",
-                            updateError
-                        );
-
-
-                        checkbox.checked =
-                            !completed;
-
-
-                        item.classList.toggle(
-                            "completed",
-                            !completed
-                        );
-
-
-                        return;
-
-                    }
-
-
-                    // --------------------------------------------
-                    // UPDATE LOCAL DATA
-                    // --------------------------------------------
-
-                    assessment.completed =
-                        completed;
-
-
-                    // --------------------------------------------
-                    // UPDATE OVERVIEW PROGRESS
-                    // --------------------------------------------
-
-                    updateModuleProgress();
-
+            const completedCount = assessments.filter(
+                function (assessmentItem) {
+                    return assessmentItem.completed === true;
                 }
+            ).length;
+
+            const percentage = total > 0
+                ? Math.round((completedCount / total) * 100)
+                : 0;
+
+            showModuleSection("overview");
+
+             // SHOW THE NOTIFICATION FIRST
+             showProgressNotification(
+             percentage,
+            completed
+);
+
+        } catch (error) {
+
+            console.error(
+                "Could not update assessment:",
+                error
             );
 
+            checkbox.checked = !completed;
 
-            // ====================================================
-            // ADD ASSESSMENT TO CHECKLIST
-            // ====================================================
+            item.classList.toggle(
+                "completed",
+                !completed
+            );
+
+            alert(
+                "Could not update the assessment. Please try again."
+            );
+
+        } finally {
+
+            checkbox.disabled = false;
+
+        }
+
+    }
+);
+// ====================================================
+// ADD ASSESSMENT TO CHECKLIST
+// ====================================================
 
             item.appendChild(
                 checkbox
@@ -1604,6 +1607,33 @@ function updateModuleProgress() {
 
     }
 
+    // ========================================================
+// UPDATE HORIZONTAL PROGRESS BAR
+// ========================================================
+
+const progressBar =
+    document.querySelector(
+        ".assessment-progress-track"
+    );
+
+const progressBarFill =
+    document.querySelector(
+        ".assessment-progress-fill"
+    );
+
+
+if (progressBar && progressBarFill) {
+
+    progressBarFill.style.width =
+        percentage + "%";
+
+    progressBar.setAttribute(
+        "aria-valuenow",
+        percentage
+    );
+
+}
+
 
     // ========================================================
     // UPDATE PROGRESS STATUS
@@ -1694,7 +1724,61 @@ function updateModuleProgress() {
     }
 
 }
+// ============================================================
+// SHOW PROGRESS NOTIFICATION
+// ============================================================
+function showProgressNotification(percentage, completed) {
 
+    const existingToast = document.querySelector(
+        ".progress-toast"
+    );
+
+    if (existingToast) {
+        existingToast.remove();
+    }
+
+    const toast = document.createElement("div");
+
+    toast.className = "progress-toast";
+
+    const heading = document.createElement("strong");
+
+    heading.textContent = completed
+        ? "Assessment completed!"
+        : "Assessment unchecked";
+
+    const message = document.createElement("span");
+
+    message.textContent =
+        `Your module progress is has been updated`;
+
+    toast.appendChild(heading);
+    toast.appendChild(message);
+
+    document.body.appendChild(toast);
+
+    requestAnimationFrame(function () {
+        toast.classList.add("show");
+    });
+
+    // WAIT 5 SECONDS BEFORE HIDING THE POPUP
+    setTimeout(function () {
+
+        toast.classList.remove("show");
+
+        // WAIT FOR POPUP EXIT ANIMATION
+        setTimeout(function () {
+
+            toast.remove();
+
+            // ANIMATE THE MODULE PROGRESS
+            updateModuleProgress();
+
+        }, 350);
+
+    }, 2000);
+
+}
 // ============================================================
 // LOAD PEOPLE
 // ============================================================
@@ -4161,6 +4245,10 @@ function showModuleSection(
 // TAB BUTTONS
 // ============================================================
 
+const moduleTabsContainer =
+    document.querySelector(".module-tabs");
+
+
 moduleTabs.forEach(
     function (tab) {
 
@@ -4176,6 +4264,26 @@ moduleTabs.forEach(
                     sectionName
                 );
 
+
+                //animate buttons 
+
+                const tabIndex = Array.from(moduleTabs).indexOf(tab);
+
+              if (tabIndex > 0) {
+
+                 moduleTabsContainer.scrollTo({
+                 left: tab.offsetLeft - moduleTabs[0].offsetLeft,
+                 behavior: "smooth"
+                 });
+
+                 } else {
+
+               moduleTabsContainer.scrollTo({
+             left: 0,
+            behavior: "smooth"
+             });
+
+}
             }
         );
 
@@ -4196,7 +4304,17 @@ showModuleSection(
 // START MODULE
 // ============================================================
 
-loadModule();
+loadModule().finally(function () {
+
+    if (moduleLoadingBar) {
+
+        moduleLoadingBar.classList.add(
+            "is-hidden"
+        );
+
+    }
+
+});
 
 
 // ============================================================

@@ -1,6 +1,12 @@
 const overlay = document.getElementById("overlay");
 const closeOverlay = document.getElementById("closeOverlay");
 
+const moduleBtn = document.getElementById("moduleBtn");
+const taskBtn = document.getElementById("taskBtn");
+const scheduleBtn = document.getElementById("scheduleBtn");
+const assessmentBtn = document.getElementById("assessmentBtn");
+
+
 if (overlay && closeOverlay) {
 
     closeOverlay.addEventListener("click", () => {
@@ -14,10 +20,7 @@ if (overlay && closeOverlay) {
     });
 }
 
-const moduleBtn = document.getElementById("moduleBtn");
-const taskBtn = document.getElementById("taskBtn");
-const scheduleBtn = document.getElementById("scheduleBtn");
-const assessmentBtn = document.getElementById("assessmentBtn");
+
 
 if (moduleBtn) {
     moduleBtn.addEventListener("click", () => {
@@ -33,12 +36,13 @@ if (taskBtn) {
 
 if (scheduleBtn) {
     scheduleBtn.addEventListener("click", () => {
-        window.location.href = "scheduleForm.html";
+        window.location.href = "21 addevent.html";
     });
 }
 
 if (assessmentBtn) {
     assessmentBtn.addEventListener("click", () => {
-        window.location.href = "addAssessment.html";
+        window.location.href = "21 addevent.html";
     });
 }
+

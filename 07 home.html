@@ -34,6 +34,7 @@
     >
 
 
+
     <!-- ==================================================
          Fonts
     =================================================== -->
@@ -72,6 +73,14 @@
         defer
     >
     </script>
+
+     <script
+        type="module"
+        src="js/overlay.js"
+        defer
+    >
+    </script>
+
 
 </head>
 
@@ -152,21 +161,13 @@
             </a>
 
 
-            <!-- Add Button -->
-
-            <button
-                class="sidebar-add nav-add"
-                type="button"
-                data-tooltip="Add"
-            >
-
-                <i class="fa-solid fa-plus"></i>
-
-                <span>
-                    Add
-                </span>
-
-            </button>
+            <!-- Focus -->
+    <a href="25 focus.html"
+       class="sidebar-item"
+       data-tooltip="Focus">
+        <i class="fa-solid fa-stopwatch"></i>
+        <span>Focus</span>
+    </a>
 
 
             <!-- Schedule -->
@@ -279,121 +280,204 @@
         </header>
 
 
-        <!-- ==================================================
+
+<!-- HOME LOADING STATE -->
+<div id="homeLoading" class="home-loading">
+    <div class="loading-spinner"></div>
+    <p>Loading your workspace...</p>
+</div>
+
+<!--====NEW USER=======-->
+
+<section class="setup-card" id="setupSection" style="display: none;">
+
+    <!-- GREETING -->
+    <div class="setup-welcome-header">
+        <h2 class="greeting">
+            <span id="setupGreetingText"></span>
+            <span id="setupUserName"></span>
+        </h2>
+        <p>Welcome to prodemic, Let's set up your academic space.</p>
+    </div>
+
+
+    <!-- TWO SEPARATE FEATURE CARDS -->
+    <div class="setup-intro-grid">
+
+        <!-- IMAGE CARD -->
+        <div class="setup-image-card">
+            <img
+                src="assets/images/Module-outline.png"
+                alt="Module outline illustration"
+                class="setup-image"
+            >
+        </div>
+
+
+        <!-- UPLOAD EXPLANATION CARD -->
+        <div class="setup-upload-card" id="setupContent">
+
+            <span class="setup-badge">
+                <i class="fa-solid fa-sparkles"></i>
+                Recommended
+            </span>
+
+            <h2 id="setupTitle">Upload a Module Outline</h2>
+
+            <p id="setupText">
+                Let Prodemic extract your modules,
+                assessments, deadlines and class times
+                to help set up your academic space.
+            </p>
+
+            <div class="setup-buttons" id="setupButtons">
+                <a
+                    href="22 moduleImport.html"
+                    class="secondary-btn"
+                    id="importModuleBtn"
+                >
+                    Upload Module Outline
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- BENEFITS -->
+    <div class="setup-benefits">
+
+        <h3>Why start with a module outline?</h3>
+
+        <div class="setup-feature-list">
+
+            <div class="setup-feature">
+                <div class="setup-feature-icon modules-icon">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <p>Adds your modules automatically</p>
+            </div>
+
+            <div class="setup-feature">
+                <div class="setup-feature-icon assessments-icon">
+                    <i class="fa-regular fa-calendar"></i>
+                </div>
+                <p>Extracts key dates and assessments</p>
+            </div>
+
+            <div class="setup-feature">
+                <div class="setup-feature-icon dates-icon">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <p>Helps organise your schedule and tasks</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PERSONALISATION INFORMATION -->
+    <div class="setup-info-banner">
+
+        <i class="fa-solid fa-circle-info"></i>
+
+        <p>
+            It gives you a more complete and personalised
+            experience, with less manual setup.
+        </p>
+
+    </div>
+
+
+    <!-- MANUAL SETUP -->
+    <div class="setup-manual">
+        <a href="08 modules.html?newModule=true">
+            Add Modules Manually
+        </a>
+    </div>
+
+</section>
+
+ <!-- ==================================================
              Welcome
         =================================================== -->
 
-        <section class="welcome-content">
+       <section class="welcome-content" >
+
+    <img
+        src="assets/images/welcome-img.png"
+        alt="Welcome illustration"
+    >
+
+    <div class="welcome-details">
 
 
-            <h2 class="greeting">
+        <h2 class="greeting">
+            <span id="greetingText"></span>
+            <span id="userName"></span>
+        </h2>
 
-                <span id="greetingText"></span>
+        <p class="welcome-text">
+            Let's make today productive.
+        </p>
 
-                <span id="userName"></span>
+    </div>
 
-                <span class="greeting-wave">
+</section>
 
-                </span>
+<!-- ==================================================
+                 Academic Event Period
+=================================================== -->
+<section class="contenthomep" >
+<div class="home-overview-grid">
+<div
+    class="academic-period-card"
+    id="academicPeriodCard"
+    style="display:none;"
+>
 
-            </h2>
+    <div class="academic-overview-top">
+        <p class="academic-period-label" id="academicPeriodLabel">
+            HAPPENING NOW
+        </p>
 
+        
+    </div>
 
-            <p class="welcome-text">
+    <h2 id="academicPeriodTitle">
+        Your academic period is here
+    </h2>
 
-                Let's make today productive.
+    <p id="academicPeriodDates"></p>
 
-            </p>
+    <span id="academicPeriodMessage">
+        Focus on preparation and take care of yourself.
+    </span>
 
+    <div
+        class="academic-events-dropdown"
+        id="academicEventsDropdown"
+        hidden
+    >
+        <div class="academic-events-list" id="academicEventsList"></div>
+    </div>
 
-        </section>
+    <button
+        type="button"
+        class="academic-events-toggle"
+        id="academicEventsToggle"
+        aria-expanded="false"
+        aria-controls="academicEventsDropdown"
+        hidden
+    >
+        View other academic events
+        <i class="fa-solid fa-chevron-down"></i>
+    </button>
 
-
-        <!-- ==================================================
-             Dynamic Semester Card
-        =================================================== -->
-
-        <section
-            class="setup-card"
-            id="setupSection"
-        >
-
-
-            <!-- ==================================================
-                 Setup Image
-            =================================================== -->
-
-            <div class="setup-image-container">
-
-                <img
-                    src="assets/images/1.png"
-                    alt="Semester Setup"
-                    class="setup-image"
-                >
-
-            </div>
-
-
-            <!-- ==================================================
-                 Setup Content
-            =================================================== -->
-
-            <div
-                class="setup-content"
-                id="setupContent"
-            >
-
-
-                <h2 id="setupTitle">
-
-                    Let's Set Up Your Semester
-
-                </h2>
-
-
-                <p id="setupText">
-
-                    Add your modules manually or import your module
-                    outlines. Your semester information will be
-                    organised automatically.
-
-                </p>
-
-
-                <!-- ==================================================
-                     Buttons
-                =================================================== -->
-
-                <div
-                    class="setup-buttons"
-                    id="setupButtons"
-                >
-
-
-                    <!-- Import Module Outlines -->
-
-                    <a
-                        href="22 moduleImport.html"
-                        id="importModuleBtn"
-                        class="secondary-btn"
-                        type="button"
-                    >
-
-                        <i class="fa-solid fa-file-import"></i>
-
-                        Import Module Outlines
-
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-
-        </section>
-
+</div>
 
         <!-- ==================================================
              ACTIVE USER HOME
@@ -405,83 +489,39 @@
             style="display:none;"
         >
 
-
+ 
             <!-- ==================================================
                  Normal Semester Focus
             =================================================== -->
 
-            <div
-                class="focus-card"
-                id="focusCard"
-            >
+<div class="progress-card" id="progressCard">
 
+    <!-- CIRCULAR PROGRESS -->
+    <div class="progress-ring-wrapper">
+        <div class="progress-ring" id="progressRing">
+            <span id="progressPercentage">0%</span>
+        </div>
+    </div>
 
-                <div class="focus-content">
+    <!-- PROGRESS INFORMATION -->
+    <div class="progress-divider"></div>
 
-                    <p class="focus-label">
+    <div class="progress-content">
 
-                        TODAY'S FOCUS
+        <p class="progress-label">
 
-                    </p>
+            Today's progress
+        </p>
 
+        <h2 id="progressCount">0 of 0 tasks</h2>
 
-                    <h2 id="focusTitle">
+        <p id="progressMessage">
+            Let's make today productive!
+        </p>
 
-                        Progress is the sum of small efforts,
-                        repeated every day.
+    </div>
 
-                    </h2>
-
-
-                    <span id="focusAuthor">
-
-                        — Unknown
-
-                    </span>
-
-                </div>
-
-
-            </div>
-
-
-            <!-- ==================================================
-                 Academic Event Period
-            =================================================== -->
-
-            <div
-                class="academic-period-card"
-                id="academicPeriodCard"
-                style="display:none;"
-            >
-
-
-                <p class="academic-period-label">
-
-                    HAPPENING NOW
-
-                </p>
-
-
-                <h2 id="academicPeriodTitle">
-
-                    Your academic period is here
-
-                </h2>
-
-
-                <p id="academicPeriodDates"></p>
-
-
-                <span id="academicPeriodMessage">
-
-                    Focus on preparation and take care of yourself.
-
-                </span>
-
-
-            </div>
-
+</div>
 
             <!-- ==================================================
                  Tasks For Today
@@ -543,12 +583,19 @@
 
             </div>
 
+</section>
 
-        </section>
+</div>
 
+</section>
 
-    </main>
+<!--floating add button-->
 
+<a href="21 addevent.html" class="floating-add-button" id="floatingAddButton" aria-label="Add new item">
+    <i class="fa-solid fa-plus"></i>
+</a>
+
+       </main>
 
     <!-- ==================================================
          PROFILE MENU
@@ -599,6 +646,27 @@
         </button>
 
 
+
+        <!--support and suggestions-->
+
+
+        
+        <a  href="26 support.html"
+            class="support"
+            id="supportbtn"
+            type="button"
+        >
+
+          <i class="fa-solid fa-comment-dots"></i>
+           
+
+           <span>
+
+                Support & suggestions
+
+            </span>
+
+        </a>
     </div>
 
 
@@ -617,109 +685,6 @@
 
     </div>
 
-<!--==================================================
-                CREATE MENU
-==================================================-->
-
-<div
-    class="create-overlay"
-    id="createOverlay"
->
-
-
-    <div class="create-sheet">
-
-
-        <div class="sheet-handle"></div>
-
-
-        <h2>
-            Create New
-        </h2>
-
-
-
-
-        <!--==================================================
-                    NEW TASK
-        ==================================================-->
-
-        <div
-            class="create-option"
-            id="newTask"
-        >
-
-            <div class="option-text">
-
-                <h3>
-                    New Task
-                </h3>
-
-                <p>
-                    Add a task
-                </p>
-
-            </div>
-
-
-            <span>
-
-                <i class="fa-solid fa-chevron-right"></i>
-
-            </span>
-
-        </div>
-
-
-
-        <!--==================================================
-                    ADD EVENT
-        ==================================================-->
-
-        <div
-            class="create-option"
-            id="newLecture"
-        >
-
-            <div class="option-text">
-
-                <h3>
-                    Add Event
-                </h3>
-
-                <p>
-                    Add a lecture, assessment or academic event
-                </p>
-
-            </div>
-
-
-            <span>
-
-                <i class="fa-solid fa-chevron-right"></i>
-
-            </span>
-
-        </div>
-
-
-
-        <!--==================================================
-                    CLOSE
-        ==================================================-->
-
-        <button
-            type="button"
-            id="closeSheet"
-            class="cancel-btn"
-        >
-
-            Cancel
-
-        </button>
-
-
-    </div>
 
 
 </div>

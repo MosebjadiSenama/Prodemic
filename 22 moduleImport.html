@@ -9,6 +9,10 @@
 
     <title>Import Module</title>
     <link rel="stylesheet" href="css/moduleoutline.css">
+    
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
    
 
     <script type="module" src="js/ai.js"></script>
@@ -67,8 +71,31 @@
     <span id="loading-spinner" class="loading-spinner"></span>
 
 </button>
+<!-- ================================= -->
+<!-- MODULE PROCESSING SCREEN -->
+<!-- ================================= -->
 
 
+<div class="processing-page" id="processingPage" style="display: none;">
+
+    <div class="processing-card">
+
+        <img src="assets/images/PDF.png" alt="PDF document">
+
+        <h2>Analysing Your Module</h2>
+
+        <p id="processingText">
+            AI is extracting and organising your module information.
+            This may take a moment...
+        </p>
+
+        <div class="progress-bar">
+            <div id="progressFill"></div>
+        </div>
+
+    </div>
+
+</div>
     
 </body>
 
