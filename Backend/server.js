@@ -49,7 +49,6 @@ const ai = new OpenAI({
 // MODULE OUTLINE EXTRACTION PROMPT
 // Define this BEFORE registering the route.
 // ==================================================
-
 const prompt = `
 You are Prodemic, an AI academic planning assistant.
 
@@ -85,29 +84,74 @@ RULES:
    coordinators, course coordinators, or academic teaching staff.
    Each entry should contain name and email. Return [] if none.
 7. tutors: Include only people explicitly identified as tutors,
+
    teaching assistants, or tutorial staff. Do not infer tutor roles.
    Each entry should contain name and email. Return [] if none.
+
 8. consultationHours: Extract office or consultation hours.
    Each entry should contain person, day, startTime, endTime, location.
+
 9. lectures: Extract class timetable entries with day, startTime,
    endTime, venue, and description. Return [] if none.
+
+
 10. lectureTimes: Include the lecture timetable information as well
     when it is present. Use the same field names as lectures.
-11. assessments: Extract only genuinely assessed activities.
-    Preserve their actual titles, descriptions, due dates, and weights.
-    Examples of titles include "Test 1", "Test 2", "PRD", and "Exam".
-    Each entry should contain title, type, description, dueDate, weight.
-    Return [] if none.
+
+11. assessments: Carefully extract EVERY genuinely assessed activity
+    mentioned anywhere in the module outline.
+
+    Search the entire document, including:
+    - Assessment tables and schedules
+    - Tables with dates in separate columns
+    - Assignment and test descriptions
+    - Submission deadline sections
+    - Examination information
+    - Footnotes and additional notes
+
+    Each assessment must contain:
+    {
+        "title": null,
+        "type": null,
+        "description": null,
+        "dueDate": null,
+        "weight": null
+    }
+
+    DATE EXTRACTION RULES:
+
+    - Look for dates associated with each assessment.
+    - Match assessment titles to their corresponding dates,
+      including when the title and date appear in separate table columns.
+    - Recognise dates written as DD/MM/YYYY, DD-MM-YYYY,
+      DD Month YYYY, Month DD YYYY, and other clear date formats.
+    - Convert extracted dates to YYYY-MM-DD.
+    - If a date is explicitly associated with an assessment,
+      populate dueDate with that date.
+    - Do not leave dueDate null when a clear corresponding
+      date exists in the document.
+    - If only a month or date range is provided, do not invent
+      an exact deadline.
+    - If no date is provided, use null.
+    - Never guess, calculate, or invent assessment dates.
+    - Do not confuse examination periods with individual exam dates.
+    - Include examinations as assessments only when they are
+      explicitly listed as assessed activities.
+
+    Preserve the original assessment title and weight.
+    Do not omit an assessment simply because its date is
+    presented separately from its title.
+
 12. academicEvents: Extract relevant academic calendar events such as
     study breaks, semester breaks, examination periods, and holidays.
     Each entry should contain title, type, startDate, endDate,
     description. Return [] if none.
+
 13. Use null for unavailable individual fields.
 14. Use [] for categories with no matching information.
 15. Do not confuse academic events with assessments.
 16. Preserve dates, names, and details accurately.
 `;
-
 // ==================================================
 // HEALTH CHECK
 // ==================================================
@@ -202,6 +246,53 @@ app.post(
                 .trim();
 
             const moduleData = JSON.parse(cleanedResponse);
+
+const requiredArrays = [
+    "lecturers",
+    "tutors",
+    "consultationHours",
+    "lectures",
+    "lectureTimes",
+    "assessments",
+    "academicEvents"
+];
+
+for (const key of requiredArrays) {
+    if (!Array.isArray(moduleData[key])) {
+        moduleData[key] = [];
+    }
+}
+
+            
+console.log("========== EXTRACTION RESULTS ==========");
+
+console.log("MODULE:", moduleData.moduleName);
+console.log("LECTURERS:", moduleData.lecturers);
+console.log("TUTORS:", moduleData.tutors);
+console.log("CONSULTATION HOURS:", moduleData.consultationHours);
+console.log("LECTURES:", moduleData.lectures);
+console.log("LECTURE TIMES:", moduleData.lectureTimes);
+console.log("ASSESSMENTS:", moduleData.assessments);
+
+console.table(
+    moduleData.assessments.map(assessment => ({
+        title: assessment.title,
+        dueDate: assessment.dueDate,
+        weight: assessment.weight
+    }))
+);
+console.log("ACADEMIC EVENTS:", moduleData.academicEvents);
+
+console.log("========== EXTRACTION COUNTS ==========");
+
+console.log("Lecturers:", moduleData.lecturers?.length ?? 0);
+console.log("Tutors:", moduleData.tutors?.length ?? 0);
+console.log("Lectures:", moduleData.lectures?.length ?? 0);
+console.log("Assessments:", moduleData.assessments?.length ?? 0);
+console.log("Academic events:", moduleData.academicEvents?.length ?? 0);
+
+console.log("=======================================");
+
 
             console.log("Module outline analysed successfully.");
 
